@@ -1,0 +1,51 @@
+AI: ChatGPT
+Prompt: Create .blogstyle and different styles for author, date and children to make the blog looks better
+import React from 'react';
+
+function Blog(props) {
+    return (
+        <div className="blogStyle">
+            <p>{props.author}</p>
+            <p>{props.date}</p>
+            <p>{props.children}</p>
+        </div>
+    );
+}
+
+export default Blog;
+
+Output:
+Nice! You're almost there — your Blog component is looking clean and flexible with props and children.
+
+Now let's make the .blogStyle to improve the look!
+Here’s a simple App.css style you can add:
+.blogStyle {
+    background-color: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.blogAuthor {
+    font-weight: bold;
+    font-size: 22px;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.blogDate {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin-bottom: 12px;
+}
+
+.blogContent {
+    font-size: 18px;
+    color: #34495e;
+    line-height: 1.6;
+}
