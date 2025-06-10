@@ -1,0 +1,74 @@
+AI: ChatGPT
+Prompt: How to make the button on the right side of the navigation bar, not just below the two navigation buttons, maybe using tailwindcss
+<nav class="bg-blue-900 text-white p-4 shadow-md">
+    <ul class="flex space-x-6">
+    <li>
+        <a href="index.html" class="hover:underline">Personal Information</a>
+    </li>
+    <li>
+        <a href="discussion.html" class="hover:underline">Group Discussion</a>
+    </li>
+    </ul>
+
+    <button
+        id="toggle-style-btn">
+        Toggle Background
+    </button>
+</nav>
+
+Result: To move the Toggle Background button to the right side of the navigation bar using Tailwind CSS, you can update your nav structure to use flex layout with justify-between and align items properly.
+
+Here’s how you can update your code:
+
+<nav class="bg-blue-900 text-white p-4 shadow-md flex justify-between items-center">
+    <ul class="flex space-x-6">
+    <li>
+        <a href="index.html" class="hover:underline">Personal Information</a>
+    </li>
+    <li>
+        <a href="discussion.html" class="hover:underline">Group Discussion</a>
+    </li>
+    </ul>
+
+    <button
+    id="toggle-style-btn">
+    Toggle Background
+    </button>
+</nav>
+
+Modifications: I add some classes and styles for the button, following the other button's styles, I use the sky blue color for the button, change the size of it to fit the navigation bar.
+
+Prompt: Can u make this looks nicer with tailwindcss
+<section>
+    <h1>Tell Me Your Hobby</h1>
+    <input
+        id="hobby-input"
+        type="text"
+        placeholder="Enter your hobby"/>
+    <button
+        id="add-hobby-btn">
+        Add Hobby
+    </button>
+    <div id="hobby-list"></div>
+</section>
+
+Result: Absolutely! Here's a more visually appealing version of your hobby input section using Tailwind CSS:
+
+<section class="bg-white rounded-xl shadow-md p-6">
+    <h1 class="text-2xl font-bold mb-4 text-purple-600">Tell Me Your Hobby</h1>
+    <input
+        id="hobby-input"
+        type="text"
+        placeholder="Enter your hobby"
+        class="border border-gray-300 rounded-lg p-2 w-full mb-4" />
+    <button
+        id="add-hobby-btn"
+        class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">
+        Add Hobby
+    </button>
+    <div id="hobby-list" class="mt-4"></div>
+</section>
+
+Modification: Change the H1 text color to orange, applied my own style hobby-input to the input element, and also change the button color to indigo.
+
+For CSS and JavaScript file, no AI usage, only online documents.

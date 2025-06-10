@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>26002304812: Daniel, 5090XT</title>
+    <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      #container {
+        padding: 50px;
+        background-color: #eee;
+      }
+      #container h1 {
+        font-size: 32px;
+        font-family: sans-serif;
+        color: #0080a8;
+      }
+      h1.quote-msg {
+        font-family: sans-serif;
+        color: #0080a8;
+      }
+      p.quote-source {
+        font-family: "Times New Roman", Times, serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/babel">
+      const Quote = React.createClass({
+        render: function () {
+          return (
+            <div className="mb-4">
+              <h1 className="quote-msg font-bold mb-4">Quote:"{this.props.msg}"</h1>
+              <p className="quote-source">By: {this.props.source}</p>
+            </div>
+          );
+        },
+      });
+      ReactDOM.render(
+        <div>
+          <Quote msg="The only way to do great work is to love what you do." source="Steve Jobs" />
+          <Quote
+            msg="In the middle of every difficulty lies opportunity."
+            source="Albert Einstein"
+          />
+          <Quote msg="Be yourself; everyone else is already taken." source="Oscar Wilde" />
+          <Quote msg="The purpose of our lives is to be happy." source="Dalai Lama" />
+        </div>,
+        document.querySelector("#container")
+      );
+    </script>
+  </body>
+</html>

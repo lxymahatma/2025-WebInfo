@@ -1,0 +1,21 @@
+Group Name: 5090XT
+
+Discussion Summary:
+In an online quiz, we want to kick the user out if they change tabs or minimize the window to ensure fairness
+What triggers the effect:
+The component mounts, and we add an event listener for the visibilitychange event on the document
+It triggers when the user switches tabs or minimizes the window
+
+What visible output happens:
+Initially, a quiz with questions and textboxes is displayed
+If the tab is changed, the screen updates to:
+“You have been kicked out for leaving the tab!”
+The quiz content disappears immediately
+
+Does it clean up? When/how?
+Yes, the event listener is removed using removeEventListener in the cleanup function when the component unmounts
+
+Why is this useful or interesting?
+Helps monitor cheating or loss of focus in online exams
+Encourages students to stay on the quiz tab
+Great for apps that require strict attention (quizzes)

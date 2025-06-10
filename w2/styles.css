@@ -1,0 +1,18 @@
+p.hobby-item {
+  color: gray;
+  font-size: medium;
+  margin-top: 0.5rem;
+}
+
+input.hobby-input {
+  font-size: large;
+  color: brown;
+}
+
+a:visited {
+  color: black;
+}
+
+h1::after {
+  content: " ✨";
+}
