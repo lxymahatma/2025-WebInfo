@@ -2,11 +2,13 @@
   "users": [
     {
       "id": 1,
-      "username": "Ritsumei", "password": "0000"
+      "username": "Ritsumei",
+      "password": "0000"
     },
     {
       "id": 2,
-      "username": "Taro", "password": "1111"
+      "username": "Taro",
+      "password": "1111"
     }
   ],
   "posts": [
