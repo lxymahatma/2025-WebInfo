@@ -10,7 +10,7 @@ app.get("/posts", (req, res) => {
   jwt.verify(token, SECRET, (err, user) => {
     if (err) return res.status(403).json({ message: "Invalid token" });
     const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-    //const posts = db.posts.filter(p => p.userId === user.id);
+    const posts = db.posts.filter((p) => p.userId === user.id);
     res.json(posts);
   });
 });

@@ -10,14 +10,7 @@ export default function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <LoginPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<LoginPage />} />
         <Route
           path="/posts"
           element={
