@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./NavBar";
-import PostsPage from "./PostsPage";
-import AddPostPage from "./AddPostPage";
 import ProtectedRoute from "./ProtectedRoute";
 import LoginPage from "./LoginPage";
+import PostsPage from "./PostsPage";
+import AddPostPage from "./AddPostPage";
+import ChatPage from "./ChatPage";
+import "./App.css";
 
 export default function App() {
   return (
@@ -24,6 +26,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <AddPostPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <ChatPage />
             </ProtectedRoute>
           }
         />
