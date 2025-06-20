@@ -1,0 +1,18 @@
+1. Creating two folders, frontend and backend
+2. Install Node.js environment
+3. Enter backend folder, put db.json and server.js into the folder
+4. Open terminal in the backend folder, then run the command
+npm install express cors body-parser jsonwebtoken socket.io
+to install the packages
+5. Open terminal in the frontend folder, then run the command
+npx create-react-app .
+npm install react-router-dom socket.io-client
+to install the packages
+6. Replace the src folder in frontend folder
+7. Open terminal in the backend folder, run the command
+node server.js
+to start backend server
+8. Open another terminal in the frontend folder, run the command
+npm start
+to start the frontend
+9. Now the website is opened in the browser and can be tested
