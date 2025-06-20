@@ -23,18 +23,27 @@ export default function AddPostPage() {
         setMessage("A new post has been added successfully!");
         setTimeout(() => {
           setMessage("");
-        }, 1000);
+        }, 2000);
       });
   };
 
   return (
-    <div>
-      <form className="post-form" onSubmit={handleSubmit}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "60vh",
+      }}>
+      <form
+        className="post-form"
+        style={{ minWidth: 320, maxWidth: 500, width: "100%" }}
+        onSubmit={handleSubmit}>
         <input type="text" name="title" placeholder="Title" required />
         <textarea name="body" placeholder="Body" required></textarea>
         <button type="submit">Add Post</button>
+        {message && <p className="success-message">{message}</p>}
       </form>
-      {message && <p className="success-message">{message}</p>}
     </div>
   );
 }

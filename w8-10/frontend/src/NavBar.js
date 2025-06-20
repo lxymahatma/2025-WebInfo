@@ -14,8 +14,8 @@ export default function NavBar() {
   return (
     <nav className="navbar-container">
       <div className="navbar-links">
-        <Link to="/">Login</Link> | <Link to="/posts">Posts</Link> | <Link to="/add">Add Post</Link> |{" "}
-        <Link to="/chat">Chat</Link>
+        <Link to="/">Login</Link> | <Link to="/posts">Posts</Link> | <Link to="/add">Add Post</Link>{" "}
+        | <Link to="/chat">Chat</Link>
       </div>
       {username && (
         <div className="navbar-user">

@@ -28,11 +28,11 @@ export default function PostsPage() {
   };
 
   return (
-    <div>
-      <h2>Posts</h2>
-      <ul>
+    <div className="posts-container">
+      <h2 className="posts-title">Posts</h2>
+      <div>
         {posts.map((post) => (
-          <div key={post.id}>
+          <div className="post-card" key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.body}</p>
             {post.userId === userid && (
@@ -42,7 +42,7 @@ export default function PostsPage() {
             )}
           </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
