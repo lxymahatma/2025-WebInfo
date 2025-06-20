@@ -1,11 +1,20 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
-const app = express();
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
+const http = require("http");
+const { Server } = require("socket.io");
+const path = require("path");
+
 const SECRET = "mySecretKey";
 const PORT = 3001;
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: "*" },
+});
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -18,9 +27,6 @@ app.get("/posts", (req, res) => {
     const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
     res.json(db.posts);
   });
-});
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
 });
 
 app.post("/login", (req, res) => {
@@ -88,4 +94,25 @@ app.delete("/posts/:id", (req, res) => {
     fs.writeFileSync("db.json", JSON.stringify(db, null, 2));
     res.json({ message: "Post deleted" });
   });
+});
+
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+
+  socket.emit("welcome", "Welcome! This is your first Socket.IO message.");
+
+  socket.on("hello", () => {
+    console.log(`User ${socket.id} said hello`);
+    socket.emit("response", "Hi! Server got your hello.");
+  });
+
+  socket.on("send_message", ({ name, message }) => {
+    const fullMessage = `${name}: ${message}`;
+    console.log(`Sending message: ${fullMessage}`);
+    io.emit("receive_message", fullMessage);
+  });
+});
+
+server.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
