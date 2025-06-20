@@ -13,6 +13,9 @@ export default function LoginPage() {
     if (res.ok) {
       const data = await res.json();
       localStorage.setItem("token", data.token);
+      localStorage.setItem("username", username);
+      localStorage.setItem("userid", data.token.id);
+      window.location.reload();
       alert("Login success!");
     } else {
       alert("Invalid credentials");

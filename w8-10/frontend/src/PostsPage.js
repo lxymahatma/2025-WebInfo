@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function PostsPage() {
   const [posts, setPosts] = useState([]);
+  const userid = parseInt(localStorage.getItem("userid"));
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -34,9 +35,11 @@ export default function PostsPage() {
           <div key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.body}</p>
-            <button className="delete-button" onClick={() => deletePost(post.id)}>
-              Delete
-            </button>
+            {post.userId === userid && (
+              <button className="delete-button" onClick={() => deletePost(post.id)}>
+                Delete
+              </button>
+            )}
           </div>
         ))}
       </ul>
