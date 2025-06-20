@@ -2,24 +2,38 @@
   "users": [
     {
       "id": 1,
-      "username": "Ritsumei",
+      "username": "lxy",
       "password": "0000"
     },
     {
       "id": 2,
-      "username": "Taro",
+      "username": "justin",
       "password": "1111"
     }
   ],
   "posts": [
     {
       "id": 1,
-      "title": "Hello from server",
+      "title": "The first post",
+      "body": "This is my first post - by lxy.",
       "userId": 1
     },
     {
       "id": 2,
-      "title": "Another post",
+      "title": "The first post by Justin",
+      "body": "Justin's first post content goes here.",
+      "userId": 2
+    },
+    {
+      "id": 3,
+      "title": "A post by lxy",
+      "body": "lxy's second post content",
+      "userId": 1
+    },
+    {
+      "id": 4,
+      "title": "Another post by Justin",
+      "body": "Justin's second post",
       "userId": 2
     }
   ]

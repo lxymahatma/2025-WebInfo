@@ -54,6 +54,25 @@ app.post("/posts", (req, res) => {
   });
 });
 
+app.put("/posts/:id", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "No token provided" });
+  jwt.verify(token, SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Invalid token" });
+    const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+    const postId = parseInt(req.params.id);
+    const postIndex = db.posts.findIndex((p) => p.id === postId);
+    if (postIndex === -1) return res.status(404).json({ message: "Post not found" });
+    if (db.posts[postIndex].userId !== user.id)
+      return res.status(403).json({ message: "No permission" });
+    const { title, body } = req.body;
+    db.posts[postIndex].title = title;
+    db.posts[postIndex].body = body;
+    fs.writeFileSync("db.json", JSON.stringify(db, null, 2));
+    res.json(db.posts[postIndex]);
+  });
+});
+
 app.delete("/posts/:id", (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ message: "No token provided" });
