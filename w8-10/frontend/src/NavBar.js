@@ -12,18 +12,18 @@ export default function NavBar() {
   };
 
   return (
-    <nav style={{ padding: "1rem", background: "#eee" }}>
-      <Link to="/">Login</Link> | <Link to="/posts">Posts</Link> | <Link to="/add">Add Post</Link> |{" "}
-      <Link to="/chat">Chat</Link>
+    <nav className="navbar-container">
+      <div className="navbar-links">
+        <Link to="/">Login</Link> | <Link to="/posts">Posts</Link> | <Link to="/add">Add Post</Link> |{" "}
+        <Link to="/chat">Chat</Link>
+      </div>
       {username && (
-        <>
-          <span style={{ marginLeft: "1rem" }}>
+        <div className="navbar-user">
+          <span>
             Hello, <strong>{username}</strong>
           </span>
-          <button style={{ marginLeft: "1rem" }} onClick={handleLogout}>
-            Logout
-          </button>
-        </>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
       )}
     </nav>
   );

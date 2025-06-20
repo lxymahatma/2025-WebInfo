@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function PostsPage() {
   const [posts, setPosts] = useState([]);
-  const userid = parseInt(localStorage.getItem("userid"));
+  const userid = parseInt(localStorage.getItem("userId"));
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -15,15 +15,15 @@ export default function PostsPage() {
       .then((data) => setPosts(data));
   }, []);
 
-  const deletePost = (postid) => {
+  const deletePost = (postId) => {
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:3001/posts/${postid}`, {
+    fetch(`http://localhost:3001/posts/${postId}`, {
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + token,
       },
     }).then(() => {
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postid));
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
     });
   };
 

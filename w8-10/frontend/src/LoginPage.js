@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,9 +16,9 @@ export default function LoginPage() {
       const data = await res.json();
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", username);
-      localStorage.setItem("userid", data.token.id);
-      window.location.reload();
+      localStorage.setItem("userId", data.userId);
       alert("Login success!");
+      navigate("/posts");
     } else {
       alert("Invalid credentials");
     }
