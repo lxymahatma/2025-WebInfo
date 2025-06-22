@@ -89,14 +89,14 @@ export default function PostsPage() {
                 <h3>{post.title}</h3>
                 <p>{post.body}</p>
                 {post.userId === userid && (
-                  <>
-                    <button className="delete-button" onClick={() => deletePost(post.id)}>
-                      Delete
-                    </button>
+                  <div className="post-actions">
                     <button className="edit-button" onClick={() => startEdit(post)}>
                       Edit
                     </button>
-                  </>
+                    <button className="delete-button" onClick={() => deletePost(post.id)}>
+                      Delete
+                    </button>
+                  </div>
                 )}
               </>
             )}

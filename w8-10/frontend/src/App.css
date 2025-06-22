@@ -105,6 +105,28 @@ ul {
   margin: 0 0 1rem 0;
 }
 
+.post-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button {
+  background: #ffd700;
+  border: none;
+  border-radius: 6px;
+  color: #222;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  padding: 0.4rem 1rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.edit-button:hover {
+  background: #ffe066;
+  color: #0080a8;
+}
+
 .delete-button {
   background: #e74c3c;
   border: none;
@@ -119,23 +141,6 @@ ul {
 
 .delete-button:hover {
   background: #c0392b;
-}
-
-.edit-button {
-  background: #ffd700;
-  border: none;
-  border-radius: 6px;
-  color: #222;
-  cursor: pointer;
-  font-weight: bold;
-  margin-left: 0.5rem;
-  padding: 0.4rem 1rem;
-  transition: background 0.2s, color 0.2s;
-}
-
-.edit-button:hover {
-  background: #ffe066;
-  color: #0080a8;
 }
 
 .save-button {
