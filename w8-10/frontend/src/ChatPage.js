@@ -4,14 +4,15 @@ import { io } from "socket.io-client";
 const socket = io("http://localhost:3001");
 
 export default function ChatPage() {
-  const [msg, setMsg] = useState("");
+  const [welcomeMsg, setWelcomeMsg] = useState("");
   const [reply, setReply] = useState("");
-  const [chatLog, setChatLog] = useState([]);
-  const [input, setInput] = useState("");
+
   const [name, setName] = useState("");
+  const [msg, setMsg] = useState("");
+  const [chatLog, setChatLog] = useState([]);
 
   useEffect(() => {
-    socket.on("welcome", (data) => setMsg(data));
+    socket.on("welcome", (data) => setWelcomeMsg(data));
     socket.on("response", (data) => setReply(data));
     socket.on("receive_message", (data) => {
       setChatLog((prev) => [...prev, data]);
@@ -29,9 +30,9 @@ export default function ChatPage() {
   };
 
   const sendMessage = () => {
-    if (input.trim() !== "" && name.trim() !== "") {
-      socket.emit("send_message", { name, message: input });
-      setInput("");
+    if (msg.trim() !== "" && name.trim() !== "") {
+      socket.emit("send_message", { name, message: msg });
+      setMsg("");
     }
   };
 
@@ -40,7 +41,8 @@ export default function ChatPage() {
       <h2 className="chat-title">Chat</h2>
       <div className="chat-section">
         <p>
-          <strong>Server says on connect:</strong> <span className="chat-server-msg">{msg}</span>
+          <strong>Server says on connect:</strong>{" "}
+          <span className="chat-server-msg">{welcomeMsg}</span>
         </p>
         <button className="chat-btn" onClick={handleClick}>
           Send Hello
@@ -61,8 +63,8 @@ export default function ChatPage() {
           />
           <input
             className="chat-input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={msg}
+            onChange={(e) => setMsg(e.target.value)}
             placeholder="Type a message..."
             onKeyDown={(e) => {
               if (e.key === "Enter") sendMessage();
