@@ -3,6 +3,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import NavBar from "./NavBar";
 import DragDropGame from "./DragDropGame";
 import TimedQuestionGame from "./TimedQuestionGame";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/signin" />;
+};
 
 export default function App() {
   const handleAnswer = (idx) => {
@@ -11,18 +19,41 @@ export default function App() {
 
   return (
     <Router>
-      <NavBar />
       <Routes>
-        <Route path="/" element={<Navigate to="/dragdrop" />} />
-        <Route path="/dragdrop" element={<DragDropGame />} />
+        {/* Public Routes */}
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        
+        {/* Protected Routes */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <NavBar />
+              <Navigate to="/dragdrop" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dragdrop"
+          element={
+            <ProtectedRoute>
+              <NavBar />
+              <DragDropGame />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/timed"
           element={
-            <TimedQuestionGame
-              question="Which is the largest planet in our solar system?"
-              options={["Earth", "Mars", "Jupiter", "Venus"]}
-              onAnswer={handleAnswer}
-            />
+            <ProtectedRoute>
+              <NavBar />
+              <TimedQuestionGame
+                question="Which is the largest planet in our solar system?"
+                options={["Earth", "Mars", "Jupiter", "Venus"]}
+                onAnswer={handleAnswer}
+              />
+            </ProtectedRoute>
           }
         />
       </Routes>

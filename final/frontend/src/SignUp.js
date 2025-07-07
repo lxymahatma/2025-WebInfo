@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const styles = {
   container: {
@@ -51,16 +51,64 @@ const styles = {
     color: "#4f46e5",
     textDecoration: "none",
   },
+  error: {
+    color: "#ef4444",
+    fontSize: "0.875rem",
+    marginTop: "0.5rem",
+  },
+  success: {
+    color: "#10b981",
+    fontSize: "0.875rem",
+    marginTop: "0.5rem",
+  },
 };
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
-  const handleSignUp = () => {
-    // In a real app, this would send to backend or localStorage
-    alert(`Signed up with:\nEmail: ${email}\nUsername: ${username}`);
+  const handleSignUp = async () => {
+    if (!email || !username || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await fetch("http://localhost:3001/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Don't store token or automatically sign in
+        setSuccess("Account created successfully! Please sign in.");
+        
+        // Redirect to sign in page after a short delay
+        setTimeout(() => {
+          navigate("/signin");
+        }, 2000);
+      } else {
+        setError(data.message || "Sign up failed");
+      }
+    } catch (err) {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -88,8 +136,14 @@ export default function SignUp() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button style={styles.button} onClick={handleSignUp}>
-          Sign Up
+        {error && <div style={styles.error}>{error}</div>}
+        {success && <div style={styles.success}>{success}</div>}
+        <button 
+          style={styles.button} 
+          onClick={handleSignUp}
+          disabled={loading}
+        >
+          {loading ? "Creating Account..." : "Sign Up"}
         </button>
         <Link to="/signin" style={styles.link}>
           Already have an account? Sign In

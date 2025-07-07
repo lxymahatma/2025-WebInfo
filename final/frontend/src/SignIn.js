@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const styles = {
   container: {
@@ -51,15 +51,56 @@ const styles = {
     color: "#4f46e5",
     textDecoration: "none",
   },
+  error: {
+    color: "#ef4444",
+    fontSize: "0.875rem",
+    marginTop: "0.5rem",
+  },
 };
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSignIn = () => {
-    // In real app, validate against stored credentials
-    alert(`Signed in as: ${username}`);
+  const handleSignIn = async () => {
+    if (!username || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:3001/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store token and user info in localStorage
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("username", data.username);
+        
+        // Redirect to main page or dashboard
+        navigate("/");
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (err) {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,11 +121,16 @@ export default function SignIn() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button style={styles.button} onClick={handleSignIn}>
-          Sign In
+        {error && <div style={styles.error}>{error}</div>}
+        <button 
+          style={styles.button} 
+          onClick={handleSignIn}
+          disabled={loading}
+        >
+          {loading ? "Signing In..." : "Sign In"}
         </button>
         <Link to="/signup" style={styles.link}>
-          Don’t have an account? Sign Up
+          Don't have an account? Sign Up
         </Link>
       </div>
     </div>
