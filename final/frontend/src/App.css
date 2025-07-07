@@ -1,38 +1,129 @@
+/* ---------- Common ---------- */
 .App {
+  font-family: sans-serif;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* ---------- Nav Bar ---------- */
+.nav-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+.nav-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: #e0e0e0;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.nav-button:hover {
+  background: #d5d5d5;
+}
+.nav-button.active {
+  background: #a0a0a0;
+  color: #fff;
+}
+
+/* ---------- Game Container ---------- */
+.game-container {
+  margin-top: 24px;
+}
+
+/* ---------- Memory Card Game Styles ---------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  gap: 1rem;
+  justify-content: center;
+}
+.card {
+  perspective: 1000px;
+}
+.card > div {
+  width: 100px;
+  height: 140px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+.card > div.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Front/back text placeholders */
+.card-front-text,
+.card-back-text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #ccc;
+}
+.card-back-text {
+  transform: rotateY(180deg);
+  background: #e35d6a;
+  color: #fff;
 }
 
-.App-link {
-  color: #61dafb;
+/* ---------- Drag & Drop Game Styles ---------- */
+.drag-drop-root {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: system-ui, sans-serif;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.token-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.token {
+  padding: 8px 16px;
+  background: #e0e7ff;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  cursor: grab;
+  transition: transform 0.15s ease-in-out;
+  user-select: none;
+}
+.token.inactive {
+  opacity: 0.4;
+  cursor: default;
+}
+.zone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.zone {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #999;
+  border-radius: 12px;
+  background: #fff;
+}
+.win {
+  margin-top: 24px;
+  padding: 12px 20px;
+  background: #d1fadf;
+  color: #0f5132;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 }
