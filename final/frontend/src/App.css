@@ -6,90 +6,162 @@
 
 /* ---------- Nav Bar ---------- */
 .nav-bar {
-  background: #f5f5f5;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  padding: 12px;
-}
-.nav-button {
-  background: #e0e0e0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  padding: 8px 16px;
-  transition: background 0.2s;
-}
-.nav-button:hover {
-  background: #d5d5d5;
-}
-.nav-button.active {
-  background: #a0a0a0;
+  background: #0080a8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   color: #fff;
-}
-
-/* ---------- Game Container ---------- */
-.game-container {
-  margin-top: 24px;
-}
-
-/* ---------- Memory Card Game Styles ---------- */
-.card-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(4, 100px);
-  justify-content: center;
-}
-.card {
-  perspective: 1000px;
-}
-.card > div {
-  height: 140px;
-  transform-style: preserve-3d;
-  transition: transform 0.5s;
-  width: 100px;
-}
-.card > div.flipped {
-  transform: rotateY(180deg);
-}
-
-/* Front/back text placeholders */
-.card-front-text,
-.card-back-text {
-  align-items: center;
-  backface-visibility: hidden;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
   display: flex;
-  font-size: 1.2rem;
-  height: 100%;
+  font-size: 1.1rem;
+  font-weight: 600;
+  gap: 2rem;
   justify-content: center;
-  position: absolute;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+}
+
+.nav-link {
+  background: #fff;
+  border: none;
+  border-radius: 8px;
+  color: #0080a8;
+  cursor: pointer;
+  font-weight: bold;
+  outline: none;
+  padding: 0.5rem 1.2rem;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-link:hover {
+  background: #ffd700;
+  color: #0080a8;
+}
+
+.nav-link.active {
+  background: #ffd700;
+  box-shadow: 0 2px 8px #ffe066;
+  color: #0080a8;
+}
+
+/* ---------- Main Page ---------- */
+.main-page-container {
+  font-family: system-ui, sans-serif;
+  padding: 3rem;
+  text-align: center;
+}
+
+.main-page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.main-page-link {
+  background-color: #4f46e5;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-block;
+  font-weight: 500;
+  margin: 1rem;
+  padding: 0.8rem 1.6rem;
+  text-decoration: none;
+}
+
+.main-page-logout-btn {
+  background: #e74c3c;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem 1.2rem;
+}
+
+/* ---------- Auth Pages (Sign In/Sign Up) ---------- */
+.auth-container {
+  align-items: center;
+  background: #f0f4ff;
+  display: flex;
+  font-family: system-ui, sans-serif;
+  height: 100vh;
+  justify-content: center;
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  padding: 2.5rem;
+  text-align: center;
   width: 100%;
 }
-.card-back-text {
-  background: #e35d6a;
-  color: #fff;
-  transform: rotateY(180deg);
+
+.auth-heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
 
-/* ---------- Drag & Drop Game Styles ---------- */
+.auth-input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  width: 100%;
+}
+
+.auth-button {
+  background-color: #4f46e5;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  width: 100%;
+}
+
+.auth-link {
+  color: #4f46e5;
+  display: block;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  text-decoration: none;
+}
+
+/* ---------- Drag & Drop Game ---------- */
 .drag-drop-root {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
   font-family: system-ui, sans-serif;
+  gap: 24px;
   margin: 0 auto;
   max-width: 640px;
   padding: 24px;
 }
-.token-row {
+
+.drag-drop-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.drag-drop-instructions {
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.drag-drop-token-row {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
 }
-.token {
+
+.drag-drop-token {
   background: #e0e7ff;
   border-radius: 12px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
@@ -97,17 +169,20 @@
   padding: 8px 16px;
   transition: transform 0.15s ease-in-out;
 }
-.token.inactive {
+
+.drag-drop-token.inactive {
   cursor: default;
   opacity: 0.4;
 }
-.zone-grid {
+
+.drag-drop-zone-grid {
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  margin-top: 16px;
+  width: 100%;
 }
-.zone {
+
+.drag-drop-zone {
   align-items: center;
   background: #fff;
   border: 2px dashed #999;
@@ -116,7 +191,8 @@
   justify-content: center;
   min-height: 64px;
 }
-.win {
+
+.drag-drop-win {
   background: #d1fadf;
   border-radius: 12px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
@@ -125,4 +201,176 @@
   font-weight: 600;
   margin-top: 24px;
   padding: 12px 20px;
+}
+
+/* ---------- Timed Question Game ---------- */
+.timed-question-container {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: system-ui, sans-serif;
+  margin: 2rem auto;
+  max-width: 420px;
+  padding: 2rem 2.5rem;
+  position: relative;
+}
+
+.timed-question-timer {
+  background: #fff8e1;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px #ffe066;
+  color: #e74c3c;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.2rem 0.8rem;
+  position: absolute;
+  right: 28px;
+  top: 18px;
+}
+
+.timed-question-question {
+  color: #0080a8;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.timed-question-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.timed-question-option {
+  background: #f3fafd;
+  border: 2px solid #e0e7ff;
+  border-radius: 8px;
+  color: #222;
+  cursor: pointer;
+  font-size: 1.08rem;
+  font-weight: 500;
+  outline: none;
+  padding: 0.8rem 1.2rem;
+  text-align: left;
+  transition: background 0.18s, color 0.18s;
+  width: 100%;
+}
+
+.timed-question-option:hover:not(:disabled) {
+  background: #e0e7ff;
+}
+
+.timed-question-option.selected {
+  background: #0080a8;
+  color: #fff;
+}
+
+.timed-question-option:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.timed-question-option:disabled:not(.selected) {
+  opacity: 0.6;
+}
+
+/* ---------- Memory Card Game ---------- */
+.memory-game-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.memory-game-title {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.memory-game-instructions {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, 100px);
+  justify-content: center;
+  margin: 2rem auto;
+}
+
+.card {
+  perspective: 1000px;
+}
+
+.card > div {
+  height: 140px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+  width: 100px;
+}
+
+.card > div.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front-text,
+.card-back-text {
+  align-items: center;
+  backface-visibility: hidden;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.2rem;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+.card-back-text {
+  background: #e35d6a;
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+/* ---------- Responsive Design ---------- */
+@media (max-width: 768px) {
+  .nav-bar {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .drag-drop-root {
+    padding: 16px;
+  }
+
+  .drag-drop-zone-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .timed-question-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .auth-card {
+    margin: 1rem;
+    padding: 2rem;
+  }
+
+  .card-grid {
+    gap: 0.5rem;
+    grid-template-columns: repeat(3, 80px);
+  }
+
+  .card > div {
+    height: 110px;
+    width: 80px;
+  }
 }
