@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import NavBar from "./NavBar";
 import DragDropGame from "./DragDropGame";
 import TimedQuestionGame from "./TimedQuestionGame";
+import "./App.css";
 
 export default function App() {
-  const handleAnswer = (idx) => {
+  const handleAnswer = (idx: number) => {
     alert(idx === null ? "Time's up!" : `You chose option ${idx + 1}`);
   };
 
