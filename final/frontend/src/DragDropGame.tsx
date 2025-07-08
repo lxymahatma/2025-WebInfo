@@ -13,7 +13,7 @@ const PAIRS: GamePair[] = [
   { id: "rose", label: "🌹 Rose", match: "Flower" },
 ];
 
-export default function DragDropGame(): JSX.Element {
+export default function DragDropGame(): React.JSX.Element {
   const [solved, setSolved] = useState<Record<string, boolean>>({});
   const dragItemRef = useRef<string | null>(null);
 
@@ -32,7 +32,7 @@ export default function DragDropGame(): JSX.Element {
     const draggedId = dragItemRef.current;
     const draggedItem = PAIRS.find((p) => p.id === draggedId);
 
-    if (!draggedItem) return;
+    if (!draggedItem || !draggedId) return;
 
     if (draggedItem.match === zoneLabel) {
       setSolved((prev) => ({ ...prev, [draggedId]: true }));

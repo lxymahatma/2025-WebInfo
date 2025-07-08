@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-export default function NavBar(): JSX.Element {
+export default function NavBar(): React.JSX.Element {
   return (
     <nav className="nav-bar">
       <NavLink to="/dragdrop" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>

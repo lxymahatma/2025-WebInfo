@@ -10,7 +10,7 @@ export default function TimedQuestionGame({
   question,
   options,
   onAnswer,
-}: TimedQuestionGameProps): JSX.Element {
+}: TimedQuestionGameProps): React.JSX.Element {
   const [timeLeft, setTimeLeft] = useState<number>(10);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
