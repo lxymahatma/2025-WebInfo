@@ -6,7 +6,7 @@ import TimedQuestionGame from "./TimedQuestionGame";
 import "./App.css";
 
 export default function App() {
-  const handleAnswer = (idx: number) => {
+  const handleAnswer = (idx: number | null) => {
     alert(idx === null ? "Time's up!" : `You chose option ${idx + 1}`);
   };
 
