@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
+import { CardType, CardProps } from "./types/memory-card";
 
 const cardTypes = ["Elephant", "Lion", "Cat", "Car"];
-
-// Define the Card interface
-interface CardType {
-  type: string;
-  id: number;
-  matched: boolean;
-}
 
 // Add proper typing to shuffleArray function
 function shuffleArray<T>(array: T[]): T[] {
@@ -74,14 +67,6 @@ export default function MemoryCardGame() {
     React.createElement("p", null, "Flip & match the cards!"),
     React.createElement("div", { className: "card-grid" }, ...grid)
   );
-}
-
-// Define props interface for Card component
-interface CardProps {
-  card: CardType;
-  flipped: boolean;
-  handleChoice: (card: CardType) => void;
-  disabled: boolean;
 }
 
 function Card({ card, flipped, handleChoice, disabled }: CardProps) {

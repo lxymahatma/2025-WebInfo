@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-interface TimedQuestionGameProps {
-  question: string;
-  options: string[];
-  onAnswer: (idx: number | null) => void;
-}
+import { TimedQuestionGameProps } from "./types/timed-question";
 
 export default function TimedQuestionGame({
   question,

@@ -1,10 +1,5 @@
 import React, { useState, useRef } from "react";
-
-interface GamePair {
-  id: string;
-  label: string;
-  match: string;
-}
+import { GamePair } from "./types/drag-drop";
 
 const PAIRS: GamePair[] = [
   { id: "apple", label: "🍎 Apple", match: "Fruit" },
