@@ -3,7 +3,15 @@ import "./App.css";
 
 const cardTypes = ["Elephant", "Lion", "Cat", "Car"];
 
-function shuffleArray(array) {
+// Define the Card interface
+interface CardType {
+  type: string;
+  id: number;
+  matched: boolean;
+}
+
+// Add proper typing to shuffleArray function
+function shuffleArray<T>(array: T[]): T[] {
   return array
     .map((value) => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
@@ -11,9 +19,9 @@ function shuffleArray(array) {
 }
 
 export default function MemoryCardGame() {
-  const [cards, setCards] = useState([]);
-  const [firstChoice, setFirstChoice] = useState(null);
-  const [secondChoice, setSecondChoice] = useState(null);
+  const [cards, setCards] = useState<CardType[]>([]);
+  const [firstChoice, setFirstChoice] = useState<CardType | null>(null);
+  const [secondChoice, setSecondChoice] = useState<CardType | null>(null);
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
@@ -38,7 +46,7 @@ export default function MemoryCardGame() {
     }
   }, [firstChoice, secondChoice]);
 
-  function handleChoice(card) {
+  function handleChoice(card: CardType) {
     if (disabled) return;
     firstChoice ? setSecondChoice(card) : setFirstChoice(card);
   }
@@ -68,7 +76,15 @@ export default function MemoryCardGame() {
   );
 }
 
-function Card({ card, flipped, handleChoice, disabled }) {
+// Define props interface for Card component
+interface CardProps {
+  card: CardType;
+  flipped: boolean;
+  handleChoice: (card: CardType) => void;
+  disabled: boolean;
+}
+
+function Card({ card, flipped, handleChoice, disabled }: CardProps) {
   function onClick() {
     if (!flipped && !disabled) handleChoice(card);
   }
