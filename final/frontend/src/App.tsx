@@ -1,9 +1,9 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import NavBar from "./NavBar";
-import DragDropGame from "./DragDropGame";
-import TimedQuestionGame from "./TimedQuestionGame";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import NavBar from './NavBar';
+import DragDropGame from './DragDropGame';
+import TimedQuestionGame from './TimedQuestionGame';
+import './App.css';
 
 export default function App() {
   const handleAnswer = (idx: number | null) => {
@@ -21,7 +21,7 @@ export default function App() {
           element={
             <TimedQuestionGame
               question="Which is the largest planet in our solar system?"
-              options={["Earth", "Mars", "Jupiter", "Venus"]}
+              options={['Earth', 'Mars', 'Jupiter', 'Venus']}
               onAnswer={handleAnswer}
             />
           }

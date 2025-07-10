@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { CardType, CardProps } from "./types/memory-card";
+import React, { useState, useEffect } from 'react';
+import { CardType, CardProps } from './types/memory-card';
 
-const cardTypes = ["Elephant", "Lion", "Cat", "Car"];
+const cardTypes = ['Elephant', 'Lion', 'Cat', 'Car'];
 
 // Add proper typing to shuffleArray function
 function shuffleArray<T>(array: T[]): T[] {
   return array
-    .map((value) => ({ value, sort: Math.random() }))
+    .map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
 }
@@ -29,9 +29,7 @@ export default function MemoryCardGame() {
     if (firstChoice && secondChoice) {
       setDisabled(true);
       if (firstChoice.type === secondChoice.type) {
-        setCards((prev) =>
-          prev.map((c) => (c.type === firstChoice.type ? { ...c, matched: true } : c))
-        );
+        setCards(prev => prev.map(c => (c.type === firstChoice.type ? { ...c, matched: true } : c)));
         resetTurn();
       } else {
         setTimeout(resetTurn, 1000);
@@ -50,7 +48,7 @@ export default function MemoryCardGame() {
     setDisabled(false);
   }
 
-  const grid = cards.map((card) =>
+  const grid = cards.map(card =>
     React.createElement(Card, {
       key: card.id,
       card,
@@ -61,11 +59,11 @@ export default function MemoryCardGame() {
   );
 
   return React.createElement(
-    "div",
+    'div',
     null,
-    React.createElement("h1", null, "Memory Card Game"),
-    React.createElement("p", null, "Flip & match the cards!"),
-    React.createElement("div", { className: "card-grid" }, ...grid)
+    React.createElement('h1', null, 'Memory Card Game'),
+    React.createElement('p', null, 'Flip & match the cards!'),
+    React.createElement('div', { className: 'card-grid' }, ...grid)
   );
 }
 
@@ -73,18 +71,18 @@ function Card({ card, flipped, handleChoice, disabled }: CardProps) {
   function onClick() {
     if (!flipped && !disabled) handleChoice(card);
   }
-  const innerCls = flipped ? "flipped" : "";
+  const innerCls = flipped ? 'flipped' : '';
 
   return React.createElement(
-    "div",
-    { className: "card", onClick },
+    'div',
+    { className: 'card', onClick },
     React.createElement(
-      "div",
+      'div',
       { className: innerCls },
       // FRONT SIDE: show the text label
-      React.createElement("div", { className: "card-front-text" }, card.type),
+      React.createElement('div', { className: 'card-front-text' }, card.type),
       // BACK SIDE: show a simple placeholder
-      React.createElement("div", { className: "card-back-text" }, "?")
+      React.createElement('div', { className: 'card-back-text' }, '?')
     )
   );
 }

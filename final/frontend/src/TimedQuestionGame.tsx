@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { TimedQuestionGameProps } from "./types/timed-question";
+import React, { useState, useEffect } from 'react';
+import { TimedQuestionGameProps } from './types/timed-question';
 
-export default function TimedQuestionGame({
-  question,
-  options,
-  onAnswer,
-}: TimedQuestionGameProps): React.JSX.Element {
+export default function TimedQuestionGame({ question, options, onAnswer }: TimedQuestionGameProps): React.JSX.Element {
   const [timeLeft, setTimeLeft] = useState<number>(10);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
@@ -38,7 +34,8 @@ export default function TimedQuestionGame({
             key={idx}
             onClick={() => handleOptionClick(idx)}
             disabled={isAnswered}
-            className={`timed-question-option ${selectedOption === idx ? "selected" : ""}`}>
+            className={`timed-question-option ${selectedOption === idx ? 'selected' : ''}`}
+          >
             {option}
           </button>
         ))}

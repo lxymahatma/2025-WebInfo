@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 export default function MainPage(): React.JSX.Element {
   const { user, logout } = useAuth();

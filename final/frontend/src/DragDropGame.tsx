@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
-import { GamePair } from "./types/drag-drop";
+import React, { useState, useRef } from 'react';
+import { GamePair } from './types/drag-drop';
 
 const PAIRS: GamePair[] = [
-  { id: "apple", label: "🍎 Apple", match: "Fruit" },
-  { id: "dog", label: "🐶 Dog", match: "Animal" },
-  { id: "car", label: "🚗 Car", match: "Vehicle" },
-  { id: "rose", label: "🌹 Rose", match: "Flower" },
+  { id: 'apple', label: '🍎 Apple', match: 'Fruit' },
+  { id: 'dog', label: '🐶 Dog', match: 'Animal' },
+  { id: 'car', label: '🚗 Car', match: 'Vehicle' },
+  { id: 'rose', label: '🌹 Rose', match: 'Flower' },
 ];
 
 export default function DragDropGame(): React.JSX.Element {
@@ -14,27 +14,27 @@ export default function DragDropGame(): React.JSX.Element {
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string): void => {
     dragItemRef.current = id;
-    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.effectAllowed = 'move';
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
+    e.dataTransfer.dropEffect = 'move';
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, zoneLabel: string): void => {
     e.preventDefault();
     const draggedId = dragItemRef.current;
-    const draggedItem = PAIRS.find((p) => p.id === draggedId);
+    const draggedItem = PAIRS.find(p => p.id === draggedId);
 
     if (!draggedItem || !draggedId) return;
 
     if (draggedItem.match === zoneLabel) {
-      setSolved((prev) => ({ ...prev, [draggedId]: true }));
+      setSolved(prev => ({ ...prev, [draggedId]: true }));
     } else {
       const target = e.currentTarget as HTMLElement;
       const origBg = target.style.backgroundColor;
-      target.style.backgroundColor = "#ffe0e0";
+      target.style.backgroundColor = '#ffe0e0';
       setTimeout(() => {
         target.style.backgroundColor = origBg;
       }, 500);
@@ -43,7 +43,7 @@ export default function DragDropGame(): React.JSX.Element {
   };
 
   const allSolved = Object.keys(solved).length === PAIRS.length;
-  const zoneLabels = Array.from(new Set(PAIRS.map((p) => p.match)));
+  const zoneLabels = Array.from(new Set(PAIRS.map(p => p.match)));
 
   return (
     <div className="drag-drop-root">
@@ -54,19 +54,21 @@ export default function DragDropGame(): React.JSX.Element {
           <div
             key={id}
             draggable={!solved[id]}
-            onDragStart={(e) => handleDragStart(e, id)}
-            className={`drag-drop-token ${solved[id] ? "inactive" : ""}`}>
+            onDragStart={e => handleDragStart(e, id)}
+            className={`drag-drop-token ${solved[id] ? 'inactive' : ''}`}
+          >
             {label}
           </div>
         ))}
       </div>
       <div className="drag-drop-zone-grid">
-        {zoneLabels.map((zoneLabel) => (
+        {zoneLabels.map(zoneLabel => (
           <div
             key={zoneLabel}
             onDragOver={handleDragOver}
-            onDrop={(e) => handleDrop(e, zoneLabel)}
-            className="drag-drop-zone">
+            onDrop={e => handleDrop(e, zoneLabel)}
+            className="drag-drop-zone"
+          >
             {zoneLabel}
           </div>
         ))}
