@@ -5,7 +5,7 @@ import { Typography, Button } from 'antd';
 
 const { Title, Paragraph } = Typography;
 
-export default function MainPage(): React.JSX.Element {
+export default function HomePage(): React.JSX.Element {
   const { user } = useAuth();
 
   return (

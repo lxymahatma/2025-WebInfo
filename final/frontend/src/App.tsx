@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
 import NavBar from './NavBar';
-import MainPage from './MainPage';
+import HomePage from './HomePage';
 import DragDropGame from './DragDropGame';
 import TimedQuestionGame from './TimedQuestionGame';
 import ProfilePage from './ProfilePage';
@@ -22,7 +22,7 @@ function AppContent() {
     <>
       {user && <NavBar />}
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={user ? <Navigate to="/" /> : <SignIn />} />
         <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUp />} />
         <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/" />} />
