@@ -22,11 +22,11 @@ function AppContent() {
     <>
       {user && <NavBar />}
       <Routes>
-        <Route path="/" element={user ? <MainPage /> : <Navigate to="/signin" />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/signin" element={user ? <Navigate to="/" /> : <SignIn />} />
         <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUp />} />
-        <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/signin" />} />
-        <Route path="/dragdrop" element={user ? <DragDropGame /> : <Navigate to="/signin" />} />
+        <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/" />} />
+        <Route path="/dragdrop" element={user ? <DragDropGame /> : <Navigate to="/" />} />
         <Route
           path="/timed"
           element={
@@ -37,11 +37,11 @@ function AppContent() {
                 onAnswer={handleAnswer}
               />
             ) : (
-              <Navigate to="/signin" />
+              <Navigate to="/" />
             )
           }
         />
-        <Route path="/memory" element={user ? <MemoryCardGame /> : <Navigate to="/signin" />} />
+        <Route path="/memory" element={user ? <MemoryCardGame /> : <Navigate to="/" />} />
       </Routes>
     </>
   );
