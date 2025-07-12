@@ -166,6 +166,46 @@
   text-align: center;
 }
 
+.difficulty-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.difficulty-selector label {
+  font-weight: 600;
+  color: #333;
+  margin-right: 5px;
+}
+
+.difficulty-btn {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  color: #333;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+}
+
+.difficulty-btn:hover {
+  background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+  border-color: #0080a8;
+  transform: translateY(-1px);
+}
+
+.difficulty-btn.active {
+  background: linear-gradient(135deg, #0080a8 0%, #005f7a 100%);
+  border-color: #0080a8;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 128, 168, 0.3);
+}
+
 .drag-drop-token-row {
   display: flex;
   flex-wrap: wrap;

@@ -1,16 +1,94 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { GamePair } from './types/drag-drop';
 
-const PAIRS: GamePair[] = [
+const ALL_PAIRS: GamePair[] = [
+  // Fruits
   { id: 'apple', label: '🍎 Apple', match: 'Fruit' },
+  { id: 'banana', label: '🍌 Banana', match: 'Fruit' },
+  { id: 'orange', label: '🍊 Orange', match: 'Fruit' },
+  { id: 'grape', label: '🍇 Grape', match: 'Fruit' },
+  { id: 'strawberry', label: '🍓 Strawberry', match: 'Fruit' },
+  
+  // Animals
   { id: 'dog', label: '🐶 Dog', match: 'Animal' },
+  { id: 'cat', label: '🐱 Cat', match: 'Animal' },
+  { id: 'elephant', label: '🐘 Elephant', match: 'Animal' },
+  { id: 'lion', label: '🦁 Lion', match: 'Animal' },
+  { id: 'rabbit', label: '🐇 Rabbit', match: 'Animal' },
+  
+  // Vehicles
   { id: 'car', label: '🚗 Car', match: 'Vehicle' },
+  { id: 'bike', label: '🚲 Bike', match: 'Vehicle' },
+  { id: 'airplane', label: '✈️ Airplane', match: 'Vehicle' },
+  { id: 'train', label: '🚂 Train', match: 'Vehicle' },
+  { id: 'boat', label: '🚤 Boat', match: 'Vehicle' },
+  
+  // Flowers
   { id: 'rose', label: '🌹 Rose', match: 'Flower' },
+  { id: 'sunflower', label: '🌻 Sunflower', match: 'Flower' },
+  { id: 'tulip', label: '🌷 Tulip', match: 'Flower' },
+  { id: 'daisy', label: '🌼 Daisy', match: 'Flower' },
+  { id: 'cherry_blossom', label: '🌸 Cherry Blossom', match: 'Flower' },
+  
+  // Food
+  { id: 'pizza', label: '🍕 Pizza', match: 'Food' },
+  { id: 'burger', label: '🍔 Burger', match: 'Food' },
+  { id: 'cake', label: '🎂 Cake', match: 'Food' },
+  { id: 'ice_cream', label: '🍦 Ice Cream', match: 'Food' },
+  { id: 'donut', label: '🍩 Donut', match: 'Food' },
+  
+  // Sports
+  { id: 'soccer', label: '⚽ Soccer Ball', match: 'Sport' },
+  { id: 'basketball', label: '🏀 Basketball', match: 'Sport' },
+  { id: 'tennis', label: '🎾 Tennis Ball', match: 'Sport' },
+  { id: 'baseball', label: '⚾ Baseball', match: 'Sport' },
+  { id: 'football', label: '🏈 Football', match: 'Sport' },
 ];
 
+// Difficulty levels
+const DIFFICULTY_LEVELS = {
+  easy: { pairs: 6, name: 'Easy' },
+  medium: { pairs: 8, name: 'Medium' },
+  hard: { pairs: 12, name: 'Hard' },
+} as const;
+
+type DifficultyLevel = keyof typeof DIFFICULTY_LEVELS;
+
+// Function to get random pairs ensuring we have items from different categories
+const getRandomPairs = (count: number = 8): GamePair[] => {
+  const categories = Array.from(new Set(ALL_PAIRS.map(p => p.match)));
+  const selectedPairs: GamePair[] = [];
+  
+  // Ensure we have at least one item from each category (up to the count limit)
+  const itemsPerCategory = Math.max(1, Math.floor(count / categories.length));
+  
+  for (const category of categories) {
+    const categoryPairs = ALL_PAIRS.filter(p => p.match === category);
+    const shuffled = categoryPairs.sort(() => Math.random() - 0.5);
+    selectedPairs.push(...shuffled.slice(0, itemsPerCategory));
+  }
+  
+  // If we need more pairs to reach the count, add random ones
+  if (selectedPairs.length < count) {
+    const remaining = ALL_PAIRS.filter(p => !selectedPairs.find(sp => sp.id === p.id));
+    const shuffledRemaining = remaining.sort(() => Math.random() - 0.5);
+    selectedPairs.push(...shuffledRemaining.slice(0, count - selectedPairs.length));
+  }
+  
+  // Shuffle the final selection
+  return selectedPairs.sort(() => Math.random() - 0.5).slice(0, count);
+};
+
 export default function DragDropGame(): React.JSX.Element {
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>('medium');
+  const [currentPairs, setCurrentPairs] = useState<GamePair[]>([]);
   const [solved, setSolved] = useState<Record<string, boolean>>({});
   const dragItemRef = useRef<string | null>(null);
+
+  // Initialize game with random pairs
+  useEffect(() => {
+    setCurrentPairs(getRandomPairs(DIFFICULTY_LEVELS[difficulty].pairs));
+  }, [difficulty]);
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string): void => {
     dragItemRef.current = id;
@@ -25,7 +103,7 @@ export default function DragDropGame(): React.JSX.Element {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, zoneLabel: string): void => {
     e.preventDefault();
     const draggedId = dragItemRef.current;
-    const draggedItem = PAIRS.find(p => p.id === draggedId);
+    const draggedItem = currentPairs.find((p: GamePair) => p.id === draggedId);
 
     if (!draggedItem || !draggedId) return;
 
@@ -44,10 +122,21 @@ export default function DragDropGame(): React.JSX.Element {
 
   const restartGame = (): void => {
     setSolved({});
+    setCurrentPairs(getRandomPairs(DIFFICULTY_LEVELS[difficulty].pairs)); // Get new random pairs
   };
 
-  const allSolved = Object.keys(solved).length === PAIRS.length;
-  const zoneLabels = Array.from(new Set(PAIRS.map(p => p.match)));
+  const changeDifficulty = (newDifficulty: DifficultyLevel): void => {
+    setDifficulty(newDifficulty);
+    setSolved({});
+  };
+
+  const allSolved = Object.keys(solved).length === currentPairs.length;
+  const zoneLabels = Array.from(new Set(currentPairs.map((p: GamePair) => p.match)));
+
+  // Don't render anything until pairs are loaded
+  if (currentPairs.length === 0) {
+    return <div className="drag-drop-root">Loading...</div>;
+  }
 
   // Win screen with restart option
   if (allSolved) {
@@ -55,6 +144,18 @@ export default function DragDropGame(): React.JSX.Element {
       <div className="drag-drop-root">
         <h2 className="drag-drop-heading">Congratulations! 🎉</h2>
         <p className="drag-drop-instructions">You matched all the items correctly!</p>
+        <div className="difficulty-selector">
+          <label>Difficulty: </label>
+          {Object.entries(DIFFICULTY_LEVELS).map(([key, level]) => (
+            <button
+              key={key}
+              onClick={() => changeDifficulty(key as DifficultyLevel)}
+              className={`difficulty-btn ${difficulty === key ? 'active' : ''}`}
+            >
+              {level.name}
+            </button>
+          ))}
+        </div>
         <button className="new-game-button" onClick={restartGame}>
           Start New Game
         </button>
@@ -66,8 +167,22 @@ export default function DragDropGame(): React.JSX.Element {
     <div className="drag-drop-root">
       <h2 className="drag-drop-heading">Drag & Drop Match Game</h2>
       <p className="drag-drop-instructions">Drag each emoji token into the correct category.</p>
+      
+      <div className="difficulty-selector">
+        <label>Difficulty: </label>
+        {Object.entries(DIFFICULTY_LEVELS).map(([key, level]) => (
+          <button
+            key={key}
+            onClick={() => changeDifficulty(key as DifficultyLevel)}
+            className={`difficulty-btn ${difficulty === key ? 'active' : ''}`}
+          >
+            {level.name} ({level.pairs} items)
+          </button>
+        ))}
+      </div>
+
       <div className="drag-drop-token-row">
-        {PAIRS.map(({ id, label }) => (
+        {currentPairs.map(({ id, label }: GamePair) => (
           <div
             key={id}
             draggable={!solved[id]}
@@ -79,7 +194,7 @@ export default function DragDropGame(): React.JSX.Element {
         ))}
       </div>
       <div className="drag-drop-zone-grid">
-        {zoneLabels.map(zoneLabel => (
+        {zoneLabels.map((zoneLabel: string) => (
           <div
             key={zoneLabel}
             onDragOver={handleDragOver}
