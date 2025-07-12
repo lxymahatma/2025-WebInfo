@@ -135,72 +135,116 @@
 /* ---------- Drag & Drop Game ---------- */
 .drag-drop-root {
   align-items: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   display: flex;
   flex-direction: column;
   font-family: system-ui, sans-serif;
   gap: 24px;
   margin: 0 auto;
-  max-width: 640px;
-  padding: 24px;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
 }
 
 .drag-drop-heading {
-  font-size: 1.5rem;
-  font-weight: 700;
+  background: linear-gradient(45deg, #0080a8 0%, #005f7a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .drag-drop-instructions {
   color: #555;
-  margin-bottom: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .drag-drop-token-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .drag-drop-token {
-  background: #e0e7ff;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #0080a8 0%, #005f7a 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 128, 168, 0.3);
+  color: white;
   cursor: grab;
-  padding: 8px 16px;
-  transition: transform 0.15s ease-in-out;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 12px 20px;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.drag-drop-token:hover:not(.inactive) {
+  box-shadow: 0 6px 20px rgba(0, 128, 168, 0.4);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.drag-drop-token:active:not(.inactive) {
+  cursor: grabbing;
+  transform: scale(0.98);
 }
 
 .drag-drop-token.inactive {
+  background: linear-gradient(135deg, #bbb 0%, #999 100%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   cursor: default;
-  opacity: 0.4;
+  opacity: 0.6;
+  transform: scale(0.95);
 }
 
 .drag-drop-zone-grid {
   display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 20px;
+  grid-template-columns: repeat(2, 200px);
+  justify-content: center;
   width: 100%;
 }
 
 .drag-drop-zone {
   align-items: center;
   background: #fff;
-  border: 2px dashed #999;
-  border-radius: 12px;
+  border: 3px dashed #0080a8;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #0080a8;
   display: flex;
+  font-size: 1.2rem;
+  font-weight: 600;
   justify-content: center;
-  min-height: 64px;
+  min-height: 80px;
+  transition: all 0.3s ease;
+}
+
+.drag-drop-zone:hover {
+  background: #f0f8ff;
+  border-color: #005f7a;
+  box-shadow: 0 6px 20px rgba(0, 128, 168, 0.2);
+  transform: translateY(-2px);
 }
 
 .drag-drop-win {
-  background: #d1fadf;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(135deg, #d1fadf 0%, #a8f0c1 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
   color: #0f5132;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-top: 24px;
-  padding: 12px 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 1rem 0;
+  padding: 16px 24px;
+  text-align: center;
 }
 
 /* ---------- Timed Question Game ---------- */
@@ -277,39 +321,74 @@
 
 /* ---------- Memory Card Game ---------- */
 .memory-game-container {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
   padding: 2rem;
   text-align: center;
 }
 
 .memory-game-title {
-  color: #333;
-  font-size: 2rem;
+  background: linear-gradient(45deg, #0080a8 0%, #005f7a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2.5rem;
+  font-weight: 800;
   margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .memory-game-instructions {
-  color: #666;
+  color: #555;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 2.5rem;
+}
+
+.new-game-button {
+  background: linear-gradient(45deg, #0080a8 0%, #005f7a 100%);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 128, 168, 0.4);
+  color: #fff;
+  cursor: pointer;
   font-size: 1.1rem;
-  margin-bottom: 2rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  padding: 12px 30px;
+  transition: all 0.3s ease;
+}
+
+.new-game-button:hover {
+  box-shadow: 0 6px 20px rgba(0, 128, 168, 0.6);
+  transform: translateY(-2px);
 }
 
 .card-grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(4, 100px);
+  gap: 1.2rem;
+  grid-template-columns: repeat(4, 120px);
   justify-content: center;
   margin: 2rem auto;
-}
-
-.card {
   perspective: 1000px;
 }
 
+.card {
+  cursor: pointer;
+  perspective: 1000px;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
 .card > div {
-  height: 140px;
+  width: 120px;
+  height: 160px;
+  position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.5s;
-  width: 100px;
+  transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .card > div.flipped {
@@ -318,24 +397,58 @@
 
 .card-front-text,
 .card-back-text {
-  align-items: center;
-  backface-visibility: hidden;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  font-size: 1.2rem;
-  height: 100%;
-  justify-content: center;
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-.card-back-text {
-  background: #e35d6a;
+/* FRONT SIDE */
+.card-front-text {
+  background: linear-gradient(135deg, #0080a8 0%, #005f7a 100%);
   color: #fff;
+  font-size: 2rem;
+}
+
+.card-front-text:hover {
+  box-shadow: 0 6px 20px rgba(0, 128, 168, 0.3);
+}
+
+/* BACK SIDE (inside content) */
+.card-back-text {
+  background: #f0f0f0;
+  color: #333333;
+  font-size: 1.4rem;
   transform: rotateY(180deg);
+}
+
+.card.matched {
+  animation: matchPulse 0.6s ease-in-out;
+}
+
+@keyframes matchPulse {
+  0%   { transform: scale(1);   }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1);   }
+}
+
+.memory-game-container h1 {
+  animation: celebrationBounce 1s ease-in-out;
+}
+
+@keyframes celebrationBounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
 }
 
 /* ---------- Responsive Design ---------- */
@@ -347,11 +460,26 @@
   }
 
   .drag-drop-root {
-    padding: 16px;
+    padding: 1rem;
+  }
+
+  .drag-drop-heading {
+    font-size: 1.7rem;
   }
 
   .drag-drop-zone-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 16px;
+    grid-template-columns: repeat(2, 160px);
+  }
+
+  .drag-drop-zone {
+    font-size: 1rem;
+    min-height: 70px;
+  }
+
+  .drag-drop-token {
+    font-size: 1rem;
+    padding: 10px 16px;
   }
 
   .timed-question-container {
@@ -365,12 +493,48 @@
   }
 
   .card-grid {
-    gap: 0.5rem;
-    grid-template-columns: repeat(3, 80px);
+    gap: 0.8rem;
+    grid-template-columns: repeat(3, 100px);
   }
 
   .card > div {
-    height: 110px;
-    width: 80px;
+    width: 100px;
+    height: 130px;
+  }
+
+  .card-back-text,
+  .card-front-text {
+    font-size: 1.2rem;
+  }
+
+  .card-front-text {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    gap: 0.6rem;
+    grid-template-columns: repeat(2, 90px);
+  }
+
+  .card > div {
+    width: 90px;
+    height: 120px;
+  }
+
+  .drag-drop-zone-grid {
+    gap: 12px;
+    grid-template-columns: 1fr;
+    max-width: 200px;
+  }
+
+  .drag-drop-token-row {
+    gap: 12px;
+  }
+
+  .drag-drop-token {
+    font-size: 0.9rem;
+    padding: 8px 14px;
   }
 }

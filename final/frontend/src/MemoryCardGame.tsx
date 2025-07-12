@@ -16,14 +16,34 @@ export default function MemoryCardGame() {
   const [firstChoice, setFirstChoice] = useState<CardType | null>(null);
   const [secondChoice, setSecondChoice] = useState<CardType | null>(null);
   const [disabled, setDisabled] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
 
-  useEffect(() => {
+  // Initialize/reset game
+  const initializeGame = () => {
     const doubled = cardTypes.flatMap((type, idx) => [
       { type, id: idx * 2, matched: false },
       { type, id: idx * 2 + 1, matched: false },
     ]);
     setCards(shuffleArray(doubled));
+    setFirstChoice(null);
+    setSecondChoice(null);
+    setDisabled(false);
+    setGameWon(false);
+  };
+
+  useEffect(() => {
+    initializeGame();
   }, []);
+
+  // Check for win condition
+  useEffect(() => {
+    if (cards.length > 0 && cards.every(card => card.matched)) {
+      // Wait before showing the win message
+      setTimeout(() => {
+        setGameWon(true);
+      }, 500);
+    }
+  }, [cards]);
 
   useEffect(() => {
     if (firstChoice && secondChoice) {
@@ -38,7 +58,10 @@ export default function MemoryCardGame() {
   }, [firstChoice, secondChoice]);
 
   function handleChoice(card: CardType) {
-    if (disabled) return;
+    if (disabled || gameWon) return;
+    // Prevent selecting the same card twice
+    if (card === firstChoice) return;
+    
     firstChoice ? setSecondChoice(card) : setFirstChoice(card);
   }
 
@@ -54,15 +77,32 @@ export default function MemoryCardGame() {
       card,
       flipped: card === firstChoice || card === secondChoice || card.matched,
       handleChoice,
-      disabled,
+      disabled: disabled || gameWon,
     })
   );
 
+  if (gameWon) {
+    return React.createElement(
+      'div',
+      { className: 'memory-game-container' },
+      React.createElement('h1', { className: 'memory-game-title' }, 'Congratulations! 🎉'),
+      React.createElement('p', { className: 'memory-game-instructions' }, 'You found all the matches!'),
+      React.createElement(
+        'button',
+        { 
+          className: 'new-game-button',
+          onClick: initializeGame
+        },
+        'Start New Game'
+      )
+    );
+  }
+
   return React.createElement(
     'div',
-    null,
-    React.createElement('h1', null, 'Memory Card Game'),
-    React.createElement('p', null, 'Flip & match the cards!'),
+    { className: 'memory-game-container' },
+    React.createElement('h1', { className: 'memory-game-title' }, 'Memory Card Game'),
+    React.createElement('p', { className: 'memory-game-instructions' }, 'Flip & match the cards!'),
     React.createElement('div', { className: 'card-grid' }, ...grid)
   );
 }
@@ -72,17 +112,18 @@ function Card({ card, flipped, handleChoice, disabled }: CardProps) {
     if (!flipped && !disabled) handleChoice(card);
   }
   const innerCls = flipped ? 'flipped' : '';
+  const cardTypeCls = `card-${card.type.toLowerCase()}`;
 
   return React.createElement(
     'div',
-    { className: 'card', onClick },
+    { className: `card ${card.matched ? 'matched' : ''}`, onClick },
     React.createElement(
       'div',
       { className: innerCls },
-      // FRONT SIDE: show the text label
-      React.createElement('div', { className: 'card-front-text' }, card.type),
-      // BACK SIDE: show a simple placeholder
-      React.createElement('div', { className: 'card-back-text' }, '?')
+      // FRONT SIDE (default): show the placeholder
+      React.createElement('div', { className: 'card-front-text' }, '?'),
+      // BACK SIDE (when flipped): show the animal name
+      React.createElement('div', { className: `card-back-text ${cardTypeCls}` }, card.type)
     )
   );
 }

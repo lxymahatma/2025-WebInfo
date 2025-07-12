@@ -42,8 +42,25 @@ export default function DragDropGame(): React.JSX.Element {
     dragItemRef.current = null;
   };
 
+  const restartGame = (): void => {
+    setSolved({});
+  };
+
   const allSolved = Object.keys(solved).length === PAIRS.length;
   const zoneLabels = Array.from(new Set(PAIRS.map(p => p.match)));
+
+  // Win screen with restart option
+  if (allSolved) {
+    return (
+      <div className="drag-drop-root">
+        <h2 className="drag-drop-heading">Congratulations! 🎉</h2>
+        <p className="drag-drop-instructions">You matched all the items correctly!</p>
+        <button className="new-game-button" onClick={restartGame}>
+          Start New Game
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="drag-drop-root">
@@ -73,7 +90,6 @@ export default function DragDropGame(): React.JSX.Element {
           </div>
         ))}
       </div>
-      {allSolved && <div className="drag-drop-win">🎉 Well done! You matched them all.</div>}
     </div>
   );
 }

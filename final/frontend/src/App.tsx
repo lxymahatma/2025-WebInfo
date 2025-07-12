@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import NavBar from './NavBar';
 import DragDropGame from './DragDropGame';
 import TimedQuestionGame from './TimedQuestionGame';
-import { ProfilePage } from './ProfilePage';
+import ProfilePage from './ProfilePage';
+import MemoryCardGame from './MemoryCardGame';
 import './App.css';
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
             />
           }
         />
+        <Route path="/memory" element={<MemoryCardGame />} />
       </Routes>
     </Router>
   );
