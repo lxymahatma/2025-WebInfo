@@ -1,21 +1,41 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import { Menu } from "antd";
 
-export default function NavBar(): React.JSX.Element {
+const navItems = [
+  { key: "/dragdrop", label: "Drag & Drop Game" },
+  { key: "/timed", label: "Timed Question Game" },
+  { key: "/memory", label: "Memory Card Game" },
+  { key: "/profile", label: "Profile" }
+];
+
+export default function NavBar() {
+  const location = useLocation();
+
   return (
     <nav className="nav-bar">
-      <NavLink to="/dragdrop" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-        Drag & Drop Game
-      </NavLink>
-      <NavLink to="/timed" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-        Timed Question Game
-      </NavLink>
-      <NavLink to="/memory" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-        Memory Card Game
-      </NavLink>
-      <NavLink to="/profile" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-        Profile
-      </NavLink>
+      <Menu
+        mode="horizontal"
+        selectedKeys={[location.pathname]}
+        style={{
+          background: "transparent",
+          border: "none",
+          boxShadow: "none",
+          display: "flex",
+          gap: "2rem"
+        }}
+        items={navItems.map(item => ({
+          key: item.key,
+          label: (
+            <NavLink
+              to={item.key}
+              className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
+            >
+              {item.label}
+            </NavLink>
+          ),
+        }))}
+      />
     </nav>
   );
 }
