@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import NavBar from './NavBar';
 import DragDropGame from './DragDropGame';
 import TimedQuestionGame from './TimedQuestionGame';
+import { ProfilePage } from './ProfilePage';
 import './App.css';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Navigate to="/dragdrop" />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/dragdrop" element={<DragDropGame />} />
         <Route
           path="/timed"
