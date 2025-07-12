@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 export default function SignUp(): React.JSX.Element {
   const [email, setEmail] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignUp = (): void => {
-    // In a real app, this would send to backend or localStorage
-    alert(`Signed up with:\nEmail: ${email}\nUsername: ${username}`);
+    if (username.trim() && email.trim() && password.trim()) {
+      // In a real app, this would send to backend
+      login(username);
+      navigate('/');
+    } else {
+      alert('Please fill in all fields');
+    }
   };
 
   return (

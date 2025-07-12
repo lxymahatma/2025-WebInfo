@@ -1,8 +1,10 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Menu } from "antd";
+import { Menu, Button } from "antd";
+import { useAuth } from './AuthContext';
 
 const navItems = [
+  { key: "/", label: "🏠 Home" },
   { key: "/dragdrop", label: "Drag & Drop Game" },
   { key: "/timed", label: "Timed Question Game" },
   { key: "/memory", label: "Memory Card Game" },
@@ -11,9 +13,10 @@ const navItems = [
 
 export default function NavBar() {
   const location = useLocation();
+  const { logout, user } = useAuth();
 
   return (
-    <nav className="nav-bar">
+    <nav className="nav-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 2rem', minHeight: '50px' }}>
       <Menu
         mode="horizontal"
         selectedKeys={[location.pathname]}
@@ -22,7 +25,9 @@ export default function NavBar() {
           border: "none",
           boxShadow: "none",
           display: "flex",
-          gap: "2rem"
+          gap: "2rem",
+          flex: 1,
+          lineHeight: "48px"
         }}
         items={navItems.map(item => ({
           key: item.key,
@@ -36,6 +41,12 @@ export default function NavBar() {
           ),
         }))}
       />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <span>Welcome, <strong>{user}</strong>!</span>
+        <Button type="primary" danger onClick={logout}>
+          Logout
+        </Button>
+      </div>
     </nav>
   );
 }

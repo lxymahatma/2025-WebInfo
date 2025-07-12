@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 export default function SignIn(): React.JSX.Element {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignIn = (): void => {
-    // In real app, validate against stored credentials
-    alert(`Signed in as: ${username}`);
+    if (username.trim()) {
+      login(username);
+      navigate('/');
+    } else {
+      alert('Please enter a username');
+    }
   };
 
   return (
