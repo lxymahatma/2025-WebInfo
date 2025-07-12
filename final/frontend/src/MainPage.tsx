@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
 export default function MainPage(): React.JSX.Element {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="main-page-container">
@@ -13,19 +13,22 @@ export default function MainPage(): React.JSX.Element {
           <p>
             Welcome, <strong>{user}</strong>!
           </p>
+          <p>Choose a game to play:</p>
 
-          <Link to="/dragdrop" className="main-page-link">
-            Play Drag & Drop
-          </Link>
-          <Link to="/timed" className="main-page-link">
-            Play Timed Quiz
-          </Link>
-
-          <br />
-
-          <button className="main-page-logout-btn" onClick={logout}>
-            Logout
-          </button>
+          <div className="game-links">
+            <Link to="/dragdrop" className="main-page-link">
+              🎯 Play Drag & Drop
+            </Link>
+            <Link to="/timed" className="main-page-link">
+              ⏰ Play Timed Quiz
+            </Link>
+            <Link to="/memory" className="main-page-link">
+              🧠 Play Memory Card Game
+            </Link>
+            <Link to="/profile" className="main-page-link">
+              👤 View Profile
+            </Link>
+          </div>
         </>
       ) : (
         <>
