@@ -1,18 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-// Define types directly in this file
-interface CardType {
-  type: string;
-  id: number;
-  matched: boolean;
-}
-
-interface CardProps {
-  card: CardType;
-  flipped: boolean;
-  handleChoice: (card: CardType) => void;
-  disabled: boolean;
-}
+import { CardType, CardProps } from './types/memory-card';
 
 const cardTypes = ['Elephant', 'Lion', 'Cat', 'Car'];
 
