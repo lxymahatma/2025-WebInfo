@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { AuthContextType, AuthProviderProps } from './types/auth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,7 +37,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-    localStorage.removeItem('userId');
   };
 
   return <AuthContext.Provider value={{ user, signin, signout }}>{children}</AuthContext.Provider>;

@@ -75,7 +75,6 @@ app.post("/signup", (req, res) => {
   }
 
   const newUser: User = {
-    id: db.users.length ? Math.max(...db.users.map((u) => u.id)) + 1 : 1,
     username,
     password,
   };
@@ -83,10 +82,10 @@ app.post("/signup", (req, res) => {
   db.users.push(newUser);
   writeUserDB(db);
 
-  const token = jwt.sign({ id: newUser.id, username: newUser.username }, SECRET, {
+  const token = jwt.sign({ username: newUser.username }, SECRET, {
     expiresIn: "1h",
   });
-  res.json({ token, userId: newUser.id, username: newUser.username });
+  res.json({ token, username: newUser.username });
 });
 
 app.post("/signin", (req, res) => {
@@ -95,8 +94,8 @@ app.post("/signin", (req, res) => {
   const user = db.users.find((u) => u.username === username && u.password === password);
 
   if (user) {
-    const token = jwt.sign({ id: user.id, username: user.username }, SECRET, { expiresIn: "1h" });
-    res.json({ token, userId: user.id, username: user.username });
+    const token = jwt.sign({ username: user.username }, SECRET, { expiresIn: "1h" });
+    res.json({ token, username: user.username });
   } else {
     res.status(401).json({ message: "Invalid credentials" });
   }
@@ -118,29 +117,15 @@ app.get("/dragdrop/pairs", verifyToken, (req, res) => {
 
 app.get("/profile", verifyToken, (req: any, res) => {
   const userDb = readUserDB();
-  const memoryDb = readMemoryCards();
-  const dragDropDb = readDragDropDB();
 
-  const user = userDb.users.find((u) => u.id === req.user.id);
+  const user = userDb.users.find((u) => u.username === req.user.username);
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
 
-  //   const memoryScores = memoryDb.scores.filter((s) => s.userId === req.user.id);
-  const dragDropScores = dragDropDb.scores.filter((s) => s.userId === req.user.id);
-
   res.json({
     user: {
-      id: user.id,
       username: user.username,
-      email: user.email,
-    },
-    stats: {
-      //   memoryGamesPlayed: memoryScores.length,
-      //   memoryBestScore: memoryScores.length > 0 ? Math.max(...memoryScores.map((s) => s.score)) : 0,
-      dragDropGamesPlayed: dragDropScores.length,
-      dragDropBestScore:
-        dragDropScores.length > 0 ? Math.max(...dragDropScores.map((s) => s.score)) : 0,
     },
   });
 });
