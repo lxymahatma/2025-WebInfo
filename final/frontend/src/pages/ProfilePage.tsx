@@ -35,7 +35,6 @@ const { Text } = Typography;
 export default function ProfilePage(): React.JSX.Element {
   const { user } = useAuth();
 
-  // Sample profile state
   const [profile, setProfile] = useState({
     name: 'Loading...',
     password: '',
@@ -213,11 +212,47 @@ export default function ProfilePage(): React.JSX.Element {
     setEditModal(true);
   };
 
-  const handleSave = () => {
-    setProfile(editingProfile);
-    setActualPassword(editingProfile.password); // Update the actual password
-    setEditModal(false);
-    message.success('Profile updated successfully!');
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        message.error('No authentication token found');
+        return;
+      }
+
+      const response = await fetch('http://localhost:3001/profile', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: editingProfile.name,
+          password: editingProfile.password,
+        }),
+      });
+
+      if (response.ok) {
+        const updatedData = await response.json();
+
+        setProfile(prev => ({
+          ...prev,
+          name: updatedData.user.username,
+          password: updatedData.user.password,
+        }));
+        setActualPassword(updatedData.user.password);
+
+        setEditModal(false);
+        message.success('Profile updated successfully!');
+      } else {
+        const errorData = await response.json();
+        message.error(`Failed to update profile: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      message.error('Network error occurred while updating profile');
+    }
   };
 
   // Handle profile picture change
@@ -272,24 +307,16 @@ export default function ProfilePage(): React.JSX.Element {
       <Row justify="center" align="middle" className="profile-main-row">
         {/* Left Section */}
         <Col xs={24} md={7} className="profile-left-col">
-          <Card
-            className="profile-left-card"
-            bodyStyle={{ padding: 32, paddingBottom: 12 }}
-          >
+          <Card className="profile-left-card" bodyStyle={{ padding: 32, paddingBottom: 12 }}>
             <div className="profile-avatar-section">
               <Avatar size={56} src={profile.profilePicture} />
               <div>
-                <Text
-                  strong
-                  className="profile-username"
-                >
+                <Text strong className="profile-username">
                   {profile.name}
                 </Text>
               </div>
             </div>
-            <Divider
-              className="profile-divider"
-            />
+            <Divider className="profile-divider" />
             <Menu
               mode="vertical"
               className="profile-menu"
@@ -303,52 +330,33 @@ export default function ProfilePage(): React.JSX.Element {
             >
               <Menu.Item
                 key="profile"
-                icon={
-                  <UserOutlined
-                    className="profile-menu-icon"
-                  />
-                }
+                icon={<UserOutlined className="profile-menu-icon" />}
                 className="profile-menu-item"
               >
                 {t.myProfile}
               </Menu.Item>
               <Menu.Item
                 key="settings"
-                icon={
-                  <SettingOutlined
-                    className="profile-menu-icon"
-                  />
-                }
+                icon={<SettingOutlined className="profile-menu-icon" />}
                 className="profile-menu-item"
               >
                 {t.settings}
               </Menu.Item>
               <Menu.Item
                 key="items"
-                icon={
-                  <BellOutlined
-                    className="profile-menu-icon"
-                  />
-                }
+                icon={<BellOutlined className="profile-menu-icon" />}
                 className="profile-menu-item"
               >
                 <Space>
                   {t.items}
                   <Dropdown overlay={itemsMenu} trigger={['click']}>
-                    <Button
-                      size="small"
-                      type="link"
-                      className="profile-items-dropdown-button"
-                    >
+                    <Button size="small" type="link" className="profile-items-dropdown-button">
                       {profile.equippedEmojis.length} <DownOutlined className="profile-items-dropdown-icon" />
                     </Button>
                   </Dropdown>
                 </Space>
               </Menu.Item>
-              <Menu.Item
-                key="language"
-                className="profile-menu-item"
-              >
+              <Menu.Item key="language" className="profile-menu-item">
                 <Space>
                   {t.language}
                   <Select
@@ -369,10 +377,7 @@ export default function ProfilePage(): React.JSX.Element {
 
         {/* Right Section */}
         <Col xs={24} md={10}>
-          <Card
-            className="profile-right-card"
-            bodyStyle={{ padding: 40, paddingBottom: 28 }}
-          >
+          <Card className="profile-right-card" bodyStyle={{ padding: 40, paddingBottom: 28 }}>
             {activeSection === 'profile' ? (
               // Profile Section
               <>
@@ -380,10 +385,7 @@ export default function ProfilePage(): React.JSX.Element {
                   <Avatar size={64} src={profile.profilePicture} />
                   <div className="profile-header-info">
                     <div className="profile-header-name-row">
-                      <Text
-                        strong
-                        className="profile-header-name"
-                      >
+                      <Text strong className="profile-header-name">
                         {profile.name}
                       </Text>
                       {profile.equippedEmojis.map((emoji, index) => (
@@ -395,32 +397,16 @@ export default function ProfilePage(): React.JSX.Element {
                   </div>
                   <Button type="text" icon={<EditOutlined />} onClick={openEdit} className="profile-edit-button" />
                 </div>
-                <Divider
-                  className="profile-divider"
-                />
+                <Divider className="profile-divider" />
                 <div className="profile-info-section">
                   <div className="profile-info-row">
-                    <span
-                      className="profile-info-label"
-                    >
-                      {t.name}
-                    </span>
-                    <span
-                      className="profile-info-value"
-                    >
-                      {profile.name}
-                    </span>
+                    <span className="profile-info-label">{t.name}</span>
+                    <span className="profile-info-value">{profile.name}</span>
                   </div>
 
                   <div className="profile-info-row">
-                    <span
-                      className="profile-info-label"
-                    >
-                      {t.password}
-                    </span>
-                    <span
-                      className="profile-info-value profile-password-display"
-                    >
+                    <span className="profile-info-label">{t.password}</span>
+                    <span className="profile-info-value profile-password-display">
                       {showPassword ? actualPassword || profile.password : '•'.repeat(8)}
                       <Button
                         type="text"
@@ -437,35 +423,21 @@ export default function ProfilePage(): React.JSX.Element {
               // Settings Section - Profile Picture
               <>
                 <div className="profile-settings-section-header">
-                  <SettingOutlined
-                    className="profile-settings-icon"
-                  />
-                  <Text
-                    strong
-                    className="profile-settings-section-title"
-                  >
+                  <SettingOutlined className="profile-settings-icon" />
+                  <Text strong className="profile-settings-section-title">
                     {t.profileSettings}
                   </Text>
                 </div>
-                <Divider
-                  className="profile-divider"
-                />
+                <Divider className="profile-divider" />
 
                 <div className="profile-picture-section">
                   <div className="profile-picture-avatar-container">
                     <Avatar size={120} src={profile.profilePicture} />
                   </div>
-                  <Text
-                    strong
-                    className="profile-picture-title"
-                  >
+                  <Text strong className="profile-picture-title">
                     {t.profilePicture}
                   </Text>
-                  <Text
-                    className="profile-picture-subtitle"
-                  >
-                    {t.changeProfilePicture}
-                  </Text>
+                  <Text className="profile-picture-subtitle">{t.changeProfilePicture}</Text>
 
                   <Space direction="vertical" className="profile-upload-space">
                     <Upload
@@ -493,11 +465,7 @@ export default function ProfilePage(): React.JSX.Element {
                         }
                       }}
                     />
-                    <Text
-                      className="profile-preset-text"
-                    >
-                      {t.chooseFromPresets}
-                    </Text>
+                    <Text className="profile-preset-text">{t.chooseFromPresets}</Text>
                     <div className="profile-preset-avatars">
                       {[
                         'https://randomuser.me/api/portraits/men/32.jpg',
@@ -512,9 +480,7 @@ export default function ProfilePage(): React.JSX.Element {
                           size={48}
                           src={url}
                           className={`profile-preset-avatar ${
-                            profile.profilePicture === url
-                              ? 'profile-preset-avatar-selected'
-                              : 'profile-preset-avatar'
+                            profile.profilePicture === url ? 'profile-preset-avatar-selected' : 'profile-preset-avatar'
                           }`}
                           onClick={() => handleProfilePictureChange(url)}
                         />
@@ -570,10 +536,7 @@ export default function ProfilePage(): React.JSX.Element {
         width={600}
       >
         <div className="profile-modal-equipped-section">
-          <Text
-            strong
-            className="profile-equipped-items-text"
-          >
+          <Text strong className="profile-equipped-items-text">
             {t.equippedItems} ({profile.equippedEmojis.length}):{' '}
           </Text>
           {profile.equippedEmojis.length > 0 ? (
@@ -585,23 +548,14 @@ export default function ProfilePage(): React.JSX.Element {
               ))}
             </div>
           ) : (
-            <Text
-              className="profile-no-items-text"
-            >
-              {t.noItemsEquipped}
-            </Text>
+            <Text className="profile-no-items-text">{t.noItemsEquipped}</Text>
           )}
         </div>
 
-        <Divider
-          className="profile-divider"
-        />
+        <Divider className="profile-divider" />
 
         <div>
-          <Text
-            strong
-            className="profile-available-items-text"
-          >
+          <Text strong className="profile-available-items-text">
             {t.availableItems}
           </Text>
           <div className="profile-emoji-grid">
@@ -609,9 +563,7 @@ export default function ProfilePage(): React.JSX.Element {
               <div
                 key={index}
                 className={`profile-emoji-item ${
-                  profile.equippedEmojis.includes(emoji)
-                    ? 'profile-emoji-item-equipped'
-                    : 'profile-emoji-item'
+                  profile.equippedEmojis.includes(emoji) ? 'profile-emoji-item-equipped' : 'profile-emoji-item'
                 }`}
                 onClick={() => toggleEmoji(emoji)}
               >

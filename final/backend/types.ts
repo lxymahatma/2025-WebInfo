@@ -41,6 +41,11 @@ interface UpdateGameStatsRequest {
   gameType: "dragdrop" | "timed" | "memory";
 }
 
+interface UpdateProfileRequestBody {
+  username?: string;
+  password?: string;
+}
+
 // User types
 interface GameStats {
   dragdrop: number;
@@ -114,6 +119,7 @@ export {
   GameStats,
   GameStatsResponse,
   UpdateGameStatsRequest,
+  UpdateProfileRequestBody,
   MemoryCard,
   MemoryDB,
   MemoryGameScore,
