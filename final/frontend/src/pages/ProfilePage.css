@@ -526,8 +526,8 @@
 
 /* Password display with toggle icon */
 .profile-password-display {
-  display: flex;
   align-items: center;
+  display: flex;
   gap: 8px;
 }
 

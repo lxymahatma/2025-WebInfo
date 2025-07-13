@@ -30,11 +30,11 @@ import {
 import './ProfilePage.css';
 import { useAuth } from '../AuthContext';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 export default function ProfilePage(): React.JSX.Element {
   const { user } = useAuth();
-  
+
   // Sample profile state
   const [profile, setProfile] = useState({
     name: 'Loading...',
@@ -55,60 +55,55 @@ export default function ProfilePage(): React.JSX.Element {
     const loadUserData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const username = localStorage.getItem('username') || user;
-        
+
         if (!token) {
           console.error('No token found');
+          setProfile(prev => ({
+            ...prev,
+            name: 'No token',
+            password: 'N/A',
+          }));
           return;
         }
-        
-        // Load profile info from backend
-        try {
-          const profileResponse = await fetch('http://localhost:3001/profile', {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          });
-          
-          if (profileResponse.ok) {
-            const profileData = await profileResponse.json();
-            if (profileData.user) {
-              setProfile(prev => ({
-                ...prev,
-                name: profileData.user.username,
-              }));
-            }
+
+        const profileResponse = await fetch('http://localhost:3001/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (profileResponse.ok) {
+          const profileData = await profileResponse.json();
+          if (profileData.user) {
+            setProfile(prev => ({
+              ...prev,
+              name: profileData.user.username,
+              password: profileData.user.password,
+            }));
+            setActualPassword(profileData.user.password);
+          } else {
+            console.error('No user data in response');
+            setProfile(prev => ({
+              ...prev,
+              name: 'Error',
+              password: 'N/A',
+            }));
           }
-        } catch (error) {
-          console.error('Backend not available, using fallback data');
+        } else {
+          console.error('Failed to fetch profile:', profileResponse.status);
+          setProfile(prev => ({
+            ...prev,
+            name: 'Fetch failed',
+            password: 'N/A',
+          }));
         }
-        
-        // Demo passwords for different users (in a real app, this would be handled securely)
-        const demoPasswords: { [key: string]: string } = {
-          'admin': 'admin123',
-          'test': 'test123',
-          'user': 'password123',
-        };
-        
-        const currentUsername = username || 'admin';
-        const demoPassword = demoPasswords[currentUsername] || 'password123';
-        
-        setActualPassword(demoPassword);
-        setProfile(prev => ({
-          ...prev,
-          name: currentUsername,
-          password: demoPassword,
-        }));
-        
       } catch (error) {
         console.error('Error loading user data:', error);
-        // Fallback to default demo data
-        setActualPassword('admin123');
         setProfile(prev => ({
           ...prev,
-          name: 'admin',
-          password: 'admin123',
+          name: 'Network error',
+          password: 'N/A',
         }));
       }
     };
@@ -487,7 +482,7 @@ export default function ProfilePage(): React.JSX.Element {
                         theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'
                       }`}
                     >
-                      {showPassword ? (actualPassword || profile.password) : '•'.repeat(8)}
+                      {showPassword ? actualPassword || profile.password : '•'.repeat(8)}
                       <Button
                         type="text"
                         size="small"

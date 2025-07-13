@@ -233,6 +233,7 @@ app.get(
     res.json({
       user: {
         username: user.username,
+        password: user.password,
       },
     });
   }

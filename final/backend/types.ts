@@ -29,6 +29,7 @@ interface ErrorResponse {
 interface ProfileResponse {
   user: {
     username: string;
+    password: string;
   };
 }
 
