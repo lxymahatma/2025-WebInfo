@@ -27,6 +27,7 @@ export default function HomePage(): React.JSX.Element {
 
       <div className="homepage-content">
         <div className="homepage-hero">
+          <img src="/Logo.png" alt="Game Platform Logo" className="homepage-logo" />
           <Title level={1} className="homepage-title">
             🎮 Game Platform
           </Title>

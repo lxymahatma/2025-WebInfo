@@ -44,6 +44,14 @@
   text-align: center;
 }
 
+.homepage-logo {
+  display: block;
+  height: auto;
+  margin: 0 auto 2rem auto;
+  max-width: 400px;
+  width: 100%;
+}
+
 .homepage-title {
   color: white !important;
   font-size: 3.5rem !important;
