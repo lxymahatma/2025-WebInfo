@@ -28,7 +28,7 @@ import {
 
 const { Title, Text } = Typography;
 
-export default function ProfilePage() {
+export default function ProfilePage(): React.JSX.Element {
   // Sample profile state
   const [profile, setProfile] = useState({
     name: 'Your name',
@@ -241,12 +241,19 @@ export default function ProfilePage() {
             <div className="profile-avatar-section">
               <Avatar size={56} src={profile.profilePicture} />
               <div>
-                <Text strong className={`profile-username ${theme === 'Light' ? 'profile-username-light' : 'profile-username-dark'}`}>
+                <Text
+                  strong
+                  className={`profile-username ${
+                    theme === 'Light' ? 'profile-username-light' : 'profile-username-dark'
+                  }`}
+                >
                   {profile.name}
                 </Text>
               </div>
             </div>
-            <Divider className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`} />
+            <Divider
+              className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`}
+            />
             <Menu
               mode="vertical"
               className="profile-menu"
@@ -260,22 +267,46 @@ export default function ProfilePage() {
             >
               <Menu.Item
                 key="profile"
-                icon={<UserOutlined className={`profile-menu-icon ${theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'}`} />}
-                className={`profile-menu-item ${theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'}`}
+                icon={
+                  <UserOutlined
+                    className={`profile-menu-icon ${
+                      theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'
+                    }`}
+                  />
+                }
+                className={`profile-menu-item ${
+                  theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'
+                }`}
               >
                 {t.myProfile}
               </Menu.Item>
               <Menu.Item
                 key="settings"
-                icon={<SettingOutlined className={`profile-menu-icon ${theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'}`} />}
-                className={`profile-menu-item ${theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'}`}
+                icon={
+                  <SettingOutlined
+                    className={`profile-menu-icon ${
+                      theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'
+                    }`}
+                  />
+                }
+                className={`profile-menu-item ${
+                  theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'
+                }`}
               >
                 {t.settings}
               </Menu.Item>
               <Menu.Item
                 key="items"
-                icon={<BellOutlined className={`profile-menu-icon ${theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'}`} />}
-                className={`profile-menu-item ${theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'}`}
+                icon={
+                  <BellOutlined
+                    className={`profile-menu-icon ${
+                      theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'
+                    }`}
+                  />
+                }
+                className={`profile-menu-item ${
+                  theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'
+                }`}
               >
                 <Space>
                   {t.items}
@@ -283,7 +314,9 @@ export default function ProfilePage() {
                     <Button
                       size="small"
                       type="link"
-                      className={`profile-items-dropdown-button ${theme === 'Light' ? 'profile-items-dropdown-button-light' : 'profile-items-dropdown-button-dark'}`}
+                      className={`profile-items-dropdown-button ${
+                        theme === 'Light' ? 'profile-items-dropdown-button-light' : 'profile-items-dropdown-button-dark'
+                      }`}
                     >
                       {profile.equippedEmojis.length} <DownOutlined className="profile-items-dropdown-icon" />
                     </Button>
@@ -292,8 +325,16 @@ export default function ProfilePage() {
               </Menu.Item>
               <Menu.Item
                 key="logout"
-                icon={<LogoutOutlined className={`profile-menu-icon ${theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'}`} />}
-                className={`profile-menu-item ${theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'}`}
+                icon={
+                  <LogoutOutlined
+                    className={`profile-menu-icon ${
+                      theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'
+                    }`}
+                  />
+                }
+                className={`profile-menu-item ${
+                  theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'
+                }`}
               >
                 {t.logOut}
               </Menu.Item>
@@ -301,18 +342,31 @@ export default function ProfilePage() {
           </Card>
           {/* Settings Popup */}
           <Card
-            className={`profile-settings-card ${theme === 'Light' ? 'profile-settings-card-light' : 'profile-settings-card-dark'}`}
+            className={`profile-settings-card ${
+              theme === 'Light' ? 'profile-settings-card-light' : 'profile-settings-card-dark'
+            }`}
             bodyStyle={{ padding: 24 }}
           >
             <div className="profile-settings-header">
-              <Text strong className={`profile-settings-title ${theme === 'Light' ? 'profile-settings-title-light' : 'profile-settings-title-dark'}`}>
+              <Text
+                strong
+                className={`profile-settings-title ${
+                  theme === 'Light' ? 'profile-settings-title-light' : 'profile-settings-title-dark'
+                }`}
+              >
                 {t.settings}
               </Text>
               <Button shape="circle" size="small" type="text" icon={<CloseIcon />} />
             </div>
-            <Divider className={`profile-settings-divider ${theme === 'Light' ? 'profile-settings-divider-light' : 'profile-settings-divider-dark'}`} />
+            <Divider
+              className={`profile-settings-divider ${
+                theme === 'Light' ? 'profile-settings-divider-light' : 'profile-settings-divider-dark'
+              }`}
+            />
             <div className="profile-settings-row">
-              <span className={`${theme === 'Light' ? 'profile-settings-label-light' : 'profile-settings-label-dark'}`}>{t.theme}</span>
+              <span className={`${theme === 'Light' ? 'profile-settings-label-light' : 'profile-settings-label-dark'}`}>
+                {t.theme}
+              </span>
               <Select
                 size="small"
                 value={theme}
@@ -325,7 +379,9 @@ export default function ProfilePage() {
               />
             </div>
             <div className="profile-settings-row">
-              <span className={`${theme === 'Light' ? 'profile-settings-label-light' : 'profile-settings-label-dark'}`}>{t.language}</span>
+              <span className={`${theme === 'Light' ? 'profile-settings-label-light' : 'profile-settings-label-dark'}`}>
+                {t.language}
+              </span>
               <Select
                 size="small"
                 value={lang}
@@ -343,7 +399,9 @@ export default function ProfilePage() {
         {/* Right Section */}
         <Col xs={24} md={10}>
           <Card
-            className={`profile-right-card ${theme === 'Light' ? 'profile-right-card-light' : 'profile-right-card-dark'}`}
+            className={`profile-right-card ${
+              theme === 'Light' ? 'profile-right-card-light' : 'profile-right-card-dark'
+            }`}
             bodyStyle={{ padding: 40, paddingBottom: 28 }}
           >
             {activeSection === 'profile' ? (
@@ -353,7 +411,12 @@ export default function ProfilePage() {
                   <Avatar size={64} src={profile.profilePicture} />
                   <div className="profile-header-info">
                     <div className="profile-header-name-row">
-                      <Text strong className={`profile-header-name ${theme === 'Light' ? 'profile-header-name-light' : 'profile-header-name-dark'}`}>
+                      <Text
+                        strong
+                        className={`profile-header-name ${
+                          theme === 'Light' ? 'profile-header-name-light' : 'profile-header-name-dark'
+                        }`}
+                      >
                         {profile.name}
                       </Text>
                       {profile.equippedEmojis.map((emoji, index) => (
@@ -365,16 +428,40 @@ export default function ProfilePage() {
                   </div>
                   <Button type="text" icon={<EditOutlined />} onClick={openEdit} className="profile-edit-button" />
                 </div>
-                <Divider className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`} />
+                <Divider
+                  className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`}
+                />
                 <div className="profile-info-section">
                   <div className="profile-info-row">
-                    <span className={`profile-info-label ${theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'}`}>{t.name}</span>
-                    <span className={`profile-info-value ${theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'}`}>{profile.name}</span>
+                    <span
+                      className={`profile-info-label ${
+                        theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'
+                      }`}
+                    >
+                      {t.name}
+                    </span>
+                    <span
+                      className={`profile-info-value ${
+                        theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'
+                      }`}
+                    >
+                      {profile.name}
+                    </span>
                   </div>
 
                   <div className="profile-info-row">
-                    <span className={`profile-info-label ${theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'}`}>{t.age}</span>
-                    <span className={`profile-info-value ${theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'}`}>
+                    <span
+                      className={`profile-info-label ${
+                        theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'
+                      }`}
+                    >
+                      {t.age}
+                    </span>
+                    <span
+                      className={`profile-info-value ${
+                        theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'
+                      }`}
+                    >
                       {profile.age ? (
                         profile.age
                       ) : (
@@ -385,14 +472,23 @@ export default function ProfilePage() {
                     </span>
                   </div>
                   <div className="profile-info-row">
-                    <span className={`profile-info-label ${theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'}`}>{t.location}</span>
-                    <span className={`profile-info-value ${theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'}`}>{profile.location}</span>
+                    <span
+                      className={`profile-info-label ${
+                        theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'
+                      }`}
+                    >
+                      {t.location}
+                    </span>
+                    <span
+                      className={`profile-info-value ${
+                        theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'
+                      }`}
+                    >
+                      {profile.location}
+                    </span>
                   </div>
                 </div>
-                <Button
-                  type="primary"
-                  className="profile-save-button"
-                >
+                <Button type="primary" className="profile-save-button">
                   {t.saveChange}
                 </Button>
               </>
@@ -400,12 +496,23 @@ export default function ProfilePage() {
               // Settings Section - Profile Picture
               <>
                 <div className="profile-settings-section-header">
-                  <SettingOutlined className={`profile-settings-icon ${theme === 'Light' ? 'profile-settings-icon-light' : 'profile-settings-icon-dark'}`} />
-                  <Text strong className={`profile-settings-section-title ${theme === 'Light' ? 'profile-settings-section-title-light' : 'profile-settings-section-title-dark'}`}>
+                  <SettingOutlined
+                    className={`profile-settings-icon ${
+                      theme === 'Light' ? 'profile-settings-icon-light' : 'profile-settings-icon-dark'
+                    }`}
+                  />
+                  <Text
+                    strong
+                    className={`profile-settings-section-title ${
+                      theme === 'Light' ? 'profile-settings-section-title-light' : 'profile-settings-section-title-dark'
+                    }`}
+                  >
                     {t.profileSettings}
                   </Text>
                 </div>
-                <Divider className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`} />
+                <Divider
+                  className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`}
+                />
 
                 <div className="profile-picture-section">
                   <div className="profile-picture-avatar-container">
@@ -413,11 +520,17 @@ export default function ProfilePage() {
                   </div>
                   <Text
                     strong
-                    className={`profile-picture-title ${theme === 'Light' ? 'profile-picture-title-light' : 'profile-picture-title-dark'}`}
+                    className={`profile-picture-title ${
+                      theme === 'Light' ? 'profile-picture-title-light' : 'profile-picture-title-dark'
+                    }`}
                   >
                     {t.profilePicture}
                   </Text>
-                  <Text className={`profile-picture-subtitle ${theme === 'Light' ? 'profile-picture-subtitle-light' : 'profile-picture-subtitle-dark'}`}>
+                  <Text
+                    className={`profile-picture-subtitle ${
+                      theme === 'Light' ? 'profile-picture-subtitle-light' : 'profile-picture-subtitle-dark'
+                    }`}
+                  >
                     {t.changeProfilePicture}
                   </Text>
 
@@ -428,10 +541,7 @@ export default function ProfilePage() {
                       showUploadList={false}
                       className="profile-upload-space"
                     >
-                      <Button
-                        icon={<UploadOutlined />}
-                        className="profile-upload-button"
-                      >
+                      <Button icon={<UploadOutlined />} className="profile-upload-button">
                         {t.uploadFromDevice}
                       </Button>
                     </Upload>
@@ -450,7 +560,13 @@ export default function ProfilePage() {
                         }
                       }}
                     />
-                    <Text className={`profile-preset-text ${theme === 'Light' ? 'profile-preset-text-light' : 'profile-preset-text-dark'}`}>{t.chooseFromPresets}</Text>
+                    <Text
+                      className={`profile-preset-text ${
+                        theme === 'Light' ? 'profile-preset-text-light' : 'profile-preset-text-dark'
+                      }`}
+                    >
+                      {t.chooseFromPresets}
+                    </Text>
                     <div className="profile-preset-avatars">
                       {[
                         'https://randomuser.me/api/portraits/men/32.jpg',
@@ -465,11 +581,11 @@ export default function ProfilePage() {
                           size={48}
                           src={url}
                           className={`profile-preset-avatar ${
-                            profile.profilePicture === url 
-                              ? 'profile-preset-avatar-selected' 
-                              : theme === 'Light' 
-                                ? 'profile-preset-avatar-light' 
-                                : 'profile-preset-avatar-dark'
+                            profile.profilePicture === url
+                              ? 'profile-preset-avatar-selected'
+                              : theme === 'Light'
+                              ? 'profile-preset-avatar-light'
+                              : 'profile-preset-avatar-dark'
                           }`}
                           onClick={() => handleProfilePictureChange(url)}
                         />
@@ -478,11 +594,7 @@ export default function ProfilePage() {
                   </Space>
                 </div>
 
-                <Button
-                  type="primary"
-                  className="profile-back-button"
-                  onClick={() => setActiveSection('profile')}
-                >
+                <Button type="primary" className="profile-back-button" onClick={() => setActiveSection('profile')}>
                   {t.backToProfile}
                 </Button>
               </>
@@ -533,7 +645,12 @@ export default function ProfilePage() {
         width={600}
       >
         <div className="profile-modal-equipped-section">
-          <Text strong className={`profile-equipped-items-text ${theme === 'Light' ? 'profile-equipped-items-text-light' : 'profile-equipped-items-text-dark'}`}>
+          <Text
+            strong
+            className={`profile-equipped-items-text ${
+              theme === 'Light' ? 'profile-equipped-items-text-light' : 'profile-equipped-items-text-dark'
+            }`}
+          >
             {t.equippedItems} ({profile.equippedEmojis.length}):{' '}
           </Text>
           {profile.equippedEmojis.length > 0 ? (
@@ -545,14 +662,27 @@ export default function ProfilePage() {
               ))}
             </div>
           ) : (
-            <Text className={`profile-no-items-text ${theme === 'Light' ? 'profile-no-items-text-light' : 'profile-no-items-text-dark'}`}>{t.noItemsEquipped}</Text>
+            <Text
+              className={`profile-no-items-text ${
+                theme === 'Light' ? 'profile-no-items-text-light' : 'profile-no-items-text-dark'
+              }`}
+            >
+              {t.noItemsEquipped}
+            </Text>
           )}
         </div>
 
-        <Divider className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`} />
+        <Divider
+          className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`}
+        />
 
         <div>
-          <Text strong className={`profile-available-items-text ${theme === 'Light' ? 'profile-available-items-text-light' : 'profile-available-items-text-dark'}`}>
+          <Text
+            strong
+            className={`profile-available-items-text ${
+              theme === 'Light' ? 'profile-available-items-text-light' : 'profile-available-items-text-dark'
+            }`}
+          >
             {t.availableItems}
           </Text>
           <div className="profile-emoji-grid">
