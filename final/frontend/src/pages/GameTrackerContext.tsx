@@ -1,10 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-
-interface GameStats {
-  dragdrop: number;
-  timed: number;
-  memory: number;
-}
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { GameStats, GameTrackerProviderProps } from '../types/tracker';
 
 interface GameTrackerContextType {
   stats: GameStats;
@@ -23,10 +18,6 @@ export const useGameTracker = () => {
   }
   return context;
 };
-
-interface GameTrackerProviderProps {
-  children: ReactNode;
-}
 
 export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ children }) => {
   const [stats, setStats] = useState<GameStats>({
@@ -68,7 +59,6 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     }
   };
 
-  // Load stats from backend on component mount
   useEffect(() => {
     fetchStats();
     // eslint-disable-next-line react-hooks/exhaustive-deps
