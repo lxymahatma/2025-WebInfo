@@ -150,16 +150,24 @@ export default function DragDropGame(): React.JSX.Element {
       <div className="drag-drop-choices-card">
         <h3 className="drag-drop-choices-title">Available Choices</h3>
         <div className="drag-drop-token-row">
-          {currentPairs.map(({ id, label }: GamePair) => (
-            <div
-              key={id}
-              draggable={!solved[id]}
-              onDragStart={e => handleDragStart(e, id)}
-              className={`drag-drop-token ${solved[id] ? 'inactive' : ''}`}
-            >
-              {label}
-            </div>
-          ))}
+          {currentPairs.map(({ id, label }: GamePair) => {
+            // Split the label into emoji and text
+            const parts = label.split(' ');
+            const emoji = parts[0];
+            const text = parts.slice(1).join(' ');
+            
+            return (
+              <div
+                key={id}
+                draggable={!solved[id]}
+                onDragStart={e => handleDragStart(e, id)}
+                className={`drag-drop-token ${solved[id] ? 'inactive' : ''}`}
+              >
+                <div className="token-emoji">{emoji}</div>
+                <div className="token-text">{text}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="drag-drop-zone-grid">
@@ -177,3 +185,4 @@ export default function DragDropGame(): React.JSX.Element {
     </div>
   );
 }
+
