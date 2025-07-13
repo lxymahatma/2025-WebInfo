@@ -133,7 +133,7 @@ export default function TimedQuestionGame(): React.JSX.Element {
   if (!selectedSubject) {
     return (
       <div className="timed-question-container">
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <div className="timed-question-centered-wrapper">
           <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
             <Title level={2} style={{ marginBottom: 8 }}>
               🎯 Quiz Time!
@@ -196,7 +196,7 @@ export default function TimedQuestionGame(): React.JSX.Element {
 
     return (
       <div className="timed-question-container">
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <div className="timed-question-centered-wrapper">
           <Result
             status={status as any}
             title={title}
@@ -222,7 +222,7 @@ export default function TimedQuestionGame(): React.JSX.Element {
   if (loading) {
     return (
       <div className="timed-question-container">
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <div className="timed-question-centered-wrapper">
           <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
             <Title level={3}>Loading questions...</Title>
           </Card>
@@ -234,7 +234,7 @@ export default function TimedQuestionGame(): React.JSX.Element {
   if (questions.length === 0 && selectedSubject) {
     return (
       <div className="timed-question-container">
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <div className="timed-question-centered-wrapper">
           <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
             <Title level={3}>No questions available</Title>
             <Button type="primary" onClick={resetGame}>
@@ -249,14 +249,7 @@ export default function TimedQuestionGame(): React.JSX.Element {
   // Main quiz screen
   return (
     <div className="timed-question-container">
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '80vh',
-        }}
-      >
+      <div className="timed-question-centered-wrapper">
         <Card
           style={{
             maxWidth: 480,

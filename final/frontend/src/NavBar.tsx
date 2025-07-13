@@ -51,9 +51,6 @@ export default function NavBar() {
       
       <nav
         className={`nav-bar ${isVisible ? 'nav-visible' : 'nav-hidden'}`}
-        style={{
-          transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
-        }}
       >
       <div className="nav-menu">
         {navItems.map(item => (
@@ -66,7 +63,7 @@ export default function NavBar() {
           </NavLink>
         ))}
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <div className="nav-user-section">
         <span>
           Welcome, <strong>{user}</strong>!
         </span>
