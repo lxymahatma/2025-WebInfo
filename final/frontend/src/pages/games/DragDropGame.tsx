@@ -147,17 +147,20 @@ export default function DragDropGame(): React.JSX.Element {
         ))}
       </div>
 
-      <div className="drag-drop-token-row">
-        {currentPairs.map(({ id, label }: GamePair) => (
-          <div
-            key={id}
-            draggable={!solved[id]}
-            onDragStart={e => handleDragStart(e, id)}
-            className={`drag-drop-token ${solved[id] ? 'inactive' : ''}`}
-          >
-            {label}
-          </div>
-        ))}
+      <div className="drag-drop-choices-card">
+        <h3 className="drag-drop-choices-title">Available Choices</h3>
+        <div className="drag-drop-token-row">
+          {currentPairs.map(({ id, label }: GamePair) => (
+            <div
+              key={id}
+              draggable={!solved[id]}
+              onDragStart={e => handleDragStart(e, id)}
+              className={`drag-drop-token ${solved[id] ? 'inactive' : ''}`}
+            >
+              {label}
+            </div>
+          ))}
+        </div>
       </div>
       <div className="drag-drop-zone-grid">
         {zoneLabels.map((zoneLabel: string) => (

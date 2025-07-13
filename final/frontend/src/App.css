@@ -514,12 +514,32 @@ body {
   transform: translateY(-1px);
 }
 
+.drag-drop-choices-card {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.drag-drop-choices-title {
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
 .drag-drop-token-row {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   justify-content: center;
-  margin-bottom: 1rem;
 }
 
 .drag-drop-token {
@@ -876,6 +896,17 @@ body {
 
   .drag-drop-root {
     padding: 1rem;
+  }
+
+  .drag-drop-choices-card {
+    padding: 16px;
+    margin-bottom: 1.5rem;
+    max-width: 100%;
+  }
+
+  .drag-drop-choices-title {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
   }
 
   .drag-drop-heading {
