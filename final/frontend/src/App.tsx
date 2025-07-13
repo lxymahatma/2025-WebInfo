@@ -1,16 +1,22 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
 import { GameTrackerProvider } from './pages/GameTrackerContext';
 import NavBar from './NavBar';
+
+// Pages
 import HomePage from './pages/HomePage';
-import DragDropGame from './pages/games/DragDropGame';
-import TimedQuestionGame from './pages/games/TimedQuestionGame';
-import ProfilePage from './pages/ProfilePage';
-import MemoryCardGame from './pages/games/MemoryCardGame';
 import GameTrackerPage from './pages/GameTrackerPage';
+import ProfilePage from './pages/ProfilePage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
+
+// Games
+import DragDropGame from './pages/games/DragDropGame';
+import MemoryCardGame from './pages/games/MemoryCardGame';
+import TimedQuestionGame from './pages/games/TimedQuestionGame';
+
 import './App.css';
 
 function AppContent() {
@@ -26,10 +32,10 @@ function AppContent() {
         <Route path="/signin" element={user ? <Navigate to="/" /> : <SignInPage />} />
         <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUpPage />} />
         <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/" />} />
-        <Route path="/dragdrop" element={user ? <DragDropGame /> : <Navigate to="/" />} />
-        <Route path="/timed" element={user ? <TimedQuestionGame /> : <Navigate to="/" />} />
-        <Route path="/memory" element={user ? <MemoryCardGame /> : <Navigate to="/" />} />
         <Route path="/tracker" element={user ? <GameTrackerPage /> : <Navigate to="/" />} />
+        <Route path="/dragdrop" element={user ? <DragDropGame /> : <Navigate to="/" />} />
+        <Route path="/memory" element={user ? <MemoryCardGame /> : <Navigate to="/" />} />
+        <Route path="/timed" element={user ? <TimedQuestionGame /> : <Navigate to="/" />} />
       </Routes>
     </>
   );
