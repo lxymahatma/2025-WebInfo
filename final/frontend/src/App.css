@@ -126,6 +126,7 @@ body {
 
 .homepage-header {
   align-items: center;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -257,6 +258,7 @@ body {
 }
 
 .feature-item {
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -291,6 +293,7 @@ body {
 }
 
 .homepage-auth-card {
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -355,99 +358,193 @@ body {
   color: white !important;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .homepage-header {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-    text-align: center;
-  }
-
-  .homepage-title {
-    font-size: 2.5rem !important;
-  }
-
-  .homepage-game-grid {
-    gap: 1.5rem;
-    grid-template-columns: 1fr;
-  }
-
-  .homepage-features {
-    gap: 1.5rem;
-    grid-template-columns: 1fr;
-  }
-
-  .homepage-auth-buttons {
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .homepage-auth-card {
-    margin: 1rem;
-    padding: 2rem 1.5rem;
-  }
-
-  .auth-button {
-    width: 200px;
-  }
+/* ---------- Game Tracker Page ---------- */
+.game-tracker-container {
+  padding: 24px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* ---------- Auth Pages (Sign In/Sign Up) ---------- */
-.auth-container {
-  align-items: center;
-  background: #f0f4ff;
-  display: flex;
-  font-family: system-ui, sans-serif;
-  height: 100vh;
+.game-tracker-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.game-tracker-main-card {
+  border-radius: 16px;
+  margin-bottom: 24px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.game-tracker-title-icon {
+  font-size: 48px;
+  color: #faad14;
+  margin-bottom: 16px;
+}
+
+.game-tracker-title {
+  margin: 0;
+  color: #1f1f1f;
+}
+
+.game-tracker-subtitle {
+  font-size: 18px;
+  color: #666;
+  margin: 0;
+}
+
+.game-tracker-stats-grid {
   justify-content: center;
 }
 
-.auth-card {
-  background: #fff;
+.game-tracker-stat-total {
+  color: #1890ff;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.game-tracker-stat-favorite {
+  color: #52c41a;
+  font-size: 20px;
+}
+
+.game-tracker-stat-available {
+  color: #722ed1;
+  font-size: 32px;
+}
+
+.game-tracker-reset-btn {
+  margin-top: 8px;
+}
+
+.game-tracker-game-card {
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  padding: 2.5rem;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.game-tracker-game-icon {
+  font-size: 64px;
+  margin-bottom: 12px;
+}
+
+.game-tracker-game-description {
+  color: #666;
+  margin: 8px 0 16px 0;
+}
+
+.game-tracker-stat-box {
+  border-radius: 12px;
+  padding: 20px;
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-tracker-stat-style {
+  font-weight: bold;
   text-align: center;
   width: 100%;
 }
 
-.auth-heading {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-}
-
-.auth-input {
-  border: 1px solid #ccc;
+.game-tracker-mastered-badge {
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
   border-radius: 8px;
-  box-sizing: border-box;
-  font-size: 1rem;
-  margin: 0.5rem 0;
-  padding: 0.75rem;
-  width: 100%;
+  padding: 12px;
+  width: 85%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.auth-button {
-  background-color: #4f46e5;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 1rem;
-  padding: 0.75rem;
-  width: 100%;
+.game-tracker-mastered-text {
+  margin: 0;
+  color: #52c41a;
+  font-weight: 500;
+  text-align: center;
 }
 
-.auth-link {
-  color: #4f46e5;
-  display: block;
-  font-size: 0.95rem;
-  margin-top: 1rem;
+.game-tracker-try-game-link {
   text-decoration: none;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.game-tracker-try-game-box {
+  background: #fff7e6;
+  border: 1px solid #ffd591;
+  border-radius: 8px;
+  padding: 12px;
+  width: 90%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-tracker-try-game-text {
+  margin: 0;
+  color: #fa8c16;
+  font-weight: 500;
+  text-align: center;
+}
+
+.game-tracker-welcome-card {
+  border-radius: 16px;
+  margin-top: 24px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.game-tracker-welcome-icon {
+  font-size: 72px;
+}
+
+.game-tracker-welcome-title {
+  color: #1890ff;
+}
+
+.game-tracker-welcome-text {
+  font-size: 16px;
+  color: #666;
+}
+
+.game-tracker-champion-card {
+  border-radius: 16px;
+  margin-top: 24px;
+  text-align: center;
+  background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+  color: white;
+}
+
+.game-tracker-champion-icon {
+  font-size: 64px;
+}
+
+.game-tracker-champion-title {
+  color: white;
+  margin: 0;
+}
+
+.game-tracker-champion-text {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
 }
 
 /* ---------- Drag & Drop Game ---------- */
@@ -703,6 +800,28 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+}
+
+.timed-question-tag-container {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.timed-question-header-with-back {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.timed-question-back-button {
+  font-size: 14px;
+  padding: 4px 8px;
+}
+
+.timed-question-header-spacer {
+  width: 48px;
 }
 
 .timed-question-progress {
@@ -1059,4 +1178,62 @@ body {
   .token-text {
     font-size: 0.75rem;
   }
+}
+
+/* Dynamic color classes for game info */
+.game-dragdrop-color {
+  color: #1890ff;
+}
+
+.game-timed-color {
+  color: #52c41a;
+}
+
+.game-memory-color {
+  color: #722ed1;
+}
+
+.game-dragdrop-bg {
+  background: linear-gradient(135deg, #1890ff20, #1890ff10);
+}
+
+.game-timed-bg {
+  background: linear-gradient(135deg, #52c41a20, #52c41a10);
+}
+
+.game-memory-bg {
+  background: linear-gradient(135deg, #722ed120, #722ed110);
+}
+
+.game-dragdrop-border {
+  border: 3px solid #1890ff;
+}
+
+.game-timed-border {
+  border: 3px solid #52c41a;
+}
+
+.game-memory-border {
+  border: 3px solid #722ed1;
+}
+
+.game-dragdrop-stat {
+  color: #1890ff;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.game-timed-stat {
+  color: #52c41a;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.game-memory-stat {
+  color: #722ed1;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
 }

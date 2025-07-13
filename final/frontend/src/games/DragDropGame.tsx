@@ -68,11 +68,18 @@ export default function DragDropGame(): React.JSX.Element {
 
     if (!draggedItem || !draggedId) return;
 
+    const target = e.currentTarget as HTMLElement;
+    const origBg = target.style.backgroundColor;
+
     if (draggedItem.match === zoneLabel) {
       setSolved(prev => ({ ...prev, [draggedId]: true }));
+      // Green blink for correct drop
+      target.style.backgroundColor = '#e0ffe0';
+      setTimeout(() => {
+        target.style.backgroundColor = origBg;
+      }, 500);
     } else {
-      const target = e.currentTarget as HTMLElement;
-      const origBg = target.style.backgroundColor;
+      // Red blink for incorrect drop
       target.style.backgroundColor = '#ffe0e0';
       setTimeout(() => {
         target.style.backgroundColor = origBg;

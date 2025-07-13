@@ -42,37 +42,23 @@ export default function GameTrackerPage(): React.JSX.Element {
   };
 
   return (
-    <div
-      style={{
-        padding: '24px',
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      }}
-    >
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <Card
-          style={{
-            borderRadius: 16,
-            marginBottom: 24,
-            textAlign: 'center',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-          }}
-        >
+    <div className="game-tracker-container">
+      <div className="game-tracker-wrapper">
+        <Card className="game-tracker-main-card">
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
             <div>
-              <TrophyOutlined style={{ fontSize: 48, color: '#faad14', marginBottom: 16 }} />
-              <Title level={1} style={{ margin: 0, color: '#1f1f1f' }}>
+              <TrophyOutlined className="game-tracker-title-icon" />
+              <Title level={1} className="game-tracker-title">
                 🎮 Game Tracker
               </Title>
-              <Paragraph style={{ fontSize: 18, color: '#666', margin: 0 }}>
+              <Paragraph className="game-tracker-subtitle">
                 Track your gaming progress and see how many times you've played each game!
               </Paragraph>
             </div>
 
             <Divider />
 
-            <Row gutter={[16, 16]} justify="center">
+            <Row gutter={[16, 16]} className="game-tracker-stats-grid">
               <Col xs={24} sm={12} md={6}>
                 <Statistic
                   title="Total Games Played"
@@ -109,7 +95,7 @@ export default function GameTrackerPage(): React.JSX.Element {
                   icon={<ReloadOutlined />}
                   onClick={handleResetStats}
                   size="large"
-                  style={{ marginTop: 8 }}
+                  className="game-tracker-reset-btn"
                 >
                   Reset Stats
                 </Button>
@@ -123,38 +109,19 @@ export default function GameTrackerPage(): React.JSX.Element {
             <Col xs={24} sm={12} lg={8} key={gameKey}>
               <Card
                 hoverable
-                style={{
-                  borderRadius: 16,
-                  height: '100%',
-                  background: 'rgba(255, 255, 255, 0.95)',
-                  backdropFilter: 'blur(10px)',
-                  border: `3px solid ${info.color}`,
-                  transition: 'all 0.3s ease',
-                }}
+                className={`game-tracker-game-card game-${gameKey}-border`}
                 bodyStyle={{ padding: 24 }}
               >
                 <Space direction="vertical" size="middle" style={{ width: '100%', textAlign: 'center' }}>
                   <div>
-                    <div style={{ fontSize: 64, marginBottom: 12 }}>{info.icon}</div>
-                    <Title level={3} style={{ margin: 0, color: info.color }}>
+                    <div className="game-tracker-game-icon">{info.icon}</div>
+                    <Title level={3} className={`game-${gameKey}-color`} style={{ margin: 0 }}>
                       {info.name}
                     </Title>
-                    <Paragraph style={{ color: '#666', margin: '8px 0 16px 0' }}>{info.description}</Paragraph>
+                    <Paragraph className="game-tracker-game-description">{info.description}</Paragraph>
                   </div>
 
-                  <div
-                    style={{
-                      background: `linear-gradient(135deg, ${info.color}20, ${info.color}10)`,
-                      borderRadius: 12,
-                      padding: 20,
-                      width: '80%',
-                      margin: '0 auto',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
+                  <div className={`game-tracker-stat-box game-${gameKey}-bg`}>
                     <Statistic
                       title="Times Played"
                       value={stats[gameKey as keyof typeof stats]}
@@ -165,45 +132,22 @@ export default function GameTrackerPage(): React.JSX.Element {
                         textAlign: 'center',
                       }}
                       suffix="games"
-                      style={{ textAlign: 'center' }}
+                      className="game-tracker-stat-style"
                     />
                   </div>
 
                   {stats[gameKey as keyof typeof stats] > 0 && (
-                    <div
-                      style={{
-                        background: '#f6ffed',
-                        border: '1px solid #b7eb8f',
-                        borderRadius: 8,
-                        padding: 12,
-                        width: '85%',
-                        margin: '0 auto',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Paragraph style={{ margin: 0, color: '#52c41a', fontWeight: 500, textAlign: 'center' }}>
+                    <div className="game-tracker-mastered-badge">
+                      <Paragraph className="game-tracker-mastered-text">
                         🎉 You've mastered this game!
                       </Paragraph>
                     </div>
                   )}
 
                   {stats[gameKey as keyof typeof stats] === 0 && (
-                    <Link to={info.path} style={{ textDecoration: 'none', width: '80%', margin: '0 auto' }}>
+                    <Link to={info.path} className="game-tracker-try-game-link">
                       <div
-                        style={{
-                          background: '#fff7e6',
-                          border: '1px solid #ffd591',
-                          borderRadius: 8,
-                          padding: 12,
-                          width: '90%',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}
+                        className="game-tracker-try-game-box"
                         onMouseEnter={e => {
                           e.currentTarget.style.background = '#ffe7ba';
                           e.currentTarget.style.transform = 'translateY(-2px)';
@@ -215,7 +159,7 @@ export default function GameTrackerPage(): React.JSX.Element {
                           e.currentTarget.style.boxShadow = 'none';
                         }}
                       >
-                        <Paragraph style={{ margin: 0, color: '#fa8c16', fontWeight: 500, textAlign: 'center' }}>
+                        <Paragraph className="game-tracker-try-game-text">
                           🎮 Ready to try this game?
                         </Paragraph>
                       </div>
@@ -228,22 +172,14 @@ export default function GameTrackerPage(): React.JSX.Element {
         </Row>
 
         {totalGamesPlayed === 0 && (
-          <Card
-            style={{
-              borderRadius: 16,
-              marginTop: 24,
-              textAlign: 'center',
-              background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(10px)',
-            }}
-          >
+          <Card className="game-tracker-welcome-card">
             <Space direction="vertical" size="large" style={{ width: '100%' }}>
-              <div style={{ fontSize: 72 }}>🎮</div>
+              <div className="game-tracker-welcome-icon">🎮</div>
               <div>
-                <Title level={3} style={{ color: '#1890ff' }}>
+                <Title level={3} className="game-tracker-welcome-title">
                   Welcome to Game Tracker!
                 </Title>
-                <Paragraph style={{ fontSize: 16, color: '#666' }}>
+                <Paragraph className="game-tracker-welcome-text">
                   Start playing any of the available games to see your progress here. Each completed game will be
                   automatically tracked!
                 </Paragraph>
@@ -253,22 +189,14 @@ export default function GameTrackerPage(): React.JSX.Element {
         )}
 
         {totalGamesPlayed >= 10 && (
-          <Card
-            style={{
-              borderRadius: 16,
-              marginTop: 24,
-              textAlign: 'center',
-              background: 'linear-gradient(135deg, #ffd89b 0%, #19547b 100%)',
-              color: 'white',
-            }}
-          >
+          <Card className="game-tracker-champion-card">
             <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-              <div style={{ fontSize: 64 }}>🏆</div>
+              <div className="game-tracker-champion-icon">🏆</div>
               <div>
-                <Title level={2} style={{ color: 'white', margin: 0 }}>
+                <Title level={2} className="game-tracker-champion-title">
                   Gaming Champion!
                 </Title>
-                <Paragraph style={{ fontSize: 18, color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+                <Paragraph className="game-tracker-champion-text">
                   You've played {totalGamesPlayed} games! You're a true gaming enthusiast! 🌟
                 </Paragraph>
               </div>
