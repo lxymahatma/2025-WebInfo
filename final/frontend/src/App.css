@@ -15,7 +15,6 @@ body {
 
 /* ---------- Nav Bar ---------- */
 .nav-bar {
-  align-items: center;
   background: #0080a8;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   color: #fff;
@@ -23,13 +22,14 @@ body {
   font-size: 1.1rem;
   font-weight: 600;
   justify-content: space-between;
-  left: 0;
+  align-items: center;
   padding: 1.2rem 2rem;
   position: fixed;
-  right: 0;
   top: 0;
-  transition: transform 0.3s ease-in-out;
+  left: 0;
+  right: 0;
   z-index: 1000;
+  transition: transform 0.3s ease-in-out;
 }
 
 .nav-hidden {
@@ -42,23 +42,23 @@ body {
 
 /* Navigation hint for homepage */
 .nav-hint {
-  left: 50%;
-  pointer-events: none;
   position: fixed;
   top: 0;
+  left: 50%;
   transform: translateX(-50%);
   z-index: 999;
+  pointer-events: none;
 }
 
 .nav-hint-content {
-  animation: hintPulse 2s ease-in-out infinite;
   background: rgba(0, 128, 168, 0.9);
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 8px 8px;
   font-size: 0.9rem;
   font-weight: 500;
-  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: hintPulse 2s ease-in-out infinite;
 }
 
 @keyframes hintPulse {
@@ -68,12 +68,12 @@ body {
 
 /* Custom nav menu styling */
 .nav-menu {
-  align-items: center;
   display: flex;
-  flex: 1;
-  gap: 0.5rem;
   justify-content: space-evenly;
+  align-items: center;
+  flex: 1;
   width: 100%;
+  gap: 0.5rem;
 }
 
 .nav-link {
@@ -82,17 +82,17 @@ body {
   border-radius: 8px;
   color: #0080a8;
   cursor: pointer;
-  display: inline-block;
-  flex: 1;
   font-weight: bold;
-  max-width: 150px;
-  min-width: 100px;
   outline: none;
   padding: 0.8rem 0.8rem;
-  text-align: center;
   text-decoration: none;
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
+  text-align: center;
+  display: inline-block;
+  flex: 1;
+  min-width: 100px;
+  max-width: 150px;
 }
 
 .nav-link:hover {
@@ -109,18 +109,18 @@ body {
 /* ---------- Homepage Styles ---------- */
 .homepage-container {
   background: linear-gradient(135deg, #0080a8 0%, #005f7a 100%);
-  font-family: system-ui, sans-serif;
   min-height: 100vh;
+  font-family: system-ui, sans-serif;
 }
 
 .homepage-header {
-  align-items: center;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .homepage-user-info span {
@@ -142,66 +142,66 @@ body {
 }
 
 .homepage-content {
-  margin: 0 auto;
-  max-width: 1200px;
   padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .homepage-hero {
-  margin-bottom: 3rem;
   text-align: center;
+  margin-bottom: 3rem;
 }
 
 .homepage-title {
-  color: white !important;
   font-size: 3.5rem !important;
   font-weight: 800 !important;
+  color: white !important;
   margin-bottom: 1rem !important;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .homepage-subtitle {
-  color: rgba(255, 255, 255, 0.9) !important;
   font-size: 1.3rem !important;
-  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9) !important;
   margin-bottom: 0 !important;
+  font-weight: 400;
 }
 
 .section-title {
   color: white !important;
   font-size: 2rem !important;
   font-weight: 600 !important;
-  margin-bottom: 2rem !important;
   text-align: center;
+  margin-bottom: 2rem !important;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Game Cards Grid */
 .homepage-game-grid {
   display: grid;
-  gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
   margin-top: 2rem;
 }
 
 .homepage-game-card {
-  align-items: center;
   background: rgba(255, 255, 255, 0.95);
-  border: 2px solid transparent;
   border-radius: 16px;
+  padding: 2rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  align-items: center;
   text-align: center;
-  text-decoration: none;
-  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .homepage-game-card:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   transform: translateY(-8px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .game-card-icon {
@@ -225,38 +225,38 @@ body {
 
 /* Welcome Section for Non-logged Users */
 .homepage-welcome-section {
-  margin-bottom: 3rem;
   text-align: center;
+  margin-bottom: 3rem;
 }
 
 .welcome-description {
-  color: rgba(255, 255, 255, 0.9) !important;
   font-size: 1.2rem !important;
-  line-height: 1.6;
-  margin: 0 auto 3rem auto !important;
+  color: rgba(255, 255, 255, 0.9) !important;
   max-width: 600px;
+  margin: 0 auto 3rem auto !important;
+  line-height: 1.6;
 }
 
 .homepage-features {
   display: grid;
-  gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  margin: 0 auto;
+  gap: 1.5rem;
   max-width: 650px;
+  margin: 0 auto;
 }
 
 .feature-item {
-  backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .feature-icon {
-  display: block;
   font-size: 2rem;
+  display: block;
   margin-bottom: 0.75rem;
 }
 
@@ -275,19 +275,19 @@ body {
 
 /* Auth Section */
 .homepage-auth-section {
-  margin: 2rem 0;
   text-align: center;
+  margin: 2rem 0;
 }
 
 .homepage-auth-card {
-  backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
-  max-width: 600px;
   padding: 3rem 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .auth-title {
@@ -299,9 +299,9 @@ body {
 
 .homepage-auth-buttons {
   display: flex;
-  flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 0;
 }
 
@@ -311,27 +311,27 @@ body {
 }
 
 .auth-button {
-  align-items: center !important;
   background: rgba(255, 255, 255, 0.9) !important;
+  color: #2c3e50 !important;
   border: none !important;
   border-radius: 16px !important;
-  color: #2c3e50 !important;
-  display: inline-flex !important;
+  padding: 1.8rem 3rem !important;
   font-size: 1.3rem !important;
   font-weight: 700 !important;
-  justify-content: center !important;
-  min-width: 160px;
-  padding: 1.8rem 3rem !important;
-  text-align: center !important;
-  text-decoration: none;
   transition: all 0.3s ease !important;
+  text-decoration: none;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  min-width: 160px;
 }
 
 .auth-button:hover {
   background: white !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
   color: #2c3e50 !important;
   transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
 }
 
 .signin-button:hover {
@@ -349,8 +349,8 @@ body {
   .homepage-header {
     flex-direction: column;
     gap: 1rem;
-    padding: 1rem;
     text-align: center;
+    padding: 1rem;
   }
 
   .homepage-title {
@@ -358,18 +358,18 @@ body {
   }
 
   .homepage-game-grid {
-    gap: 1.5rem;
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .homepage-features {
-    gap: 1.5rem;
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .homepage-auth-buttons {
-    align-items: center;
     flex-direction: column;
+    align-items: center;
   }
 
   .homepage-auth-card {
@@ -520,11 +520,12 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 800px;
   padding: 20px;
   width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .drag-drop-choices-title {
@@ -536,10 +537,10 @@ body {
 }
 
 .drag-drop-token-row {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 16px;
-  justify-content: center;
+  justify-items: center;
 }
 
 .drag-drop-token {
@@ -550,8 +551,27 @@ body {
   cursor: grab;
   font-size: 1.1rem;
   font-weight: 600;
-  padding: 12px 20px;
+  padding: 12px 8px;
+  text-align: center;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 80px;
+  gap: 4px;
+}
+
+.token-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.token-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.1;
 }
 
 .drag-drop-token:hover:not(.inactive) {
@@ -886,6 +906,14 @@ body {
   }
 }
 
+/* Medium screens (tablets) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .drag-drop-token-row {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+}
+
 /* ---------- Responsive Design ---------- */
 @media (max-width: 768px) {
   .nav-bar {
@@ -899,14 +927,19 @@ body {
   }
 
   .drag-drop-choices-card {
+    padding: 16px;
     margin-bottom: 1.5rem;
     max-width: 100%;
-    padding: 16px;
   }
 
   .drag-drop-choices-title {
     font-size: 1.1rem;
     margin-bottom: 12px;
+  }
+
+  .drag-drop-token-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 
   .drag-drop-heading {
@@ -925,7 +958,18 @@ body {
 
   .drag-drop-token {
     font-size: 1rem;
-    padding: 10px 16px;
+    padding: 8px 6px;
+    width: 85px;
+    height: 70px;
+    gap: 3px;
+  }
+  
+  .token-emoji {
+    font-size: 1.3rem;
+  }
+  
+  .token-text {
+    font-size: 0.8rem;
   }
 
   .timed-question-container {
@@ -985,6 +1029,18 @@ body {
 
   .drag-drop-token {
     font-size: 0.9rem;
-    padding: 8px 14px;
+    padding: 6px 4px;
+    width: 75px;
+    height: 65px;
+    gap: 2px;
+  }
+  
+  .token-emoji {
+    font-size: 1.2rem;
+  }
+  
+  .token-text {
+    font-size: 0.75rem;
   }
 }
+
