@@ -157,9 +157,29 @@ app.get("/memory/cards", (req: Request, res: Response) => {
   res.json({ cards });
 });
 
-app.get("/dragdrop/pairs", verifyToken, (req: AuthRequest, res: Response) => {
+app.get("/dragdrop/pairs", (req: Request, res: Response) => {
   const db = readDragDropDB();
-  res.json(db.pairs);
+  const difficulty = req.query.difficulty as string;
+
+  const itemsPerCategory = {
+    easy: 1,
+    medium: 2,
+    hard: 3,
+  };
+
+  const count = itemsPerCategory[difficulty as keyof typeof itemsPerCategory];
+
+  const categories = Array.from(new Set(db.pairs.map((p) => p.match)));
+  const selectedPairs: any[] = [];
+
+  for (const category of categories) {
+    const categoryPairs = db.pairs.filter((p) => p.match === category);
+    const shuffled = categoryPairs.sort(() => Math.random() - 0.5);
+    selectedPairs.push(...shuffled.slice(0, count));
+  }
+
+  const finalPairs = selectedPairs.sort(() => Math.random() - 0.5);
+  res.json(finalPairs);
 });
 
 app.get(

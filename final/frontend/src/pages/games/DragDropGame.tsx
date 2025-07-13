@@ -2,82 +2,25 @@ import React, { useState, useRef, useEffect } from 'react';
 import { GamePair } from '../../types/drag-drop';
 import { useGameTracker } from '../GameTrackerContext';
 
-const ALL_PAIRS: GamePair[] = [
-  // Fruits
-  { id: 'apple', label: '🍎 Apple', match: 'Fruit' },
-  { id: 'banana', label: '🍌 Banana', match: 'Fruit' },
-  { id: 'orange', label: '🍊 Orange', match: 'Fruit' },
-  { id: 'grape', label: '🍇 Grape', match: 'Fruit' },
-  { id: 'strawberry', label: '🍓 Strawberry', match: 'Fruit' },
-
-  // Animals
-  { id: 'dog', label: '🐶 Dog', match: 'Animal' },
-  { id: 'cat', label: '🐱 Cat', match: 'Animal' },
-  { id: 'elephant', label: '🐘 Elephant', match: 'Animal' },
-  { id: 'lion', label: '🦁 Lion', match: 'Animal' },
-  { id: 'rabbit', label: '🐇 Rabbit', match: 'Animal' },
-
-  // Vehicles
-  { id: 'car', label: '🚗 Car', match: 'Vehicle' },
-  { id: 'bike', label: '🚲 Bike', match: 'Vehicle' },
-  { id: 'airplane', label: '✈️ Airplane', match: 'Vehicle' },
-  { id: 'train', label: '🚂 Train', match: 'Vehicle' },
-  { id: 'boat', label: '🚤 Boat', match: 'Vehicle' },
-
-  // Flowers
-  { id: 'rose', label: '🌹 Rose', match: 'Flower' },
-  { id: 'sunflower', label: '🌻 Sunflower', match: 'Flower' },
-  { id: 'tulip', label: '🌷 Tulip', match: 'Flower' },
-  { id: 'daisy', label: '🌼 Daisy', match: 'Flower' },
-  { id: 'cherry_blossom', label: '🌸 Cherry Blossom', match: 'Flower' },
-
-  // Food
-  { id: 'pizza', label: '🍕 Pizza', match: 'Food' },
-  { id: 'burger', label: '🍔 Burger', match: 'Food' },
-  { id: 'cake', label: '🎂 Cake', match: 'Food' },
-  { id: 'ice_cream', label: '🍦 Ice Cream', match: 'Food' },
-  { id: 'donut', label: '🍩 Donut', match: 'Food' },
-
-  // Sports
-  { id: 'soccer', label: '⚽ Soccer Ball', match: 'Sport' },
-  { id: 'basketball', label: '🏀 Basketball', match: 'Sport' },
-  { id: 'tennis', label: '🎾 Tennis Ball', match: 'Sport' },
-  { id: 'baseball', label: '⚾ Baseball', match: 'Sport' },
-  { id: 'football', label: '🏈 Football', match: 'Sport' },
-];
-
-// Difficulty levels
 const DIFFICULTY_LEVELS = {
-  easy: { pairs: 6, name: 'Easy' },
-  medium: { pairs: 8, name: 'Medium' },
-  hard: { pairs: 12, name: 'Hard' },
+  easy: { name: 'Easy' },
+  medium: { name: 'Medium' },
+  hard: { name: 'Hard' },
 } as const;
 
 type DifficultyLevel = keyof typeof DIFFICULTY_LEVELS;
 
-// Function to get random pairs ensuring we have items from different categories
-const getRandomPairs = (count: number = 8): GamePair[] => {
-  const categories = Array.from(new Set(ALL_PAIRS.map(p => p.match)));
-  const selectedPairs: GamePair[] = [];
-
-  // Ensure we have at least one item from each category (up to the count limit)
-  const itemsPerCategory = Math.max(1, Math.floor(count / categories.length));
-
-  for (const category of categories) {
-    const categoryPairs = ALL_PAIRS.filter(p => p.match === category);
-    const shuffled = categoryPairs.sort(() => Math.random() - 0.5);
-    selectedPairs.push(...shuffled.slice(0, itemsPerCategory));
+const fetchPairs = async (difficulty: DifficultyLevel): Promise<GamePair[]> => {
+  try {
+    const response = await fetch(`http://localhost:3001/dragdrop/pairs?difficulty=${difficulty}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch pairs');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching pairs:', error);
+    return [];
   }
-
-  // If we need more pairs to reach the count, add random ones
-  if (selectedPairs.length < count) {
-    const remaining = ALL_PAIRS.filter(p => !selectedPairs.find(sp => sp.id === p.id));
-    const shuffledRemaining = remaining.sort(() => Math.random() - 0.5);
-    selectedPairs.push(...shuffledRemaining.slice(0, count - selectedPairs.length));
-  }
-
-  // Shuffle the final selection
-  return selectedPairs.sort(() => Math.random() - 0.5).slice(0, count);
 };
 
 export default function DragDropGame(): React.JSX.Element {
@@ -86,11 +29,17 @@ export default function DragDropGame(): React.JSX.Element {
   const [currentPairs, setCurrentPairs] = useState<GamePair[]>([]);
   const [solved, setSolved] = useState<Record<string, boolean>>({});
   const [gameCompleted, setGameCompleted] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const dragItemRef = useRef<string | null>(null);
 
-  // Initialize game with random pairs
   useEffect(() => {
-    setCurrentPairs(getRandomPairs(DIFFICULTY_LEVELS[difficulty].pairs));
+    const loadPairs = async () => {
+      setLoading(true);
+      const pairs = await fetchPairs(difficulty);
+      setCurrentPairs(pairs);
+      setLoading(false);
+    };
+    loadPairs();
   }, [difficulty]);
 
   // Track game completion
@@ -132,10 +81,13 @@ export default function DragDropGame(): React.JSX.Element {
     dragItemRef.current = null;
   };
 
-  const restartGame = (): void => {
+  const restartGame = async (): Promise<void> => {
     setSolved({});
     setGameCompleted(false);
-    setCurrentPairs(getRandomPairs(DIFFICULTY_LEVELS[difficulty].pairs)); // Get new random pairs
+    setLoading(true);
+    const pairs = await fetchPairs(difficulty);
+    setCurrentPairs(pairs);
+    setLoading(false);
   };
 
   const changeDifficulty = (newDifficulty: DifficultyLevel): void => {
@@ -148,7 +100,7 @@ export default function DragDropGame(): React.JSX.Element {
   const zoneLabels = Array.from(new Set(currentPairs.map((p: GamePair) => p.match)));
 
   // Don't render anything until pairs are loaded
-  if (currentPairs.length === 0) {
+  if (loading || currentPairs.length === 0) {
     return <div className="drag-drop-root">Loading...</div>;
   }
 
@@ -190,7 +142,7 @@ export default function DragDropGame(): React.JSX.Element {
             onClick={() => changeDifficulty(key as DifficultyLevel)}
             className={`difficulty-btn ${difficulty === key ? 'active' : ''}`}
           >
-            {level.name} ({level.pairs} items)
+            {level.name}
           </button>
         ))}
       </div>
