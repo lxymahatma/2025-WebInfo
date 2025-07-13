@@ -15,6 +15,7 @@ body {
 
 /* ---------- Nav Bar ---------- */
 .nav-bar {
+  align-items: center;
   background: #0080a8;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   color: #fff;
@@ -22,14 +23,13 @@ body {
   font-size: 1.1rem;
   font-weight: 600;
   justify-content: space-between;
-  align-items: center;
+  left: 0;
   padding: 1.2rem 2rem;
   position: fixed;
-  top: 0;
-  left: 0;
   right: 0;
-  z-index: 1000;
+  top: 0;
   transition: transform 0.3s ease-in-out;
+  z-index: 1000;
 }
 
 .nav-hidden {
@@ -42,23 +42,23 @@ body {
 
 /* Navigation hint for homepage */
 .nav-hint {
+  left: 50%;
+  pointer-events: none;
   position: fixed;
   top: 0;
-  left: 50%;
   transform: translateX(-50%);
   z-index: 999;
-  pointer-events: none;
 }
 
 .nav-hint-content {
+  animation: hintPulse 2s ease-in-out infinite;
   background: rgba(0, 128, 168, 0.9);
-  color: white;
-  padding: 0.5rem 1rem;
   border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: white;
   font-size: 0.9rem;
   font-weight: 500;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  animation: hintPulse 2s ease-in-out infinite;
+  padding: 0.5rem 1rem;
 }
 
 @keyframes hintPulse {
@@ -68,12 +68,12 @@ body {
 
 /* Custom nav menu styling */
 .nav-menu {
-  display: flex;
-  justify-content: space-evenly;
   align-items: center;
+  display: flex;
   flex: 1;
-  width: 100%;
   gap: 0.5rem;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
 .nav-link {
@@ -82,17 +82,17 @@ body {
   border-radius: 8px;
   color: #0080a8;
   cursor: pointer;
+  display: inline-block;
+  flex: 1;
   font-weight: bold;
+  max-width: 150px;
+  min-width: 100px;
   outline: none;
   padding: 0.8rem 0.8rem;
+  text-align: center;
   text-decoration: none;
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
-  text-align: center;
-  display: inline-block;
-  flex: 1;
-  min-width: 100px;
-  max-width: 150px;
 }
 
 .nav-link:hover {
@@ -109,18 +109,18 @@ body {
 /* ---------- Homepage Styles ---------- */
 .homepage-container {
   background: linear-gradient(135deg, #0080a8 0%, #005f7a 100%);
-  min-height: 100vh;
   font-family: system-ui, sans-serif;
+  min-height: 100vh;
 }
 
 .homepage-header {
+  align-items: center;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 1.5rem 2rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .homepage-user-info span {
@@ -142,66 +142,66 @@ body {
 }
 
 .homepage-content {
-  padding: 2rem;
-  max-width: 1200px;
   margin: 0 auto;
+  max-width: 1200px;
+  padding: 2rem;
 }
 
 .homepage-hero {
-  text-align: center;
   margin-bottom: 3rem;
+  text-align: center;
 }
 
 .homepage-title {
+  color: white !important;
   font-size: 3.5rem !important;
   font-weight: 800 !important;
-  color: white !important;
   margin-bottom: 1rem !important;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .homepage-subtitle {
-  font-size: 1.3rem !important;
   color: rgba(255, 255, 255, 0.9) !important;
-  margin-bottom: 0 !important;
+  font-size: 1.3rem !important;
   font-weight: 400;
+  margin-bottom: 0 !important;
 }
 
 .section-title {
   color: white !important;
   font-size: 2rem !important;
   font-weight: 600 !important;
-  text-align: center;
   margin-bottom: 2rem !important;
+  text-align: center;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Game Cards Grid */
 .homepage-game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   margin-top: 2rem;
 }
 
 .homepage-game-card {
+  align-items: center;
   background: rgba(255, 255, 255, 0.95);
+  border: 2px solid transparent;
   border-radius: 16px;
-  padding: 2rem;
-  text-decoration: none;
-  transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 2rem;
   text-align: center;
-  border: 2px solid transparent;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .homepage-game-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
 }
 
 .game-card-icon {
@@ -225,38 +225,38 @@ body {
 
 /* Welcome Section for Non-logged Users */
 .homepage-welcome-section {
-  text-align: center;
   margin-bottom: 3rem;
+  text-align: center;
 }
 
 .welcome-description {
-  font-size: 1.2rem !important;
   color: rgba(255, 255, 255, 0.9) !important;
-  max-width: 600px;
-  margin: 0 auto 3rem auto !important;
+  font-size: 1.2rem !important;
   line-height: 1.6;
+  margin: 0 auto 3rem auto !important;
+  max-width: 600px;
 }
 
 .homepage-features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
-  max-width: 650px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   margin: 0 auto;
+  max-width: 650px;
 }
 
 .feature-item {
+  backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .feature-icon {
-  font-size: 2rem;
   display: block;
+  font-size: 2rem;
   margin-bottom: 0.75rem;
 }
 
@@ -275,19 +275,19 @@ body {
 
 /* Auth Section */
 .homepage-auth-section {
-  text-align: center;
   margin: 2rem 0;
+  text-align: center;
 }
 
 .homepage-auth-card {
-  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-  padding: 3rem 2rem;
-  max-width: 600px;
-  margin: 0 auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 3rem 2rem;
 }
 
 .auth-title {
@@ -299,9 +299,9 @@ body {
 
 .homepage-auth-buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
-  flex-wrap: wrap;
   margin-bottom: 0;
 }
 
@@ -311,27 +311,27 @@ body {
 }
 
 .auth-button {
+  align-items: center !important;
   background: rgba(255, 255, 255, 0.9) !important;
-  color: #2c3e50 !important;
   border: none !important;
   border-radius: 16px !important;
-  padding: 1.8rem 3rem !important;
+  color: #2c3e50 !important;
+  display: inline-flex !important;
   font-size: 1.3rem !important;
   font-weight: 700 !important;
-  transition: all 0.3s ease !important;
-  text-decoration: none;
-  display: inline-flex !important;
-  align-items: center !important;
   justify-content: center !important;
-  text-align: center !important;
   min-width: 160px;
+  padding: 1.8rem 3rem !important;
+  text-align: center !important;
+  text-decoration: none;
+  transition: all 0.3s ease !important;
 }
 
 .auth-button:hover {
   background: white !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
   color: #2c3e50 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
 }
 
 .signin-button:hover {
@@ -349,8 +349,8 @@ body {
   .homepage-header {
     flex-direction: column;
     gap: 1rem;
-    text-align: center;
     padding: 1rem;
+    text-align: center;
   }
 
   .homepage-title {
@@ -358,18 +358,18 @@ body {
   }
 
   .homepage-game-grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
 
   .homepage-features {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
 
   .homepage-auth-buttons {
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
   }
 
   .homepage-auth-card {
@@ -520,11 +520,11 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
-  padding: 20px;
-  width: 100%;
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 800px;
+  padding: 20px;
+  width: 100%;
 }
 
 .drag-drop-choices-title {
@@ -899,9 +899,9 @@ body {
   }
 
   .drag-drop-choices-card {
-    padding: 16px;
     margin-bottom: 1.5rem;
     max-width: 100%;
+    padding: 16px;
   }
 
   .drag-drop-choices-title {
