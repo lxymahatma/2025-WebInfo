@@ -3,7 +3,6 @@ import { AuthProvider, useAuth } from './AuthContext';
 import { GameTrackerProvider } from './pages/GameTrackerContext';
 import NavBar from './NavBar';
 
-
 // Pages
 import HomePage from './pages/HomePage';
 import GameTrackerPage from './pages/GameTrackerPage';
