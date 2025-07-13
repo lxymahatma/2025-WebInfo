@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { AuthProvider, useAuth } from './AuthContext';
 import { GameTrackerProvider } from './pages/GameTrackerContext';
 import NavBar from './NavBar';
-import './App.css';
+
 
 // Pages
 import HomePage from './pages/HomePage';
