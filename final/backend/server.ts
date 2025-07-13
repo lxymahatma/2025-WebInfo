@@ -41,7 +41,7 @@ app.use(bodyParser.json());
 // User database
 const readUserDB = (): UserDB => {
   try {
-    const data = fs.readFileSync("databases/user-db.json", "utf-8");
+    const data = fs.readFileSync("databases/user.json", "utf-8");
     return data ? JSON.parse(data) : { users: [] };
   } catch (error) {
     return { users: [] };
@@ -49,13 +49,13 @@ const readUserDB = (): UserDB => {
 };
 
 const writeUserDB = (db: UserDB): void => {
-  fs.writeFileSync("databases/user-db.json", JSON.stringify(db, null, 2));
+  fs.writeFileSync("databases/user.json", JSON.stringify(db, null, 2));
 };
 
 // Memory Card database
 const readMemoryDB = (): MemoryDB => {
   try {
-    const data = fs.readFileSync("databases/memory-db.json", "utf-8");
+    const data = fs.readFileSync("databases/memory.json", "utf-8");
     return data ? JSON.parse(data) : { cards: [] };
   } catch (error) {
     return { cards: [] };
@@ -65,7 +65,7 @@ const readMemoryDB = (): MemoryDB => {
 // Drag & Drop database
 const readDragDropDB = (): DragDropDB => {
   try {
-    const data = fs.readFileSync("databases/drag-drop-db.json", "utf-8");
+    const data = fs.readFileSync("databases/drag-drop.json", "utf-8");
     return data ? JSON.parse(data) : { pairs: [], scores: [] };
   } catch (error) {
     return { pairs: [], scores: [] };
@@ -75,7 +75,7 @@ const readDragDropDB = (): DragDropDB => {
 // Timed database
 const readTimedDB = (): TimedQuestionDB => {
   try {
-    const data = fs.readFileSync("databases/timed-db.json", "utf-8");
+    const data = fs.readFileSync("databases/timed.json", "utf-8");
     return data ? JSON.parse(data) : { questions: [] };
   } catch (error) {
     return { questions: [] };
