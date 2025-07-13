@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './AuthContext';
 import { GameTrackerProvider } from './pages/GameTrackerContext';
 import NavBar from './NavBar';
-import HomePage from './HomePage';
+import HomePage from './pages/HomePage';
 import DragDropGame from './pages/DragDropGame';
 import TimedQuestionGame from './pages/TimedQuestionGame';
 import ProfilePage from './pages/ProfilePage';

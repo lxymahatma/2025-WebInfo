@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../AuthContext';
 import { Typography, Button } from 'antd';
 
 const { Title, Paragraph } = Typography;
