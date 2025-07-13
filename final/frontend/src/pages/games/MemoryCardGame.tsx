@@ -2,14 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { CardType, CardProps } from '../../types/memory-card';
 import { useGameTracker } from '../GameTrackerContext';
 
-const cardTypes = ['Elephant', 'Lion', 'Cat', 'Car'];
-
-// Add proper typing to shuffleArray function
 function shuffleArray<T>(array: T[]): T[] {
   return array
     .map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
+}
+
+async function fetchRandomCards(): Promise<string[]> {
+  try {
+    const response = await fetch('http://localhost:3001/memory/cards');
+    const data = await response.json();
+
+    if (data.cards && data.cards.length > 0) {
+      const randomIndices: number[] = [];
+      while (randomIndices.length < 4 && randomIndices.length < data.cards.length) {
+        const randomIndex = Math.floor(Math.random() * data.cards.length);
+        if (!randomIndices.includes(randomIndex)) {
+          randomIndices.push(randomIndex);
+        }
+      }
+
+      return randomIndices.map(index => data.cards[index].type);
+    } else {
+      return ['Dog', 'Cat', 'Mouse', 'Hamster'];
+    }
+  } catch (error) {
+    console.error('Error fetching cards from backend:', error);
+    return ['Dog', 'Cat', 'Mouse', 'Hamster'];
+  }
 }
 
 export default function MemoryCardGame() {
@@ -20,19 +41,29 @@ export default function MemoryCardGame() {
   const [disabled, setDisabled] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Initialize/reset game
-  const initializeGame = () => {
-    const doubled = cardTypes.flatMap((type, idx) => [
-      { type, id: idx * 2, matched: false },
-      { type, id: idx * 2 + 1, matched: false },
-    ]);
-    setCards(shuffleArray(doubled));
-    setFirstChoice(null);
-    setSecondChoice(null);
-    setDisabled(false);
-    setGameWon(false);
-    setGameCompleted(false);
+  const initializeGame = async () => {
+    setLoading(true);
+    try {
+      const fetchedCardTypes = await fetchRandomCards();
+
+      const doubled = fetchedCardTypes.flatMap((type, idx) => [
+        { type, id: idx * 2, matched: false },
+        { type, id: idx * 2 + 1, matched: false },
+      ]);
+      setCards(shuffleArray(doubled));
+      setFirstChoice(null);
+      setSecondChoice(null);
+      setDisabled(false);
+      setGameWon(false);
+      setGameCompleted(false);
+    } catch (error) {
+      console.error('Error initializing game:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -88,6 +119,15 @@ export default function MemoryCardGame() {
       disabled: disabled || gameWon,
     })
   );
+
+  if (loading) {
+    return React.createElement(
+      'div',
+      { className: 'memory-game-container' },
+      React.createElement('h1', { className: 'memory-game-title' }, 'Loading...'),
+      React.createElement('p', { className: 'memory-game-instructions' }, 'Getting your cards ready!')
+    );
+  }
 
   if (gameWon) {
     return React.createElement(

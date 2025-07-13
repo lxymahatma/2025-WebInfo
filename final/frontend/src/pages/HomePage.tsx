@@ -13,32 +13,33 @@ export default function HomePage(): React.JSX.Element {
       {user && (
         <div className="homepage-header">
           <div className="homepage-user-info">
-            <span>Welcome back, <strong>{user}</strong>!</span>
+            <span>
+              Welcome back, <strong>{user}</strong>!
+            </span>
           </div>
-          <Button 
-            type="primary" 
-            danger 
-            onClick={signout}
-            className="homepage-logout-btn"
-          >
+          <Button type="primary" danger onClick={signout} className="homepage-logout-btn">
             Logout
           </Button>
         </div>
       )}
-      
+
       <div className="homepage-content">
         <div className="homepage-hero">
-          <Title level={1} className="homepage-title">🎮 Game Platform</Title>
+          <Title level={1} className="homepage-title">
+            🎮 Game Platform
+          </Title>
           <Paragraph className="homepage-subtitle">
             Challenge yourself with our collection of exciting brain games
           </Paragraph>
         </div>
-        
+
         {user ? (
           <>
             <div className="homepage-games-section">
-              <Title level={2} className="section-title">Choose Your Game</Title>
-              
+              <Title level={2} className="section-title">
+                Choose Your Game
+              </Title>
+
               <div className="homepage-game-grid">
                 <Link to="/dragdrop" className="homepage-game-card">
                   <div className="game-card-icon">🎯</div>
@@ -47,7 +48,7 @@ export default function HomePage(): React.JSX.Element {
                     <p>Test your coordination skills with interactive drag and drop challenges</p>
                   </div>
                 </Link>
-                
+
                 <Link to="/timed" className="homepage-game-card">
                   <div className="game-card-icon">⏰</div>
                   <div className="game-card-content">
@@ -55,7 +56,7 @@ export default function HomePage(): React.JSX.Element {
                     <p>Challenge your knowledge under pressure with time-based questions</p>
                   </div>
                 </Link>
-                
+
                 <Link to="/memory" className="homepage-game-card">
                   <div className="game-card-icon">🧠</div>
                   <div className="game-card-content">
@@ -63,7 +64,7 @@ export default function HomePage(): React.JSX.Element {
                     <p>Train your memory with our classic card matching game</p>
                   </div>
                 </Link>
-                
+
                 <Link to="/tracker" className="homepage-game-card">
                   <div className="game-card-icon">🎮</div>
                   <div className="game-card-content">
@@ -71,7 +72,7 @@ export default function HomePage(): React.JSX.Element {
                     <p>View your game statistics and track your progress</p>
                   </div>
                 </Link>
-                
+
                 <Link to="/profile" className="homepage-game-card">
                   <div className="game-card-icon">👤</div>
                   <div className="game-card-content">
@@ -85,11 +86,13 @@ export default function HomePage(): React.JSX.Element {
         ) : (
           <>
             <div className="homepage-welcome-section">
-              <Title level={2} className="section-title">Welcome to Game Platform!</Title>
+              <Title level={2} className="section-title">
+                Welcome to Game Platform!
+              </Title>
               <Paragraph className="welcome-description">
                 Discover our amazing collection of brain-training games designed to challenge and entertain you.
               </Paragraph>
-              
+
               <div className="homepage-features">
                 <div className="feature-item">
                   <span className="feature-icon">🎯</span>
@@ -108,9 +111,11 @@ export default function HomePage(): React.JSX.Element {
                 </div>
               </div>
             </div>
-            
+
             <div className="homepage-auth-section">
-              <Title level={3} className="auth-title">Ready to Play?</Title>
+              <Title level={3} className="auth-title">
+                Ready to Play?
+              </Title>
               <div className="homepage-auth-buttons">
                 <Link to="/signin">
                   <Button className="auth-button signin-button" size="large">
