@@ -1,5 +1,6 @@
-export interface TimedQuestionGameProps {
+export interface Question {
+  subject: string;
   question: string;
   options: string[];
-  onAnswer: (idx: number | null) => void;
+  correctAnswer: number;
 }

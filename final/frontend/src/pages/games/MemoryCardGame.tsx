@@ -25,7 +25,7 @@ async function fetchRandomCards(): Promise<string[]> {
   }
 }
 
-export default function MemoryCardGame() {
+export default function MemoryCardGame(): React.JSX.Element {
   const { incrementGameCount } = useGameTracker();
   const [cards, setCards] = useState<CardType[]>([]);
   const [firstChoice, setFirstChoice] = useState<CardType | null>(null);

@@ -10,6 +10,7 @@ import {
   UserDB,
   MemoryDB,
   DragDropDB,
+  TimedQuestionDB,
   User,
   AuthRequest,
   SignupRequestBody,
@@ -65,6 +66,16 @@ const readDragDropDB = (): DragDropDB => {
     return data ? JSON.parse(data) : { pairs: [], scores: [] };
   } catch (error) {
     return { pairs: [], scores: [] };
+  }
+};
+
+// Timed database
+const readTimedDB = (): TimedQuestionDB => {
+  try {
+    const data = fs.readFileSync("databases/timed-db.json", "utf-8");
+    return data ? JSON.parse(data) : { questions: [] };
+  } catch (error) {
+    return { questions: [] };
   }
 };
 
@@ -180,6 +191,24 @@ app.get("/dragdrop/pairs", (req: Request, res: Response) => {
 
   const finalPairs = selectedPairs.sort(() => Math.random() - 0.5);
   res.json(finalPairs);
+});
+
+app.get("/timed/questions", (req: Request, res: Response) => {
+  const db = readTimedDB();
+  const subject = req.query.subject as string;
+
+  if (!subject) {
+    return res.status(400).json({ message: "Subject parameter is required" });
+  }
+
+  const subjectQuestions = db.questions.filter((q) => q.subject === subject);
+
+  if (subjectQuestions.length === 0) {
+    return res.status(404).json({ message: "No questions found for this subject" });
+  }
+
+  const shuffledQuestions = subjectQuestions.sort(() => Math.random() - 0.5);
+  res.json({ questions: shuffledQuestions });
 });
 
 app.get(

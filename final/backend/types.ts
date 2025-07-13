@@ -80,6 +80,18 @@ interface DragDropDB {
   scores: DragDropGameScore[];
 }
 
+// Timed Question types
+interface TimedQuestion {
+  subject: string;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+}
+
+interface TimedQuestionDB {
+  questions: TimedQuestion[];
+}
+
 export {
   User,
   UserDB,
@@ -89,6 +101,8 @@ export {
   DragDropPair,
   DragDropGameScore,
   DragDropDB,
+  TimedQuestion,
+  TimedQuestionDB,
   AuthRequest,
   SignupRequestBody,
   SigninRequestBody,

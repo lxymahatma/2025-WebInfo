@@ -1,52 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Space, Tag, Typography, Progress, Result } from 'antd';
 import { useGameTracker } from '../GameTrackerContext';
+import { Question } from '../../types/timed-question';
 
 const { Title, Paragraph } = Typography;
-
-interface Question {
-  question: string;
-  options: string[];
-  correctAnswer: number;
-}
-
 type Subject = 'math' | 'english' | 'knowledge';
-
-const questionsBySubject: Record<Subject, Question[]> = {
-  math: [
-    { question: 'What is 2 + 3?', options: ['4', '5', '6', '7'], correctAnswer: 1 },
-    { question: 'What is 10 - 4?', options: ['5', '6', '7', '8'], correctAnswer: 1 },
-    { question: 'How many sides does a triangle have?', options: ['2', '3', '4', '5'], correctAnswer: 1 },
-    { question: 'What is 3 × 2?', options: ['4', '5', '6', '7'], correctAnswer: 2 },
-    { question: 'What comes after the number 9?', options: ['8', '10', '11', '12'], correctAnswer: 1 },
-  ],
-  english: [
-    { question: "Which letter comes after 'B'?", options: ['A', 'C', 'D', 'E'], correctAnswer: 1 },
-    { question: 'What sound does a cat make?', options: ['Woof', 'Meow', 'Moo', 'Oink'], correctAnswer: 1 },
-    { question: "How many letters are in the word 'CAT'?", options: ['2', '3', '4', '5'], correctAnswer: 1 },
-    { question: "Which word rhymes with 'hat'?", options: ['dog', 'cat', 'sun', 'tree'], correctAnswer: 1 },
-    { question: 'What is the first letter of the alphabet?', options: ['B', 'A', 'C', 'D'], correctAnswer: 1 },
-  ],
-  knowledge: [
-    {
-      question: 'What color do you get when you mix red and yellow?',
-      options: ['Purple', 'Orange', 'Green', 'Blue'],
-      correctAnswer: 1,
-    },
-    { question: 'How many legs does a dog have?', options: ['2', '3', '4', '5'], correctAnswer: 2 },
-    { question: 'What do bees make?', options: ['Milk', 'Honey', 'Cheese', 'Bread'], correctAnswer: 1 },
-    { question: 'Which season comes after winter?', options: ['Summer', 'Spring', 'Fall', 'Winter'], correctAnswer: 1 },
-    {
-      question: 'What do we use to brush our teeth?',
-      options: ['Fork', 'Toothbrush', 'Spoon', 'Comb'],
-      correctAnswer: 1,
-    },
-  ],
-};
 
 export default function TimedQuestionGame(): React.JSX.Element {
   const { incrementGameCount } = useGameTracker();
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [timeLeft, setTimeLeft] = useState<number>(15);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -54,20 +18,65 @@ export default function TimedQuestionGame(): React.JSX.Element {
   const [score, setScore] = useState<number>(0);
   const [gameFinished, setGameFinished] = useState<boolean>(false);
 
-  const currentQuestions = selectedSubject ? questionsBySubject[selectedSubject] : [];
-  const currentQuestion = currentQuestions[currentQuestionIndex];
+  const currentQuestion = questions[currentQuestionIndex];
+
+  const fetchQuestions = async (subject: Subject): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:3001/timed/questions?subject=${subject}`);
+      if (response.ok) {
+        const data = await response.json();
+        setQuestions(data.questions);
+      } else {
+        console.error('Failed to fetch questions');
+        setQuestions([]);
+      }
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+      setQuestions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (timeLeft > 0 && !isAnswered && selectedSubject) {
+    const handleAnswer = (idx: number | null): void => {
+      if (idx !== null && idx === currentQuestion.correctAnswer) {
+        setScore(score + 1);
+      }
+      setTimeout(() => {
+        if (currentQuestionIndex < questions.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setTimeLeft(15);
+          setSelectedOption(null);
+          setIsAnswered(false);
+        } else {
+          setGameFinished(true);
+          // Increment game count when quiz is completed
+          incrementGameCount('timed');
+        }
+      }, 1200);
+    };
+
+    if (timeLeft > 0 && !isAnswered && selectedSubject && questions.length > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
-    } else if (timeLeft === 0 && !isAnswered && selectedSubject) {
+    } else if (timeLeft === 0 && !isAnswered && selectedSubject && questions.length > 0) {
       setIsAnswered(true);
       handleAnswer(null);
     }
-  }, [timeLeft, isAnswered, selectedSubject]);
+  }, [
+    timeLeft,
+    isAnswered,
+    selectedSubject,
+    questions.length,
+    currentQuestion,
+    currentQuestionIndex,
+    score,
+    incrementGameCount,
+  ]);
 
-  const handleSubjectSelect = (subject: Subject): void => {
+  const handleSubjectSelect = async (subject: Subject): Promise<void> => {
     setSelectedSubject(subject);
     setCurrentQuestionIndex(0);
     setTimeLeft(15);
@@ -75,36 +84,37 @@ export default function TimedQuestionGame(): React.JSX.Element {
     setIsAnswered(false);
     setScore(0);
     setGameFinished(false);
-  };
-
-  const handleAnswer = (idx: number | null): void => {
-    if (idx !== null && idx === currentQuestion.correctAnswer) {
-      setScore(score + 1);
-    }
-    setTimeout(() => {
-      if (currentQuestionIndex < currentQuestions.length - 1) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-        setTimeLeft(15);
-        setSelectedOption(null);
-        setIsAnswered(false);
-      } else {
-        setGameFinished(true);
-        // Increment game count when quiz is completed
-        incrementGameCount('timed');
-      }
-    }, 1200);
+    await fetchQuestions(subject);
   };
 
   const handleOptionClick = (idx: number): void => {
     if (!isAnswered) {
       setSelectedOption(idx);
       setIsAnswered(true);
+      const handleAnswer = (answerIdx: number | null): void => {
+        if (answerIdx !== null && answerIdx === currentQuestion.correctAnswer) {
+          setScore(score + 1);
+        }
+        setTimeout(() => {
+          if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+            setTimeLeft(15);
+            setSelectedOption(null);
+            setIsAnswered(false);
+          } else {
+            setGameFinished(true);
+            // Increment game count when quiz is completed
+            incrementGameCount('timed');
+          }
+        }, 1200);
+      };
       handleAnswer(idx);
     }
   };
 
   const resetGame = (): void => {
     setSelectedSubject(null);
+    setQuestions([]);
     setCurrentQuestionIndex(0);
     setTimeLeft(15);
     setSelectedOption(null);
@@ -130,13 +140,31 @@ export default function TimedQuestionGame(): React.JSX.Element {
             </Title>
             <Paragraph style={{ fontSize: 18, marginBottom: 24 }}>Choose your subject to start the quiz:</Paragraph>
             <Space direction="vertical" size="large" style={{ width: '100%' }}>
-              <Button type="primary" block size="large" onClick={() => handleSubjectSelect('math')}>
+              <Button
+                type="primary"
+                block
+                size="large"
+                loading={loading && selectedSubject === 'math'}
+                onClick={() => handleSubjectSelect('math')}
+              >
                 🔢 Math
               </Button>
-              <Button type="primary" block size="large" onClick={() => handleSubjectSelect('english')}>
+              <Button
+                type="primary"
+                block
+                size="large"
+                loading={loading && selectedSubject === 'english'}
+                onClick={() => handleSubjectSelect('english')}
+              >
                 📚 English
               </Button>
-              <Button type="primary" block size="large" onClick={() => handleSubjectSelect('knowledge')}>
+              <Button
+                type="primary"
+                block
+                size="large"
+                loading={loading && selectedSubject === 'knowledge'}
+                onClick={() => handleSubjectSelect('knowledge')}
+              >
                 🌟 Fun Facts
               </Button>
             </Space>
@@ -148,18 +176,18 @@ export default function TimedQuestionGame(): React.JSX.Element {
 
   if (gameFinished) {
     // Show result using Ant Design's Result component
-    const percent = Math.round((score / currentQuestions.length) * 100);
+    const percent = Math.round((score / questions.length) * 100);
     let status = 'success';
     let title = '🎉 Great Job!';
-    let subTitle = `Your Score: ${score} out of ${currentQuestions.length} (${percent}%)`;
+    let subTitle = `Your Score: ${score} out of ${questions.length} (${percent}%)`;
     let extra = null;
 
-    if (score === currentQuestions.length) {
+    if (score === questions.length) {
       status = 'success';
       extra = <Paragraph>🌟 Perfect Score! Amazing! 🌟</Paragraph>;
-    } else if (score >= currentQuestions.length * 0.8) {
+    } else if (score >= questions.length * 0.8) {
       extra = <Paragraph>🎊 Excellent work! 🎊</Paragraph>;
-    } else if (score >= currentQuestions.length * 0.6) {
+    } else if (score >= questions.length * 0.6) {
       extra = <Paragraph>👍 Good job! 👍</Paragraph>;
     } else {
       status = 'info';
@@ -185,6 +213,34 @@ export default function TimedQuestionGame(): React.JSX.Element {
               </Space>,
             ]}
           />
+        </div>
+      </div>
+    );
+  }
+
+  // Main quiz screen
+  if (loading) {
+    return (
+      <div className="timed-question-container">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
+            <Title level={3}>Loading questions...</Title>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  if (questions.length === 0 && selectedSubject) {
+    return (
+      <div className="timed-question-container">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
+            <Title level={3}>No questions available</Title>
+            <Button type="primary" onClick={resetGame}>
+              Back to Subject Selection
+            </Button>
+          </Card>
         </div>
       </div>
     );
@@ -227,14 +283,14 @@ export default function TimedQuestionGame(): React.JSX.Element {
               </Tag>
             </div>
             <Progress
-              percent={((currentQuestionIndex + 1) / currentQuestions.length) * 100}
+              percent={((currentQuestionIndex + 1) / questions.length) * 100}
               showInfo={false}
               strokeColor="#0080a8"
               trailColor="#e6f7ff"
               style={{ marginBottom: 4 }}
             />
             <Paragraph strong style={{ fontSize: 17, marginBottom: 0 }}>
-              Question {currentQuestionIndex + 1} of {currentQuestions.length} | Score: {score}
+              Question {currentQuestionIndex + 1} of {questions.length} | Score: {score}
             </Paragraph>
             <Title level={4} style={{ marginBottom: 0 }}>
               {currentQuestion.question}

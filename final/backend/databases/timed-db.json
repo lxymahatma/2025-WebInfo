@@ -1,0 +1,169 @@
+{
+  "questions": [
+    {
+      "subject": "math",
+      "question": "What is 2 + 3?",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "math",
+      "question": "What is 10 - 4?",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "math",
+      "question": "How many sides does a triangle have?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "math",
+      "question": "What is 3 × 2?",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "math",
+      "question": "What comes after the number 9?",
+      "options": [
+        "8",
+        "10",
+        "11",
+        "12"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "english",
+      "question": "Which letter comes after 'B'?",
+      "options": [
+        "A",
+        "C",
+        "D",
+        "E"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "english",
+      "question": "What sound does a cat make?",
+      "options": [
+        "Woof",
+        "Meow",
+        "Moo",
+        "Oink"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "english",
+      "question": "How many letters are in the word 'CAT'?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "english",
+      "question": "Which word rhymes with 'hat'?",
+      "options": [
+        "dog",
+        "cat",
+        "sun",
+        "tree"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "english",
+      "question": "What is the first letter of the alphabet?",
+      "options": [
+        "B",
+        "A",
+        "C",
+        "D"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "knowledge",
+      "question": "What color do you get when you mix red and yellow?",
+      "options": [
+        "Purple",
+        "Orange",
+        "Green",
+        "Blue"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "knowledge",
+      "question": "How many legs does a dog have?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "subject": "knowledge",
+      "question": "What do bees make?",
+      "options": [
+        "Milk",
+        "Honey",
+        "Cheese",
+        "Bread"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "knowledge",
+      "question": "Which season comes after winter?",
+      "options": [
+        "Summer",
+        "Spring",
+        "Fall",
+        "Winter"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "subject": "knowledge",
+      "question": "What do we use to brush our teeth?",
+      "options": [
+        "Fork",
+        "Toothbrush",
+        "Spoon",
+        "Comb"
+      ],
+      "correctAnswer": 1
+    }
+  ]
+}
