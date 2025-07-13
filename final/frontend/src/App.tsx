@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
 import { GameTrackerProvider } from './GameTrackerContext';
 import NavBar from './NavBar';
@@ -15,10 +15,12 @@ import './App.css';
 
 function AppContent() {
   const { user } = useAuth();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   return (
     <>
-      {user && <NavBar />}
+      {user && !isHomePage && <NavBar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={user ? <Navigate to="/" /> : <SignIn />} />
