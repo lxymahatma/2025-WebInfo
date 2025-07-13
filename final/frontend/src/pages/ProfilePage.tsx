@@ -230,32 +230,26 @@ export default function ProfilePage() {
   );
 
   return (
-    <div style={{ background: currentTheme.background, minHeight: '100vh', padding: 0 }}>
-      <Row justify="center" align="middle" style={{ minHeight: '100vh', padding: 0, margin: 0 }}>
+    <div className={`profile-page ${theme === 'Light' ? 'profile-page-light' : 'profile-page-dark'}`}>
+      <Row justify="center" align="middle" className="profile-main-row">
         {/* Left Section */}
-        <Col xs={24} md={7} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Col xs={24} md={7} className="profile-left-col">
           <Card
-            style={{
-              width: 420,
-              borderRadius: 18,
-              marginBottom: 24,
-              boxShadow: '0 8px 32px #0002',
-              backgroundColor: currentTheme.cardBackground,
-            }}
+            className={`profile-left-card ${theme === 'Light' ? 'profile-left-card-light' : 'profile-left-card-dark'}`}
             bodyStyle={{ padding: 32, paddingBottom: 12 }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 14 }}>
+            <div className="profile-avatar-section">
               <Avatar size={56} src={profile.profilePicture} />
               <div>
-                <Text strong style={{ fontSize: 18, color: currentTheme.textPrimary }}>
+                <Text strong className={`profile-username ${theme === 'Light' ? 'profile-username-light' : 'profile-username-dark'}`}>
                   {profile.name}
                 </Text>
               </div>
             </div>
-            <Divider style={{ margin: '10px 0', borderColor: currentTheme.border }} />
+            <Divider className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`} />
             <Menu
               mode="vertical"
-              style={{ border: 'none', background: 'transparent' }}
+              className="profile-menu"
               selectedKeys={[activeSection]}
               onClick={({ key }) => {
                 // Only change section for profile and settings, not items
@@ -266,22 +260,22 @@ export default function ProfilePage() {
             >
               <Menu.Item
                 key="profile"
-                icon={<UserOutlined style={{ color: currentTheme.textPrimary }} />}
-                style={{ paddingLeft: 0, fontSize: 16, color: currentTheme.textPrimary }}
+                icon={<UserOutlined className={`profile-menu-icon ${theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'}`} />}
+                className={`profile-menu-item ${theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'}`}
               >
                 {t.myProfile}
               </Menu.Item>
               <Menu.Item
                 key="settings"
-                icon={<SettingOutlined style={{ color: currentTheme.textPrimary }} />}
-                style={{ paddingLeft: 0, fontSize: 16, color: currentTheme.textPrimary }}
+                icon={<SettingOutlined className={`profile-menu-icon ${theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'}`} />}
+                className={`profile-menu-item ${theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'}`}
               >
                 {t.settings}
               </Menu.Item>
               <Menu.Item
                 key="items"
-                icon={<BellOutlined style={{ color: currentTheme.textPrimary }} />}
-                style={{ paddingLeft: 0, fontSize: 16, color: currentTheme.textPrimary }}
+                icon={<BellOutlined className={`profile-menu-icon ${theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'}`} />}
+                className={`profile-menu-item ${theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'}`}
               >
                 <Space>
                   {t.items}
@@ -289,17 +283,17 @@ export default function ProfilePage() {
                     <Button
                       size="small"
                       type="link"
-                      style={{ padding: 0, height: 20, fontWeight: 600, color: currentTheme.textPrimary }}
+                      className={`profile-items-dropdown-button ${theme === 'Light' ? 'profile-items-dropdown-button-light' : 'profile-items-dropdown-button-dark'}`}
                     >
-                      {profile.equippedEmojis.length} <DownOutlined style={{ fontSize: 10 }} />
+                      {profile.equippedEmojis.length} <DownOutlined className="profile-items-dropdown-icon" />
                     </Button>
                   </Dropdown>
                 </Space>
               </Menu.Item>
               <Menu.Item
                 key="logout"
-                icon={<LogoutOutlined style={{ color: currentTheme.textPrimary }} />}
-                style={{ paddingLeft: 0, fontSize: 16, color: currentTheme.textPrimary }}
+                icon={<LogoutOutlined className={`profile-menu-icon ${theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'}`} />}
+                className={`profile-menu-item ${theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'}`}
               >
                 {t.logOut}
               </Menu.Item>
@@ -307,28 +301,22 @@ export default function ProfilePage() {
           </Card>
           {/* Settings Popup */}
           <Card
-            style={{
-              width: 340,
-              borderRadius: 14,
-              boxShadow: '0 8px 32px #0002',
-              marginLeft: 8,
-              backgroundColor: currentTheme.cardBackground,
-            }}
+            className={`profile-settings-card ${theme === 'Light' ? 'profile-settings-card-light' : 'profile-settings-card-dark'}`}
             bodyStyle={{ padding: 24 }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text strong style={{ fontSize: 16, color: currentTheme.textPrimary }}>
+            <div className="profile-settings-header">
+              <Text strong className={`profile-settings-title ${theme === 'Light' ? 'profile-settings-title-light' : 'profile-settings-title-dark'}`}>
                 {t.settings}
               </Text>
               <Button shape="circle" size="small" type="text" icon={<CloseIcon />} />
             </div>
-            <Divider style={{ margin: '12px 0', borderColor: currentTheme.border }} />
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-              <span style={{ color: currentTheme.textPrimary }}>{t.theme}</span>
+            <Divider className={`profile-settings-divider ${theme === 'Light' ? 'profile-settings-divider-light' : 'profile-settings-divider-dark'}`} />
+            <div className="profile-settings-row">
+              <span className={`${theme === 'Light' ? 'profile-settings-label-light' : 'profile-settings-label-dark'}`}>{t.theme}</span>
               <Select
                 size="small"
                 value={theme}
-                style={{ width: 85 }}
+                className="profile-settings-select"
                 onChange={v => setTheme(v)}
                 options={[
                   { value: 'Light', label: t.light },
@@ -336,12 +324,12 @@ export default function ProfilePage() {
                 ]}
               />
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ color: currentTheme.textPrimary }}>{t.language}</span>
+            <div className="profile-settings-row">
+              <span className={`${theme === 'Light' ? 'profile-settings-label-light' : 'profile-settings-label-dark'}`}>{t.language}</span>
               <Select
                 size="small"
                 value={lang}
-                style={{ width: 85 }}
+                className="profile-settings-select"
                 onChange={v => setLang(v)}
                 options={[
                   { value: 'Eng', label: 'English' },
@@ -355,47 +343,38 @@ export default function ProfilePage() {
         {/* Right Section */}
         <Col xs={24} md={10}>
           <Card
-            style={{
-              borderRadius: 22,
-              padding: 0,
-              minWidth: 520,
-              maxWidth: 600,
-              marginLeft: 28,
-              marginTop: 24,
-              boxShadow: '0 8px 32px #0002',
-              backgroundColor: currentTheme.cardBackground,
-            }}
+            className={`profile-right-card ${theme === 'Light' ? 'profile-right-card-light' : 'profile-right-card-dark'}`}
             bodyStyle={{ padding: 40, paddingBottom: 28 }}
           >
             {activeSection === 'profile' ? (
               // Profile Section
               <>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
+                <div className="profile-header-section">
                   <Avatar size={64} src={profile.profilePicture} />
-                  <div style={{ marginLeft: 18, flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <Text strong style={{ fontSize: 21, color: currentTheme.textPrimary }}>
+                  <div className="profile-header-info">
+                    <div className="profile-header-name-row">
+                      <Text strong className={`profile-header-name ${theme === 'Light' ? 'profile-header-name-light' : 'profile-header-name-dark'}`}>
                         {profile.name}
                       </Text>
                       {profile.equippedEmojis.map((emoji, index) => (
-                        <span key={index} style={{ fontSize: 20 }}>
+                        <span key={index} className="profile-emoji">
                           {emoji}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <Button type="text" icon={<EditOutlined />} onClick={openEdit} style={{ marginLeft: 'auto' }} />
+                  <Button type="text" icon={<EditOutlined />} onClick={openEdit} className="profile-edit-button" />
                 </div>
-                <Divider style={{ borderColor: currentTheme.border }} />
-                <div style={{ fontSize: 16, marginBottom: 26 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
-                    <span style={{ color: currentTheme.textLabel, fontWeight: 500 }}>{t.name}</span>
-                    <span style={{ color: currentTheme.textPrimary, fontWeight: 500 }}>{profile.name}</span>
+                <Divider className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`} />
+                <div className="profile-info-section">
+                  <div className="profile-info-row">
+                    <span className={`profile-info-label ${theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'}`}>{t.name}</span>
+                    <span className={`profile-info-value ${theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'}`}>{profile.name}</span>
                   </div>
 
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
-                    <span style={{ color: currentTheme.textLabel, fontWeight: 500 }}>{t.age}</span>
-                    <span style={{ color: currentTheme.textPrimary, fontWeight: 500 }}>
+                  <div className="profile-info-row">
+                    <span className={`profile-info-label ${theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'}`}>{t.age}</span>
+                    <span className={`profile-info-value ${theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'}`}>
                       {profile.age ? (
                         profile.age
                       ) : (
@@ -405,14 +384,14 @@ export default function ProfilePage() {
                       )}
                     </span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
-                    <span style={{ color: currentTheme.textLabel, fontWeight: 500 }}>{t.location}</span>
-                    <span style={{ color: currentTheme.textPrimary, fontWeight: 500 }}>{profile.location}</span>
+                  <div className="profile-info-row">
+                    <span className={`profile-info-label ${theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'}`}>{t.location}</span>
+                    <span className={`profile-info-value ${theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'}`}>{profile.location}</span>
                   </div>
                 </div>
                 <Button
                   type="primary"
-                  style={{ width: 145, height: 38, fontWeight: 600, fontSize: 16, borderRadius: 8 }}
+                  className="profile-save-button"
                 >
                   {t.saveChange}
                 </Button>
@@ -420,43 +399,38 @@ export default function ProfilePage() {
             ) : (
               // Settings Section - Profile Picture
               <>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
-                  <SettingOutlined style={{ fontSize: 24, marginRight: 12, color: currentTheme.textPrimary }} />
-                  <Text strong style={{ fontSize: 21, color: currentTheme.textPrimary }}>
+                <div className="profile-settings-section-header">
+                  <SettingOutlined className={`profile-settings-icon ${theme === 'Light' ? 'profile-settings-icon-light' : 'profile-settings-icon-dark'}`} />
+                  <Text strong className={`profile-settings-section-title ${theme === 'Light' ? 'profile-settings-section-title-light' : 'profile-settings-section-title-dark'}`}>
                     {t.profileSettings}
                   </Text>
                 </div>
-                <Divider style={{ borderColor: currentTheme.border }} />
+                <Divider className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`} />
 
-                <div style={{ textAlign: 'center', marginBottom: 32 }}>
-                  <div style={{ marginBottom: 24 }}>
+                <div className="profile-picture-section">
+                  <div className="profile-picture-avatar-container">
                     <Avatar size={120} src={profile.profilePicture} />
                   </div>
                   <Text
                     strong
-                    style={{ fontSize: 18, display: 'block', marginBottom: 8, color: currentTheme.textPrimary }}
+                    className={`profile-picture-title ${theme === 'Light' ? 'profile-picture-title-light' : 'profile-picture-title-dark'}`}
                   >
                     {t.profilePicture}
                   </Text>
-                  <Text style={{ color: currentTheme.textSecondary, marginBottom: 24, display: 'block' }}>
+                  <Text className={`profile-picture-subtitle ${theme === 'Light' ? 'profile-picture-subtitle-light' : 'profile-picture-subtitle-dark'}`}>
                     {t.changeProfilePicture}
                   </Text>
 
-                  <Space direction="vertical" style={{ width: '100%' }}>
+                  <Space direction="vertical" className="profile-upload-space">
                     <Upload
                       accept="image/*"
                       beforeUpload={handleFileUpload}
                       showUploadList={false}
-                      style={{ width: '100%' }}
+                      className="profile-upload-space"
                     >
                       <Button
                         icon={<UploadOutlined />}
-                        style={{
-                          width: '100%',
-                          height: 40,
-                          marginBottom: 16,
-                          borderRadius: 8,
-                        }}
+                        className="profile-upload-button"
                       >
                         {t.uploadFromDevice}
                       </Button>
@@ -466,7 +440,7 @@ export default function ProfilePage() {
 
                     <Input
                       placeholder={t.enterImageUrl}
-                      style={{ marginBottom: 16 }}
+                      className="profile-url-input"
                       onPressEnter={e => {
                         const url = (e.target as HTMLInputElement).value;
                         if (url) {
@@ -476,10 +450,8 @@ export default function ProfilePage() {
                         }
                       }}
                     />
-                    <Text style={{ fontSize: 14, color: currentTheme.textSecondary }}>{t.chooseFromPresets}</Text>
-                    <div
-                      style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginTop: 16 }}
-                    >
+                    <Text className={`profile-preset-text ${theme === 'Light' ? 'profile-preset-text-light' : 'profile-preset-text-dark'}`}>{t.chooseFromPresets}</Text>
+                    <div className="profile-preset-avatars">
                       {[
                         'https://randomuser.me/api/portraits/men/32.jpg',
                         'https://randomuser.me/api/portraits/women/44.jpg',
@@ -492,12 +464,13 @@ export default function ProfilePage() {
                           key={index}
                           size={48}
                           src={url}
-                          style={{
-                            cursor: 'pointer',
-                            border:
-                              profile.profilePicture === url ? '3px solid #1890ff' : `2px solid ${currentTheme.border}`,
-                            transition: 'all 0.3s',
-                          }}
+                          className={`profile-preset-avatar ${
+                            profile.profilePicture === url 
+                              ? 'profile-preset-avatar-selected' 
+                              : theme === 'Light' 
+                                ? 'profile-preset-avatar-light' 
+                                : 'profile-preset-avatar-dark'
+                          }`}
                           onClick={() => handleProfilePictureChange(url)}
                         />
                       ))}
@@ -507,7 +480,7 @@ export default function ProfilePage() {
 
                 <Button
                   type="primary"
-                  style={{ width: 145, height: 38, fontWeight: 600, fontSize: 16, borderRadius: 8 }}
+                  className="profile-back-button"
                   onClick={() => setActiveSection('profile')}
                 >
                   {t.backToProfile}
@@ -559,68 +532,41 @@ export default function ProfilePage() {
         ]}
         width={600}
       >
-        <div style={{ marginBottom: 16 }}>
-          <Text strong style={{ color: currentTheme.textPrimary }}>
+        <div className="profile-modal-equipped-section">
+          <Text strong className={`profile-equipped-items-text ${theme === 'Light' ? 'profile-equipped-items-text-light' : 'profile-equipped-items-text-dark'}`}>
             {t.equippedItems} ({profile.equippedEmojis.length}):{' '}
           </Text>
           {profile.equippedEmojis.length > 0 ? (
-            <div style={{ marginTop: 8 }}>
+            <div className="profile-modal-equipped-emojis">
               {profile.equippedEmojis.map((emoji, index) => (
-                <span key={index} style={{ fontSize: 24, marginRight: 8 }}>
+                <span key={index} className="profile-modal-equipped-emoji">
                   {emoji}
                 </span>
               ))}
             </div>
           ) : (
-            <Text style={{ color: currentTheme.textSecondary }}>{t.noItemsEquipped}</Text>
+            <Text className={`profile-no-items-text ${theme === 'Light' ? 'profile-no-items-text-light' : 'profile-no-items-text-dark'}`}>{t.noItemsEquipped}</Text>
           )}
         </div>
 
-        <Divider style={{ borderColor: currentTheme.border }} />
+        <Divider className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`} />
 
         <div>
-          <Text strong style={{ marginBottom: 16, display: 'block', color: currentTheme.textPrimary }}>
+          <Text strong className={`profile-available-items-text ${theme === 'Light' ? 'profile-available-items-text-light' : 'profile-available-items-text-dark'}`}>
             {t.availableItems}
           </Text>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))',
-              gap: 12,
-              maxHeight: 300,
-              overflowY: 'auto',
-            }}
-          >
+          <div className="profile-emoji-grid">
             {availableEmojis.map((emoji, index) => (
               <div
                 key={index}
-                style={{
-                  width: 60,
-                  height: 60,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 28,
-                  cursor: 'pointer',
-                  borderRadius: 8,
-                  border: profile.equippedEmojis.includes(emoji)
-                    ? '3px solid #1890ff'
-                    : `2px solid ${currentTheme.border}`,
-                  backgroundColor: profile.equippedEmojis.includes(emoji) ? '#e6f7ff' : currentTheme.cardBackground,
-                  transition: 'all 0.3s',
-                  userSelect: 'none',
-                }}
+                className={`profile-emoji-item ${
+                  profile.equippedEmojis.includes(emoji)
+                    ? 'profile-emoji-item-equipped'
+                    : theme === 'Light'
+                    ? 'profile-emoji-item-light profile-emoji-item-hover-light'
+                    : 'profile-emoji-item-dark profile-emoji-item-hover-dark'
+                }`}
                 onClick={() => toggleEmoji(emoji)}
-                onMouseEnter={e => {
-                  if (!profile.equippedEmojis.includes(emoji)) {
-                    e.currentTarget.style.backgroundColor = currentTheme.hoverBackground;
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!profile.equippedEmojis.includes(emoji)) {
-                    e.currentTarget.style.backgroundColor = currentTheme.cardBackground;
-                  }
-                }}
               >
                 {emoji}
               </div>
@@ -636,9 +582,7 @@ export default function ProfilePage() {
 function CloseIcon() {
   return (
     <svg
-      width="14"
-      height="14"
-      style={{ verticalAlign: 'middle' }}
+      className="profile-close-icon"
       viewBox="0 0 24 24"
       fill="none"
       stroke="#aaa"

@@ -261,19 +261,23 @@ export default function TimedQuestionGame(): React.JSX.Element {
           bordered
         >
           <Space direction="vertical" style={{ width: '100%' }} size="large">
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Tag color="geekblue" style={{ fontSize: 16, padding: '6px 16px' }}>
-                {subjectNames[selectedSubject]}
-              </Tag>
-              <Tag color="gold" style={{ fontSize: 16 }}>
-                ⏰ {timeLeft}s
-              </Tag>
+            <div className="timed-question-header-with-back">
+              <Button 
+                type="text" 
+                onClick={resetGame}
+                className="timed-question-back-button"
+              >
+                ← Back
+              </Button>
+              <div className="timed-question-tag-container">
+                <Tag color="geekblue" style={{ fontSize: 16, padding: '6px 16px' }}>
+                  {subjectNames[selectedSubject]}
+                </Tag>
+                <Tag color="gold" style={{ fontSize: 16 }}>
+                  ⏰ {timeLeft}s
+                </Tag>
+              </div>
+              <div className="timed-question-header-spacer"></div>
             </div>
             <Progress
               percent={((currentQuestionIndex + 1) / questions.length) * 100}
