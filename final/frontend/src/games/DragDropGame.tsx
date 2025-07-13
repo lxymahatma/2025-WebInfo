@@ -155,7 +155,7 @@ export default function DragDropGame(): React.JSX.Element {
             const parts = label.split(' ');
             const emoji = parts[0];
             const text = parts.slice(1).join(' ');
-            
+
             return (
               <div
                 key={id}
@@ -185,4 +185,3 @@ export default function DragDropGame(): React.JSX.Element {
     </div>
   );
 }
-

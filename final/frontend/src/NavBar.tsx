@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Menu, Button } from 'antd';
+import { Button } from 'antd';
 import { useAuth } from './AuthContext';
 
 const navItems = [
@@ -43,35 +43,27 @@ export default function NavBar() {
       {/* Show navigation hint on non-homepage when navbar is hidden */}
       {!isHomePage && !isVisible && (
         <div className="nav-hint">
-          <div className="nav-hint-content">
-            Move cursor to top for navigation
-          </div>
+          <div className="nav-hint-content">Move cursor to top for navigation</div>
         </div>
       )}
-      
-      <nav
-        className={`nav-bar ${isVisible ? 'nav-visible' : 'nav-hidden'}`}
-      >
-      <div className="nav-menu">
-        {navItems.map(item => (
-          <NavLink 
-            key={item.key}
-            to={item.key} 
-            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-          >
-            {item.label}
-          </NavLink>
-        ))}
-      </div>
-      <div className="nav-user-section">
-        <span>
-          Welcome, <strong>{user}</strong>!
-        </span>
-        <Button type="primary" danger onClick={signout}>
-          Signout
-        </Button>
-      </div>
-    </nav>
+
+      <nav className={`nav-bar ${isVisible ? 'nav-visible' : 'nav-hidden'}`}>
+        <div className="nav-menu">
+          {navItems.map(item => (
+            <NavLink key={item.key} to={item.key} className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+              {item.label}
+            </NavLink>
+          ))}
+        </div>
+        <div className="nav-user-section">
+          <span>
+            Welcome, <strong>{user}</strong>!
+          </span>
+          <Button type="primary" danger onClick={signout}>
+            Signout
+          </Button>
+        </div>
+      </nav>
     </>
   );
 }

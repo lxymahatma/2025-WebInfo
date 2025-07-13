@@ -72,9 +72,5 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     resetStats,
   };
 
-  return (
-    <GameTrackerContext.Provider value={value}>
-      {children}
-    </GameTrackerContext.Provider>
-  );
+  return <GameTrackerContext.Provider value={value}>{children}</GameTrackerContext.Provider>;
 };
