@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Menu, Button } from 'antd';
 import { useAuth } from './AuthContext';
@@ -15,39 +15,57 @@ const navItems = [
 export default function NavBar() {
   const location = useLocation();
   const { signout, user } = useAuth();
+  const [isVisible, setIsVisible] = useState(false);
+  const isHomePage = location.pathname === '/';
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Show navbar when mouse is in the top 80px of the screen
+      if (e.clientY <= 80) {
+        setIsVisible(true);
+      } else if (e.clientY > 150) {
+        // Only hide when mouse is below 150px to prevent flickering
+        setIsVisible(false);
+      }
+    };
+
+    // Add event listener to the document
+    document.addEventListener('mousemove', handleMouseMove);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   return (
-    <nav
-      className="nav-bar"
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '1.5rem 2rem',
-        minHeight: '50px',
-      }}
-    >
-      <Menu
-        mode="horizontal"
-        selectedKeys={[location.pathname]}
+    <>
+      {/* Show navigation hint on non-homepage when navbar is hidden */}
+      {!isHomePage && !isVisible && (
+        <div className="nav-hint">
+          <div className="nav-hint-content">
+            Move cursor to top for navigation
+          </div>
+        </div>
+      )}
+      
+      <nav
+        className={`nav-bar ${isVisible ? 'nav-visible' : 'nav-hidden'}`}
         style={{
-          background: 'transparent',
-          border: 'none',
-          boxShadow: 'none',
-          display: 'flex',
-          gap: '2rem',
-          flex: 1,
-          lineHeight: '48px',
+          transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
         }}
-        items={navItems.map(item => ({
-          key: item.key,
-          label: (
-            <NavLink to={item.key} className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
-              {item.label}
-            </NavLink>
-          ),
-        }))}
-      />
+      >
+      <div className="nav-menu">
+        {navItems.map(item => (
+          <NavLink 
+            key={item.key}
+            to={item.key} 
+            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+          >
+            {item.label}
+          </NavLink>
+        ))}
+      </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <span>
           Welcome, <strong>{user}</strong>!
@@ -57,5 +75,6 @@ export default function NavBar() {
         </Button>
       </div>
     </nav>
+    </>
   );
 }

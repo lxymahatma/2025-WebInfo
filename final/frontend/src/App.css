@@ -4,6 +4,15 @@
   text-align: center;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.main-content {
+  padding-top: 0; 
+}
+
 /* ---------- Nav Bar ---------- */
 .nav-bar {
   background: #0080a8;
@@ -12,10 +21,59 @@
   display: flex;
   font-size: 1.1rem;
   font-weight: 600;
-  gap: 2rem;
-  justify-content: center;
-  margin-bottom: 2rem;
-  padding: 1rem 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-hidden {
+  transform: translateY(-100%);
+}
+
+.nav-visible {
+  transform: translateY(0);
+}
+
+/* Navigation hint for homepage */
+.nav-hint {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  pointer-events: none;
+}
+
+.nav-hint-content {
+  background: rgba(0, 128, 168, 0.9);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 8px 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Custom nav menu styling */
+.nav-menu {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+  gap: 0.5rem;
 }
 
 .nav-link {
@@ -26,9 +84,15 @@
   cursor: pointer;
   font-weight: bold;
   outline: none;
-  padding: 0.5rem 1.2rem;
+  padding: 0.8rem 0.8rem;
   text-decoration: none;
   transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+  text-align: center;
+  display: inline-block;
+  flex: 1;
+  min-width: 100px;
+  max-width: 150px;
 }
 
 .nav-link:hover {
