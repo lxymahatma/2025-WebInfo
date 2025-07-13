@@ -92,7 +92,29 @@ export default function HomePage(): React.JSX.Element {
               <Paragraph className="welcome-description">
                 Discover our amazing collection of brain-training games designed to challenge and entertain you.
               </Paragraph>
+            </div>
 
+            <div className="homepage-auth-section">
+              <div className="homepage-auth-card">
+                <Title level={3} className="auth-title">
+                  Ready to Play?
+                </Title>
+                <div className="homepage-auth-buttons">
+                  <Link to="/signin">
+                    <Button className="auth-button signin-button" size="large">
+                      🔑 Sign In
+                    </Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button className="auth-button signup-button" size="large">
+                      📝 Sign Up
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="homepage-features-section">
               <div className="homepage-features">
                 <div className="feature-item">
                   <span className="feature-icon">🎯</span>
@@ -109,24 +131,6 @@ export default function HomePage(): React.JSX.Element {
                   <h4>Memory Card Game</h4>
                   <p>Train your memory</p>
                 </div>
-              </div>
-            </div>
-
-            <div className="homepage-auth-section">
-              <Title level={3} className="auth-title">
-                Ready to Play?
-              </Title>
-              <div className="homepage-auth-buttons">
-                <Link to="/signin">
-                  <Button className="auth-button signin-button" size="large">
-                    🔑 Sign In
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button className="auth-button signup-button" size="large">
-                    📝 Sign Up
-                  </Button>
-                </Link>
               </div>
             </div>
           </>
