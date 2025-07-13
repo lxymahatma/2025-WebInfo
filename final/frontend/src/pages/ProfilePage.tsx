@@ -115,32 +115,7 @@ export default function ProfilePage(): React.JSX.Element {
   const [itemsModalVisible, setItemsModalVisible] = useState(false);
 
   // For settings
-  const [theme, setTheme] = useState('Light');
   const [lang, setLang] = useState('Eng');
-
-  // Theme colors
-  const themeColors = {
-    Light: {
-      background: '#10809b',
-      cardBackground: '#ffffff',
-      textPrimary: '#000000',
-      textSecondary: '#888888',
-      textLabel: '#7b8',
-      border: '#f0f0f0',
-      hoverBackground: '#f0f0f0',
-    },
-    Dark: {
-      background: '#1a1a1a',
-      cardBackground: '#2d2d2d',
-      textPrimary: '#ffffff',
-      textSecondary: '#cccccc',
-      textLabel: '#9cb3bb',
-      border: '#404040',
-      hoverBackground: '#404040',
-    },
-  };
-
-  const currentTheme = themeColors[theme as keyof typeof themeColors];
 
   // Language translations
   const translations = {
@@ -163,10 +138,7 @@ export default function ProfilePage(): React.JSX.Element {
       editProfile: 'Edit Profile',
       save: 'Save',
       cancel: 'Cancel',
-      theme: 'Theme',
       language: 'Language',
-      light: 'Light',
-      dark: 'Dark',
       itemsCollection: 'Items Collection',
       equippedItems: 'Equipped Items',
       noItemsEquipped: 'No items equipped',
@@ -194,10 +166,7 @@ export default function ProfilePage(): React.JSX.Element {
       editProfile: 'プロフィール編集',
       save: '保存',
       cancel: 'キャンセル',
-      theme: 'テーマ',
       language: '言語',
-      light: 'ライト',
-      dark: 'ダーク',
       itemsCollection: 'アイテムコレクション',
       equippedItems: '装備中のアイテム',
       noItemsEquipped: '装備中のアイテムなし',
@@ -299,12 +268,12 @@ export default function ProfilePage(): React.JSX.Element {
   );
 
   return (
-    <div className={`profile-page ${theme === 'Light' ? 'profile-page-light' : 'profile-page-dark'}`}>
+    <div className="profile-page">
       <Row justify="center" align="middle" className="profile-main-row">
         {/* Left Section */}
         <Col xs={24} md={7} className="profile-left-col">
           <Card
-            className={`profile-left-card ${theme === 'Light' ? 'profile-left-card-light' : 'profile-left-card-dark'}`}
+            className="profile-left-card"
             bodyStyle={{ padding: 32, paddingBottom: 12 }}
           >
             <div className="profile-avatar-section">
@@ -312,16 +281,14 @@ export default function ProfilePage(): React.JSX.Element {
               <div>
                 <Text
                   strong
-                  className={`profile-username ${
-                    theme === 'Light' ? 'profile-username-light' : 'profile-username-dark'
-                  }`}
+                  className="profile-username"
                 >
                   {profile.name}
                 </Text>
               </div>
             </div>
             <Divider
-              className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`}
+              className="profile-divider"
             />
             <Menu
               mode="vertical"
@@ -338,14 +305,10 @@ export default function ProfilePage(): React.JSX.Element {
                 key="profile"
                 icon={
                   <UserOutlined
-                    className={`profile-menu-icon ${
-                      theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'
-                    }`}
+                    className="profile-menu-icon"
                   />
                 }
-                className={`profile-menu-item ${
-                  theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'
-                }`}
+                className="profile-menu-item"
               >
                 {t.myProfile}
               </Menu.Item>
@@ -353,14 +316,10 @@ export default function ProfilePage(): React.JSX.Element {
                 key="settings"
                 icon={
                   <SettingOutlined
-                    className={`profile-menu-icon ${
-                      theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'
-                    }`}
+                    className="profile-menu-icon"
                   />
                 }
-                className={`profile-menu-item ${
-                  theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'
-                }`}
+                className="profile-menu-item"
               >
                 {t.settings}
               </Menu.Item>
@@ -368,14 +327,10 @@ export default function ProfilePage(): React.JSX.Element {
                 key="items"
                 icon={
                   <BellOutlined
-                    className={`profile-menu-icon ${
-                      theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'
-                    }`}
+                    className="profile-menu-icon"
                   />
                 }
-                className={`profile-menu-item ${
-                  theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'
-                }`}
+                className="profile-menu-item"
               >
                 <Space>
                   {t.items}
@@ -383,9 +338,7 @@ export default function ProfilePage(): React.JSX.Element {
                     <Button
                       size="small"
                       type="link"
-                      className={`profile-items-dropdown-button ${
-                        theme === 'Light' ? 'profile-items-dropdown-button-light' : 'profile-items-dropdown-button-dark'
-                      }`}
+                      className="profile-items-dropdown-button"
                     >
                       {profile.equippedEmojis.length} <DownOutlined className="profile-items-dropdown-icon" />
                     </Button>
@@ -394,9 +347,7 @@ export default function ProfilePage(): React.JSX.Element {
               </Menu.Item>
               <Menu.Item
                 key="language"
-                className={`profile-menu-item ${
-                  theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'
-                }`}
+                className="profile-menu-item"
               >
                 <Space>
                   {t.language}
@@ -419,9 +370,7 @@ export default function ProfilePage(): React.JSX.Element {
         {/* Right Section */}
         <Col xs={24} md={10}>
           <Card
-            className={`profile-right-card ${
-              theme === 'Light' ? 'profile-right-card-light' : 'profile-right-card-dark'
-            }`}
+            className="profile-right-card"
             bodyStyle={{ padding: 40, paddingBottom: 28 }}
           >
             {activeSection === 'profile' ? (
@@ -433,9 +382,7 @@ export default function ProfilePage(): React.JSX.Element {
                     <div className="profile-header-name-row">
                       <Text
                         strong
-                        className={`profile-header-name ${
-                          theme === 'Light' ? 'profile-header-name-light' : 'profile-header-name-dark'
-                        }`}
+                        className="profile-header-name"
                       >
                         {profile.name}
                       </Text>
@@ -449,21 +396,17 @@ export default function ProfilePage(): React.JSX.Element {
                   <Button type="text" icon={<EditOutlined />} onClick={openEdit} className="profile-edit-button" />
                 </div>
                 <Divider
-                  className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`}
+                  className="profile-divider"
                 />
                 <div className="profile-info-section">
                   <div className="profile-info-row">
                     <span
-                      className={`profile-info-label ${
-                        theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'
-                      }`}
+                      className="profile-info-label"
                     >
                       {t.name}
                     </span>
                     <span
-                      className={`profile-info-value ${
-                        theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'
-                      }`}
+                      className="profile-info-value"
                     >
                       {profile.name}
                     </span>
@@ -471,16 +414,12 @@ export default function ProfilePage(): React.JSX.Element {
 
                   <div className="profile-info-row">
                     <span
-                      className={`profile-info-label ${
-                        theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'
-                      }`}
+                      className="profile-info-label"
                     >
                       {t.password}
                     </span>
                     <span
-                      className={`profile-info-value profile-password-display ${
-                        theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'
-                      }`}
+                      className="profile-info-value profile-password-display"
                     >
                       {showPassword ? actualPassword || profile.password : '•'.repeat(8)}
                       <Button
@@ -493,30 +432,23 @@ export default function ProfilePage(): React.JSX.Element {
                     </span>
                   </div>
                 </div>
-                <Button type="primary" className="profile-save-button">
-                  {t.saveChange}
-                </Button>
               </>
             ) : (
               // Settings Section - Profile Picture
               <>
                 <div className="profile-settings-section-header">
                   <SettingOutlined
-                    className={`profile-settings-icon ${
-                      theme === 'Light' ? 'profile-settings-icon-light' : 'profile-settings-icon-dark'
-                    }`}
+                    className="profile-settings-icon"
                   />
                   <Text
                     strong
-                    className={`profile-settings-section-title ${
-                      theme === 'Light' ? 'profile-settings-section-title-light' : 'profile-settings-section-title-dark'
-                    }`}
+                    className="profile-settings-section-title"
                   >
                     {t.profileSettings}
                   </Text>
                 </div>
                 <Divider
-                  className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`}
+                  className="profile-divider"
                 />
 
                 <div className="profile-picture-section">
@@ -525,16 +457,12 @@ export default function ProfilePage(): React.JSX.Element {
                   </div>
                   <Text
                     strong
-                    className={`profile-picture-title ${
-                      theme === 'Light' ? 'profile-picture-title-light' : 'profile-picture-title-dark'
-                    }`}
+                    className="profile-picture-title"
                   >
                     {t.profilePicture}
                   </Text>
                   <Text
-                    className={`profile-picture-subtitle ${
-                      theme === 'Light' ? 'profile-picture-subtitle-light' : 'profile-picture-subtitle-dark'
-                    }`}
+                    className="profile-picture-subtitle"
                   >
                     {t.changeProfilePicture}
                   </Text>
@@ -566,9 +494,7 @@ export default function ProfilePage(): React.JSX.Element {
                       }}
                     />
                     <Text
-                      className={`profile-preset-text ${
-                        theme === 'Light' ? 'profile-preset-text-light' : 'profile-preset-text-dark'
-                      }`}
+                      className="profile-preset-text"
                     >
                       {t.chooseFromPresets}
                     </Text>
@@ -588,9 +514,7 @@ export default function ProfilePage(): React.JSX.Element {
                           className={`profile-preset-avatar ${
                             profile.profilePicture === url
                               ? 'profile-preset-avatar-selected'
-                              : theme === 'Light'
-                              ? 'profile-preset-avatar-light'
-                              : 'profile-preset-avatar-dark'
+                              : 'profile-preset-avatar'
                           }`}
                           onClick={() => handleProfilePictureChange(url)}
                         />
@@ -648,9 +572,7 @@ export default function ProfilePage(): React.JSX.Element {
         <div className="profile-modal-equipped-section">
           <Text
             strong
-            className={`profile-equipped-items-text ${
-              theme === 'Light' ? 'profile-equipped-items-text-light' : 'profile-equipped-items-text-dark'
-            }`}
+            className="profile-equipped-items-text"
           >
             {t.equippedItems} ({profile.equippedEmojis.length}):{' '}
           </Text>
@@ -664,9 +586,7 @@ export default function ProfilePage(): React.JSX.Element {
             </div>
           ) : (
             <Text
-              className={`profile-no-items-text ${
-                theme === 'Light' ? 'profile-no-items-text-light' : 'profile-no-items-text-dark'
-              }`}
+              className="profile-no-items-text"
             >
               {t.noItemsEquipped}
             </Text>
@@ -674,15 +594,13 @@ export default function ProfilePage(): React.JSX.Element {
         </div>
 
         <Divider
-          className={`profile-divider ${theme === 'Light' ? 'profile-divider-light' : 'profile-divider-dark'}`}
+          className="profile-divider"
         />
 
         <div>
           <Text
             strong
-            className={`profile-available-items-text ${
-              theme === 'Light' ? 'profile-available-items-text-light' : 'profile-available-items-text-dark'
-            }`}
+            className="profile-available-items-text"
           >
             {t.availableItems}
           </Text>
@@ -693,9 +611,7 @@ export default function ProfilePage(): React.JSX.Element {
                 className={`profile-emoji-item ${
                   profile.equippedEmojis.includes(emoji)
                     ? 'profile-emoji-item-equipped'
-                    : theme === 'Light'
-                    ? 'profile-emoji-item-light profile-emoji-item-hover-light'
-                    : 'profile-emoji-item-dark profile-emoji-item-hover-dark'
+                    : 'profile-emoji-item'
                 }`}
                 onClick={() => toggleEmoji(emoji)}
               >
