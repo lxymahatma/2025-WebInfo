@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   Button,
@@ -20,29 +20,101 @@ import {
   UserOutlined,
   SettingOutlined,
   BellOutlined,
-  LogoutOutlined,
   EditOutlined,
   DownOutlined,
   UploadOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
 } from '@ant-design/icons';
 
 import './ProfilePage.css';
+import { useAuth } from '../AuthContext';
 
 const { Title, Text } = Typography;
 
 export default function ProfilePage(): React.JSX.Element {
+  const { user } = useAuth();
+  
   // Sample profile state
   const [profile, setProfile] = useState({
-    name: 'Your name',
-    age: '',
-    location: 'USA',
+    name: 'Loading...',
+    password: '',
     profilePicture: 'https://randomuser.me/api/portraits/men/32.jpg',
     equippedEmojis: [] as string[],
   });
 
+  const [actualPassword, setActualPassword] = useState(''); // Store the actual password separately
+
   const [editModal, setEditModal] = useState(false);
   const [editingProfile, setEditingProfile] = useState(profile);
   const [activeSection, setActiveSection] = useState('profile'); // Track which section is active
+  const [showPassword, setShowPassword] = useState(false); // Track password visibility
+
+  // Load user data from backend
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('username') || user;
+        
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+        
+        // Load profile info from backend
+        try {
+          const profileResponse = await fetch('http://localhost:3001/profile', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (profileResponse.ok) {
+            const profileData = await profileResponse.json();
+            if (profileData.user) {
+              setProfile(prev => ({
+                ...prev,
+                name: profileData.user.username,
+              }));
+            }
+          }
+        } catch (error) {
+          console.error('Backend not available, using fallback data');
+        }
+        
+        // Demo passwords for different users (in a real app, this would be handled securely)
+        const demoPasswords: { [key: string]: string } = {
+          'admin': 'admin123',
+          'test': 'test123',
+          'user': 'password123',
+        };
+        
+        const currentUsername = username || 'admin';
+        const demoPassword = demoPasswords[currentUsername] || 'password123';
+        
+        setActualPassword(demoPassword);
+        setProfile(prev => ({
+          ...prev,
+          name: currentUsername,
+          password: demoPassword,
+        }));
+        
+      } catch (error) {
+        console.error('Error loading user data:', error);
+        // Fallback to default demo data
+        setActualPassword('admin123');
+        setProfile(prev => ({
+          ...prev,
+          name: 'admin',
+          password: 'admin123',
+        }));
+      }
+    };
+
+    loadUserData();
+  }, [user]);
 
   // For dropdown
   const [itemsModalVisible, setItemsModalVisible] = useState(false);
@@ -90,9 +162,8 @@ export default function ProfilePage(): React.JSX.Element {
       chooseFromPresets: 'Or choose from preset options:',
       backToProfile: 'Back to Profile',
       name: 'Name',
-      age: 'Age',
-      addAge: 'Add age',
-      location: 'Location',
+      password: 'Password',
+      enterNewPassword: 'Enter new password',
       saveChange: 'Save Change',
       editProfile: 'Edit Profile',
       save: 'Save',
@@ -122,9 +193,8 @@ export default function ProfilePage(): React.JSX.Element {
       chooseFromPresets: 'またはプリセットオプションから選択:',
       backToProfile: 'プロフィールに戻る',
       name: '名前',
-      age: '年齢',
-      addAge: '年齢を追加',
-      location: '場所',
+      password: 'パスワード',
+      enterNewPassword: '新しいパスワードを入力',
       saveChange: '変更を保存',
       editProfile: 'プロフィール編集',
       save: '保存',
@@ -175,13 +245,15 @@ export default function ProfilePage(): React.JSX.Element {
 
   // Handle modal open
   const openEdit = () => {
-    setEditingProfile(profile);
+    setEditingProfile({ ...profile });
     setEditModal(true);
   };
 
   const handleSave = () => {
     setProfile(editingProfile);
+    setActualPassword(editingProfile.password); // Update the actual password
     setEditModal(false);
+    message.success('Profile updated successfully!');
   };
 
   // Handle profile picture change
@@ -326,75 +398,26 @@ export default function ProfilePage(): React.JSX.Element {
                 </Space>
               </Menu.Item>
               <Menu.Item
-                key="logout"
-                icon={
-                  <LogoutOutlined
-                    className={`profile-menu-icon ${
-                      theme === 'Light' ? 'profile-menu-icon-light' : 'profile-menu-icon-dark'
-                    }`}
-                  />
-                }
+                key="language"
                 className={`profile-menu-item ${
                   theme === 'Light' ? 'profile-menu-item-light' : 'profile-menu-item-dark'
                 }`}
               >
-                {t.logOut}
+                <Space>
+                  {t.language}
+                  <Select
+                    size="small"
+                    value={lang}
+                    className="profile-settings-select"
+                    onChange={v => setLang(v)}
+                    options={[
+                      { value: 'Eng', label: 'English' },
+                      { value: 'JP', label: '日本語' },
+                    ]}
+                  />
+                </Space>
               </Menu.Item>
             </Menu>
-          </Card>
-          {/* Settings Popup */}
-          <Card
-            className={`profile-settings-card ${
-              theme === 'Light' ? 'profile-settings-card-light' : 'profile-settings-card-dark'
-            }`}
-            bodyStyle={{ padding: 24 }}
-          >
-            <div className="profile-settings-header">
-              <Text
-                strong
-                className={`profile-settings-title ${
-                  theme === 'Light' ? 'profile-settings-title-light' : 'profile-settings-title-dark'
-                }`}
-              >
-                {t.settings}
-              </Text>
-              <Button shape="circle" size="small" type="text" icon={<CloseIcon />} />
-            </div>
-            <Divider
-              className={`profile-settings-divider ${
-                theme === 'Light' ? 'profile-settings-divider-light' : 'profile-settings-divider-dark'
-              }`}
-            />
-            <div className="profile-settings-row">
-              <span className={`${theme === 'Light' ? 'profile-settings-label-light' : 'profile-settings-label-dark'}`}>
-                {t.theme}
-              </span>
-              <Select
-                size="small"
-                value={theme}
-                className="profile-settings-select"
-                onChange={v => setTheme(v)}
-                options={[
-                  { value: 'Light', label: t.light },
-                  { value: 'Dark', label: t.dark },
-                ]}
-              />
-            </div>
-            <div className="profile-settings-row">
-              <span className={`${theme === 'Light' ? 'profile-settings-label-light' : 'profile-settings-label-dark'}`}>
-                {t.language}
-              </span>
-              <Select
-                size="small"
-                value={lang}
-                className="profile-settings-select"
-                onChange={v => setLang(v)}
-                options={[
-                  { value: 'Eng', label: 'English' },
-                  { value: 'JP', label: '日本語' },
-                ]}
-              />
-            </div>
           </Card>
         </Col>
 
@@ -457,36 +480,21 @@ export default function ProfilePage(): React.JSX.Element {
                         theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'
                       }`}
                     >
-                      {t.age}
+                      {t.password}
                     </span>
                     <span
-                      className={`profile-info-value ${
+                      className={`profile-info-value profile-password-display ${
                         theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'
                       }`}
                     >
-                      {profile.age ? (
-                        profile.age
-                      ) : (
-                        <Button size="small" type="link" onClick={openEdit}>
-                          {t.addAge}
-                        </Button>
-                      )}
-                    </span>
-                  </div>
-                  <div className="profile-info-row">
-                    <span
-                      className={`profile-info-label ${
-                        theme === 'Light' ? 'profile-info-label-light' : 'profile-info-label-dark'
-                      }`}
-                    >
-                      {t.location}
-                    </span>
-                    <span
-                      className={`profile-info-value ${
-                        theme === 'Light' ? 'profile-info-value-light' : 'profile-info-value-dark'
-                      }`}
-                    >
-                      {profile.location}
+                      {showPassword ? (actualPassword || profile.password) : '•'.repeat(8)}
+                      <Button
+                        type="text"
+                        size="small"
+                        icon={showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="profile-password-toggle-button"
+                      />
                     </span>
                   </div>
                 </div>
@@ -620,16 +628,12 @@ export default function ProfilePage(): React.JSX.Element {
             value={editingProfile.name}
             onChange={e => setEditingProfile(p => ({ ...p, name: e.target.value }))}
           />
-          <Input
-            addonBefore={t.age}
-            value={editingProfile.age}
-            onChange={e => setEditingProfile(p => ({ ...p, age: e.target.value }))}
-            placeholder={t.addAge}
-          />
-          <Input
-            addonBefore={t.location}
-            value={editingProfile.location}
-            onChange={e => setEditingProfile(p => ({ ...p, location: e.target.value }))}
+          <Input.Password
+            addonBefore={t.password}
+            value={editingProfile.password}
+            onChange={e => setEditingProfile(p => ({ ...p, password: e.target.value }))}
+            placeholder={t.enterNewPassword}
+            iconRender={visible => (visible ? <EyeInvisibleOutlined /> : <EyeOutlined />)}
           />
         </Space>
       </Modal>
@@ -707,24 +711,6 @@ export default function ProfilePage(): React.JSX.Element {
         </div>
       </Modal>
     </div>
-  );
-}
-
-// Small close icon button (purely for look, does not close the card)
-function CloseIcon() {
-  return (
-    <svg
-      className="profile-close-icon"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="#aaa"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
   );
 }
 export { ProfilePage };
