@@ -106,6 +106,12 @@ body {
   color: #0080a8;
 }
 
+.nav-user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 /* ---------- Homepage Styles ---------- */
 .homepage-container {
   background: linear-gradient(135deg, #0080a8 0%, #005f7a 100%);
@@ -641,6 +647,13 @@ body {
   min-height: 100vh;
   padding: 2rem;
   text-align: center;
+}
+
+.timed-question-centered-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
 }
 
 .timed-question-card {
