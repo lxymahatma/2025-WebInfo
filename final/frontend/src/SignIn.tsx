@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
@@ -8,12 +8,34 @@ export default function SignIn(): React.JSX.Element {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignIn = (): void => {
-    if (username.trim()) {
-      login(username);
-      navigate('/');
-    } else {
-      alert('Please enter a username');
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/', { replace: true });
+    }
+  }, [navigate]);
+
+  const handleSignIn = async (): Promise<void> => {
+    try {
+      const res = await fetch('http://localhost:3001/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('userId', data.userId);
+        login(data.username);
+        alert('Login success!');
+        navigate('/');
+      } else {
+        const error = await res.json();
+        alert(error.message || 'Invalid credentials');
+      }
+    } catch (error) {
+      alert('Network error. Please try again.');
     }
   };
 
@@ -35,7 +57,7 @@ export default function SignIn(): React.JSX.Element {
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
-        <button className="auth-button" onClick={handleSignIn}>
+        <button className="auth-button" onClick={handleSignIn} type="button">
           Sign In
         </button>
         <Link to="/signup" className="auth-link">

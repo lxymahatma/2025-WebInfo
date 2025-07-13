@@ -1,0 +1,53 @@
+{
+  "pairs": [
+    {
+      "id": "1",
+      "label": "Cat",
+      "match": "Meow"
+    },
+    {
+      "id": "2",
+      "label": "Dog",
+      "match": "Woof"
+    },
+    {
+      "id": "3",
+      "label": "Cow",
+      "match": "Moo"
+    },
+    {
+      "id": "4",
+      "label": "Duck",
+      "match": "Quack"
+    },
+    {
+      "id": "5",
+      "label": "Pig",
+      "match": "Oink"
+    },
+    {
+      "id": "6",
+      "label": "Sheep",
+      "match": "Baa"
+    },
+    {
+      "id": "7",
+      "label": "Horse",
+      "match": "Neigh"
+    },
+    {
+      "id": "8",
+      "label": "Chicken",
+      "match": "Cluck"
+    }
+  ],
+  "scores": [
+    {
+      "id": 1,
+      "userId": 1,
+      "score": 80,
+      "timeCompleted": 30000,
+      "date": "2025-07-13T10:00:00.000Z"
+    }
+  ]
+}
