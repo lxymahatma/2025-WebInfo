@@ -14,16 +14,8 @@ async function fetchRandomCards(): Promise<string[]> {
     const response = await fetch('http://localhost:3001/memory/cards');
     const data = await response.json();
 
-    if (data.cards && data.cards.length > 0) {
-      const randomIndices: number[] = [];
-      while (randomIndices.length < 4 && randomIndices.length < data.cards.length) {
-        const randomIndex = Math.floor(Math.random() * data.cards.length);
-        if (!randomIndices.includes(randomIndex)) {
-          randomIndices.push(randomIndex);
-        }
-      }
-
-      return randomIndices.map(index => data.cards[index].type);
+    if (data.cards) {
+      return data.cards;
     } else {
       return ['Dog', 'Cat', 'Mouse', 'Hamster'];
     }

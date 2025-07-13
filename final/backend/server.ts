@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 import http from "http";
 import { Server } from "socket.io";
+import { randomInt } from "es-toolkit";
 import {
   UserDB,
   MemoryDB,
@@ -135,9 +136,25 @@ app.post("/signout", verifyToken, (req: AuthRequest, res: Response<ErrorResponse
   res.json({ message: "Successfully signed out" });
 });
 
-app.get("/memory/cards", (req: Request, res: Response<MemoryDB>) => {
-  const cards = readMemoryDB();
-  res.json(cards);
+app.get("/memory/cards", (req: Request, res: Response) => {
+  const memoryDB = readMemoryDB();
+
+  if (memoryDB.cards.length === 0) {
+    return res.json({ cards: ["Dog", "Cat", "Mouse", "Hamster"] });
+  }
+
+  const randomIndices: number[] = [];
+
+  while (randomIndices.length < 4 && randomIndices.length < memoryDB.cards.length) {
+    const randomIndex = randomInt(0, memoryDB.cards.length);
+    if (!randomIndices.includes(randomIndex)) {
+      randomIndices.push(randomIndex);
+    }
+  }
+
+  const cards = randomIndices.map((index) => memoryDB.cards[index].type);
+
+  res.json({ cards });
 });
 
 app.get("/dragdrop/pairs", verifyToken, (req: AuthRequest, res: Response) => {
