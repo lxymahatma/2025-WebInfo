@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CardType, CardProps } from './types/memory-card';
+import { CardType, CardProps } from '../types/memory-card';
 import { useGameTracker } from './GameTrackerContext';
 
 const cardTypes = ['Elephant', 'Lion', 'Cat', 'Car'];
@@ -69,7 +69,7 @@ export default function MemoryCardGame() {
     if (disabled || gameWon) return;
     // Prevent selecting the same card twice
     if (card === firstChoice) return;
-    
+
     firstChoice ? setSecondChoice(card) : setFirstChoice(card);
   }
 
@@ -97,9 +97,9 @@ export default function MemoryCardGame() {
       React.createElement('p', { className: 'memory-game-instructions' }, 'You found all the matches!'),
       React.createElement(
         'button',
-        { 
+        {
           className: 'new-game-button',
-          onClick: initializeGame
+          onClick: initializeGame,
         },
         'Start New Game'
       )

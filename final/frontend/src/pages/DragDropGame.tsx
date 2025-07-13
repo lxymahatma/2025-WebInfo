@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GamePair } from './types/drag-drop';
+import { GamePair } from '../types/drag-drop';
 import { useGameTracker } from './GameTrackerContext';
 
 const ALL_PAIRS: GamePair[] = [
@@ -9,35 +9,35 @@ const ALL_PAIRS: GamePair[] = [
   { id: 'orange', label: '🍊 Orange', match: 'Fruit' },
   { id: 'grape', label: '🍇 Grape', match: 'Fruit' },
   { id: 'strawberry', label: '🍓 Strawberry', match: 'Fruit' },
-  
+
   // Animals
   { id: 'dog', label: '🐶 Dog', match: 'Animal' },
   { id: 'cat', label: '🐱 Cat', match: 'Animal' },
   { id: 'elephant', label: '🐘 Elephant', match: 'Animal' },
   { id: 'lion', label: '🦁 Lion', match: 'Animal' },
   { id: 'rabbit', label: '🐇 Rabbit', match: 'Animal' },
-  
+
   // Vehicles
   { id: 'car', label: '🚗 Car', match: 'Vehicle' },
   { id: 'bike', label: '🚲 Bike', match: 'Vehicle' },
   { id: 'airplane', label: '✈️ Airplane', match: 'Vehicle' },
   { id: 'train', label: '🚂 Train', match: 'Vehicle' },
   { id: 'boat', label: '🚤 Boat', match: 'Vehicle' },
-  
+
   // Flowers
   { id: 'rose', label: '🌹 Rose', match: 'Flower' },
   { id: 'sunflower', label: '🌻 Sunflower', match: 'Flower' },
   { id: 'tulip', label: '🌷 Tulip', match: 'Flower' },
   { id: 'daisy', label: '🌼 Daisy', match: 'Flower' },
   { id: 'cherry_blossom', label: '🌸 Cherry Blossom', match: 'Flower' },
-  
+
   // Food
   { id: 'pizza', label: '🍕 Pizza', match: 'Food' },
   { id: 'burger', label: '🍔 Burger', match: 'Food' },
   { id: 'cake', label: '🎂 Cake', match: 'Food' },
   { id: 'ice_cream', label: '🍦 Ice Cream', match: 'Food' },
   { id: 'donut', label: '🍩 Donut', match: 'Food' },
-  
+
   // Sports
   { id: 'soccer', label: '⚽ Soccer Ball', match: 'Sport' },
   { id: 'basketball', label: '🏀 Basketball', match: 'Sport' },
@@ -59,23 +59,23 @@ type DifficultyLevel = keyof typeof DIFFICULTY_LEVELS;
 const getRandomPairs = (count: number = 8): GamePair[] => {
   const categories = Array.from(new Set(ALL_PAIRS.map(p => p.match)));
   const selectedPairs: GamePair[] = [];
-  
+
   // Ensure we have at least one item from each category (up to the count limit)
   const itemsPerCategory = Math.max(1, Math.floor(count / categories.length));
-  
+
   for (const category of categories) {
     const categoryPairs = ALL_PAIRS.filter(p => p.match === category);
     const shuffled = categoryPairs.sort(() => Math.random() - 0.5);
     selectedPairs.push(...shuffled.slice(0, itemsPerCategory));
   }
-  
+
   // If we need more pairs to reach the count, add random ones
   if (selectedPairs.length < count) {
     const remaining = ALL_PAIRS.filter(p => !selectedPairs.find(sp => sp.id === p.id));
     const shuffledRemaining = remaining.sort(() => Math.random() - 0.5);
     selectedPairs.push(...shuffledRemaining.slice(0, count - selectedPairs.length));
   }
-  
+
   // Shuffle the final selection
   return selectedPairs.sort(() => Math.random() - 0.5).slice(0, count);
 };
@@ -181,7 +181,7 @@ export default function DragDropGame(): React.JSX.Element {
     <div className="drag-drop-root">
       <h2 className="drag-drop-heading">Drag & Drop Match Game</h2>
       <p className="drag-drop-instructions">Drag each emoji token into the correct category.</p>
-      
+
       <div className="difficulty-selector">
         <label>Difficulty: </label>
         {Object.entries(DIFFICULTY_LEVELS).map(([key, level]) => (
