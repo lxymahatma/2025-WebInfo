@@ -367,14 +367,39 @@
 
 /* ---------- Timed Question Game ---------- */
 .timed-question-container {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: system-ui, sans-serif;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.timed-question-card {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  font-family: system-ui, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin: 2rem auto;
-  max-width: 420px;
+  max-width: 500px;
   padding: 2rem 2.5rem;
   position: relative;
+}
+
+.timed-question-title {
+  background: linear-gradient(45deg, #0080a8 0%, #005f7a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timed-question-instructions {
+  color: #555;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
 }
 
 .timed-question-timer {
@@ -385,9 +410,24 @@
   font-size: 1.2rem;
   font-weight: 700;
   padding: 0.2rem 0.8rem;
-  position: absolute;
-  right: 28px;
-  top: 18px;
+}
+
+.timed-question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.timed-question-progress {
+  background: #f0f9ff;
+  border-radius: 6px;
+  color: #0080a8;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .timed-question-question {
@@ -435,6 +475,18 @@
 
 .timed-question-option:disabled:not(.selected) {
   opacity: 0.6;
+}
+
+.timed-question-option.correct {
+  background: #22c55e !important;
+  border-color: #16a34a !important;
+  color: #fff !important;
+}
+
+.timed-question-option.incorrect {
+  background: #ef4444 !important;
+  border-color: #dc2626 !important;
+  color: #fff !important;
 }
 
 /* ---------- Memory Card Game ---------- */
@@ -601,6 +653,10 @@
   }
 
   .timed-question-container {
+    padding: 1rem;
+  }
+
+  .timed-question-card {
     margin: 1rem;
     padding: 1.5rem;
   }
