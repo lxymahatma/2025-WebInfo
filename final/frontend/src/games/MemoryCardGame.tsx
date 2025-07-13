@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CardType, CardProps } from '../../types/memory-card';
-import { useGameTracker } from '../GameTrackerContext';
+import { CardType, CardProps } from '../types/memory-card';
+import { useGameTracker } from '../pages/GameTrackerContext';
 
 function shuffleArray<T>(array: T[]): T[] {
   return array

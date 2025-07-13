@@ -11,9 +11,9 @@ import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 
 // Games
-import DragDropGame from './pages/games/DragDropGame';
-import MemoryCardGame from './pages/games/MemoryCardGame';
-import TimedQuestionGame from './pages/games/TimedQuestionGame';
+import DragDropGame from './games/DragDropGame';
+import MemoryCardGame from './games/MemoryCardGame';
+import TimedQuestionGame from './games/TimedQuestionGame';
 
 import './App.css';
 
