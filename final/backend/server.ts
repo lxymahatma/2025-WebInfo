@@ -65,7 +65,7 @@ const readMemoryDB = (): MemoryDB => {
 // Drag & Drop database
 const readDragDropDB = (): DragDropDB => {
   try {
-    const data = fs.readFileSync("databases/drag-drop.json", "utf-8");
+    const data = fs.readFileSync("databases/dragdrop.json", "utf-8");
     return data ? JSON.parse(data) : { pairs: [], scores: [] };
   } catch (error) {
     return { pairs: [], scores: [] };
