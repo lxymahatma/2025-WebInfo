@@ -2,11 +2,21 @@
   "users": [
     {
       "username": "admin",
-      "password": "admin123"
+      "password": "admin123",
+      "gameStats": {
+        "dragdrop": 0,
+        "timed": 0,
+        "memory": 0
+      }
     },
     {
       "username": "test",
-      "password": "test123"
+      "password": "test123",
+      "gameStats": {
+        "dragdrop": 2,
+        "timed": 5,
+        "memory": 3
+      }
     }
   ]
 }

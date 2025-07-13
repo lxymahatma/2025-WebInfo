@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-// Auth types
+// Requests, Responses
 interface AuthRequest extends Request {
   user?: {
     username: string;
@@ -32,10 +32,25 @@ interface ProfileResponse {
   };
 }
 
+interface GameStatsResponse {
+  stats: GameStats;
+}
+
+interface UpdateGameStatsRequest {
+  gameType: "dragdrop" | "timed" | "memory";
+}
+
 // User types
+interface GameStats {
+  dragdrop: number;
+  timed: number;
+  memory: number;
+}
+
 interface User {
   username: string;
   password: string;
+  gameStats: GameStats;
 }
 
 interface UserDB {
@@ -95,6 +110,9 @@ interface TimedQuestionDB {
 export {
   User,
   UserDB,
+  GameStats,
+  GameStatsResponse,
+  UpdateGameStatsRequest,
   MemoryCard,
   MemoryDB,
   MemoryGameScore,

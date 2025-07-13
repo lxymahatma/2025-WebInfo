@@ -12,6 +12,9 @@ import {
   DragDropDB,
   TimedQuestionDB,
   User,
+  GameStats,
+  GameStatsResponse,
+  UpdateGameStatsRequest,
   AuthRequest,
   SignupRequestBody,
   SigninRequestBody,
@@ -112,6 +115,11 @@ app.post(
     const newUser: User = {
       username,
       password,
+      gameStats: {
+        dragdrop: 0,
+        timed: 0,
+        memory: 0,
+      },
     };
 
     db.users.push(newUser);
@@ -227,6 +235,90 @@ app.get(
         username: user.username,
       },
     });
+  }
+);
+
+// Game Tracker
+app.get(
+  "/game-stats",
+  verifyToken,
+  (req: AuthRequest, res: Response<GameStatsResponse | ErrorResponse>) => {
+    const userDb = readUserDB();
+    const user = userDb.users.find((u) => u.username === req.user?.username);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!user.gameStats) {
+      user.gameStats = {
+        dragdrop: 0,
+        timed: 0,
+        memory: 0,
+      };
+      writeUserDB(userDb);
+    }
+
+    res.json({ stats: user.gameStats });
+  }
+);
+
+app.post(
+  "/game-stats/increment",
+  verifyToken,
+  (
+    req: Request<{}, GameStatsResponse | ErrorResponse, UpdateGameStatsRequest>,
+    res: Response<GameStatsResponse | ErrorResponse>
+  ) => {
+    const { gameType } = req.body;
+    const authReq = req as AuthRequest;
+
+    if (!gameType || !["dragdrop", "timed", "memory"].includes(gameType)) {
+      return res.status(400).json({ message: "Invalid game type" });
+    }
+
+    const userDb = readUserDB();
+    const user = userDb.users.find((u) => u.username === authReq.user?.username);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!user.gameStats) {
+      user.gameStats = {
+        dragdrop: 0,
+        timed: 0,
+        memory: 0,
+      };
+    }
+
+    user.gameStats[gameType]++;
+
+    writeUserDB(userDb);
+    res.json({ stats: user.gameStats });
+  }
+);
+
+app.post(
+  "/game-stats/reset",
+  verifyToken,
+  (req: AuthRequest, res: Response<GameStatsResponse | ErrorResponse>) => {
+    const userDb = readUserDB();
+    const user = userDb.users.find((u) => u.username === req.user?.username);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Reset game stats
+    user.gameStats = {
+      dragdrop: 0,
+      timed: 0,
+      memory: 0,
+    };
+
+    writeUserDB(userDb);
+    res.json({ stats: user.gameStats });
   }
 );
 

@@ -107,11 +107,7 @@ export default function GameTrackerPage(): React.JSX.Element {
         <Row gutter={[24, 24]}>
           {Object.entries(gameInfo).map(([gameKey, info]) => (
             <Col xs={24} sm={12} lg={8} key={gameKey}>
-              <Card
-                hoverable
-                className={`game-tracker-game-card game-${gameKey}-border`}
-                bodyStyle={{ padding: 24 }}
-              >
+              <Card hoverable className={`game-tracker-game-card game-${gameKey}-border`} bodyStyle={{ padding: 24 }}>
                 <Space direction="vertical" size="middle" style={{ width: '100%', textAlign: 'center' }}>
                   <div>
                     <div className="game-tracker-game-icon">{info.icon}</div>
@@ -131,16 +127,13 @@ export default function GameTrackerPage(): React.JSX.Element {
                         fontWeight: 'bold',
                         textAlign: 'center',
                       }}
-                      suffix="games"
                       className="game-tracker-stat-style"
                     />
                   </div>
 
                   {stats[gameKey as keyof typeof stats] > 0 && (
                     <div className="game-tracker-mastered-badge">
-                      <Paragraph className="game-tracker-mastered-text">
-                        🎉 You've mastered this game!
-                      </Paragraph>
+                      <Paragraph className="game-tracker-mastered-text">🎉 You've mastered this game!</Paragraph>
                     </div>
                   )}
 
@@ -159,9 +152,7 @@ export default function GameTrackerPage(): React.JSX.Element {
                           e.currentTarget.style.boxShadow = 'none';
                         }}
                       >
-                        <Paragraph className="game-tracker-try-game-text">
-                          🎮 Ready to try this game?
-                        </Paragraph>
+                        <Paragraph className="game-tracker-try-game-text">🎮 Ready to try this game?</Paragraph>
                       </div>
                     </Link>
                   )}

@@ -8,8 +8,10 @@ interface GameStats {
 
 interface GameTrackerContextType {
   stats: GameStats;
-  incrementGameCount: (gameType: keyof GameStats) => void;
-  resetStats: () => void;
+  loading: boolean;
+  incrementGameCount: (gameType: keyof GameStats) => Promise<void>;
+  resetStats: () => Promise<void>;
+  fetchStats: () => Promise<void>;
 }
 
 const GameTrackerContext = createContext<GameTrackerContextType | undefined>(undefined);
@@ -32,44 +34,105 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     timed: 0,
     memory: 0,
   });
+  const [loading, setLoading] = useState(false);
 
-  // Load stats from localStorage on component mount
-  useEffect(() => {
-    const savedStats = localStorage.getItem('gameTrackerStats');
-    if (savedStats) {
-      try {
-        const parsed = JSON.parse(savedStats);
-        setStats(parsed);
-      } catch (error) {
-        console.error('Error parsing saved stats:', error);
-      }
-    }
-  }, []);
-
-  // Save stats to localStorage whenever stats change
-  useEffect(() => {
-    localStorage.setItem('gameTrackerStats', JSON.stringify(stats));
-  }, [stats]);
-
-  const incrementGameCount = (gameType: keyof GameStats) => {
-    setStats(prevStats => ({
-      ...prevStats,
-      [gameType]: prevStats[gameType] + 1,
-    }));
+  const getToken = () => {
+    return localStorage.getItem('token');
   };
 
-  const resetStats = () => {
-    setStats({
-      dragdrop: 0,
-      timed: 0,
-      memory: 0,
-    });
+  const fetchStats = async () => {
+    const token = getToken();
+    if (!token) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:3001/game-stats`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data.stats);
+      } else {
+        console.error('Failed to fetch game stats');
+      }
+    } catch (error) {
+      console.error('Error fetching game stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load stats from backend on component mount
+  useEffect(() => {
+    fetchStats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const incrementGameCount = async (gameType: keyof GameStats) => {
+    const token = getToken();
+    if (!token) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3001/game-stats/increment`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ gameType }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data.stats);
+      } else {
+        console.error('Failed to increment game count');
+      }
+    } catch (error) {
+      console.error('Error incrementing game count:', error);
+    }
+  };
+
+  const resetStats = async () => {
+    const token = getToken();
+    if (!token) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3001/game-stats/reset`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data.stats);
+      } else {
+        console.error('Failed to reset game stats');
+      }
+    } catch (error) {
+      console.error('Error resetting game stats:', error);
+    }
   };
 
   const value = {
     stats,
+    loading,
     incrementGameCount,
     resetStats,
+    fetchStats,
   };
 
   return <GameTrackerContext.Provider value={value}>{children}</GameTrackerContext.Provider>;
