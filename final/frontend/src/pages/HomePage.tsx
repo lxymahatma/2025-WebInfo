@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { Typography, Button } from 'antd';
 
+import './HomePage.css';
+
 const { Title, Paragraph } = Typography;
 
 export default function HomePage(): React.JSX.Element {

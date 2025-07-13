@@ -1,0 +1,187 @@
+.game-tracker-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.game-tracker-wrapper {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.game-tracker-main-card {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.game-tracker-title-icon {
+  color: #faad14;
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.game-tracker-title {
+  color: #1f1f1f;
+  margin: 0;
+}
+
+.game-tracker-subtitle {
+  color: #666;
+  font-size: 18px;
+  margin: 0;
+}
+
+.game-tracker-stats-grid {
+  justify-content: center;
+}
+
+.game-tracker-stat-total {
+  color: #1890ff;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.game-tracker-stat-favorite {
+  color: #52c41a;
+  font-size: 20px;
+}
+
+.game-tracker-stat-available {
+  color: #722ed1;
+  font-size: 32px;
+}
+
+.game-tracker-reset-btn {
+  margin-top: 8px;
+}
+
+.game-tracker-game-card {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.game-tracker-game-icon {
+  font-size: 64px;
+  margin-bottom: 12px;
+}
+
+.game-tracker-game-description {
+  color: #666;
+  margin: 8px 0 16px 0;
+}
+
+.game-tracker-stat-box {
+  align-items: center;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+  width: 80%;
+}
+
+.game-tracker-stat-style {
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.game-tracker-mastered-badge {
+  align-items: center;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 12px;
+  width: 85%;
+}
+
+.game-tracker-mastered-text {
+  color: #52c41a;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
+.game-tracker-try-game-link {
+  margin: 0 auto;
+  text-decoration: none;
+  width: 80%;
+}
+
+.game-tracker-try-game-box {
+  align-items: center;
+  background: #fff7e6;
+  border: 1px solid #ffd591;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  transition: all 0.3s ease;
+  width: 90%;
+}
+
+.game-tracker-try-game-text {
+  color: #fa8c16;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
+.game-tracker-welcome-card {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  margin-top: 24px;
+  text-align: center;
+}
+
+.game-tracker-welcome-icon {
+  font-size: 72px;
+}
+
+.game-tracker-welcome-title {
+  color: #1890ff;
+}
+
+.game-tracker-welcome-text {
+  color: #666;
+  font-size: 16px;
+}
+
+.game-tracker-champion-card {
+  background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+  border-radius: 16px;
+  color: white;
+  margin-top: 24px;
+  text-align: center;
+}
+
+.game-tracker-champion-icon {
+  font-size: 64px;
+}
+
+.game-tracker-champion-title {
+  color: white;
+  margin: 0;
+}
+
+.game-tracker-champion-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 18px;
+  margin: 0;
+}

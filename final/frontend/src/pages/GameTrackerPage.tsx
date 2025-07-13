@@ -4,6 +4,8 @@ import { TrophyOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useGameTracker } from './GameTrackerContext';
 
+import './GameTrackerPage.css';
+
 const { Title, Paragraph } = Typography;
 
 const gameInfo = {

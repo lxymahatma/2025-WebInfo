@@ -26,6 +26,8 @@ import {
   UploadOutlined,
 } from '@ant-design/icons';
 
+import './ProfilePage.css';
+
 const { Title, Text } = Typography;
 
 export default function ProfilePage(): React.JSX.Element {

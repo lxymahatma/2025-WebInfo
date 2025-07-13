@@ -3,6 +3,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Button } from 'antd';
 import { useAuth } from './AuthContext';
 
+import './NavBar.css';
+
 const navItems = [
   { key: '/', label: '🏠 Home' },
   { key: '/dragdrop', label: '🎯 Drag & Drop' },

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
+import './SignInPage.css';
+
 export default function SignInPage(): React.JSX.Element {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -39,29 +41,48 @@ export default function SignInPage(): React.JSX.Element {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2 className="auth-heading">Sign In</h2>
-        <input
-          className="auth-input"
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-        />
-        <input
-          className="auth-input"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-        <button className="auth-button" onClick={handleSignIn} type="button">
-          Sign In
-        </button>
-        <Link to="/signup" className="auth-link">
-          Don't have an account? Sign Up
-        </Link>
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-card">
+          <h2 className="auth-title">Sign In</h2>
+          <form
+            className="auth-form"
+            onSubmit={e => {
+              e.preventDefault();
+              handleSignIn();
+            }}
+          >
+            <div className="auth-input-group">
+              <label className="auth-label">Username</label>
+              <input
+                className="auth-input"
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="auth-input-group">
+              <label className="auth-label">Password</label>
+              <input
+                className="auth-input"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+            </div>
+            <button className="auth-submit-btn" type="submit">
+              Sign In
+            </button>
+          </form>
+          <div className="auth-link-section">
+            <p className="auth-link-text">Don't have an account?</p>
+            <Link to="/signup" className="auth-link">
+              Sign Up
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

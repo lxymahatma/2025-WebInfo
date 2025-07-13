@@ -1,0 +1,192 @@
+.drag-drop-root {
+  align-items: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, sans-serif;
+  gap: 24px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.drag-drop-heading {
+  background: linear-gradient(45deg, #0080a8 0%, #005f7a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.drag-drop-instructions {
+  color: #555;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.difficulty-selector {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.difficulty-selector label {
+  color: #333;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.difficulty-btn {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  color: #333;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+}
+
+.difficulty-btn:hover {
+  background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+  border-color: #0080a8;
+  transform: translateY(-1px);
+}
+
+.difficulty-btn.active {
+  background: linear-gradient(135deg, #0080a8 0%, #005f7a 100%);
+  border-color: #0080a8;
+  box-shadow: 0 4px 12px rgba(0, 128, 168, 0.3);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.drag-drop-choices-card {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.drag-drop-choices-title {
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.drag-drop-token-row {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(6, 1fr);
+  justify-items: center;
+}
+
+.drag-drop-token {
+  align-items: center;
+  background: linear-gradient(135deg, #0080a8 0%, #005f7a 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 128, 168, 0.3);
+  color: white;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.1rem;
+  font-weight: 600;
+  gap: 4px;
+  height: 80px;
+  justify-content: center;
+  padding: 12px 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 100px;
+}
+
+.token-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.token-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.drag-drop-token:hover:not(.inactive) {
+  box-shadow: 0 6px 20px rgba(0, 128, 168, 0.4);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.drag-drop-token:active:not(.inactive) {
+  cursor: grabbing;
+  transform: scale(0.98);
+}
+
+.drag-drop-token.inactive {
+  background: linear-gradient(135deg, #bbb 0%, #999 100%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: default;
+  opacity: 0.6;
+  transform: scale(0.95);
+}
+
+.drag-drop-zone-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, 200px);
+  justify-content: center;
+  width: 100%;
+}
+
+.drag-drop-zone {
+  align-items: center;
+  background: #fff;
+  border: 3px dashed #0080a8;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #0080a8;
+  display: flex;
+  font-size: 1.2rem;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 80px;
+  transition: all 0.3s ease;
+}
+
+.drag-drop-zone:hover {
+  background: #f0f8ff;
+  border-color: #005f7a;
+  box-shadow: 0 6px 20px rgba(0, 128, 168, 0.2);
+  transform: translateY(-2px);
+}
+
+.drag-drop-win {
+  background: linear-gradient(135deg, #d1fadf 0%, #a8f0c1 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  color: #0f5132;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 1rem 0;
+  padding: 16px 24px;
+  text-align: center;
+}

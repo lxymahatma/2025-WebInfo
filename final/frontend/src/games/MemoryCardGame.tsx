@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { CardType, CardProps } from '../types/memory-card';
 import { useGameTracker } from '../pages/GameTrackerContext';
 
+import './MemoryCardGame.css';
+
 function shuffleArray<T>(array: T[]): T[] {
   return array
     .map(value => ({ value, sort: Math.random() }))

@@ -3,6 +3,8 @@ import { Button, Card, Space, Tag, Typography, Progress, Result } from 'antd';
 import { useGameTracker } from '../pages/GameTrackerContext';
 import { Question } from '../types/timed-question';
 
+import './TimedQuestionGame.css';
+
 const { Title, Paragraph } = Typography;
 type Subject = 'math' | 'english' | 'knowledge';
 
@@ -262,11 +264,7 @@ export default function TimedQuestionGame(): React.JSX.Element {
         >
           <Space direction="vertical" style={{ width: '100%' }} size="large">
             <div className="timed-question-header-with-back">
-              <Button 
-                type="text" 
-                onClick={resetGame}
-                className="timed-question-back-button"
-              >
+              <Button type="text" onClick={resetGame} className="timed-question-back-button">
                 ← Back
               </Button>
               <div className="timed-question-tag-container">

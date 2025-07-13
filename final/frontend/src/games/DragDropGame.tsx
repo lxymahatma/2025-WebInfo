@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { GamePair } from '../types/drag-drop';
 import { useGameTracker } from '../pages/GameTrackerContext';
 
+import './DragDropGame.css';
+
 const DIFFICULTY_LEVELS = {
   easy: { name: 'Easy' },
   medium: { name: 'Medium' },

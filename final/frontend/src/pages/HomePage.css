@@ -1,0 +1,239 @@
+.homepage-container {
+  background: linear-gradient(135deg, #0080a8 0%, #005f7a 100%);
+  font-family: system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+.homepage-header {
+  align-items: center;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+}
+
+.homepage-user-info span {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.homepage-logout-btn {
+  background: rgba(231, 76, 60, 0.9);
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.homepage-logout-btn:hover {
+  background: rgba(231, 76, 60, 1);
+  transform: translateY(-1px);
+}
+
+.homepage-content {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 2rem;
+}
+
+.homepage-hero {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.homepage-title {
+  color: white !important;
+  font-size: 3.5rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 1rem !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.homepage-subtitle {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 1.3rem !important;
+  font-weight: 400;
+  margin-bottom: 0 !important;
+}
+
+.section-title {
+  color: white !important;
+  font-size: 2rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 2rem !important;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Game Cards Grid */
+.homepage-game-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-top: 2rem;
+}
+
+.homepage-game-card {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid transparent;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.homepage-game-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
+}
+
+.game-card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.game-card-content h3 {
+  color: #2c3e50;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.game-card-content p {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Welcome Section for Non-logged Users */
+.homepage-welcome-section {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.welcome-description {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 1.2rem !important;
+  line-height: 1.6;
+  margin: 0 auto 3rem auto !important;
+  max-width: 600px;
+}
+
+.homepage-features {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  margin: 0 auto;
+  max-width: 650px;
+}
+
+.feature-item {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.feature-icon {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.feature-item h4 {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.feature-item p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Auth Section */
+.homepage-auth-section {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.homepage-auth-card {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 3rem 2rem;
+}
+
+.auth-title {
+  color: white !important;
+  font-size: 1.8rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 2rem !important;
+}
+
+.homepage-auth-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+/* Features Section */
+.homepage-features-section {
+  margin-top: 2rem;
+}
+
+.auth-button {
+  align-items: center !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: none !important;
+  border-radius: 16px !important;
+  color: #2c3e50 !important;
+  display: inline-flex !important;
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  justify-content: center !important;
+  min-width: 160px;
+  padding: 1.8rem 3rem !important;
+  text-align: center !important;
+  text-decoration: none;
+  transition: all 0.3s ease !important;
+}
+
+.auth-button:hover {
+  background: white !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+  color: #2c3e50 !important;
+  transform: translateY(-2px) !important;
+}
+
+.signin-button:hover {
+  background: linear-gradient(45deg, #3498db, #2980b9) !important;
+  color: white !important;
+}
+
+.signup-button:hover {
+  background: linear-gradient(45deg, #27ae60, #229954) !important;
+  color: white !important;
+}
