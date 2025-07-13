@@ -10,8 +10,10 @@ export default function HomePage(): React.JSX.Element {
 
   return (
     <div className="main-page-container">
-      <Title level={1} className="main-page-title">🎮 Game Platform</Title>
-      
+      <Title level={1} className="main-page-title">
+        🎮 Game Platform
+      </Title>
+
       {user ? (
         <>
           <div className="main-page-user-welcome">
@@ -48,16 +50,14 @@ export default function HomePage(): React.JSX.Element {
         <>
           <div className="welcome-section">
             <Paragraph>Welcome to our amazing Game Platform!</Paragraph>
-            <Paragraph>
-              Please sign in or create an account to access our exciting games:
-            </Paragraph>
+            <Paragraph>Please sign in or create an account to access our exciting games:</Paragraph>
             <ul>
               <li>🎯 Drag & Drop Game - Test your coordination skills</li>
               <li>⏰ Timed Quiz - Challenge your knowledge under pressure</li>
               <li>🧠 Memory Card Game - Train your memory</li>
             </ul>
           </div>
-          
+
           <div className="auth-links">
             <Link to="/signin">
               <Button className="main-page-link" type="default" size="large">

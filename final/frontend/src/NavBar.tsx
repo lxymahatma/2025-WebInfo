@@ -53,7 +53,7 @@ export default function NavBar() {
           Welcome, <strong>{user}</strong>!
         </span>
         <Button type="primary" danger onClick={signout}>
-          Logout
+          Signout
         </Button>
       </div>
     </nav>
