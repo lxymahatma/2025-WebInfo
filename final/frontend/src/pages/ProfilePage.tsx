@@ -115,68 +115,80 @@ export default function ProfilePage(): React.JSX.Element {
 
   // For settings
   const [lang, setLang] = useState('Eng');
-
-  // Language translations
-  const translations = {
+  const [translations, setTranslations] = useState<any>({
     Eng: {
       myProfile: 'My Profile',
       settings: 'Settings',
       items: 'Items',
-      logOut: 'Log Out',
-      profileSettings: 'Profile Settings',
-      profilePicture: 'Profile Picture',
-      changeProfilePicture: 'Change your profile picture',
-      uploadFromDevice: 'Upload Picture from Device',
-      enterImageUrl: 'Enter image URL',
-      chooseFromPresets: 'Or choose from preset options:',
-      backToProfile: 'Back to Profile',
-      name: 'Name',
-      password: 'Password',
-      enterNewPassword: 'Enter new password',
-      saveChange: 'Save Change',
-      editProfile: 'Edit Profile',
-      save: 'Save',
-      cancel: 'Cancel',
       language: 'Language',
-      itemsCollection: 'Items Collection',
-      equippedItems: 'Equipped Items',
-      noItemsEquipped: 'No items equipped',
-      availableItems: 'Available Items:',
-      close: 'Close',
-      profilePictureUpdated: 'Profile picture updated!',
-      profilePictureUploaded: 'Profile picture uploaded successfully!',
+      loading: 'Loading...',
     },
     JP: {
       myProfile: 'マイプロフィール',
       settings: '設定',
       items: 'アイテム',
-      logOut: 'ログアウト',
-      profileSettings: 'プロフィール設定',
-      profilePicture: 'プロフィール画像',
-      changeProfilePicture: 'プロフィール画像を変更',
-      uploadFromDevice: 'デバイスから画像をアップロード',
-      enterImageUrl: '画像URLを入力',
-      chooseFromPresets: 'またはプリセットオプションから選択:',
-      backToProfile: 'プロフィールに戻る',
-      name: '名前',
-      password: 'パスワード',
-      enterNewPassword: '新しいパスワードを入力',
-      saveChange: '変更を保存',
-      editProfile: 'プロフィール編集',
-      save: '保存',
-      cancel: 'キャンセル',
       language: '言語',
-      itemsCollection: 'アイテムコレクション',
-      equippedItems: '装備中のアイテム',
-      noItemsEquipped: '装備中のアイテムなし',
-      availableItems: '利用可能なアイテム:',
-      close: '閉じる',
-      profilePictureUpdated: 'プロフィール画像が更新されました！',
-      profilePictureUploaded: 'プロフィール画像のアップロードが完了しました！',
+      loading: '読み込み中...',
     },
+  });
+
+  // Load language data from backend
+  useEffect(() => {
+    const loadLanguageData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const response = await fetch('http://localhost:3001/languages', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setTranslations(data.translations);
+          setLang(data.userLanguage || 'Eng');
+        } else {
+          console.error('Failed to load translations from backend');
+        }
+      } catch (error) {
+        console.error('Error loading language data:', error);
+      }
+    };
+
+    loadLanguageData();
+  }, []);
+
+  // Update language setting on backend
+  const updateLanguage = async (newLang: string) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await fetch('http://localhost:3001/languages', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ language: newLang }),
+      });
+
+      if (response.ok) {
+        setLang(newLang);
+      }
+    } catch (error) {
+      console.error('Error updating language:', error);
+    }
   };
 
-  const t = translations[lang as keyof typeof translations];
+  const t = translations[lang as keyof typeof translations] || {};
+
+  const getText = (key: string, fallback?: string) => {
+    return t[key] || fallback || key;
+  };
 
   // Available emojis for items
   const availableEmojis = [
@@ -289,12 +301,12 @@ export default function ProfilePage(): React.JSX.Element {
     <Menu
       items={[
         {
-          label: `${profile.equippedEmojis.length} ${t.equippedItems.toLowerCase()}`,
+          label: `${profile.equippedEmojis.length} ${getText('equippedItems', 'equipped items').toLowerCase()}`,
           key: 'count',
           disabled: true,
         },
         {
-          label: t.items,
+          label: getText('items', 'Items'),
           key: 'open',
           onClick: () => setItemsModalVisible(true),
         },
@@ -333,14 +345,14 @@ export default function ProfilePage(): React.JSX.Element {
                 icon={<UserOutlined className="profile-menu-icon" />}
                 className="profile-menu-item"
               >
-                {t.myProfile}
+                {getText('myProfile', 'My Profile')}
               </Menu.Item>
               <Menu.Item
                 key="settings"
                 icon={<SettingOutlined className="profile-menu-icon" />}
                 className="profile-menu-item"
               >
-                {t.settings}
+                {getText('settings', 'Settings')}
               </Menu.Item>
               <Menu.Item
                 key="items"
@@ -348,7 +360,7 @@ export default function ProfilePage(): React.JSX.Element {
                 className="profile-menu-item"
               >
                 <Space>
-                  {t.items}
+                  {getText('items', 'Items')}
                   <Dropdown overlay={itemsMenu} trigger={['click']}>
                     <Button size="small" type="link" className="profile-items-dropdown-button">
                       {profile.equippedEmojis.length} <DownOutlined className="profile-items-dropdown-icon" />
@@ -358,12 +370,12 @@ export default function ProfilePage(): React.JSX.Element {
               </Menu.Item>
               <Menu.Item key="language" className="profile-menu-item">
                 <Space>
-                  {t.language}
+                  {getText('language', 'Language')}
                   <Select
                     size="small"
                     value={lang}
                     className="profile-settings-select"
-                    onChange={v => setLang(v)}
+                    onChange={v => updateLanguage(v)}
                     options={[
                       { value: 'Eng', label: 'English' },
                       { value: 'JP', label: '日本語' },

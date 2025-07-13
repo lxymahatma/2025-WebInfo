@@ -57,6 +57,7 @@ interface User {
   username: string;
   password: string;
   gameStats: GameStats;
+  language: string;
 }
 
 interface UserDB {
@@ -101,6 +102,28 @@ interface DragDropDB {
   scores: DragDropGameScore[];
 }
 
+// Language types
+interface Translation {
+  [key: string]: string;
+}
+
+interface LanguageTranslations {
+  [language: string]: Translation;
+}
+
+interface LanguageDB {
+  translations: LanguageTranslations;
+}
+
+interface LanguageResponse {
+  translations: LanguageTranslations;
+  userLanguage?: string;
+}
+
+interface UpdateLanguageRequest {
+  language: string;
+}
+
 // Timed Question types
 interface TimedQuestion {
   subject: string;
@@ -128,6 +151,11 @@ export {
   DragDropDB,
   TimedQuestion,
   TimedQuestionDB,
+  Translation,
+  LanguageTranslations,
+  LanguageDB,
+  LanguageResponse,
+  UpdateLanguageRequest,
   AuthRequest,
   SignupRequestBody,
   SigninRequestBody,

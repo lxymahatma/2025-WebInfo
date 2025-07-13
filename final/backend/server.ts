@@ -11,11 +11,14 @@ import {
   MemoryDB,
   DragDropDB,
   TimedQuestionDB,
+  LanguageDB,
   User,
   GameStats,
   GameStatsResponse,
   UpdateGameStatsRequest,
   UpdateProfileRequestBody,
+  LanguageResponse,
+  UpdateLanguageRequest,
   AuthRequest,
   SignupRequestBody,
   SigninRequestBody,
@@ -83,6 +86,20 @@ const readTimedDB = (): TimedQuestionDB => {
   }
 };
 
+// Language database
+const readLanguageDB = (): LanguageDB => {
+  try {
+    const data = fs.readFileSync("databases/language.json", "utf-8");
+    return data ? JSON.parse(data) : { translations: {} };
+  } catch (error) {
+    return { translations: {} };
+  }
+};
+
+const writeLanguageDB = (db: LanguageDB): void => {
+  fs.writeFileSync("databases/language.json", JSON.stringify(db, null, 2));
+};
+
 const verifyToken = (req: AuthRequest, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ message: "No token provided" });
@@ -121,6 +138,7 @@ app.post(
         timed: 0,
         memory: 0,
       },
+      language: "Eng",
     };
 
     db.users.push(newUser);
@@ -219,6 +237,49 @@ app.get("/timed/questions", (req: Request, res: Response) => {
   const shuffledQuestions = subjectQuestions.sort(() => Math.random() - 0.5);
   res.json({ questions: shuffledQuestions });
 });
+
+app.get(
+  "/languages",
+  verifyToken,
+  (req: AuthRequest, res: Response<LanguageResponse | ErrorResponse>) => {
+    const languageDB = readLanguageDB();
+    const userDb = readUserDB();
+
+    const user = userDb.users.find((u) => u.username === req.user?.username);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({
+      translations: languageDB.translations,
+      userLanguage: user.language,
+    });
+  }
+);
+
+app.put(
+  "/languages",
+  verifyToken,
+  (req: AuthRequest, res: Response<{ message: string; language: string } | ErrorResponse>) => {
+    const { language }: UpdateLanguageRequest = req.body;
+    const languageDB = readLanguageDB();
+    const userDb = readUserDB();
+
+    const user = userDb.users.find((u) => u.username === req.user?.username);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!languageDB.translations[language]) {
+      return res.status(400).json({ message: "Invalid language" });
+    }
+
+    user.language = language;
+    writeUserDB(userDb);
+
+    res.json({ message: "Language updated successfully", language });
+  }
+);
 
 app.get(
   "/profile",
