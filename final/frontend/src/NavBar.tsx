@@ -5,10 +5,11 @@ import { useAuth } from './AuthContext';
 
 const navItems = [
   { key: "/", label: "🏠 Home" },
-  { key: "/dragdrop", label: "Drag & Drop Game" },
-  { key: "/timed", label: "Timed Question Game" },
-  { key: "/memory", label: "Memory Card Game" },
-  { key: "/profile", label: "Profile" }
+  { key: "/dragdrop", label: "🎯 Drag & Drop" },
+  { key: "/timed", label: "⏰ Timed Quiz" },
+  { key: "/memory", label: "🧠 Memory" },
+  { key: "/tracker", label: "🎮 Tracker" },
+  { key: "/profile", label: "👤 Profile" }
 ];
 
 export default function NavBar() {

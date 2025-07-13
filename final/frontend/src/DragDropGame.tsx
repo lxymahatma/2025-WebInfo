@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GamePair } from './types/drag-drop';
+import { useGameTracker } from './GameTrackerContext';
 
 const ALL_PAIRS: GamePair[] = [
   // Fruits
@@ -80,15 +81,26 @@ const getRandomPairs = (count: number = 8): GamePair[] => {
 };
 
 export default function DragDropGame(): React.JSX.Element {
+  const { incrementGameCount } = useGameTracker();
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('medium');
   const [currentPairs, setCurrentPairs] = useState<GamePair[]>([]);
   const [solved, setSolved] = useState<Record<string, boolean>>({});
+  const [gameCompleted, setGameCompleted] = useState<boolean>(false);
   const dragItemRef = useRef<string | null>(null);
 
   // Initialize game with random pairs
   useEffect(() => {
     setCurrentPairs(getRandomPairs(DIFFICULTY_LEVELS[difficulty].pairs));
   }, [difficulty]);
+
+  // Track game completion
+  useEffect(() => {
+    const allSolved = Object.keys(solved).length === currentPairs.length && currentPairs.length > 0;
+    if (allSolved && !gameCompleted) {
+      setGameCompleted(true);
+      incrementGameCount('dragdrop');
+    }
+  }, [solved, currentPairs, gameCompleted, incrementGameCount]);
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string): void => {
     dragItemRef.current = id;
@@ -122,12 +134,14 @@ export default function DragDropGame(): React.JSX.Element {
 
   const restartGame = (): void => {
     setSolved({});
+    setGameCompleted(false);
     setCurrentPairs(getRandomPairs(DIFFICULTY_LEVELS[difficulty].pairs)); // Get new random pairs
   };
 
   const changeDifficulty = (newDifficulty: DifficultyLevel): void => {
     setDifficulty(newDifficulty);
     setSolved({});
+    setGameCompleted(false);
   };
 
   const allSolved = Object.keys(solved).length === currentPairs.length;

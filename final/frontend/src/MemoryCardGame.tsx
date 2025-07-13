@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CardType, CardProps } from './types/memory-card';
+import { useGameTracker } from './GameTrackerContext';
 
 const cardTypes = ['Elephant', 'Lion', 'Cat', 'Car'];
 
@@ -12,11 +13,13 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export default function MemoryCardGame() {
+  const { incrementGameCount } = useGameTracker();
   const [cards, setCards] = useState<CardType[]>([]);
   const [firstChoice, setFirstChoice] = useState<CardType | null>(null);
   const [secondChoice, setSecondChoice] = useState<CardType | null>(null);
   const [disabled, setDisabled] = useState(false);
   const [gameWon, setGameWon] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(false);
 
   // Initialize/reset game
   const initializeGame = () => {
@@ -29,6 +32,7 @@ export default function MemoryCardGame() {
     setSecondChoice(null);
     setDisabled(false);
     setGameWon(false);
+    setGameCompleted(false);
   };
 
   useEffect(() => {
@@ -41,9 +45,13 @@ export default function MemoryCardGame() {
       // Wait before showing the win message
       setTimeout(() => {
         setGameWon(true);
+        if (!gameCompleted) {
+          setGameCompleted(true);
+          incrementGameCount('memory');
+        }
       }, 500);
     }
-  }, [cards]);
+  }, [cards, gameCompleted, incrementGameCount]);
 
   useEffect(() => {
     if (firstChoice && secondChoice) {
