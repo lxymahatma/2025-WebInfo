@@ -1,7 +1,7 @@
 export interface AuthContextType {
   user: string | null;
-  login: (username: string) => void;
-  logout: () => void;
+  signin: (username: string) => void;
+  signout: () => void;
 }
 
 export interface AuthProviderProps {

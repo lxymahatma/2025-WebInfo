@@ -14,11 +14,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
-  const login = (username: string) => {
+  const signin = (username: string) => {
     setUser(username);
   };
 
-  const logout = async () => {
+  const signout = async () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
@@ -40,7 +40,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem('userId');
   };
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, signin, signout }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth(): AuthContextType {

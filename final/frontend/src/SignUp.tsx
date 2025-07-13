@@ -5,7 +5,7 @@ import { useAuth } from './AuthContext';
 export default function SignUp(): React.JSX.Element {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { login } = useAuth();
+  const { signin } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,8 +31,7 @@ export default function SignUp(): React.JSX.Element {
         const data = await res.json();
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
-        localStorage.setItem('userId', data.userId);
-        login(data.username);
+        signin(data.username);
         alert('Sign up success!');
         navigate('/');
       } else {
