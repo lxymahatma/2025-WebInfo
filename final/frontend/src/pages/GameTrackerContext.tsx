@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { GameStats, GameTrackerProviderProps } from '../types/tracker';
+import { useAuth } from '../AuthContext';
 
 interface GameTrackerContextType {
   stats: GameStats;
@@ -26,6 +27,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     memory: 0,
   });
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
 
   const getToken = () => {
     return localStorage.getItem('token');
@@ -60,9 +62,17 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
   };
 
   useEffect(() => {
-    fetchStats();
+    if (user) {
+      fetchStats();
+    } else {
+      setStats({
+        dragdrop: 0,
+        timed: 0,
+        memory: 0,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   const incrementGameCount = async (gameType: keyof GameStats) => {
     const token = getToken();
