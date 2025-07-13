@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Space, Tag, Typography, Progress, Result } from 'antd';
-import { useGameTracker } from './GameTrackerContext';
+import { useGameTracker } from '../GameTrackerContext';
 
 const { Title, Paragraph } = Typography;
 

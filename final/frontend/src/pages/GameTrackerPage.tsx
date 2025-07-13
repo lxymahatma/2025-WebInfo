@@ -30,7 +30,7 @@ const gameInfo = {
   },
 };
 
-export default function GameTracker(): React.JSX.Element {
+export default function GameTrackerPage(): React.JSX.Element {
   const { stats, resetStats } = useGameTracker();
 
   const totalGamesPlayed = stats.dragdrop + stats.timed + stats.memory;
