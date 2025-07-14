@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CardType, CardProps } from '../types/memory-card';
-import { useGameTracker } from '../pages/GameTrackerContext';
+import { CardType, CardProps } from '../types';
+import { useGameTracker } from '../pages';
 
 import './MemoryCardGame.css';
 
