@@ -16,6 +16,7 @@ import {
   Upload,
   message,
 } from 'antd';
+
 import {
   UserOutlined,
   SettingOutlined,
@@ -28,7 +29,7 @@ import {
 } from '@ant-design/icons';
 
 import './ProfilePage.css';
-import { useAuth } from '../AuthContext';
+import { useAuth } from 'components';
 
 const { Text } = Typography;
 

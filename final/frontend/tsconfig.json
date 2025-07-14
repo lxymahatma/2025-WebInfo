@@ -21,6 +21,12 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
+      "components/*": [
+        "components/*"
+      ],
+      "components": [
+        "components"
+      ],
       "pages/*": [
         "pages/*"
       ],
@@ -38,7 +44,7 @@
       ],
       "types": [
         "types"
-      ],
+      ]
     }
   },
   "include": [
