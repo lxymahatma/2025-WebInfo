@@ -14,7 +14,34 @@
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "types/*": [
+        "types/*"
+      ],
+      "types": [
+        "types"
+      ],
+      "routes/*": [
+        "routes/*"
+      ],
+      "routes": [
+        "routes"
+      ],
+      "utils/*": [
+        "utils/*"
+      ],
+      "utils": [
+        "utils"
+      ],
+      "middleware/*": [
+        "middleware/*"
+      ],
+      "middleware": [
+        "middleware"
+      ]
+    }
   },
   "include": [
     "*.ts",
@@ -23,5 +50,5 @@
   "exclude": [
     "node_modules",
     "dist"
-  ]
+  ],
 }
