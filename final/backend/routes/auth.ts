@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { isString, trim } from "es-toolkit";
 import { verifyToken, SECRET } from "middleware";
 import {
   AuthRequest,
@@ -21,7 +22,7 @@ router.post(
   ) => {
     const { username, password } = req.body;
 
-    if (!username || !password) {
+    if (!isString(username) || !isString(password) || !trim(username) || !trim(password)) {
       return res.status(400).json({ message: "Username and password are required" });
     }
 

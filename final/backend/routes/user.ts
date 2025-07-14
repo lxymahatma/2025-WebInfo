@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { pick, merge } from "es-toolkit";
 import { verifyToken } from "middleware";
 import {
   AuthRequest,
@@ -24,10 +25,7 @@ router.get(
     }
 
     res.json({
-      user: {
-        username: user.username,
-        password: user.password,
-      },
+      user: pick(user, ["username", "password"]),
     });
   }
 );
@@ -48,22 +46,13 @@ router.put(
       return res.status(404).json({ message: "User not found" });
     }
 
-    const { username, password } = req.body;
-
-    if (username !== undefined) {
-      userDb.users[userIndex].username = username;
-    }
-    if (password !== undefined) {
-      userDb.users[userIndex].password = password;
-    }
+    const updates = { ...req.body };
+    userDb.users[userIndex] = merge(userDb.users[userIndex], updates);
 
     writeUserDB(userDb);
 
     res.json({
-      user: {
-        username: userDb.users[userIndex].username,
-        password: userDb.users[userIndex].password,
-      },
+      user: pick(userDb.users[userIndex], ["username", "password"]),
     });
   }
 );

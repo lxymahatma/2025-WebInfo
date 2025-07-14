@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { randomInt } from "es-toolkit";
+import { randomInt, shuffle, groupBy, sampleSize, uniq } from "es-toolkit";
 import { readMemoryDB, readDragDropDB, readTimedDB } from "utils";
 
 const router = Router();
@@ -11,16 +11,7 @@ router.get("/memory/cards", (req: Request, res: Response) => {
     return res.json({ cards: ["Dog", "Cat", "Mouse", "Hamster"] });
   }
 
-  const randomIndices: number[] = [];
-
-  while (randomIndices.length < 4 && randomIndices.length < memoryDB.cards.length) {
-    const randomIndex = randomInt(0, memoryDB.cards.length);
-    if (!randomIndices.includes(randomIndex)) {
-      randomIndices.push(randomIndex);
-    }
-  }
-
-  const cards = randomIndices.map((index) => memoryDB.cards[index].type);
+  const cards = sampleSize(memoryDB.cards, 4).map((card) => card.type);
 
   res.json({ cards });
 });
@@ -37,16 +28,15 @@ router.get("/dragdrop/pairs", (req: Request, res: Response) => {
 
   const count = itemsPerCategory[difficulty as keyof typeof itemsPerCategory];
 
-  const categories = Array.from(new Set(db.pairs.map((p) => p.match)));
+  const groupedPairs = groupBy(db.pairs, (pair) => pair.match);
   const selectedPairs: any[] = [];
 
-  for (const category of categories) {
-    const categoryPairs = db.pairs.filter((p) => p.match === category);
-    const shuffled = categoryPairs.sort(() => Math.random() - 0.5);
-    selectedPairs.push(...shuffled.slice(0, count));
-  }
+  Object.values(groupedPairs).forEach((categoryPairs) => {
+    const sampledPairs = sampleSize(categoryPairs, Math.min(count, categoryPairs.length));
+    selectedPairs.push(...sampledPairs);
+  });
 
-  const finalPairs = selectedPairs.sort(() => Math.random() - 0.5);
+  const finalPairs = shuffle(selectedPairs);
   res.json(finalPairs);
 });
 
@@ -64,7 +54,8 @@ router.get("/timed/questions", (req: Request, res: Response) => {
     return res.status(404).json({ message: "No questions found for this subject" });
   }
 
-  const shuffledQuestions = subjectQuestions.sort(() => Math.random() - 0.5);
+  // Use es-toolkit's shuffle for better randomization
+  const shuffledQuestions = shuffle(subjectQuestions);
   res.json({ questions: shuffledQuestions });
 });
 
