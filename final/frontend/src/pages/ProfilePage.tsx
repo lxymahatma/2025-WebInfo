@@ -32,7 +32,7 @@ import { useAuth } from '../AuthContext';
 
 const { Text } = Typography;
 
-export default function ProfilePage(): React.JSX.Element {
+export const ProfilePage = (): React.JSX.Element => {
   const { user } = useAuth();
 
   const [profile, setProfile] = useState({
@@ -587,5 +587,4 @@ export default function ProfilePage(): React.JSX.Element {
       </Modal>
     </div>
   );
-}
-export { ProfilePage };
+};

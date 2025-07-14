@@ -1,20 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
-import { GameTrackerProvider } from './pages/GameTrackerContext';
-import NavBar from './NavBar';
-
-// Pages
-import HomePage from './pages/HomePage';
-import GameTrackerPage from './pages/GameTrackerPage';
-import ProfilePage from './pages/ProfilePage';
-import SignInPage from './pages/SignInPage';
-import SignUpPage from './pages/SignUpPage';
-
-// Games
-import DragDropGame from './games/DragDropGame';
-import MemoryCardGame from './games/MemoryCardGame';
-import TimedQuestionGame from './games/TimedQuestionGame';
-
+import { HomePage, GameTrackerPage, ProfilePage, SignInPage, SignUpPage, GameTrackerProvider } from './pages';
+import { DragDropGame, MemoryCardGame, TimedQuestionGame } from './games';
+import { NavBar } from './NavBar';
 import './App.css';
 
 function AppContent() {
@@ -39,7 +27,7 @@ function AppContent() {
   );
 }
 
-export default function App() {
+export const App = () => {
   return (
     <AuthProvider>
       <GameTrackerProvider>
@@ -49,4 +37,4 @@ export default function App() {
       </GameTrackerProvider>
     </AuthProvider>
   );
-}
+};

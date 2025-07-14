@@ -14,7 +14,7 @@ const navItems = [
   { key: '/profile', label: '👤 Profile' },
 ];
 
-export default function NavBar() {
+export const NavBar = () => {
   const location = useLocation();
   const { signout, user } = useAuth();
   const [isVisible, setIsVisible] = useState(false);
@@ -68,4 +68,4 @@ export default function NavBar() {
       </nav>
     </>
   );
-}
+};

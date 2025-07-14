@@ -27,7 +27,7 @@ async function fetchRandomCards(): Promise<string[]> {
   }
 }
 
-export default function MemoryCardGame(): React.JSX.Element {
+export const MemoryCardGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
   const [cards, setCards] = useState<CardType[]>([]);
   const [firstChoice, setFirstChoice] = useState<CardType | null>(null);
@@ -147,7 +147,7 @@ export default function MemoryCardGame(): React.JSX.Element {
     React.createElement('p', { className: 'memory-game-instructions' }, 'Flip & match the cards!'),
     React.createElement('div', { className: 'card-grid' }, ...grid)
   );
-}
+};
 
 function Card({ card, flipped, handleChoice, disabled }: CardProps) {
   function onClick() {

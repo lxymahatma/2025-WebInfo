@@ -7,7 +7,7 @@ import './HomePage.css';
 
 const { Title, Paragraph } = Typography;
 
-export default function HomePage(): React.JSX.Element {
+export const HomePage = (): React.JSX.Element => {
   const { user, signout } = useAuth();
 
   return (
@@ -141,4 +141,4 @@ export default function HomePage(): React.JSX.Element {
       </div>
     </div>
   );
-}
+};

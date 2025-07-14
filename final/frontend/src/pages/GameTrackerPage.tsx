@@ -32,7 +32,7 @@ const gameInfo = {
   },
 };
 
-export default function GameTrackerPage(): React.JSX.Element {
+export const GameTrackerPage = (): React.JSX.Element => {
   const { stats, resetStats } = useGameTracker();
 
   const totalGamesPlayed = stats.dragdrop + stats.timed + stats.memory;
@@ -199,4 +199,4 @@ export default function GameTrackerPage(): React.JSX.Element {
       </div>
     </div>
   );
-}
+};

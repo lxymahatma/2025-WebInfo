@@ -8,7 +8,7 @@ import './TimedQuestionGame.css';
 const { Title, Paragraph } = Typography;
 type Subject = 'math' | 'english' | 'knowledge';
 
-export default function TimedQuestionGame(): React.JSX.Element {
+export const TimedQuestionGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -323,4 +323,4 @@ export default function TimedQuestionGame(): React.JSX.Element {
       </div>
     </div>
   );
-}
+};

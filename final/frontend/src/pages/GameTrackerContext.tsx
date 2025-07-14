@@ -1,14 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { GameStats, GameTrackerProviderProps } from '../types/tracker';
+import { GameStats, GameTrackerProviderProps, GameTrackerContextType } from '../types/tracker';
 import { useAuth } from '../AuthContext';
-
-interface GameTrackerContextType {
-  stats: GameStats;
-  loading: boolean;
-  incrementGameCount: (gameType: keyof GameStats) => Promise<void>;
-  resetStats: () => Promise<void>;
-  fetchStats: () => Promise<void>;
-}
 
 const GameTrackerContext = createContext<GameTrackerContextType | undefined>(undefined);
 

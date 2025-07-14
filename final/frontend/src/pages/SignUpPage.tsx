@@ -4,7 +4,7 @@ import { useAuth } from '../AuthContext';
 
 import './SignUpPage.css';
 
-export default function SignUpPage(): React.JSX.Element {
+export const SignUpPage = (): React.JSX.Element => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const { signin } = useAuth();
@@ -91,4 +91,4 @@ export default function SignUpPage(): React.JSX.Element {
       </div>
     </div>
   );
-}
+};

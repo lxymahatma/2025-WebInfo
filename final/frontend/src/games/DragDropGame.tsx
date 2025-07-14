@@ -25,7 +25,7 @@ const fetchPairs = async (difficulty: DifficultyLevel): Promise<GamePair[]> => {
   }
 };
 
-export default function DragDropGame(): React.JSX.Element {
+export const DragDropGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('medium');
   const [currentPairs, setCurrentPairs] = useState<GamePair[]>([]);
@@ -193,4 +193,4 @@ export default function DragDropGame(): React.JSX.Element {
       </div>
     </div>
   );
-}
+};
