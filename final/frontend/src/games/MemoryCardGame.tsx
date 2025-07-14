@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { CardType, CardProps } from 'types';
+
 import { useGameTracker } from 'pages';
+import { CardType, CardProps } from 'types';
 
 import './MemoryCardGame.css';
 
