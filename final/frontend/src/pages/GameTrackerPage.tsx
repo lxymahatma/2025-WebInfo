@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Space, Typography, Button, Row, Col, Statistic, Divider } from 'antd';
 import { TrophyOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import { useGameTracker } from './GameTrackerContext';
+import { useGameTracker } from 'pages/GameTrackerContext';
 
 import './GameTrackerPage.css';
 

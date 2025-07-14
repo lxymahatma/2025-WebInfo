@@ -18,7 +18,28 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "paths": {
+      "pages/*": [
+        "pages/*"
+      ],
+      "pages": [
+        "pages"
+      ],
+      "games/*": [
+        "games/*"
+      ],
+      "games": [
+        "games"
+      ],
+      "types/*": [
+        "types/*"
+      ],
+      "types": [
+        "types"
+      ],
+    }
   },
   "include": [
     "src"

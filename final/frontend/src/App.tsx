@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
-import { HomePage, GameTrackerPage, ProfilePage, SignInPage, SignUpPage, GameTrackerProvider } from './pages';
-import { DragDropGame, MemoryCardGame, TimedQuestionGame } from './games';
+import { HomePage, GameTrackerPage, ProfilePage, SignInPage, SignUpPage, GameTrackerProvider } from 'pages';
+import { DragDropGame, MemoryCardGame, TimedQuestionGame } from 'games';
 import { NavBar } from './NavBar';
 import './App.css';
 
