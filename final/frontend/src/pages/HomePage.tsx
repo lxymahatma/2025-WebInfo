@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, Button } from 'antd';
 
-import { useAuth } from '../components';
+import { useAuth } from 'components';
 
 import './HomePage.css';
 

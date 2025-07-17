@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-import { useAuth } from '../components';
-import type { GameStats, GameTrackerProviderProps, GameTrackerContextType } from '../types';
+import { useAuth } from 'components';
+import type { GameStats, GameTrackerProviderProps, GameTrackerContextType } from 'types';
 
 const GameTrackerContext = createContext<GameTrackerContextType | undefined>(undefined);
 
