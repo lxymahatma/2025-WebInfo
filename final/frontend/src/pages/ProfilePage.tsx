@@ -30,6 +30,7 @@ import {
 
 import './ProfilePage.css';
 import { useAuth } from 'components';
+import type { Translations } from 'types';
 
 const { Text } = Typography;
 
@@ -116,7 +117,8 @@ export const ProfilePage = (): React.JSX.Element => {
 
   // For settings
   const [lang, setLang] = useState('Eng');
-  const [translations, setTranslations] = useState<any>({
+
+  const [translations, setTranslations] = useState<Translations>({
     Eng: {
       myProfile: 'My Profile',
       settings: 'Settings',
@@ -187,7 +189,7 @@ export const ProfilePage = (): React.JSX.Element => {
 
   const t = translations[lang as keyof typeof translations] || {};
 
-  const getText = (key: string, fallback?: string) => {
+  const getText = (key: string, fallback?: string): string => {
     return t[key] || fallback || key;
   };
 
@@ -401,8 +403,8 @@ export const ProfilePage = (): React.JSX.Element => {
                       <Text strong className="profile-header-name">
                         {profile.name}
                       </Text>
-                      {profile.equippedEmojis.map((emoji, index) => (
-                        <span key={index} className="profile-emoji">
+                      {profile.equippedEmojis.map(emoji => (
+                        <span key={`header-emoji-${emoji}`} className="profile-emoji">
                           {emoji}
                         </span>
                       ))}
@@ -487,9 +489,9 @@ export const ProfilePage = (): React.JSX.Element => {
                         'https://randomuser.me/api/portraits/women/68.jpg',
                         'https://randomuser.me/api/portraits/men/54.jpg',
                         'https://randomuser.me/api/portraits/women/19.jpg',
-                      ].map((url, index) => (
+                      ].map(url => (
                         <Avatar
-                          key={index}
+                          key={url}
                           size={48}
                           src={url}
                           className={`profile-preset-avatar ${
@@ -554,8 +556,8 @@ export const ProfilePage = (): React.JSX.Element => {
           </Text>
           {profile.equippedEmojis.length > 0 ? (
             <div className="profile-modal-equipped-emojis">
-              {profile.equippedEmojis.map((emoji, index) => (
-                <span key={index} className="profile-modal-equipped-emoji">
+              {profile.equippedEmojis.map(emoji => (
+                <span key={`modal-equipped-${emoji}`} className="profile-modal-equipped-emoji">
                   {emoji}
                 </span>
               ))}
@@ -572,9 +574,9 @@ export const ProfilePage = (): React.JSX.Element => {
             {t.availableItems}
           </Text>
           <div className="profile-emoji-grid">
-            {availableEmojis.map((emoji, index) => (
+            {availableEmojis.map(emoji => (
               <div
-                key={index}
+                key={`available-${emoji}`}
                 className={`profile-emoji-item ${
                   profile.equippedEmojis.includes(emoji) ? 'profile-emoji-item-equipped' : 'profile-emoji-item'
                 }`}

@@ -41,7 +41,7 @@ export const SignUpPage = (): React.JSX.Element => {
         const error = await res.json();
         alert(error.message || 'Sign up failed');
       }
-    } catch (error) {
+    } catch {
       alert('Network error. Please try again.');
     }
   };

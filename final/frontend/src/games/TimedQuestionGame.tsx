@@ -180,9 +180,9 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   if (gameFinished) {
     // Show result using Ant Design's Result component
     const percent = Math.round((score / questions.length) * 100);
-    let status = 'success';
-    let title = '🎉 Great Job!';
-    let subTitle = `Your Score: ${score} out of ${questions.length} (${percent}%)`;
+    let status: 'success' | 'info' | 'warning' | 'error' = 'success';
+    const title = '🎉 Great Job!';
+    const subTitle = `Your Score: ${score} out of ${questions.length} (${percent}%)`;
     let extra = null;
 
     if (score === questions.length) {
@@ -201,7 +201,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
       <div className="timed-question-container">
         <div className="timed-question-centered-wrapper">
           <Result
-            status={status as any}
+            status={status}
             title={title}
             subTitle={subTitle}
             extra={[
@@ -305,7 +305,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 }
                 return (
                   <Button
-                    key={idx}
+                    key={`${currentQuestionIndex}-${option}`}
                     block
                     type={type}
                     danger={danger}

@@ -1,17 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { useAuth } from 'components';
-import type { GameStats, GameTrackerProviderProps, GameTrackerContextType } from 'types';
-
-const GameTrackerContext = createContext<GameTrackerContextType | undefined>(undefined);
-
-export const useGameTracker = () => {
-  const context = useContext(GameTrackerContext);
-  if (!context) {
-    throw new Error('useGameTracker must be used within a GameTrackerProvider');
-  }
-  return context;
-};
+import type { GameStats, GameTrackerProviderProps } from 'types';
+import { GameTrackerContext } from './gameTrackerContext';
 
 export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ children }) => {
   const [stats, setStats] = useState<GameStats>({
@@ -26,7 +17,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     return localStorage.getItem('token');
   };
 
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     const token = getToken();
     if (!token) {
       return;
@@ -52,7 +43,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -67,7 +58,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  const incrementGameCount = async (gameType: keyof GameStats) => {
+  const incrementGameCount = useCallback(async (gameType: keyof GameStats) => {
     const token = getToken();
     if (!token) {
       return;
@@ -92,9 +83,9 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     } catch (error) {
       console.error('Error incrementing game count:', error);
     }
-  };
+  }, []);
 
-  const resetStats = async () => {
+  const resetStats = useCallback(async () => {
     const token = getToken();
     if (!token) {
       return;
@@ -118,15 +109,18 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     } catch (error) {
       console.error('Error resetting game stats:', error);
     }
-  };
+  }, []);
 
-  const value = {
-    stats,
-    loading,
-    incrementGameCount,
-    resetStats,
-    fetchStats,
-  };
+  const value = useMemo(
+    () => ({
+      stats,
+      loading,
+      incrementGameCount,
+      resetStats,
+      fetchStats,
+    }),
+    [stats, loading, incrementGameCount, resetStats, fetchStats]
+  );
 
-  return <GameTrackerContext.Provider value={value}>{children}</GameTrackerContext.Provider>;
+  return <GameTrackerContext value={value}>{children}</GameTrackerContext>;
 };

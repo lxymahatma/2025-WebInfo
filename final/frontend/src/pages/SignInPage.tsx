@@ -36,7 +36,7 @@ export const SignInPage = (): React.JSX.Element => {
         const error = await res.json();
         alert(error.message || 'Invalid credentials');
       }
-    } catch (error) {
+    } catch {
       alert('Network error. Please try again.');
     }
   };

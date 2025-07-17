@@ -3,4 +3,5 @@ export { GameTrackerPage } from './GameTrackerPage';
 export { ProfilePage } from './ProfilePage';
 export { SignInPage } from './SignInPage';
 export { SignUpPage } from './SignUpPage';
-export { GameTrackerProvider, useGameTracker } from './GameTrackerContext';
+export { GameTrackerProvider } from './GameTrackerContext';
+export { useGameTracker } from './useGameTracker';

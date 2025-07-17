@@ -1,8 +1,7 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
-import type { AuthContextType, AuthProviderProps } from 'types';
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import type { AuthProviderProps } from 'types';
+import { AuthContext } from './authContext';
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<string | null>(null);
@@ -15,11 +14,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
-  const signin = (username: string) => {
+  const signin = useCallback((username: string) => {
     setUser(username);
-  };
+  }, []);
 
-  const signout = async () => {
+  const signout = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
@@ -38,15 +37,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-  };
+  }, []);
 
-  return <AuthContext.Provider value={{ user, signin, signout }}>{children}</AuthContext.Provider>;
-}
+  const value = useMemo(
+    () => ({
+      user,
+      signin,
+      signout,
+    }),
+    [user, signin, signout]
+  );
 
-export function useAuth(): AuthContextType {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return <AuthContext value={value}>{children}</AuthContext>;
 }

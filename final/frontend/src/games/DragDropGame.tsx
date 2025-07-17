@@ -125,6 +125,7 @@ export const DragDropGame = (): React.JSX.Element => {
           {Object.entries(DIFFICULTY_LEVELS).map(([key, level]) => (
             <button
               key={key}
+              type="button"
               onClick={() => changeDifficulty(key as DifficultyLevel)}
               className={`difficulty-btn ${difficulty === key ? 'active' : ''}`}
             >
@@ -132,7 +133,7 @@ export const DragDropGame = (): React.JSX.Element => {
             </button>
           ))}
         </div>
-        <button className="new-game-button" onClick={restartGame}>
+        <button className="new-game-button" type="button" onClick={restartGame}>
           Start New Game
         </button>
       </div>
@@ -149,6 +150,7 @@ export const DragDropGame = (): React.JSX.Element => {
         {Object.entries(DIFFICULTY_LEVELS).map(([key, level]) => (
           <button
             key={key}
+            type="button"
             onClick={() => changeDifficulty(key as DifficultyLevel)}
             className={`difficulty-btn ${difficulty === key ? 'active' : ''}`}
           >

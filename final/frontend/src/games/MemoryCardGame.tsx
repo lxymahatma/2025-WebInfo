@@ -96,7 +96,11 @@ export const MemoryCardGame = (): React.JSX.Element => {
     // Prevent selecting the same card twice
     if (card === firstChoice) return;
 
-    firstChoice ? setSecondChoice(card) : setFirstChoice(card);
+    if (firstChoice) {
+      setSecondChoice(card);
+    } else {
+      setFirstChoice(card);
+    }
   }
 
   function resetTurn() {
@@ -133,6 +137,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
       React.createElement(
         'button',
         {
+          type: 'button',
           className: 'new-game-button',
           onClick: initializeGame,
         },

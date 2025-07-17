@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Button } from 'antd';
 
-import { useAuth } from './AuthContext';
+import { useAuth } from './useAuth';
 
 import './NavBar.css';
 
