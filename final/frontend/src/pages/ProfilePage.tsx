@@ -29,7 +29,7 @@ import {
 } from '@ant-design/icons';
 
 import './ProfilePage.css';
-import { useAuth } from 'components';
+import { useAuth } from '../components';
 
 const { Text } = Typography;
 

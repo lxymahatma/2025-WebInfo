@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, Button } from 'antd';
 
-import { useAuth } from 'components';
+import { useAuth } from '../components';
 
 import './HomePage.css';
 
@@ -28,7 +28,7 @@ export const HomePage = (): React.JSX.Element => {
 
       <div className="homepage-content">
         <div className="homepage-hero">
-          <img src="/Logo.png" alt="Game Platform Logo" className="homepage-logo" />
+          <img src="/logo.png" alt="Game Platform Logo" className="homepage-logo" />
           <Title level={1} className="homepage-title">
             🎮 Game Platform
           </Title>

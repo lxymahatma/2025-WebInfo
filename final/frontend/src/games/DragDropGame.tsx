@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import { useGameTracker } from 'pages';
-import { GamePair } from 'types';
+import { useGameTracker } from '../pages';
+import type { GamePair } from '../types';
 
 import './DragDropGame.css';
 

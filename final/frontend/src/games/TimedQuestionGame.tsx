@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Space, Tag, Typography, Progress, Result } from 'antd';
 
-import { useGameTracker } from 'pages';
-import { Question } from 'types';
+import { useGameTracker } from '../pages';
+import type { Question } from '../types';
 
 import './TimedQuestionGame.css';
 
