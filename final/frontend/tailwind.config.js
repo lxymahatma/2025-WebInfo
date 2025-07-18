@@ -32,6 +32,8 @@ export default {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.3s ease-out',
         'bounce-in': 'bounceIn 0.6s ease-out',
+        'match-pulse': 'matchPulse 0.6s ease-in-out',
+        'celebration-bounce': 'celebrationBounce 1s ease-in-out',
       },
       keyframes: {
         fadeIn: {
@@ -47,6 +49,16 @@ export default {
           '50%': { transform: 'scale(1.05)' },
           '70%': { transform: 'scale(0.9)' },
           '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        matchPulse: {
+          '0%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.1)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        celebrationBounce: {
+          '0%, 20%, 50%, 80%, 100%': { transform: 'translateY(0)' },
+          '40%': { transform: 'translateY(-20px)' },
+          '60%': { transform: 'translateY(-10px)' },
         },
       },
       spacing: {

@@ -120,12 +120,12 @@ export const MemoryCardGame = (): React.JSX.Element => {
   if (loading) {
     return React.createElement(
       'div',
-      { className: 'min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center' },
+      { className: 'bg-gradient-to-br from-slate-50 to-slate-300 min-h-screen p-8 text-center' },
       React.createElement(
         'h1',
         {
           className:
-            'text-4xl font-extrabold mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-transparent drop-shadow-sm',
+            'bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-transparent text-[2.5rem] font-extrabold mb-4 drop-shadow-sm',
         },
         'Loading...'
       ),
@@ -136,12 +136,12 @@ export const MemoryCardGame = (): React.JSX.Element => {
   if (gameWon) {
     return React.createElement(
       'div',
-      { className: 'min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center' },
+      { className: 'bg-gradient-to-br from-slate-50 to-slate-300 min-h-screen p-8 text-center' },
       React.createElement(
         'h1',
         {
           className:
-            'text-4xl font-extrabold mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-transparent drop-shadow-sm animate-bounce',
+            'bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-transparent text-[2.5rem] font-extrabold mb-4 drop-shadow-sm animate-celebration-bounce',
         },
         'Congratulations! 🎉'
       ),
@@ -151,7 +151,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
         {
           type: 'button',
           className:
-            'bg-gradient-to-r from-cyan-600 to-cyan-800 border-none rounded-xl shadow-lg shadow-cyan-600/40 text-white cursor-pointer text-lg font-semibold mt-6 px-8 py-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5',
+            'bg-gradient-to-r from-cyan-600 to-cyan-800 border-none rounded-xl shadow-lg shadow-cyan-600/40 text-white cursor-pointer text-[1.1rem] font-semibold mt-6 px-[30px] py-3 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-600/60 hover:-translate-y-0.5',
           onClick: initializeGame,
         },
         'Start New Game'
@@ -161,20 +161,33 @@ export const MemoryCardGame = (): React.JSX.Element => {
 
   return React.createElement(
     'div',
-    { className: 'min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center pt-20' },
+    { className: 'bg-gradient-to-br from-slate-50 to-slate-300 min-h-screen p-8 text-center' },
     React.createElement(
       'h1',
       {
         className:
-          'text-4xl font-extrabold mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-transparent drop-shadow-sm',
+          'bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-transparent text-[2.5rem] font-extrabold mb-4 drop-shadow-sm',
       },
       'Memory Card Game'
     ),
     React.createElement('p', { className: 'text-gray-600 text-xl font-medium mb-10' }, 'Flip & match the cards!'),
     React.createElement(
       'div',
-      { className: 'grid grid-cols-3 md:grid-cols-4 gap-5 justify-center mx-auto my-8 perspective-1000' },
+      {
+        className:
+          'grid [grid-template-columns:repeat(4,120px)] gap-[1.2rem] justify-center mx-auto my-8 [perspective:1000px]',
+      },
       ...grid
+    ),
+    React.createElement(
+      'button',
+      {
+        type: 'button',
+        className:
+          'bg-gradient-to-r from-cyan-600 to-cyan-800 border-none rounded-xl shadow-lg shadow-cyan-600/40 text-white cursor-pointer text-[1.1rem] font-semibold mt-6 px-[30px] py-3 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-600/60 hover:-translate-y-0.5',
+        onClick: initializeGame,
+      },
+      'Start New Game'
     )
   );
 };
@@ -183,26 +196,26 @@ function Card({ card, flipped, handleChoice, disabled }: CardProps) {
   function onClick() {
     if (!flipped && !disabled) handleChoice(card);
   }
-  const innerCls = flipped ? 'transform rotate-y-180' : '';
-  const matchedCls = card.matched ? 'animate-pulse' : '';
+  const innerCls = flipped ? '[transform:rotateY(180deg)]' : '';
+  const matchedCls = card.matched ? 'animate-match-pulse' : '';
 
   return React.createElement(
     'div',
     {
-      className: `cursor-pointer perspective-1000 transition-transform duration-200 hover:scale-105 ${matchedCls}`,
+      className: `cursor-pointer [perspective:1000px] transition-transform duration-200 hover:scale-105 ${matchedCls}`,
       onClick,
     },
     React.createElement(
       'div',
       {
-        className: `h-32 md:h-40 w-24 md:w-30 relative transform-gpu transition-transform duration-600 cubic-bezier-0.4-0-0.2-1 preserve-3d ${innerCls}`,
+        className: `h-[160px] w-[120px] relative [transform-style:preserve-3d] transition-transform duration-[600ms] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] ${innerCls}`,
       },
       // FRONT SIDE (default): show the placeholder
       React.createElement(
         'div',
         {
           className:
-            'absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-600 to-cyan-800 text-white font-semibold rounded-2xl shadow-lg shadow-black/15 backface-hidden transition-all duration-300 text-3xl md:text-4xl hover:shadow-xl hover:shadow-cyan-600/30',
+            'absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-600 to-cyan-800 text-white font-semibold rounded-2xl shadow-lg shadow-black/15 [backface-visibility:hidden] transition-all duration-300 text-[2rem] hover:shadow-xl hover:shadow-cyan-600/30',
         },
         '?'
       ),
@@ -211,7 +224,7 @@ function Card({ card, flipped, handleChoice, disabled }: CardProps) {
         'div',
         {
           className:
-            'absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-800 font-semibold rounded-2xl shadow-lg shadow-black/15 backface-hidden transform rotate-y-180 transition-all duration-300 text-lg md:text-xl',
+            'absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-800 font-semibold rounded-2xl shadow-lg shadow-black/15 [backface-visibility:hidden] [transform:rotateY(180deg)] transition-all duration-300 text-[1.4rem]',
         },
         card.type
       )

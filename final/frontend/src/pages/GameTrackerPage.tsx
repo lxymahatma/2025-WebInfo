@@ -46,12 +46,12 @@ export const GameTrackerPage = (): React.JSX.Element => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-indigo-500 to-purple-600 min-h-screen p-6">
-      <div className="mx-auto max-w-6xl">
-        <Card className="backdrop-blur-sm bg-white/95 rounded-2xl mb-6 text-center">
+    <div className="bg-gradient-to-br from-indigo-400 to-purple-600 min-h-screen p-6">
+      <div className="max-w-6xl mx-auto">
+        <Card className="backdrop-blur-md bg-white/95 rounded-2xl mb-6 text-center">
           <Space direction="vertical" size="middle" className="w-full">
             <div>
-              <TrophyOutlined className="text-yellow-500 text-5xl mb-4" />
+              <TrophyOutlined className="text-yellow-400 text-5xl mb-4" />
               <Title level={1} className="text-gray-800 m-0">
                 🎮 Game Tracker
               </Title>
@@ -68,7 +68,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
                   title="Total Games Played"
                   value={totalGamesPlayed}
                   prefix="🎯"
-                  className="text-blue-500 text-3xl"
+                  className="text-blue-500 font-bold text-3xl"
                 />
               </Col>
               <Col xs={24} sm={12} md={6}>
@@ -85,7 +85,12 @@ export const GameTrackerPage = (): React.JSX.Element => {
                 />
               </Col>
               <Col xs={24} sm={12} md={6}>
-                <Statistic title="Games Available" value={3} prefix="🎮" className="text-purple-600 text-3xl" />
+                <Statistic
+                  title="Games Available"
+                  value={3}
+                  prefix="🎮"
+                  className="text-purple-600 font-bold text-3xl"
+                />
               </Col>
               <Col xs={24} sm={12} md={6}>
                 <Button
@@ -108,7 +113,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
             <Col xs={24} sm={12} lg={8} key={gameKey}>
               <Card
                 hoverable
-                className="backdrop-blur-sm bg-white/95 rounded-2xl h-full transition-all duration-300 p-6"
+                className="backdrop-blur-md bg-white/95 rounded-2xl h-full transition-all duration-300 p-6"
               >
                 <Space direction="vertical" size="middle" className="w-full text-center">
                   <div>
@@ -116,19 +121,19 @@ export const GameTrackerPage = (): React.JSX.Element => {
                     <Title level={3} className="text-gray-800 m-0">
                       {info.name}
                     </Title>
-                    <Paragraph className="text-gray-600 my-2 mx-0 mb-4">{info.description}</Paragraph>
+                    <Paragraph className="text-gray-600 my-2 mx-0">{info.description}</Paragraph>
                   </div>
 
                   <div className="flex flex-col items-center justify-center mx-auto p-5 rounded-xl w-4/5">
                     <Statistic
                       title="Times Played"
                       value={stats[gameKey as keyof typeof stats]}
-                      className={`font-bold text-center w-full text-4xl ${info.tailwindColor}`}
+                      className={`font-bold text-center w-full ${info.tailwindColor}`}
                     />
                   </div>
 
                   {stats[gameKey as keyof typeof stats] > 0 && (
-                    <div className="flex items-center justify-center mx-auto p-3 w-4/5 bg-green-50 border border-green-200 rounded-lg">
+                    <div className="flex items-center justify-center mx-auto p-3 w-4/5 bg-green-50 border border-green-300 rounded-lg">
                       <Paragraph className="text-green-600 font-medium m-0 text-center">
                         🎉 You've mastered this game!
                       </Paragraph>
@@ -137,8 +142,8 @@ export const GameTrackerPage = (): React.JSX.Element => {
 
                   {stats[gameKey as keyof typeof stats] === 0 && (
                     <Link to={info.path} className="mx-auto no-underline w-4/5">
-                      <div className="bg-orange-50 hover:bg-orange-100 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 w-[90%] border border-orange-200 rounded-lg cursor-pointer">
-                        <Paragraph className="text-orange-500 font-medium m-0 text-center">
+                      <div className="bg-orange-50 hover:bg-orange-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex items-center justify-center p-3 w-[90%] border border-orange-300 rounded-lg cursor-pointer">
+                        <Paragraph className="text-orange-600 font-medium m-0 text-center">
                           🎮 Ready to try this game?
                         </Paragraph>
                       </div>
@@ -151,14 +156,14 @@ export const GameTrackerPage = (): React.JSX.Element => {
         </Row>
 
         {totalGamesPlayed === 0 && (
-          <Card className="backdrop-blur-sm bg-white/95 rounded-2xl mt-6 text-center">
+          <Card className="backdrop-blur-md bg-white/95 rounded-2xl mt-6 text-center">
             <Space direction="vertical" size="large" className="w-full">
               <div className="text-7xl">🎮</div>
               <div>
                 <Title level={3} className="text-blue-500">
                   Welcome to Game Tracker!
                 </Title>
-                <Paragraph className="text-gray-600 text-base">
+                <Paragraph className="text-gray-600">
                   Start playing any of the available games to see your progress here. Each completed game will be
                   automatically tracked!
                 </Paragraph>
@@ -168,7 +173,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
         )}
 
         {totalGamesPlayed >= 10 && (
-          <Card className="bg-gradient-to-br from-yellow-300 to-blue-800 rounded-2xl mt-6 text-center text-white">
+          <Card className="bg-gradient-to-br from-yellow-200 via-yellow-400 to-blue-800 rounded-2xl mt-6 text-center text-white">
             <Space direction="vertical" size="middle" className="w-full">
               <div className="text-6xl">🏆</div>
               <div>
