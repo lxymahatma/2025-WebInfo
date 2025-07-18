@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Space, Typography, Button, Row, Col, Statistic, Divider } from 'antd';
 import { TrophyOutlined, ReloadOutlined } from '@ant-design/icons';
 
-import { useGameTracker } from '.';
-
-import './GameTrackerPage.css';
+import { useGameTracker } from 'components';
 
 const { Title, Paragraph } = Typography;
 

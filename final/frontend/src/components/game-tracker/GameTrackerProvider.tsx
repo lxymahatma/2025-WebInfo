@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
-import { useAuth } from 'components';
+import { useAuth } from '../auth';
 import type { GameStats, GameTrackerProviderProps } from 'types';
-import { GameTrackerContext } from './gameTrackerContext';
+import { GameTrackerContext } from './GameTrackerContext';
 
 export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ children }) => {
   const [stats, setStats] = useState<GameStats>({

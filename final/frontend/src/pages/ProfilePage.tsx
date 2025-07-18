@@ -28,7 +28,6 @@ import {
   EyeInvisibleOutlined,
 } from '@ant-design/icons';
 
-import './ProfilePage.css';
 import { useAuth } from 'components';
 import type { Translations } from 'types';
 

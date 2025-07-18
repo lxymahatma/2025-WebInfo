@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import type { AuthProviderProps } from 'types';
-import { AuthContext } from './authContext';
+import { AuthContext } from './AuthContext';
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<string | null>(null);

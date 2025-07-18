@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Space, Tag, Typography, Progress, Result } from 'antd';
 
-import { useGameTracker } from 'pages';
+import { useGameTracker } from 'components';
 import type { Question } from 'types';
-
-import './TimedQuestionGame.css';
 
 const { Title, Paragraph } = Typography;
 type Subject = 'math' | 'english' | 'knowledge';
@@ -135,8 +133,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   // Subject selection screen
   if (!selectedSubject) {
     return (
-      <div className="timed-question-container">
-        <div className="timed-question-centered-wrapper">
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
+        <div className="flex items-center justify-center min-h-[80vh]">
           <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
             <Title level={2} style={{ marginBottom: 8 }}>
               🎯 Quiz Time!
@@ -198,8 +196,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     }
 
     return (
-      <div className="timed-question-container">
-        <div className="timed-question-centered-wrapper">
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
+        <div className="flex items-center justify-center min-h-[80vh]">
           <Result
             status={status}
             title={title}
@@ -224,8 +222,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   // Main quiz screen
   if (loading) {
     return (
-      <div className="timed-question-container">
-        <div className="timed-question-centered-wrapper">
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
+        <div className="flex items-center justify-center min-h-[80vh]">
           <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
             <Title level={3}>Loading questions...</Title>
           </Card>
@@ -236,8 +234,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
   if (questions.length === 0 && selectedSubject) {
     return (
-      <div className="timed-question-container">
-        <div className="timed-question-centered-wrapper">
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
+        <div className="flex items-center justify-center min-h-[80vh]">
           <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
             <Title level={3}>No questions available</Title>
             <Button type="primary" onClick={resetGame}>
@@ -251,8 +249,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
   // Main quiz screen
   return (
-    <div className="timed-question-container">
-      <div className="timed-question-centered-wrapper">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 text-center font-sans pt-20">
+      <div className="flex items-center justify-center min-h-[80vh]">
         <Card
           style={{
             maxWidth: 480,
@@ -264,11 +262,11 @@ export const TimedQuestionGame = (): React.JSX.Element => {
           bordered
         >
           <Space direction="vertical" style={{ width: '100%' }} size="large">
-            <div className="timed-question-header-with-back">
-              <Button type="text" onClick={resetGame} className="timed-question-back-button">
+            <div className="flex items-center justify-between mb-2">
+              <Button type="text" onClick={resetGame} className="text-sm px-2 py-1">
                 ← Back
               </Button>
-              <div className="timed-question-tag-container">
+              <div className="flex items-center gap-2">
                 <Tag color="geekblue" style={{ fontSize: 16, padding: '6px 16px' }}>
                   {subjectNames[selectedSubject]}
                 </Tag>
@@ -276,7 +274,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                   ⏰ {timeLeft}s
                 </Tag>
               </div>
-              <div className="timed-question-header-spacer"></div>
+              <div className="w-12"></div>
             </div>
             <Progress
               percent={((currentQuestionIndex + 1) / questions.length) * 100}
