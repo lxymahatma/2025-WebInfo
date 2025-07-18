@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Space, Tag, Typography, Progress, Result } from 'antd';
 
 import { useGameTracker } from 'components';
-import type { Question } from 'types';
+import type { Question, Subject, TimedQuestionsResponse } from 'types';
 
 const { Title, Paragraph } = Typography;
-type Subject = 'math' | 'english' | 'knowledge';
 
 export const TimedQuestionGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
@@ -26,7 +25,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     try {
       const response = await fetch(`http://localhost:3001/timed/questions?subject=${subject}`);
       if (response.ok) {
-        const data = await response.json();
+        const data = (await response.json()) as TimedQuestionsResponse;
         setQuestions(data.questions);
       } else {
         console.error('Failed to fetch questions');
@@ -54,7 +53,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
         } else {
           setGameFinished(true);
           // Increment game count when quiz is completed
-          incrementGameCount('timed');
+          void incrementGameCount('timed');
         }
       }, 1200);
     };
@@ -105,7 +104,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
           } else {
             setGameFinished(true);
             // Increment game count when quiz is completed
-            incrementGameCount('timed');
+            void incrementGameCount('timed');
           }
         }, 1200);
       };
@@ -135,7 +134,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
         <div className="flex items-center justify-center min-h-[80vh]">
-          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
+          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} variant="outlined">
             <Title level={2} style={{ marginBottom: 8 }}>
               🎯 Quiz Time!
             </Title>
@@ -145,8 +144,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 type="primary"
                 block
                 size="large"
-                loading={loading && selectedSubject === 'math'}
-                onClick={() => handleSubjectSelect('math')}
+                loading={loading}
+                onClick={() => void handleSubjectSelect('math')}
               >
                 🔢 Math
               </Button>
@@ -154,8 +153,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 type="primary"
                 block
                 size="large"
-                loading={loading && selectedSubject === 'english'}
-                onClick={() => handleSubjectSelect('english')}
+                loading={loading}
+                onClick={() => void handleSubjectSelect('english')}
               >
                 📚 English
               </Button>
@@ -163,8 +162,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 type="primary"
                 block
                 size="large"
-                loading={loading && selectedSubject === 'knowledge'}
-                onClick={() => handleSubjectSelect('knowledge')}
+                loading={loading}
+                onClick={() => void handleSubjectSelect('knowledge')}
               >
                 🌟 Fun Facts
               </Button>
@@ -180,7 +179,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     const percent = Math.round((score / questions.length) * 100);
     let status: 'success' | 'info' | 'warning' | 'error' = 'success';
     const title = '🎉 Great Job!';
-    const subTitle = `Your Score: ${score} out of ${questions.length} (${percent}%)`;
+    const subTitle = `Your Score: ${score.toString()} out of ${questions.length.toString()} (${percent.toString()}%)`;
     let extra = null;
 
     if (score === questions.length) {
@@ -208,7 +207,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 <Button type="default" size="large" onClick={resetGame}>
                   Choose New Subject
                 </Button>
-                <Button type="primary" size="large" onClick={() => handleSubjectSelect(selectedSubject)}>
+                <Button type="primary" size="large" onClick={() => void handleSubjectSelect(selectedSubject)}>
                   Play Again
                 </Button>
               </Space>,
@@ -224,7 +223,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
         <div className="flex items-center justify-center min-h-[80vh]">
-          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
+          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} variant="outlined">
             <Title level={3}>Loading questions...</Title>
           </Card>
         </div>
@@ -232,11 +231,11 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     );
   }
 
-  if (questions.length === 0 && selectedSubject) {
+  if (questions.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
         <div className="flex items-center justify-center min-h-[80vh]">
-          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
+          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} variant="outlined">
             <Title level={3}>No questions available</Title>
             <Button type="primary" onClick={resetGame}>
               Back to Subject Selection
@@ -259,7 +258,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
             textAlign: 'center',
             padding: '8px 0',
           }}
-          bordered
+          variant="outlined"
         >
           <Space direction="vertical" style={{ width: '100%' }} size="large">
             <div className="flex items-center justify-between mb-2">
@@ -303,7 +302,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 }
                 return (
                   <Button
-                    key={`${currentQuestionIndex}-${option}`}
+                    key={`${currentQuestionIndex.toString()}-${option}`}
                     block
                     type={type}
                     danger={danger}

@@ -10,3 +10,7 @@ export interface CardProps {
   handleChoice: (card: CardType) => void;
   disabled: boolean;
 }
+
+export interface MemoryCardsResponse {
+  cards?: string[];
+}

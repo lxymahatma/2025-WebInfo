@@ -20,6 +20,10 @@ export default tseslint.config([
       react.configs.recommended,
       reactDom.configs.recommended,
     ],
+    rules: {
+      'typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,

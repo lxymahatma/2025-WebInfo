@@ -38,7 +38,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
 
   const handleResetStats = () => {
     if (window.confirm('Are you sure you want to reset all game statistics? This action cannot be undone.')) {
-      resetStats();
+      void resetStats();
     }
   };
 
@@ -108,7 +108,11 @@ export const GameTrackerPage = (): React.JSX.Element => {
         <Row gutter={[24, 24]}>
           {Object.entries(gameInfo).map(([gameKey, info]) => (
             <Col xs={24} sm={12} lg={8} key={gameKey}>
-              <Card hoverable className={`game-tracker-game-card game-${gameKey}-border`} bodyStyle={{ padding: 24 }}>
+              <Card
+                hoverable
+                className={`game-tracker-game-card game-${gameKey}-border`}
+                styles={{ body: { padding: 24 } }}
+              >
                 <Space direction="vertical" size="middle" style={{ width: '100%', textAlign: 'center' }}>
                   <div>
                     <div className="game-tracker-game-icon">{info.icon}</div>

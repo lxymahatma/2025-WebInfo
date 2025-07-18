@@ -17,7 +17,7 @@ const fetchPairs = async (difficulty: DifficultyLevel): Promise<GamePair[]> => {
     if (!response.ok) {
       throw new Error('Failed to fetch pairs');
     }
-    return await response.json();
+    return (await response.json()) as GamePair[];
   } catch (error) {
     console.error('Error fetching pairs:', error);
     return [];
@@ -40,7 +40,7 @@ export const DragDropGame = (): React.JSX.Element => {
       setCurrentPairs(pairs);
       setLoading(false);
     };
-    loadPairs();
+    void loadPairs();
   }, [difficulty]);
 
   // Track game completion
@@ -48,7 +48,7 @@ export const DragDropGame = (): React.JSX.Element => {
     const allSolved = Object.keys(solved).length === currentPairs.length && currentPairs.length > 0;
     if (allSolved && !gameCompleted) {
       setGameCompleted(true);
-      incrementGameCount('dragdrop');
+      void incrementGameCount('dragdrop');
     }
   }, [solved, currentPairs, gameCompleted, incrementGameCount]);
 
@@ -144,7 +144,7 @@ export const DragDropGame = (): React.JSX.Element => {
         <button
           className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
           type="button"
-          onClick={restartGame}
+          onClick={() => void restartGame()}
         >
           Start New Game
         </button>

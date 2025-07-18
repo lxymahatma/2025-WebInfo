@@ -29,7 +29,7 @@ import {
 } from '@ant-design/icons';
 
 import { useAuth } from 'components';
-import type { Translations } from 'types';
+import type { Translations, TranslationKeys, ProfileResponse, LanguageResponse, ErrorResponse } from 'types';
 
 const { Text } = Typography;
 
@@ -52,7 +52,7 @@ export const ProfilePage = (): React.JSX.Element => {
 
   // Load user data from backend
   useEffect(() => {
-    const loadUserData = async () => {
+    const loadUserData = async (): Promise<void> => {
       try {
         const token = localStorage.getItem('token');
 
@@ -74,22 +74,13 @@ export const ProfilePage = (): React.JSX.Element => {
         });
 
         if (profileResponse.ok) {
-          const profileData = await profileResponse.json();
-          if (profileData.user) {
-            setProfile(prev => ({
-              ...prev,
-              name: profileData.user.username,
-              password: profileData.user.password,
-            }));
-            setActualPassword(profileData.user.password);
-          } else {
-            console.error('No user data in response');
-            setProfile(prev => ({
-              ...prev,
-              name: 'Error',
-              password: 'N/A',
-            }));
-          }
+          const profileData = (await profileResponse.json()) as ProfileResponse;
+          setProfile(prev => ({
+            ...prev,
+            name: profileData.user.username,
+            password: profileData.user.password,
+          }));
+          setActualPassword(profileData.user.password);
         } else {
           console.error('Failed to fetch profile:', profileResponse.status);
           setProfile(prev => ({
@@ -108,7 +99,7 @@ export const ProfilePage = (): React.JSX.Element => {
       }
     };
 
-    loadUserData();
+    void loadUserData();
   }, [user]);
 
   // For dropdown
@@ -124,6 +115,26 @@ export const ProfilePage = (): React.JSX.Element => {
       items: 'Items',
       language: 'Language',
       loading: 'Loading...',
+      name: 'Name',
+      password: 'Password',
+      profileSettings: 'Profile Settings',
+      profilePicture: 'Profile Picture',
+      changeProfilePicture: 'Change your profile picture',
+      uploadFromDevice: 'Upload from device',
+      enterImageUrl: 'Enter image URL',
+      profilePictureUpdated: 'Profile picture updated!',
+      chooseFromPresets: 'Choose from presets:',
+      backToProfile: 'Back to Profile',
+      editProfile: 'Edit Profile',
+      save: 'Save',
+      cancel: 'Cancel',
+      enterNewPassword: 'Enter new password',
+      itemsCollection: 'Items Collection',
+      close: 'Close',
+      equippedItems: 'Equipped items',
+      noItemsEquipped: 'No items equipped',
+      availableItems: 'Available Items',
+      profilePictureUploaded: 'Profile picture uploaded!',
     },
     JP: {
       myProfile: 'マイプロフィール',
@@ -131,12 +142,32 @@ export const ProfilePage = (): React.JSX.Element => {
       items: 'アイテム',
       language: '言語',
       loading: '読み込み中...',
+      name: '名前',
+      password: 'パスワード',
+      profileSettings: 'プロフィール設定',
+      profilePicture: 'プロフィール画像',
+      changeProfilePicture: 'プロフィール画像を変更',
+      uploadFromDevice: 'デバイスからアップロード',
+      enterImageUrl: '画像URLを入力',
+      profilePictureUpdated: 'プロフィール画像が更新されました！',
+      chooseFromPresets: 'プリセットから選択：',
+      backToProfile: 'プロフィールに戻る',
+      editProfile: 'プロフィールを編集',
+      save: '保存',
+      cancel: 'キャンセル',
+      enterNewPassword: '新しいパスワードを入力',
+      itemsCollection: 'アイテムコレクション',
+      close: '閉じる',
+      equippedItems: '装備中のアイテム',
+      noItemsEquipped: 'アイテムが装備されていません',
+      availableItems: '利用可能なアイテム',
+      profilePictureUploaded: 'プロフィール画像がアップロードされました！',
     },
   });
 
   // Load language data from backend
   useEffect(() => {
-    const loadLanguageData = async () => {
+    const loadLanguageData = async (): Promise<void> => {
       try {
         const token = localStorage.getItem('token');
         if (!token) return;
@@ -149,9 +180,9 @@ export const ProfilePage = (): React.JSX.Element => {
         });
 
         if (response.ok) {
-          const data = await response.json();
+          const data = (await response.json()) as LanguageResponse;
           setTranslations(data.translations);
-          setLang(data.userLanguage || 'Eng');
+          setLang(data.userLanguage ?? 'Eng');
         } else {
           console.error('Failed to load translations from backend');
         }
@@ -160,11 +191,11 @@ export const ProfilePage = (): React.JSX.Element => {
       }
     };
 
-    loadLanguageData();
+    void loadLanguageData();
   }, []);
 
   // Update language setting on backend
-  const updateLanguage = async (newLang: string) => {
+  const updateLanguage = async (newLang: string): Promise<void> => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
@@ -186,10 +217,10 @@ export const ProfilePage = (): React.JSX.Element => {
     }
   };
 
-  const t = translations[lang as keyof typeof translations] || {};
+  const t = translations[lang as keyof typeof translations];
 
-  const getText = (key: string, fallback?: string): string => {
-    return t[key] || fallback || key;
+  const getText = (key: keyof TranslationKeys): string => {
+    return t[key];
   };
 
   // Available emojis for items
@@ -226,7 +257,7 @@ export const ProfilePage = (): React.JSX.Element => {
     setEditModal(true);
   };
 
-  const handleSave = async () => {
+  const handleSave = async (): Promise<void> => {
     try {
       const token = localStorage.getItem('token');
 
@@ -248,7 +279,7 @@ export const ProfilePage = (): React.JSX.Element => {
       });
 
       if (response.ok) {
-        const updatedData = await response.json();
+        const updatedData = (await response.json()) as ProfileResponse;
 
         setProfile(prev => ({
           ...prev,
@@ -260,8 +291,8 @@ export const ProfilePage = (): React.JSX.Element => {
         setEditModal(false);
         message.success('Profile updated successfully!');
       } else {
-        const errorData = await response.json();
-        message.error(`Failed to update profile: ${errorData.message || 'Unknown error'}`);
+        const errorData = (await response.json()) as ErrorResponse;
+        message.error(`Failed to update profile: ${errorData.message ?? 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -299,29 +330,25 @@ export const ProfilePage = (): React.JSX.Element => {
   };
 
   // Items dropdown menu (just to show equipped count)
-  const itemsMenu = (
-    <Menu
-      items={[
-        {
-          label: `${profile.equippedEmojis.length} ${getText('equippedItems', 'equipped items').toLowerCase()}`,
-          key: 'count',
-          disabled: true,
-        },
-        {
-          label: getText('items', 'Items'),
-          key: 'open',
-          onClick: () => setItemsModalVisible(true),
-        },
-      ]}
-    />
-  );
+  const itemsMenuItems = [
+    {
+      label: `${String(profile.equippedEmojis.length)} ${getText('equippedItems').toLowerCase()}`,
+      key: 'count',
+      disabled: true,
+    },
+    {
+      label: getText('items'),
+      key: 'open',
+      onClick: () => setItemsModalVisible(true),
+    },
+  ];
 
   return (
     <div className="profile-page">
       <Row justify="center" align="middle" className="profile-main-row">
         {/* Left Section */}
         <Col xs={24} md={7} className="profile-left-col">
-          <Card className="profile-left-card" bodyStyle={{ padding: 32, paddingBottom: 12 }}>
+          <Card className="profile-left-card" styles={{ body: { padding: 32, paddingBottom: 12 } }}>
             <div className="profile-avatar-section">
               <Avatar size={56} src={profile.profilePicture} />
               <div>
@@ -347,14 +374,14 @@ export const ProfilePage = (): React.JSX.Element => {
                 icon={<UserOutlined className="profile-menu-icon" />}
                 className="profile-menu-item"
               >
-                {getText('myProfile', 'My Profile')}
+                {getText('myProfile')}
               </Menu.Item>
               <Menu.Item
                 key="settings"
                 icon={<SettingOutlined className="profile-menu-icon" />}
                 className="profile-menu-item"
               >
-                {getText('settings', 'Settings')}
+                {getText('settings')}
               </Menu.Item>
               <Menu.Item
                 key="items"
@@ -362,8 +389,8 @@ export const ProfilePage = (): React.JSX.Element => {
                 className="profile-menu-item"
               >
                 <Space>
-                  {getText('items', 'Items')}
-                  <Dropdown overlay={itemsMenu} trigger={['click']}>
+                  {getText('items')}
+                  <Dropdown menu={{ items: itemsMenuItems }} trigger={['click']}>
                     <Button size="small" type="link" className="profile-items-dropdown-button">
                       {profile.equippedEmojis.length} <DownOutlined className="profile-items-dropdown-icon" />
                     </Button>
@@ -372,12 +399,12 @@ export const ProfilePage = (): React.JSX.Element => {
               </Menu.Item>
               <Menu.Item key="language" className="profile-menu-item">
                 <Space>
-                  {getText('language', 'Language')}
+                  {getText('language')}
                   <Select
                     size="small"
                     value={lang}
                     className="profile-settings-select"
-                    onChange={v => updateLanguage(v)}
+                    onChange={v => void updateLanguage(v)}
                     options={[
                       { value: 'Eng', label: 'English' },
                       { value: 'JP', label: '日本語' },
@@ -391,7 +418,7 @@ export const ProfilePage = (): React.JSX.Element => {
 
         {/* Right Section */}
         <Col xs={24} md={10}>
-          <Card className="profile-right-card" bodyStyle={{ padding: 40, paddingBottom: 28 }}>
+          <Card className="profile-right-card" styles={{ body: { padding: 40, paddingBottom: 28 } }}>
             {activeSection === 'profile' ? (
               // Profile Section
               <>
@@ -516,7 +543,7 @@ export const ProfilePage = (): React.JSX.Element => {
       <Modal
         title={t.editProfile}
         open={editModal}
-        onOk={handleSave}
+        onOk={() => void handleSave()}
         onCancel={() => setEditModal(false)}
         okText={t.save}
         cancelText={t.cancel}

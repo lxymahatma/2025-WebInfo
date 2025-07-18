@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from 'components';
+import type { SignInResponse, ErrorResponse } from 'types';
 
 export const SignInPage = (): React.JSX.Element => {
   const [username, setUsername] = useState<string>('');
@@ -11,7 +12,7 @@ export const SignInPage = (): React.JSX.Element => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      navigate('/', { replace: true });
+      void navigate('/', { replace: true });
     }
   }, [navigate]);
 
@@ -24,15 +25,15 @@ export const SignInPage = (): React.JSX.Element => {
       });
 
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as SignInResponse;
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         signin(data.username);
         alert('Login success!');
-        navigate('/');
+        void navigate('/');
       } else {
-        const error = await res.json();
-        alert(error.message || 'Invalid credentials');
+        const error = (await res.json()) as ErrorResponse;
+        alert(error.message ?? 'Invalid credentials');
       }
     } catch {
       alert('Network error. Please try again.');
@@ -54,7 +55,7 @@ export const SignInPage = (): React.JSX.Element => {
             className="flex flex-col gap-6"
             onSubmit={e => {
               e.preventDefault();
-              handleSignIn();
+              void handleSignIn();
             }}
           >
             <div className="text-left">

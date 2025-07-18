@@ -1,6 +1,13 @@
-export type { AuthContextType, AuthProviderProps } from './auth';
+export type { AuthContextType, AuthProviderProps, SignInResponse, SignUpResponse } from './auth';
 export type { GamePair } from './drag-drop';
-export type { CardType, CardProps } from './memory-card';
-export type { Question } from './timed-question';
+export type { CardType, CardProps, MemoryCardsResponse } from './memory-card';
+export type { Question, Subject, TimedQuestionsResponse } from './timed-question';
 export type { GameStats, GameTrackerProviderProps, GameTrackerContextType } from './tracker';
-export type { TranslationKeys, Translations } from './translation';
+export type {
+  TranslationKeys,
+  Translations,
+  User,
+  ProfileResponse,
+  LanguageResponse,
+  ErrorResponse,
+} from './translation';

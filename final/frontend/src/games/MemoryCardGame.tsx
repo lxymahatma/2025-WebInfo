@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { useGameTracker } from 'components';
-import type { CardType, CardProps } from 'types';
+import type { CardType, CardProps, MemoryCardsResponse } from 'types';
 
 function shuffleArray<T>(array: T[]): T[] {
   return array
@@ -13,7 +13,7 @@ function shuffleArray<T>(array: T[]): T[] {
 async function fetchRandomCards(): Promise<string[]> {
   try {
     const response = await fetch('http://localhost:3001/memory/cards');
-    const data = await response.json();
+    const data = (await response.json()) as MemoryCardsResponse;
 
     if (data.cards) {
       return data.cards;
@@ -60,7 +60,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
   };
 
   useEffect(() => {
-    initializeGame();
+    void initializeGame();
   }, []);
 
   // Check for win condition
@@ -71,7 +71,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
         setGameWon(true);
         if (!gameCompleted) {
           setGameCompleted(true);
-          incrementGameCount('memory');
+          void incrementGameCount('memory');
         }
       }, 500);
     }
