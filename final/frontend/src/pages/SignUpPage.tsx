@@ -39,10 +39,11 @@ export const SignUpPage = (): React.JSX.Element => {
         const data = (await res.json()) as SignInResponse;
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
-        signin(data.username);
 
         message.success('Sign up success!');
+
         setTimeout(() => {
+          signin(data.username);
           void navigate('/');
         }, 1500);
       } else {
