@@ -46,16 +46,16 @@ export const GameTrackerPage = (): React.JSX.Element => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-indigo-400 to-purple-600 min-h-screen p-6">
-      <div className="max-w-6xl mx-auto">
-        <Card className="backdrop-blur-md bg-white/95 rounded-2xl mb-6 text-center">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
+      <div className="mx-auto max-w-6xl">
+        <Card className="mb-6 rounded-2xl bg-white/95 text-center backdrop-blur-md">
           <Space direction="vertical" size="middle" className="w-full">
             <div>
-              <TrophyOutlined className="text-yellow-400 text-5xl mb-4" />
-              <Title level={1} className="text-gray-800 m-0">
+              <TrophyOutlined className="mb-4 text-5xl text-yellow-400" />
+              <Title level={1} className="m-0 text-gray-800">
                 🎮 Game Tracker
               </Title>
-              <Paragraph className="text-gray-600 text-lg m-0">
+              <Paragraph className="m-0 text-lg text-gray-600">
                 Track your gaming progress and see how many times you've played each game!
               </Paragraph>
             </div>
@@ -68,7 +68,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
                   title="Total Games Played"
                   value={totalGamesPlayed}
                   prefix="🎯"
-                  className="text-blue-500 font-bold text-3xl"
+                  className="text-3xl font-bold text-blue-500"
                 />
               </Col>
               <Col xs={24} sm={12} md={6}>
@@ -81,7 +81,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
                           stats[a[0] as keyof typeof stats] > stats[b[0] as keyof typeof stats] ? a : b
                         )[0]
                   }
-                  className="text-green-500 text-xl"
+                  className="text-xl text-green-500"
                 />
               </Col>
               <Col xs={24} sm={12} md={6}>
@@ -89,7 +89,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
                   title="Games Available"
                   value={3}
                   prefix="🎮"
-                  className="text-purple-600 font-bold text-3xl"
+                  className="text-3xl font-bold text-purple-600"
                 />
               </Col>
               <Col xs={24} sm={12} md={6}>
@@ -113,37 +113,37 @@ export const GameTrackerPage = (): React.JSX.Element => {
             <Col xs={24} sm={12} lg={8} key={gameKey}>
               <Card
                 hoverable
-                className="backdrop-blur-md bg-white/95 rounded-2xl h-full transition-all duration-300 p-6"
+                className="h-full rounded-2xl bg-white/95 p-6 backdrop-blur-md transition-all duration-300"
               >
                 <Space direction="vertical" size="middle" className="w-full text-center">
                   <div>
-                    <div className="text-6xl mb-3">{info.icon}</div>
-                    <Title level={3} className="text-gray-800 m-0">
+                    <div className="mb-3 text-6xl">{info.icon}</div>
+                    <Title level={3} className="m-0 text-gray-800">
                       {info.name}
                     </Title>
-                    <Paragraph className="text-gray-600 my-2 mx-0">{info.description}</Paragraph>
+                    <Paragraph className="mx-0 my-2 text-gray-600">{info.description}</Paragraph>
                   </div>
 
-                  <div className="flex flex-col items-center justify-center mx-auto p-5 rounded-xl w-4/5">
+                  <div className="mx-auto flex w-4/5 flex-col items-center justify-center rounded-xl p-5">
                     <Statistic
                       title="Times Played"
                       value={stats[gameKey as keyof typeof stats]}
-                      className={`font-bold text-center w-full ${info.tailwindColor}`}
+                      className={`w-full text-center font-bold ${info.tailwindColor}`}
                     />
                   </div>
 
                   {stats[gameKey as keyof typeof stats] > 0 && (
-                    <div className="flex items-center justify-center mx-auto p-3 w-4/5 bg-green-50 border border-green-300 rounded-lg">
-                      <Paragraph className="text-green-600 font-medium m-0 text-center">
+                    <div className="mx-auto flex w-4/5 items-center justify-center rounded-lg border border-green-300 bg-green-50 p-3">
+                      <Paragraph className="m-0 text-center font-medium text-green-600">
                         🎉 You've mastered this game!
                       </Paragraph>
                     </div>
                   )}
 
                   {stats[gameKey as keyof typeof stats] === 0 && (
-                    <Link to={info.path} className="mx-auto no-underline w-4/5">
-                      <div className="bg-orange-50 hover:bg-orange-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex items-center justify-center p-3 w-[90%] border border-orange-300 rounded-lg cursor-pointer">
-                        <Paragraph className="text-orange-600 font-medium m-0 text-center">
+                    <Link to={info.path} className="mx-auto w-4/5 no-underline">
+                      <div className="flex w-[90%] cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
+                        <Paragraph className="m-0 text-center font-medium text-orange-600">
                           🎮 Ready to try this game?
                         </Paragraph>
                       </div>
@@ -156,7 +156,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
         </Row>
 
         {totalGamesPlayed === 0 && (
-          <Card className="backdrop-blur-md bg-white/95 rounded-2xl mt-6 text-center">
+          <Card className="mt-6 rounded-2xl bg-white/95 text-center backdrop-blur-md">
             <Space direction="vertical" size="large" className="w-full">
               <div className="text-7xl">🎮</div>
               <div>
@@ -173,14 +173,14 @@ export const GameTrackerPage = (): React.JSX.Element => {
         )}
 
         {totalGamesPlayed >= 10 && (
-          <Card className="bg-gradient-to-br from-yellow-200 via-yellow-400 to-blue-800 rounded-2xl mt-6 text-center text-white">
+          <Card className="mt-6 rounded-2xl bg-gradient-to-br from-yellow-200 via-yellow-400 to-blue-800 text-center text-white">
             <Space direction="vertical" size="middle" className="w-full">
               <div className="text-6xl">🏆</div>
               <div>
-                <Title level={2} className="text-white m-0">
+                <Title level={2} className="m-0 text-white">
                   Gaming Champion!
                 </Title>
-                <Paragraph className="text-white/90 text-lg m-0">
+                <Paragraph className="m-0 text-lg text-white/90">
                   You've played {totalGamesPlayed} games! You're a true gaming enthusiast! 🌟
                 </Paragraph>
               </div>

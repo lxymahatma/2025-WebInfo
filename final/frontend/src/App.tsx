@@ -10,7 +10,7 @@ function AppContent() {
   const isHomePage = location.pathname === '/';
 
   return (
-    <div className="App font-sans text-center">
+    <div className="App text-center font-sans">
       {user && !isHomePage && <NavBar />}
       <main className="pt-0">
         <Routes>

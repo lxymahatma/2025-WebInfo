@@ -46,16 +46,16 @@ export const SignUpPage = (): React.JSX.Element => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-cyan-600 to-cyan-800 font-sans min-h-screen overflow-auto p-0 m-0 box-border">
+    <div className="fixed inset-0 m-0 box-border flex min-h-screen items-center justify-center overflow-auto bg-gradient-to-br from-cyan-600 to-cyan-800 p-0 font-sans">
       <Link
         to="/"
-        className="absolute top-8 left-8 text-white font-semibold text-base no-underline transition-opacity duration-300 hover:opacity-80 md:top-4 md:left-4 md:text-sm"
+        className="absolute top-8 left-8 text-base font-semibold text-white no-underline transition-opacity duration-300 hover:opacity-80 md:top-4 md:left-4 md:text-sm"
       >
         ← Back to Home
       </Link>
-      <div className="flex items-center justify-center w-full h-full p-8 box-border">
-        <div className="backdrop-blur-sm bg-white/95 rounded-2xl shadow-2xl flex-shrink-0 max-w-md p-12 md:p-8 relative text-center w-[90%] z-10">
-          <h2 className="!text-gray-800 !text-4xl md:!text-3xl !font-bold !mb-8 !drop-shadow-none">Sign Up</h2>
+      <div className="box-border flex h-full w-full items-center justify-center p-8">
+        <div className="relative z-10 w-[90%] max-w-md flex-shrink-0 rounded-2xl bg-white/95 p-12 text-center shadow-2xl backdrop-blur-sm md:p-8">
+          <h2 className="!mb-8 !text-4xl !font-bold !text-gray-800 !drop-shadow-none md:!text-3xl">Sign Up</h2>
           <form
             className="flex flex-col gap-6"
             onSubmit={e => {
@@ -64,9 +64,9 @@ export const SignUpPage = (): React.JSX.Element => {
             }}
           >
             <div className="text-left">
-              <label className="block text-gray-600 text-base font-semibold mb-2">Username</label>
+              <label className="mb-2 block text-base font-semibold text-gray-600">Username</label>
               <input
-                className="w-full border-2 border-gray-300 rounded-lg text-base outline-none px-4 py-3 transition-colors duration-300 focus:border-blue-400 focus:shadow-sm focus:shadow-blue-400/10"
+                className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 text-base transition-colors duration-300 outline-none focus:border-blue-400 focus:shadow-sm focus:shadow-blue-400/10"
                 type="text"
                 placeholder="Username"
                 value={username}
@@ -74,9 +74,9 @@ export const SignUpPage = (): React.JSX.Element => {
               />
             </div>
             <div className="text-left">
-              <label className="block text-gray-600 text-base font-semibold mb-2">Password</label>
+              <label className="mb-2 block text-base font-semibold text-gray-600">Password</label>
               <input
-                className="w-full border-2 border-gray-300 rounded-lg text-base outline-none px-4 py-3 transition-colors duration-300 focus:border-blue-400 focus:shadow-sm focus:shadow-blue-400/10"
+                className="w-full rounded-lg border-2 border-gray-300 px-4 py-3 text-base transition-colors duration-300 outline-none focus:border-blue-400 focus:shadow-sm focus:shadow-blue-400/10"
                 type="password"
                 placeholder="Password"
                 value={password}
@@ -84,17 +84,17 @@ export const SignUpPage = (): React.JSX.Element => {
               />
             </div>
             <button
-              className="!bg-gradient-to-r !from-cyan-600 !to-cyan-800 !border-none !rounded-xl !text-white !cursor-pointer !text-lg !font-semibold !px-8 !py-4 !no-underline !transition-all !duration-300 hover:!bg-gradient-to-r hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-lg hover:!shadow-cyan-600/30 hover:!text-white hover:!-translate-y-0.5"
+              className="!cursor-pointer !rounded-xl !border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !px-8 !py-4 !text-lg !font-semibold !text-white !no-underline !transition-all !duration-300 hover:!-translate-y-0.5 hover:!bg-gradient-to-r hover:!from-cyan-700 hover:!to-cyan-900 hover:!text-white hover:!shadow-lg hover:!shadow-cyan-600/30"
               type="submit"
             >
               Sign Up
             </button>
           </form>
-          <div className="border-t border-gray-300 mt-6 pt-6">
-            <p className="text-gray-500 text-sm mb-2">Already have an account?</p>
+          <div className="mt-6 border-t border-gray-300 pt-6">
+            <p className="mb-2 text-sm text-gray-500">Already have an account?</p>
             <Link
               to="/signin"
-              className="!text-cyan-600 !font-semibold !no-underline !transition-colors !duration-300 hover:!text-cyan-800 hover:!underline"
+              className="!font-semibold !text-cyan-600 !no-underline !transition-colors !duration-300 hover:!text-cyan-800 hover:!underline"
             >
               Sign In
             </Link>

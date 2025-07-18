@@ -344,12 +344,12 @@ export const ProfilePage = (): React.JSX.Element => {
   ];
 
   return (
-    <div className="min-h-screen p-0 bg-cyan-600">
-      <Row justify="center" align="middle" className="items-center justify-center m-0 min-h-screen p-0">
+    <div className="min-h-screen bg-cyan-600 p-0">
+      <Row justify="center" align="middle" className="m-0 min-h-screen items-center justify-center p-0">
         {/* Left Section */}
         <Col xs={24} md={7} className="flex flex-col items-center">
-          <Card className="rounded-2xl shadow-lg mb-6 w-96 bg-white p-8 pb-3">
-            <div className="flex items-center gap-4 mb-3">
+          <Card className="mb-6 w-96 rounded-2xl bg-white p-8 pb-3 shadow-lg">
+            <div className="mb-3 flex items-center gap-4">
               <Avatar size={56} src={profile.profilePicture} />
               <div>
                 <Text strong className="text-lg text-black">
@@ -360,7 +360,7 @@ export const ProfilePage = (): React.JSX.Element => {
             <Divider className="my-2 border-gray-200" />
             <Menu
               mode="vertical"
-              className="bg-transparent border-none"
+              className="border-none bg-transparent"
               selectedKeys={[activeSection]}
               onClick={({ key }) => {
                 // Only change section for profile and settings, not items
@@ -372,32 +372,32 @@ export const ProfilePage = (): React.JSX.Element => {
               <Menu.Item
                 key="profile"
                 icon={<UserOutlined className="text-black" />}
-                className="text-base pl-0 text-black"
+                className="pl-0 text-base text-black"
               >
                 {getText('myProfile')}
               </Menu.Item>
               <Menu.Item
                 key="settings"
                 icon={<SettingOutlined className="text-black" />}
-                className="text-base pl-0 text-black"
+                className="pl-0 text-base text-black"
               >
                 {getText('settings')}
               </Menu.Item>
               <Menu.Item
                 key="items"
                 icon={<BellOutlined className="text-black" />}
-                className="text-base pl-0 text-black"
+                className="pl-0 text-base text-black"
               >
                 <Space>
                   {getText('items')}
                   <Dropdown menu={{ items: itemsMenuItems }} trigger={['click']}>
-                    <Button size="small" type="link" className="font-semibold h-5 p-0 text-black">
+                    <Button size="small" type="link" className="h-5 p-0 font-semibold text-black">
                       {profile.equippedEmojis.length} <DownOutlined className="text-xs" />
                     </Button>
                   </Dropdown>
                 </Space>
               </Menu.Item>
-              <Menu.Item key="language" className="text-base pl-0 text-black">
+              <Menu.Item key="language" className="pl-0 text-base text-black">
                 <Space>
                   {getText('language')}
                   <Select
@@ -418,13 +418,13 @@ export const ProfilePage = (): React.JSX.Element => {
 
         {/* Right Section */}
         <Col xs={24} md={10}>
-          <Card className="rounded-3xl shadow-lg ml-7 max-w-2xl min-w-lg bg-white p-10 pb-7">
+          <Card className="ml-7 max-w-2xl min-w-lg rounded-3xl bg-white p-10 pb-7 shadow-lg">
             {activeSection === 'profile' ? (
               // Profile Section
               <>
-                <div className="flex items-center mb-4">
+                <div className="mb-4 flex items-center">
                   <Avatar size={64} src={profile.profilePicture} />
-                  <div className="flex-1 ml-4">
+                  <div className="ml-4 flex-1">
                     <div className="flex items-center gap-2">
                       <Text strong className="text-xl text-black">
                         {profile.name}
@@ -439,15 +439,15 @@ export const ProfilePage = (): React.JSX.Element => {
                   <Button type="text" icon={<EditOutlined />} onClick={openEdit} className="ml-auto" />
                 </div>
                 <Divider className="my-2 border-gray-200" />
-                <div className="text-base mb-6">
-                  <div className="flex justify-between mb-4">
+                <div className="mb-6 text-base">
+                  <div className="mb-4 flex justify-between">
                     <span className="font-medium text-cyan-700">{t.name}</span>
                     <span className="font-medium text-black">{profile.name}</span>
                   </div>
 
-                  <div className="flex justify-between mb-4">
+                  <div className="mb-4 flex justify-between">
                     <span className="font-medium text-cyan-700">{t.password}</span>
-                    <span className="font-medium text-black flex items-center gap-2">
+                    <span className="flex items-center gap-2 font-medium text-black">
                       {showPassword ? actualPassword || profile.password : '•'.repeat(8)}
                       <Button
                         type="text"
@@ -463,8 +463,8 @@ export const ProfilePage = (): React.JSX.Element => {
             ) : (
               // Settings Section - Profile Picture
               <>
-                <div className="flex items-center mb-6">
-                  <SettingOutlined className="text-2xl mr-3 text-black" />
+                <div className="mb-6 flex items-center">
+                  <SettingOutlined className="mr-3 text-2xl text-black" />
                   <Text strong className="text-xl text-black">
                     {t.profileSettings}
                   </Text>
@@ -475,14 +475,14 @@ export const ProfilePage = (): React.JSX.Element => {
                   <div className="mb-6">
                     <Avatar size={120} src={profile.profilePicture} />
                   </div>
-                  <Text strong className="block text-lg mb-2 text-black">
+                  <Text strong className="mb-2 block text-lg text-black">
                     {t.profilePicture}
                   </Text>
-                  <Text className="block mb-6 text-gray-500">{t.changeProfilePicture}</Text>
+                  <Text className="mb-6 block text-gray-500">{t.changeProfilePicture}</Text>
 
                   <Space direction="vertical" className="w-full">
                     <Upload accept="image/*" beforeUpload={handleFileUpload} showUploadList={false} className="w-full">
-                      <Button icon={<UploadOutlined />} className="rounded-lg h-10 mb-4 w-full">
+                      <Button icon={<UploadOutlined />} className="mb-4 h-10 w-full rounded-lg">
                         {t.uploadFromDevice}
                       </Button>
                     </Upload>
@@ -502,7 +502,7 @@ export const ProfilePage = (): React.JSX.Element => {
                       }}
                     />
                     <Text className="text-sm text-gray-500">{t.chooseFromPresets}</Text>
-                    <div className="flex flex-wrap gap-3 justify-center mt-4">
+                    <div className="mt-4 flex flex-wrap justify-center gap-3">
                       {[
                         'https://randomuser.me/api/portraits/men/32.jpg',
                         'https://randomuser.me/api/portraits/women/44.jpg',
@@ -527,7 +527,7 @@ export const ProfilePage = (): React.JSX.Element => {
 
                 <Button
                   type="primary"
-                  className="rounded-lg text-base font-semibold h-9 w-36"
+                  className="h-9 w-36 rounded-lg text-base font-semibold"
                   onClick={() => setActiveSection('profile')}
                 >
                   {t.backToProfile}
@@ -582,7 +582,7 @@ export const ProfilePage = (): React.JSX.Element => {
           {profile.equippedEmojis.length > 0 ? (
             <div className="mt-2">
               {profile.equippedEmojis.map(emoji => (
-                <span key={`modal-equipped-${emoji}`} className="text-2xl mr-2">
+                <span key={`modal-equipped-${emoji}`} className="mr-2 text-2xl">
                   {emoji}
                 </span>
               ))}
@@ -595,17 +595,17 @@ export const ProfilePage = (): React.JSX.Element => {
         <Divider className="my-2 border-gray-200" />
 
         <div>
-          <Text strong className="block mb-4 text-black">
+          <Text strong className="mb-4 block text-black">
             {t.availableItems}
           </Text>
-          <div className="grid gap-3 grid-cols-8 max-h-80 overflow-y-auto">
+          <div className="grid max-h-80 grid-cols-8 gap-3 overflow-y-auto">
             {availableEmojis.map(emoji => (
               <div
                 key={`available-${emoji}`}
-                className={`flex items-center justify-center rounded-lg cursor-pointer h-15 w-15 text-3xl transition-all duration-300 select-none ${
+                className={`flex h-15 w-15 cursor-pointer items-center justify-center rounded-lg text-3xl transition-all duration-300 select-none ${
                   profile.equippedEmojis.includes(emoji)
-                    ? 'bg-blue-100 border-3 border-blue-500'
-                    : 'bg-white border-2 border-gray-200 hover:bg-gray-100'
+                    ? 'border-3 border-blue-500 bg-blue-100'
+                    : 'border-2 border-gray-200 bg-white hover:bg-gray-100'
                 }`}
                 onClick={() => toggleEmoji(emoji)}
               >

@@ -133,12 +133,12 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   if (!selectedSubject) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
-        <div className="flex items-center justify-center min-h-[80vh]">
-          <Card className="max-w-md w-full text-center rounded-2xl" variant="outlined">
+        <div className="flex min-h-[80vh] items-center justify-center">
+          <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
             <Title level={2} className="mb-2">
               🎯 Quiz Time!
             </Title>
-            <Paragraph className="text-lg mb-6">Choose your subject to start the quiz:</Paragraph>
+            <Paragraph className="mb-6 text-lg">Choose your subject to start the quiz:</Paragraph>
             <Space direction="vertical" size="large" className="w-full">
               <Button
                 type="primary"
@@ -196,7 +196,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
-        <div className="flex items-center justify-center min-h-[80vh]">
+        <div className="flex min-h-[80vh] items-center justify-center">
           <Result
             status={status}
             title={title}
@@ -222,8 +222,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
-        <div className="flex items-center justify-center min-h-[80vh]">
-          <Card className="max-w-md w-full text-center rounded-2xl" variant="outlined">
+        <div className="flex min-h-[80vh] items-center justify-center">
+          <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
             <Title level={3}>Loading questions...</Title>
           </Card>
         </div>
@@ -234,8 +234,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   if (questions.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
-        <div className="flex items-center justify-center min-h-[80vh]">
-          <Card className="max-w-md w-full text-center rounded-2xl" variant="outlined">
+        <div className="flex min-h-[80vh] items-center justify-center">
+          <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
             <Title level={3}>No questions available</Title>
             <Button type="primary" onClick={resetGame}>
               Back to Subject Selection
@@ -248,16 +248,16 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
   // Main quiz screen
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 text-center font-sans pt-20">
-      <div className="flex items-center justify-center min-h-[80vh]">
-        <Card className="max-w-lg w-full rounded-2xl text-center py-2" variant="outlined">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-20 text-center font-sans">
+      <div className="flex min-h-[80vh] items-center justify-center">
+        <Card className="w-full max-w-lg rounded-2xl py-2 text-center" variant="outlined">
           <Space direction="vertical" className="w-full" size="large">
-            <div className="flex items-center justify-between mb-2">
-              <Button type="text" onClick={resetGame} className="text-sm px-2 py-1">
+            <div className="mb-2 flex items-center justify-between">
+              <Button type="text" onClick={resetGame} className="px-2 py-1 text-sm">
                 ← Back
               </Button>
               <div className="flex items-center gap-2">
-                <Tag color="geekblue" className="text-base px-4 py-1.5">
+                <Tag color="geekblue" className="px-4 py-1.5 text-base">
                   {subjectNames[selectedSubject]}
                 </Tag>
                 <Tag color="gold" className="text-base">
@@ -273,7 +273,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
               trailColor="#e6f7ff"
               className="mb-1"
             />
-            <Paragraph strong className="text-lg mb-0">
+            <Paragraph strong className="mb-0 text-lg">
               Question {currentQuestionIndex + 1} of {questions.length} | Score: {score}
             </Paragraph>
             <Title level={4} className="mb-0">
