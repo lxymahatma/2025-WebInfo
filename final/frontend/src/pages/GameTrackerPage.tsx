@@ -46,23 +46,23 @@ export const GameTrackerPage = (): React.JSX.Element => {
   };
 
   return (
-    <div className="game-tracker-container">
-      <div className="game-tracker-wrapper">
-        <Card className="game-tracker-main-card">
+    <div className="bg-gradient-to-br from-indigo-500 to-purple-600 min-h-screen p-6">
+      <div className="mx-auto max-w-6xl">
+        <Card className="backdrop-blur-sm bg-white/95 rounded-2xl mb-6 text-center">
           <Space direction="vertical" size="middle" className="w-full">
             <div>
-              <TrophyOutlined className="game-tracker-title-icon" />
-              <Title level={1} className="game-tracker-title">
+              <TrophyOutlined className="text-yellow-500 text-5xl mb-4" />
+              <Title level={1} className="text-gray-800 m-0">
                 🎮 Game Tracker
               </Title>
-              <Paragraph className="game-tracker-subtitle">
+              <Paragraph className="text-gray-600 text-lg m-0">
                 Track your gaming progress and see how many times you've played each game!
               </Paragraph>
             </div>
 
             <Divider />
 
-            <Row gutter={[16, 16]} className="game-tracker-stats-grid">
+            <Row gutter={[16, 16]} className="justify-center">
               <Col xs={24} sm={12} md={6}>
                 <Statistic
                   title="Total Games Played"
@@ -94,7 +94,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
                   icon={<ReloadOutlined />}
                   onClick={handleResetStats}
                   size="large"
-                  className="game-tracker-reset-btn"
+                  className="mt-2"
                 >
                   Reset Stats
                 </Button>
@@ -106,34 +106,41 @@ export const GameTrackerPage = (): React.JSX.Element => {
         <Row gutter={[24, 24]}>
           {Object.entries(gameInfo).map(([gameKey, info]) => (
             <Col xs={24} sm={12} lg={8} key={gameKey}>
-              <Card hoverable className={`game-tracker-game-card game-${gameKey}-border p-6`}>
+              <Card
+                hoverable
+                className="backdrop-blur-sm bg-white/95 rounded-2xl h-full transition-all duration-300 p-6"
+              >
                 <Space direction="vertical" size="middle" className="w-full text-center">
                   <div>
-                    <div className="game-tracker-game-icon">{info.icon}</div>
-                    <Title level={3} className={`game-${gameKey}-color m-0`}>
+                    <div className="text-6xl mb-3">{info.icon}</div>
+                    <Title level={3} className="text-gray-800 m-0">
                       {info.name}
                     </Title>
-                    <Paragraph className="game-tracker-game-description">{info.description}</Paragraph>
+                    <Paragraph className="text-gray-600 my-2 mx-0 mb-4">{info.description}</Paragraph>
                   </div>
 
-                  <div className={`game-tracker-stat-box game-${gameKey}-bg`}>
+                  <div className="flex flex-col items-center justify-center mx-auto p-5 rounded-xl w-4/5">
                     <Statistic
                       title="Times Played"
                       value={stats[gameKey as keyof typeof stats]}
-                      className={`game-tracker-stat-style text-center font-bold text-4xl ${info.tailwindColor}`}
+                      className={`font-bold text-center w-full text-4xl ${info.tailwindColor}`}
                     />
                   </div>
 
                   {stats[gameKey as keyof typeof stats] > 0 && (
-                    <div className="game-tracker-mastered-badge">
-                      <Paragraph className="game-tracker-mastered-text">🎉 You've mastered this game!</Paragraph>
+                    <div className="flex items-center justify-center mx-auto p-3 w-4/5 bg-green-50 border border-green-200 rounded-lg">
+                      <Paragraph className="text-green-600 font-medium m-0 text-center">
+                        🎉 You've mastered this game!
+                      </Paragraph>
                     </div>
                   )}
 
                   {stats[gameKey as keyof typeof stats] === 0 && (
-                    <Link to={info.path} className="game-tracker-try-game-link">
-                      <div className="game-tracker-try-game-box bg-orange-50 hover:bg-orange-100 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
-                        <Paragraph className="game-tracker-try-game-text">🎮 Ready to try this game?</Paragraph>
+                    <Link to={info.path} className="mx-auto no-underline w-4/5">
+                      <div className="bg-orange-50 hover:bg-orange-100 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 w-[90%] border border-orange-200 rounded-lg cursor-pointer">
+                        <Paragraph className="text-orange-500 font-medium m-0 text-center">
+                          🎮 Ready to try this game?
+                        </Paragraph>
                       </div>
                     </Link>
                   )}
@@ -144,14 +151,14 @@ export const GameTrackerPage = (): React.JSX.Element => {
         </Row>
 
         {totalGamesPlayed === 0 && (
-          <Card className="game-tracker-welcome-card">
+          <Card className="backdrop-blur-sm bg-white/95 rounded-2xl mt-6 text-center">
             <Space direction="vertical" size="large" className="w-full">
-              <div className="game-tracker-welcome-icon">🎮</div>
+              <div className="text-7xl">🎮</div>
               <div>
-                <Title level={3} className="game-tracker-welcome-title">
+                <Title level={3} className="text-blue-500">
                   Welcome to Game Tracker!
                 </Title>
-                <Paragraph className="game-tracker-welcome-text">
+                <Paragraph className="text-gray-600 text-base">
                   Start playing any of the available games to see your progress here. Each completed game will be
                   automatically tracked!
                 </Paragraph>
@@ -161,14 +168,14 @@ export const GameTrackerPage = (): React.JSX.Element => {
         )}
 
         {totalGamesPlayed >= 10 && (
-          <Card className="game-tracker-champion-card">
+          <Card className="bg-gradient-to-br from-yellow-300 to-blue-800 rounded-2xl mt-6 text-center text-white">
             <Space direction="vertical" size="middle" className="w-full">
-              <div className="game-tracker-champion-icon">🏆</div>
+              <div className="text-6xl">🏆</div>
               <div>
-                <Title level={2} className="game-tracker-champion-title">
+                <Title level={2} className="text-white m-0">
                   Gaming Champion!
                 </Title>
-                <Paragraph className="game-tracker-champion-text">
+                <Paragraph className="text-white/90 text-lg m-0">
                   You've played {totalGamesPlayed} games! You're a true gaming enthusiast! 🌟
                 </Paragraph>
               </div>
