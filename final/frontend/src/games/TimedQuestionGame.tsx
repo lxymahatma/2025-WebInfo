@@ -134,12 +134,12 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
         <div className="flex items-center justify-center min-h-[80vh]">
-          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} variant="outlined">
-            <Title level={2} style={{ marginBottom: 8 }}>
+          <Card className="max-w-md w-full text-center rounded-2xl" variant="outlined">
+            <Title level={2} className="mb-2">
               🎯 Quiz Time!
             </Title>
-            <Paragraph style={{ fontSize: 18, marginBottom: 24 }}>Choose your subject to start the quiz:</Paragraph>
-            <Space direction="vertical" size="large" style={{ width: '100%' }}>
+            <Paragraph className="text-lg mb-6">Choose your subject to start the quiz:</Paragraph>
+            <Space direction="vertical" size="large" className="w-full">
               <Button
                 type="primary"
                 block
@@ -203,7 +203,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
             subTitle={subTitle}
             extra={[
               extra,
-              <Space key="buttons" style={{ marginTop: 16 }}>
+              <Space key="buttons" className="mt-4">
                 <Button type="default" size="large" onClick={resetGame}>
                   Choose New Subject
                 </Button>
@@ -223,7 +223,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
         <div className="flex items-center justify-center min-h-[80vh]">
-          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} variant="outlined">
+          <Card className="max-w-md w-full text-center rounded-2xl" variant="outlined">
             <Title level={3}>Loading questions...</Title>
           </Card>
         </div>
@@ -235,7 +235,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
         <div className="flex items-center justify-center min-h-[80vh]">
-          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} variant="outlined">
+          <Card className="max-w-md w-full text-center rounded-2xl" variant="outlined">
             <Title level={3}>No questions available</Title>
             <Button type="primary" onClick={resetGame}>
               Back to Subject Selection
@@ -250,26 +250,17 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 text-center font-sans pt-20">
       <div className="flex items-center justify-center min-h-[80vh]">
-        <Card
-          style={{
-            maxWidth: 480,
-            width: '100%',
-            borderRadius: 16,
-            textAlign: 'center',
-            padding: '8px 0',
-          }}
-          variant="outlined"
-        >
-          <Space direction="vertical" style={{ width: '100%' }} size="large">
+        <Card className="max-w-lg w-full rounded-2xl text-center py-2" variant="outlined">
+          <Space direction="vertical" className="w-full" size="large">
             <div className="flex items-center justify-between mb-2">
               <Button type="text" onClick={resetGame} className="text-sm px-2 py-1">
                 ← Back
               </Button>
               <div className="flex items-center gap-2">
-                <Tag color="geekblue" style={{ fontSize: 16, padding: '6px 16px' }}>
+                <Tag color="geekblue" className="text-base px-4 py-1.5">
                   {subjectNames[selectedSubject]}
                 </Tag>
-                <Tag color="gold" style={{ fontSize: 16 }}>
+                <Tag color="gold" className="text-base">
                   ⏰ {timeLeft}s
                 </Tag>
               </div>
@@ -280,26 +271,28 @@ export const TimedQuestionGame = (): React.JSX.Element => {
               showInfo={false}
               strokeColor="#0080a8"
               trailColor="#e6f7ff"
-              style={{ marginBottom: 4 }}
+              className="mb-1"
             />
-            <Paragraph strong style={{ fontSize: 17, marginBottom: 0 }}>
+            <Paragraph strong className="text-lg mb-0">
               Question {currentQuestionIndex + 1} of {questions.length} | Score: {score}
             </Paragraph>
-            <Title level={4} style={{ marginBottom: 0 }}>
+            <Title level={4} className="mb-0">
               {currentQuestion.question}
             </Title>
-            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <Space direction="vertical" size="middle" className="w-full">
               {currentQuestion.options.map((option: string, idx: number) => {
                 let type: 'default' | 'primary' | 'dashed' | 'link' | 'text' = 'default';
                 let danger = false;
-                let style: React.CSSProperties = { fontWeight: 500, fontSize: 18 };
+                let buttonClass = 'font-medium text-lg';
+
                 if (selectedOption === idx) {
                   type = idx === currentQuestion.correctAnswer ? 'primary' : 'default';
                   danger = idx !== currentQuestion.correctAnswer;
-                  style = { ...style, background: idx === currentQuestion.correctAnswer ? '#e8ffe6' : '#fff1f0' };
+                  buttonClass += idx === currentQuestion.correctAnswer ? ' bg-green-50' : ' bg-red-50';
                 } else if (isAnswered && idx === currentQuestion.correctAnswer) {
-                  style = { ...style, background: '#e8ffe6' };
+                  buttonClass += ' bg-green-50';
                 }
+
                 return (
                   <Button
                     key={`${currentQuestionIndex.toString()}-${option}`}
@@ -308,7 +301,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                     danger={danger}
                     disabled={isAnswered}
                     size="large"
-                    style={style}
+                    className={buttonClass}
                     onClick={() => handleOptionClick(idx)}
                   >
                     {option}

@@ -348,7 +348,7 @@ export const ProfilePage = (): React.JSX.Element => {
       <Row justify="center" align="middle" className="profile-main-row">
         {/* Left Section */}
         <Col xs={24} md={7} className="profile-left-col">
-          <Card className="profile-left-card" styles={{ body: { padding: 32, paddingBottom: 12 } }}>
+          <Card className="profile-left-card p-8 pb-3">
             <div className="profile-avatar-section">
               <Avatar size={56} src={profile.profilePicture} />
               <div>
@@ -418,7 +418,7 @@ export const ProfilePage = (): React.JSX.Element => {
 
         {/* Right Section */}
         <Col xs={24} md={10}>
-          <Card className="profile-right-card" styles={{ body: { padding: 40, paddingBottom: 28 } }}>
+          <Card className="profile-right-card p-10 pb-7">
             {activeSection === 'profile' ? (
               // Profile Section
               <>
@@ -492,7 +492,7 @@ export const ProfilePage = (): React.JSX.Element => {
                       </Button>
                     </Upload>
 
-                    <Divider style={{ margin: '16px 0' }}>OR</Divider>
+                    <Divider className="my-4">OR</Divider>
 
                     <Input
                       placeholder={t.enterImageUrl}
@@ -548,7 +548,7 @@ export const ProfilePage = (): React.JSX.Element => {
         okText={t.save}
         cancelText={t.cancel}
       >
-        <Space direction="vertical" style={{ width: '100%' }}>
+        <Space direction="vertical" className="w-full">
           <Input
             addonBefore={t.name}
             value={editingProfile.name}
