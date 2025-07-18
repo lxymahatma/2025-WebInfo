@@ -12,7 +12,6 @@ export interface GameTrackerProviderProps {
 
 export interface GameTrackerContextType {
   stats: GameStats;
-  loading: boolean;
   incrementGameCount: (gameType: keyof GameStats) => Promise<void>;
   resetStats: () => Promise<void>;
   fetchStats: () => Promise<void>;

@@ -7,10 +7,14 @@ import { AuthContext } from './AuthContext';
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<string | null>(null);
 
+  const getToken = () => {
+    return localStorage.getItem('token');
+  };
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const storeToken = getToken();
     const storedUsername = localStorage.getItem('username');
-    if (token && storedUsername) {
+    if (storeToken && storedUsername) {
       setUser(storedUsername);
     }
   }, []);
@@ -20,7 +24,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const signout = useCallback(async () => {
-    const token = localStorage.getItem('token');
+    const token = getToken();
     if (token) {
       try {
         const res = await fetch('http://localhost:3001/signout', {
@@ -35,7 +39,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           message.success('Successfully signed out');
         }
       } catch (error) {
-        console.error('Logout error:', error);
+        console.error('Sign out error:', error);
       }
     }
 

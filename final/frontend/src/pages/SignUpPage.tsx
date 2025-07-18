@@ -45,7 +45,7 @@ export const SignUpPage = (): React.JSX.Element => {
         setTimeout(() => {
           signin(data.username);
           void navigate('/');
-        }, 1500);
+        }, 800);
       } else {
         const error = (await res.json()) as ErrorResponse;
         message.error(error.message ?? 'Sign up failed');

@@ -10,7 +10,6 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     timed: 0,
     memory: 0,
   });
-  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
   const getToken = () => {
@@ -23,7 +22,6 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
       return;
     }
 
-    setLoading(true);
     try {
       const response = await fetch(`http://localhost:3001/game-stats`, {
         headers: {
@@ -40,8 +38,6 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
       }
     } catch (error) {
       console.error('Error fetching game stats:', error);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
@@ -65,7 +61,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/game-stats/increment`, {
+      const res = await fetch(`http://localhost:3001/game-stats/increment`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -74,8 +70,8 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
         body: JSON.stringify({ gameType } as IncrementGameRequest),
       });
 
-      if (response.ok) {
-        const data = (await response.json()) as GameStatsResponse;
+      if (res.ok) {
+        const data = (await res.json()) as GameStatsResponse;
         setStats(data.stats);
       } else {
         console.error('Failed to increment game count');
@@ -92,7 +88,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/game-stats/reset`, {
+      const res = await fetch(`http://localhost:3001/game-stats/reset`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,8 +96,8 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
         },
       });
 
-      if (response.ok) {
-        const data = (await response.json()) as GameStatsResponse;
+      if (res.ok) {
+        const data = (await res.json()) as GameStatsResponse;
         setStats(data.stats);
       } else {
         console.error('Failed to reset game stats');
@@ -114,12 +110,11 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
   const value = useMemo(
     () => ({
       stats,
-      loading,
       incrementGameCount,
       resetStats,
       fetchStats,
     }),
-    [stats, loading, incrementGameCount, resetStats, fetchStats]
+    [stats, incrementGameCount, resetStats, fetchStats]
   );
 
   return <GameTrackerContext value={value}>{children}</GameTrackerContext>;
