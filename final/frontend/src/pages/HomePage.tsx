@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, Button } from 'antd';
+import { Typography, Button, Modal } from 'antd';
 
 import { useAuth } from 'components';
 
@@ -8,6 +8,18 @@ const { Title, Paragraph } = Typography;
 
 export const HomePage = (): React.JSX.Element => {
   const { user, signout } = useAuth();
+
+  const handleLogout = () => {
+    Modal.confirm({
+      title: 'Confirm Logout',
+      content: 'Are you sure you want to logout?',
+      okText: 'Yes, Logout',
+      cancelText: 'Cancel',
+      onOk: () => {
+        signout();
+      },
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-600 to-cyan-800 font-sans">
@@ -21,7 +33,7 @@ export const HomePage = (): React.JSX.Element => {
           <Button
             type="primary"
             danger
-            onClick={signout}
+            onClick={handleLogout}
             className="rounded-lg border-none bg-red-500/90 transition-all duration-300 hover:-translate-y-px hover:bg-red-500"
           >
             Logout

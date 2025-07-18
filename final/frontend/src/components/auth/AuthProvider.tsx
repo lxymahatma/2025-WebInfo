@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { message } from 'antd';
 
 import type { AuthProviderProps } from 'types';
 import { AuthContext } from './AuthContext';
@@ -22,13 +23,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        await fetch('http://localhost:3001/signout', {
+        const res = await fetch('http://localhost:3001/signout', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });
+
+        if (res.ok) {
+          message.success('Successfully signed out');
+        }
       } catch (error) {
         console.error('Logout error:', error);
       }

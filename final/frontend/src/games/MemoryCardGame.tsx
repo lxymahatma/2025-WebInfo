@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Button, Typography, Spin } from 'antd';
 
 import { useGameTracker } from 'components';
 import type { CardType, CardProps, MemoryCardsResponse } from 'types';
+
+const { Title, Paragraph } = Typography;
 
 function shuffleArray<T>(array: T[]): T[] {
   return array
@@ -118,77 +121,63 @@ export const MemoryCardGame = (): React.JSX.Element => {
   );
 
   if (loading) {
-    return React.createElement(
-      'div',
-      { className: 'bg-gradient-to-br from-slate-50 to-slate-300 min-h-screen p-8 text-center' },
-      React.createElement(
-        'h1',
-        {
-          className:
-            'bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-transparent text-[2.5rem] font-extrabold mb-4 drop-shadow-sm',
-        },
-        'Loading...'
-      ),
-      React.createElement('p', { className: 'text-gray-600 text-xl font-medium mb-10' }, 'Getting your cards ready!')
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center">
+        <Spin size="large" />
+        <Title
+          level={1}
+          className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+        >
+          Loading...
+        </Title>
+        <Paragraph className="mb-10 text-xl font-medium text-gray-600">Getting your cards ready!</Paragraph>
+      </div>
     );
   }
 
   if (gameWon) {
-    return React.createElement(
-      'div',
-      { className: 'bg-gradient-to-br from-slate-50 to-slate-300 min-h-screen p-8 text-center' },
-      React.createElement(
-        'h1',
-        {
-          className:
-            'bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-transparent text-[2.5rem] font-extrabold mb-4 drop-shadow-sm animate-celebration-bounce',
-        },
-        'Congratulations! 🎉'
-      ),
-      React.createElement('p', { className: 'text-gray-600 text-xl font-medium mb-10' }, 'You found all the matches!'),
-      React.createElement(
-        'button',
-        {
-          type: 'button',
-          className:
-            'bg-gradient-to-r from-cyan-600 to-cyan-800 border-none rounded-xl shadow-lg shadow-cyan-600/40 text-white cursor-pointer text-[1.1rem] font-semibold mt-6 px-[30px] py-3 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-600/60 hover:-translate-y-0.5',
-          onClick: initializeGame,
-        },
-        'Start New Game'
-      )
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center">
+        <Title
+          level={1}
+          className="animate-celebration-bounce mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+        >
+          Congratulations! 🎉
+        </Title>
+        <Paragraph className="mb-10 text-xl font-medium text-gray-600">You found all the matches!</Paragraph>
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => void initializeGame()}
+          className="mt-6 cursor-pointer rounded-xl border-none bg-gradient-to-r from-cyan-600 to-cyan-800 px-[30px] py-3 text-[1.1rem] font-semibold text-white shadow-lg shadow-cyan-600/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-600/60"
+        >
+          Start New Game
+        </Button>
+      </div>
     );
   }
 
-  return React.createElement(
-    'div',
-    { className: 'bg-gradient-to-br from-slate-50 to-slate-300 min-h-screen p-8 text-center' },
-    React.createElement(
-      'h1',
-      {
-        className:
-          'bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-transparent text-[2.5rem] font-extrabold mb-4 drop-shadow-sm',
-      },
-      'Memory Card Game'
-    ),
-    React.createElement('p', { className: 'text-gray-600 text-xl font-medium mb-10' }, 'Flip & match the cards!'),
-    React.createElement(
-      'div',
-      {
-        className:
-          'grid [grid-template-columns:repeat(4,120px)] gap-[1.2rem] justify-center mx-auto my-8 [perspective:1000px]',
-      },
-      ...grid
-    ),
-    React.createElement(
-      'button',
-      {
-        type: 'button',
-        className:
-          'bg-gradient-to-r from-cyan-600 to-cyan-800 border-none rounded-xl shadow-lg shadow-cyan-600/40 text-white cursor-pointer text-[1.1rem] font-semibold mt-6 px-[30px] py-3 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-600/60 hover:-translate-y-0.5',
-        onClick: initializeGame,
-      },
-      'Start New Game'
-    )
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center">
+      <Title
+        level={1}
+        className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+      >
+        Memory Card Game
+      </Title>
+      <Paragraph className="mb-10 text-xl font-medium text-gray-600">Flip & match the cards!</Paragraph>
+      <div className="mx-auto my-8 grid [grid-template-columns:repeat(4,120px)] justify-center gap-[1.2rem] [perspective:1000px]">
+        {grid}
+      </div>
+      <Button
+        type="primary"
+        size="large"
+        onClick={() => void initializeGame()}
+        className="mt-6 cursor-pointer rounded-xl border-none bg-gradient-to-r from-cyan-600 to-cyan-800 px-[30px] py-3 text-[1.1rem] font-semibold text-white shadow-lg shadow-cyan-600/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-600/60"
+      >
+        Start New Game
+      </Button>
+    </div>
   );
 };
 

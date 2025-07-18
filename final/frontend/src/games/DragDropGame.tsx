@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Button, Typography, Space, Spin } from 'antd';
 
 import { useGameTracker } from 'components';
 import type { GamePair } from 'types';
+
+const { Title, Paragraph } = Typography;
 
 const DIFFICULTY_LEVELS = {
   easy: { name: 'Easy' },
@@ -111,7 +114,8 @@ export const DragDropGame = (): React.JSX.Element => {
   if (loading || currentPairs.length === 0) {
     return (
       <div className="mx-auto flex min-h-screen w-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
-        Loading...
+        <Spin size="large" />
+        <Paragraph>Loading...</Paragraph>
       </div>
     );
   }
@@ -120,63 +124,76 @@ export const DragDropGame = (): React.JSX.Element => {
   if (allSolved) {
     return (
       <div className="mx-auto flex min-h-screen w-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
-        <h2 className="mb-2 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-3xl font-extrabold text-transparent drop-shadow-sm md:text-4xl">
+        <Title
+          level={2}
+          className="mb-2 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-3xl font-extrabold text-transparent drop-shadow-sm md:text-4xl"
+        >
           Congratulations! 🎉
-        </h2>
-        <p className="mb-4 text-center text-lg font-medium text-gray-600">You matched all the items correctly!</p>
+        </Title>
+        <Paragraph className="mb-4 text-center text-lg font-medium text-gray-600">
+          You matched all the items correctly!
+        </Paragraph>
         <div className="mb-6 flex items-center justify-center gap-3">
-          <label className="mr-2 font-semibold text-gray-700">Difficulty: </label>
-          {Object.entries(DIFFICULTY_LEVELS).map(([key, level]) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => changeDifficulty(key as DifficultyLevel)}
-              className={`rounded-lg border-2 px-3 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-px hover:border-cyan-600 hover:bg-gray-200 ${
-                difficulty === key
-                  ? '-translate-y-px border-cyan-600 bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-lg shadow-cyan-600/30'
-                  : 'border-gray-300 bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700'
-              }`}
-            >
-              {level.name}
-            </button>
-          ))}
+          <span className="mr-2 font-semibold text-gray-700">Difficulty: </span>
+          <Space>
+            {Object.entries(DIFFICULTY_LEVELS).map(([key, level]) => (
+              <Button
+                key={key}
+                type={difficulty === key ? 'primary' : 'default'}
+                onClick={() => changeDifficulty(key as DifficultyLevel)}
+                className={`rounded-lg border-2 px-3 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-px hover:border-cyan-600 ${
+                  difficulty === key
+                    ? '-translate-y-px border-cyan-600 bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-lg shadow-cyan-600/30'
+                    : 'border-gray-300 bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700'
+                }`}
+              >
+                {level.name}
+              </Button>
+            ))}
+          </Space>
         </div>
-        <button
-          className="rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-          type="button"
+        <Button
+          type="primary"
+          size="large"
           onClick={() => void restartGame()}
+          className="rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
         >
           Start New Game
-        </button>
+        </Button>
       </div>
     );
   }
 
   return (
     <div className="mx-auto flex min-h-screen w-full flex-col items-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-20 text-center font-sans md:p-8">
-      <h2 className="mb-2 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-3xl font-extrabold text-transparent drop-shadow-sm md:text-4xl">
+      <Title
+        level={2}
+        className="mb-2 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-3xl font-extrabold text-transparent drop-shadow-sm md:text-4xl"
+      >
         Drag & Drop Match Game
-      </h2>
-      <p className="mb-4 text-center text-lg font-medium text-gray-600">
+      </Title>
+      <Paragraph className="mb-4 text-center text-lg font-medium text-gray-600">
         Drag each emoji token into the correct category.
-      </p>
+      </Paragraph>
 
       <div className="mb-6 flex items-center justify-center gap-3">
-        <label className="mr-2 font-semibold text-gray-700">Difficulty: </label>
-        {Object.entries(DIFFICULTY_LEVELS).map(([key, level]) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => changeDifficulty(key as DifficultyLevel)}
-            className={`rounded-lg border-2 px-3 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-px hover:border-cyan-600 hover:bg-gray-200 ${
-              difficulty === key
-                ? '-translate-y-px border-cyan-600 bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-lg shadow-cyan-600/30'
-                : 'border-gray-300 bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700'
-            }`}
-          >
-            {level.name}
-          </button>
-        ))}
+        <span className="mr-2 font-semibold text-gray-700">Difficulty: </span>
+        <Space>
+          {Object.entries(DIFFICULTY_LEVELS).map(([key, level]) => (
+            <Button
+              key={key}
+              type={difficulty === key ? 'primary' : 'default'}
+              onClick={() => changeDifficulty(key as DifficultyLevel)}
+              className={`rounded-lg border-2 px-3 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-px hover:border-cyan-600 ${
+                difficulty === key
+                  ? '-translate-y-px border-cyan-600 bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-lg shadow-cyan-600/30'
+                  : 'border-gray-300 bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700'
+              }`}
+            >
+              {level.name}
+            </Button>
+          ))}
+        </Space>
       </div>
 
       <div className="mx-auto mb-8 w-full max-w-4xl rounded-xl border-2 border-gray-200 bg-white p-5 text-center shadow-lg">
