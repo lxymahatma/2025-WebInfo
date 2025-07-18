@@ -17,3 +17,11 @@ export interface GameTrackerContextType {
   resetStats: () => Promise<void>;
   fetchStats: () => Promise<void>;
 }
+
+export interface GameStatsResponse {
+  stats: GameStats;
+}
+
+export interface IncrementGameRequest {
+  gameType: keyof GameStats;
+}

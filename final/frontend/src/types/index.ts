@@ -2,7 +2,13 @@ export type { AuthContextType, AuthProviderProps, SignInResponse, SignUpResponse
 export type { GamePair } from './drag-drop';
 export type { CardType, CardProps, MemoryCardsResponse } from './memory-card';
 export type { Question, Subject, TimedQuestionsResponse } from './timed-question';
-export type { GameStats, GameTrackerProviderProps, GameTrackerContextType } from './tracker';
+export type {
+  GameStats,
+  GameTrackerProviderProps,
+  GameTrackerContextType,
+  GameStatsResponse,
+  IncrementGameRequest,
+} from './tracker';
 export type {
   TranslationKeys,
   Translations,

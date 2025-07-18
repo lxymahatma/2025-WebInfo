@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { useAuth } from '../auth';
-import type { GameStats, GameTrackerProviderProps } from 'types';
+import type { GameStats, GameTrackerProviderProps, GameStatsResponse, IncrementGameRequest } from 'types';
 import { GameTrackerContext } from './GameTrackerContext';
 
 export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ children }) => {
@@ -33,7 +33,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data = (await response.json()) as GameStatsResponse;
         setStats(data.stats);
       } else {
         console.error('Failed to fetch game stats');
@@ -47,7 +47,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
 
   useEffect(() => {
     if (user) {
-      fetchStats();
+      void fetchStats();
     } else {
       setStats({
         dragdrop: 0,
@@ -71,11 +71,11 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ gameType }),
+        body: JSON.stringify({ gameType } as IncrementGameRequest),
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data = (await response.json()) as GameStatsResponse;
         setStats(data.stats);
       } else {
         console.error('Failed to increment game count');
@@ -101,7 +101,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data = (await response.json()) as GameStatsResponse;
         setStats(data.stats);
       } else {
         console.error('Failed to reset game stats');
