@@ -21,7 +21,7 @@ export default tseslint.config([
       reactDom.configs.recommended,
     ],
     rules: {
-      'typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-confusing-void-expression': 'off',
     },
     languageOptions: {
