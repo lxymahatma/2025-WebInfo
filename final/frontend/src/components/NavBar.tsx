@@ -21,19 +21,15 @@ export const NavBar = () => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Show navbar when mouse is in the top 80px of the screen
       if (e.clientY <= 80) {
         setIsVisible(true);
       } else if (e.clientY > 150) {
-        // Only hide when mouse is below 150px to prevent flickering
         setIsVisible(false);
       }
     };
 
-    // Add event listener to the document
     document.addEventListener('mousemove', handleMouseMove);
 
-    // Cleanup event listener on component unmount
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
     };
@@ -61,8 +57,8 @@ export const NavBar = () => {
               key={item.key}
               to={item.key}
               className={({ isActive }) =>
-                `inline-block flex-1 min-w-[100px] max-w-[150px] px-3 py-3 text-center bg-white text-cyan-600 font-bold rounded-lg no-underline whitespace-nowrap transition-all duration-200 hover:bg-yellow-400 hover:text-cyan-600 focus:outline-none ${
-                  isActive ? 'bg-yellow-400 text-cyan-600 shadow-lg shadow-yellow-200' : ''
+                `flex items-center justify-center flex-1 min-w-[140px] max-w-[180px] px-4 py-3 text-center bg-white text-cyan-700 font-bold rounded-lg no-underline whitespace-nowrap transition-colors duration-200 border-none outline-none hover:bg-yellow-300 hover:text-cyan-700 focus:outline-none overflow-hidden ${
+                  isActive ? 'bg-yellow-300 text-cyan-700 shadow-lg shadow-yellow-200' : ''
                 }`
               }
             >
