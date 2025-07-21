@@ -15,7 +15,7 @@ function shuffleArray<T>(array: T[]): T[] {
 
 async function fetchRandomCards(): Promise<string[]> {
   try {
-    const response = await fetch('http://localhost:3001/memory/cards');
+    const response = await fetch('http://localhost:3001/game/memory/cards');
     const data = (await response.json()) as MemoryCardsResponse;
 
     if (data.cards) {

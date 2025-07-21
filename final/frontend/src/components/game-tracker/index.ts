@@ -1,3 +1,3 @@
-export { GameTrackerContext } from './GameTrackerContext';
-export { GameTrackerProvider } from './GameTrackerProvider';
-export { useGameTracker } from './useGameTracker';
+export * from './GameTrackerContext';
+export * from './GameTrackerProvider';
+export * from './useGameTracker';

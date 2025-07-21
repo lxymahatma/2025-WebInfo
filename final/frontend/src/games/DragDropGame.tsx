@@ -16,7 +16,7 @@ type DifficultyLevel = keyof typeof DIFFICULTY_LEVELS;
 
 const fetchPairs = async (difficulty: DifficultyLevel): Promise<GamePair[]> => {
   try {
-    const response = await fetch(`http://localhost:3001/dragdrop/pairs?difficulty=${difficulty}`);
+    const response = await fetch(`http://localhost:3001/game/dragdrop/pairs?difficulty=${difficulty}`);
     if (!response.ok) {
       throw new Error('Failed to fetch pairs');
     }

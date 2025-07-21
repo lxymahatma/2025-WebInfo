@@ -1,5 +1,76 @@
 import fs from "fs";
-import { UserDB, MemoryDB, DragDropDB, TimedQuestionDB, LanguageDB } from "types";
+import { UserDB, MemoryDB, DragDropDB, TimedQuestionDB, LanguageDB, GamesDB } from "types";
+
+export const readGamesDB = (): GamesDB => {
+  try {
+    const data = fs.readFileSync("databases/games.json", "utf-8");
+    return data
+      ? JSON.parse(data)
+      : {
+          gameInfo: {
+            dragdrop: {
+              name: "Drag & Drop",
+              icon: "🎯",
+              description: "Match items to their correct categories",
+              color: "#1890ff",
+              tailwindColor: "text-blue-500",
+              path: "/dragdrop",
+            },
+            timed: {
+              name: "Timed Quiz",
+              icon: "⏰",
+              description: "Answer questions before time runs out",
+              color: "#52c41a",
+              tailwindColor: "text-green-500",
+              path: "/timed",
+            },
+            memory: {
+              name: "Memory Cards",
+              icon: "🧠",
+              description: "Match pairs of cards by memory",
+              color: "#722ed1",
+              tailwindColor: "text-purple-500",
+              path: "/memory",
+            },
+          },
+          dragdrop: { pairs: [] },
+          memory: { cards: [] },
+          timed: { questions: [] },
+        };
+  } catch (error) {
+    return {
+      gameInfo: {
+        dragdrop: {
+          name: "Drag & Drop",
+          icon: "🎯",
+          description: "Match items to their correct categories",
+          color: "#1890ff",
+          tailwindColor: "text-blue-500",
+          path: "/dragdrop",
+        },
+        timed: {
+          name: "Timed Quiz",
+          icon: "⏰",
+          description: "Answer questions before time runs out",
+          color: "#52c41a",
+          tailwindColor: "text-green-500",
+          path: "/timed",
+        },
+        memory: {
+          name: "Memory Cards",
+          icon: "🧠",
+          description: "Match pairs of cards by memory",
+          color: "#722ed1",
+          tailwindColor: "text-purple-500",
+          path: "/memory",
+        },
+      },
+      dragdrop: { pairs: [] },
+      memory: { cards: [] },
+      timed: { questions: [] },
+    };
+  }
+};
 
 // User database
 export const readUserDB = (): UserDB => {

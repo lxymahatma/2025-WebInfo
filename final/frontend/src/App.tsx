@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
-import { AuthProvider, useAuth, NavBar } from 'components';
+import { AuthProvider, useAuth, NavBar, GameTrackerProvider } from 'components';
 import { DragDropGame, MemoryCardGame, TimedQuestionGame } from 'games';
-import { HomePage, GameTrackerPage, ProfilePage, SignInPage, SignUpPage, GameTrackerProvider } from 'pages';
+import { HomePage, GameTrackerPage, ProfilePage, SignInPage, SignUpPage } from 'pages';
 
 function AppContent() {
   const { user } = useAuth();

@@ -4,7 +4,7 @@ import { Form, Input, Button, Card, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import { useAuth } from 'components';
-import type { SignInResponse, ErrorResponse } from 'types';
+import { signIn } from 'utils/api';
 
 const { Title, Text } = Typography;
 
@@ -24,30 +24,18 @@ export const SignInPage = (): React.JSX.Element => {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
+      const data = await signIn(values);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.username);
 
-      if (response.ok) {
-        const data = (await response.json()) as SignInResponse;
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
+      message.success('Sign in success!');
 
-        message.success('Sign in success!');
-
-        setTimeout(() => {
-          signin(data.username);
-          void navigate('/');
-        }, 800);
-      } else {
-        const error = (await response.json()) as ErrorResponse;
-        message.error(error.message ?? 'Invalid credentials');
-        setLoading(false);
-      }
-    } catch {
-      message.error('Network error. Please try again.');
+      setTimeout(() => {
+        signin(data.username);
+        void navigate('/');
+      }, 800);
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : 'Network error. Please try again.');
       setLoading(false);
     }
   };

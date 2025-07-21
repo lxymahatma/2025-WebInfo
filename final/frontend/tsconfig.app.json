@@ -50,6 +50,12 @@
       ],
       "types": [
         "types"
+      ],
+      "utils/api": [
+        "utils/api"
+      ],
+      "utils/api/*": [
+        "utils/api/*"
       ]
     }
   },

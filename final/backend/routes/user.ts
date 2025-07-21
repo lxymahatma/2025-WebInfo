@@ -1,14 +1,7 @@
 import { Router, Request, Response } from "express";
 import { pick, merge } from "es-toolkit";
 import { verifyToken } from "middleware";
-import {
-  AuthRequest,
-  ProfileResponse,
-  ErrorResponse,
-  UpdateProfileRequestBody,
-  GameStatsResponse,
-  UpdateGameStatsRequest,
-} from "types";
+import { AuthRequest, ProfileResponse, ErrorResponse, UpdateProfileRequestBody } from "types";
 import { readUserDB, writeUserDB } from "utils";
 
 const router = Router();
@@ -54,89 +47,6 @@ router.put(
     res.json({
       user: pick(userDb.users[userIndex], ["username", "password"]),
     });
-  }
-);
-
-router.get(
-  "/game-stats",
-  verifyToken,
-  (req: AuthRequest, res: Response<GameStatsResponse | ErrorResponse>) => {
-    const userDb = readUserDB();
-    const user = userDb.users.find((u) => u.username === req.user?.username);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    if (!user.gameStats) {
-      user.gameStats = {
-        dragdrop: 0,
-        timed: 0,
-        memory: 0,
-      };
-      writeUserDB(userDb);
-    }
-
-    res.json({ stats: user.gameStats });
-  }
-);
-
-router.post(
-  "/game-stats/increment",
-  verifyToken,
-  (
-    req: Request<{}, GameStatsResponse | ErrorResponse, UpdateGameStatsRequest>,
-    res: Response<GameStatsResponse | ErrorResponse>
-  ) => {
-    const { gameType } = req.body;
-    const authReq = req as AuthRequest;
-
-    if (!gameType || !["dragdrop", "timed", "memory"].includes(gameType)) {
-      return res.status(400).json({ message: "Invalid game type" });
-    }
-
-    const userDb = readUserDB();
-    const user = userDb.users.find((u) => u.username === authReq.user?.username);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    if (!user.gameStats) {
-      user.gameStats = {
-        dragdrop: 0,
-        timed: 0,
-        memory: 0,
-      };
-    }
-
-    user.gameStats[gameType]++;
-
-    writeUserDB(userDb);
-    res.json({ stats: user.gameStats });
-  }
-);
-
-router.post(
-  "/game-stats/reset",
-  verifyToken,
-  (req: AuthRequest, res: Response<GameStatsResponse | ErrorResponse>) => {
-    const userDb = readUserDB();
-    const user = userDb.users.find((u) => u.username === req.user?.username);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Reset game stats
-    user.gameStats = {
-      dragdrop: 0,
-      timed: 0,
-      memory: 0,
-    };
-
-    writeUserDB(userDb);
-    res.json({ stats: user.gameStats });
   }
 );
 

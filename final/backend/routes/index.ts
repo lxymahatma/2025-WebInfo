@@ -1,4 +1,4 @@
-export { authRouter } from "routes/auth";
-export { userRouter } from "routes/user";
-export { gameRouter } from "routes/games";
-export { languageRouter } from "routes/languages";
+export * from "./auth";
+export * from "./user";
+export * from "./games";
+export * from "./languages";

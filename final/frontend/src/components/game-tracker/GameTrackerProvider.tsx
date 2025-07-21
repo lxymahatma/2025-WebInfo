@@ -23,7 +23,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/game-stats`, {
+      const response = await fetch(`http://localhost:3001/game/stats`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/game-stats/increment`, {
+      const response = await fetch(`http://localhost:3001/game/stats/increment`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -88,7 +88,7 @@ export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ childr
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/game-stats/reset`, {
+      const response = await fetch(`http://localhost:3001/game/stats/reset`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

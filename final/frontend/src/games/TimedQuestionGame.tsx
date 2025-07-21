@@ -23,7 +23,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   const fetchQuestions = async (subject: Subject): Promise<void> => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/timed/questions?subject=${subject}`);
+      const response = await fetch(`http://localhost:3001/game/timed/questions?subject=${subject}`);
       if (response.ok) {
         const data = (await response.json()) as TimedQuestionsResponse;
         setQuestions(data.questions);

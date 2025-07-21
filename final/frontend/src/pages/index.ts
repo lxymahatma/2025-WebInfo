@@ -1,6 +1,5 @@
-export { HomePage } from './HomePage';
-export { GameTrackerPage } from './GameTrackerPage';
-export { ProfilePage } from './ProfilePage';
-export { SignInPage } from './SignInPage';
-export { SignUpPage } from './SignUpPage';
-export { GameTrackerProvider, useGameTracker } from 'components/game-tracker';
+export * from './HomePage';
+export * from './GameTrackerPage';
+export * from './ProfilePage';
+export * from './SignInPage';
+export * from './SignUpPage';

@@ -10,7 +10,6 @@
     "es-toolkit": "^1.39.7",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "socket.io": "^4.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
