@@ -29,14 +29,14 @@ export const SignUpPage = (): React.JSX.Element => {
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3001/signup', {
+      const response = await fetch('http://localhost:3001/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
 
-      if (res.ok) {
-        const data = (await res.json()) as SignInResponse;
+      if (response.ok) {
+        const data = (await response.json()) as SignInResponse;
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
 
@@ -47,7 +47,7 @@ export const SignUpPage = (): React.JSX.Element => {
           void navigate('/');
         }, 800);
       } else {
-        const error = (await res.json()) as ErrorResponse;
+        const error = (await response.json()) as ErrorResponse;
         message.error(error.message ?? 'Sign up failed');
         setLoading(false);
       }

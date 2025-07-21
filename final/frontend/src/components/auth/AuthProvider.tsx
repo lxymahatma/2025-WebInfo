@@ -27,7 +27,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const token = getToken();
     if (token) {
       try {
-        const res = await fetch('http://localhost:3001/signout', {
+        const response = await fetch('http://localhost:3001/signout', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -35,7 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           },
         });
 
-        if (res.ok) {
+        if (response.ok) {
           message.success('Successfully signed out');
         }
       } catch (error) {

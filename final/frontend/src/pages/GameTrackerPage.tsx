@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Space, Typography, Button, Row, Col, Statistic, Divider } from 'antd';
-import { TrophyOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Card, Space, Typography, Button, Row, Col, Statistic, Divider, Modal } from 'antd';
+import { TrophyOutlined, ReloadOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { useGameTracker } from 'components';
 
@@ -36,13 +36,21 @@ const gameInfo = {
 
 export const GameTrackerPage = (): React.JSX.Element => {
   const { stats, resetStats } = useGameTracker();
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
   const totalGamesPlayed = stats.dragdrop + stats.timed + stats.memory;
 
   const handleResetStats = () => {
-    if (window.confirm('Are you sure you want to reset all game statistics? This action cannot be undone.')) {
-      void resetStats();
-    }
+    setIsResetModalOpen(true);
+  };
+
+  const handleConfirmReset = () => {
+    void resetStats();
+    setIsResetModalOpen(false);
+  };
+
+  const handleCancelReset = () => {
+    setIsResetModalOpen(false);
   };
 
   return (
@@ -188,6 +196,26 @@ export const GameTrackerPage = (): React.JSX.Element => {
           </Card>
         )}
       </div>
+
+      <Modal
+        title={
+          <div className="flex items-center">
+            <ExclamationCircleOutlined className="mr-2 text-red-500" />
+            Reset Game Statistics
+          </div>
+        }
+        open={isResetModalOpen}
+        onOk={handleConfirmReset}
+        onCancel={handleCancelReset}
+        okText="Yes, Reset"
+        cancelText="Cancel"
+        okType="danger"
+      >
+        <p>Are you sure you want to reset all game statistics?</p>
+        <p>
+          <strong>This action cannot be undone.</strong>
+        </p>
+      </Modal>
     </div>
   );
 };

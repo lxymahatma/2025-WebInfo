@@ -24,14 +24,14 @@ export const SignInPage = (): React.JSX.Element => {
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3001/signin', {
+      const response = await fetch('http://localhost:3001/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
 
-      if (res.ok) {
-        const data = (await res.json()) as SignInResponse;
+      if (response.ok) {
+        const data = (await response.json()) as SignInResponse;
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
 
@@ -42,7 +42,7 @@ export const SignInPage = (): React.JSX.Element => {
           void navigate('/');
         }, 800);
       } else {
-        const error = (await res.json()) as ErrorResponse;
+        const error = (await response.json()) as ErrorResponse;
         message.error(error.message ?? 'Invalid credentials');
         setLoading(false);
       }
