@@ -1,8 +1,4 @@
-export interface GameStats {
-  dragdrop: number;
-  timed: number;
-  memory: number;
-}
+import type { GameStats } from "shared/types";
 
 export interface User {
   username: string;
@@ -25,12 +21,4 @@ export interface ProfileResponse {
 export interface UpdateProfileRequestBody {
   username?: string;
   password?: string;
-}
-
-export interface GameStatsResponse {
-  stats: GameStats;
-}
-
-export interface UpdateGameStatsRequest {
-  gameType: "dragdrop" | "timed" | "memory";
 }

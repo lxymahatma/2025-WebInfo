@@ -1,16 +1,4 @@
-export interface GameStatsResponse {
-  stats: {
-    dragdrop: number;
-    timed: number;
-    memory: number;
-  };
-}
-
-export interface UpdateGameStatsRequest {
-  gameType: "dragdrop" | "timed" | "memory";
-}
-
-// Game data interfaces
+// Game Card
 export interface GameCard {
   name: string;
   icon: string;
@@ -35,7 +23,7 @@ export interface GamesDB {
     cards: MemoryCard[];
   };
   timed: {
-    questions: TimedQuestion[];
+    questions: TimedQuizQuestion[];
   };
 }
 
@@ -54,22 +42,13 @@ export interface DragDropGameScore {
   date: string;
 }
 
-export interface DragDropDB {
-  pairs: DragDropPair[];
-  scores: DragDropGameScore[];
-}
-
 // Memory Game Types
 export interface MemoryCard {
   type: string;
 }
 
-export interface MemoryDB {
-  cards: MemoryCard[];
-}
-
 // Timed Quiz Types
-export interface MemoryGameScore {
+export interface TimedQuizScore {
   id: number;
   userId: number;
   score: number;
@@ -78,13 +57,9 @@ export interface MemoryGameScore {
   date: string;
 }
 
-export interface TimedQuestion {
+export interface TimedQuizQuestion {
   subject: string;
   question: string;
   options: string[];
   correctAnswer: number;
-}
-
-export interface TimedQuestionDB {
-  questions: TimedQuestion[];
 }
