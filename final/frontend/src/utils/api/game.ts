@@ -11,7 +11,7 @@ import type {
 
 import { API_BASE_URL } from 'config/api';
 
-export const fetchTimedQuestions = async (subject: Subject): Promise<TimedQuestionsResponse | null> => {
+export const fetchTimedQuestions = async (subject: Subject): Promise<TimedQuestionsResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/timed/questions?subject=${subject}`);
 
@@ -20,11 +20,11 @@ export const fetchTimedQuestions = async (subject: Subject): Promise<TimedQuesti
       return data;
     } else {
       console.error('Failed to fetch questions');
-      return null;
+      return undefined;
     }
   } catch (error) {
     console.error('Error fetching questions:', error);
-    return null;
+    return undefined;
   }
 };
 
@@ -33,7 +33,7 @@ export const fetchMemoryCards = async (): Promise<string[]> => {
     const response = await fetch(`${API_BASE_URL}/game/memory/cards`);
     const data = (await response.json()) as MemoryCardsResponse;
 
-    return data.cards ? data.cards : ['Dog', 'Cat', 'Mouse', 'Hamster'];
+    return data.cards ?? ['Dog', 'Cat', 'Mouse', 'Hamster'];
   } catch (error) {
     console.error('Error fetching cards from backend:', error);
     return ['Dog', 'Cat', 'Mouse', 'Hamster'];
@@ -53,7 +53,7 @@ export const fetchDragDropPairs = async (difficulty: string): Promise<GamePair[]
   }
 };
 
-export const fetchGameCard = async (): Promise<GameInfoResponse | null> => {
+export const fetchGameCard = async (): Promise<GameInfoResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/dashboard`);
 
@@ -62,11 +62,11 @@ export const fetchGameCard = async (): Promise<GameInfoResponse | null> => {
       return data;
     } else {
       console.error('Failed to fetch game info');
-      return null;
+      return undefined;
     }
   } catch (error) {
     console.error('Error fetching game info:', error);
-    return null;
+    return undefined;
   }
 };
 

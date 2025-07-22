@@ -34,7 +34,7 @@ export const DragDropGame = (): React.JSX.Element => {
   const [solved, setSolved] = useState<Record<string, boolean>>({});
   const [gameCompleted, setGameCompleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const dragItemReference = useRef<string | null>(null);
+  const dragItemReference = useRef<string>('');
 
   useEffect(() => {
     const loadPairs = async () => {
@@ -89,7 +89,7 @@ export const DragDropGame = (): React.JSX.Element => {
         target.style.backgroundColor = origBg;
       }, 500);
     }
-    dragItemReference.current = null;
+    dragItemReference.current = '';
   };
 
   const restartGame = async (): Promise<void> => {

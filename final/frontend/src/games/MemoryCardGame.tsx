@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Typography, Spin } from 'antd';
 
 import { useGameTracker } from 'components';
-import type { CardType, CardProps, MemoryCardsResponse } from 'types';
+import type { CardType, MemoryCardsResponse } from 'types';
 
 const { Title, Paragraph } = Typography;
 
@@ -18,7 +18,7 @@ async function fetchRandomCards(): Promise<string[]> {
     const response = await fetch('http://localhost:3001/game/memory/cards');
     const data = (await response.json()) as MemoryCardsResponse;
 
-    return data.cards ? data.cards : ['Dog', 'Cat', 'Mouse', 'Hamster'];
+    return data.cards ?? ['Dog', 'Cat', 'Mouse', 'Hamster'];
   } catch (error) {
     console.error('Error fetching cards from backend:', error);
     return ['Dog', 'Cat', 'Mouse', 'Hamster'];
@@ -28,8 +28,8 @@ async function fetchRandomCards(): Promise<string[]> {
 export const MemoryCardGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
   const [cards, setCards] = useState<CardType[]>([]);
-  const [firstChoice, setFirstChoice] = useState<CardType | null>(null);
-  const [secondChoice, setSecondChoice] = useState<CardType | null>(null);
+  const [firstChoice, setFirstChoice] = useState<CardType | undefined>();
+  const [secondChoice, setSecondChoice] = useState<CardType | undefined>();
   const [disabled, setDisabled] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
@@ -46,8 +46,8 @@ export const MemoryCardGame = (): React.JSX.Element => {
         { type, id: index * 2 + 1, matched: false },
       ]);
       setCards(shuffleArray(doubled));
-      setFirstChoice(null);
-      setSecondChoice(null);
+      setFirstChoice(undefined);
+      setSecondChoice(undefined);
       setDisabled(false);
       setGameWon(false);
       setGameCompleted(false);
@@ -101,8 +101,8 @@ export const MemoryCardGame = (): React.JSX.Element => {
   }
 
   function resetTurn() {
-    setFirstChoice(null);
-    setSecondChoice(null);
+    setFirstChoice(undefined);
+    setSecondChoice(undefined);
     setDisabled(false);
   }
 
@@ -177,7 +177,14 @@ export const MemoryCardGame = (): React.JSX.Element => {
   );
 };
 
-function Card({ card, flipped, handleChoice, disabled }: CardProps) {
+interface CardComponentProps {
+  card: CardType;
+  flipped: boolean;
+  handleChoice: (card: CardType) => void;
+  disabled: boolean;
+}
+
+function Card({ card, flipped, handleChoice, disabled }: CardComponentProps) {
   function onClick() {
     if (!flipped && !disabled) handleChoice(card);
   }

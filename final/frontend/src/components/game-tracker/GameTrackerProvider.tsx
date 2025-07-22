@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { useAuth } from 'components';
-import type { GameStats, GameTrackerProviderProps, GameStatsResponse, IncrementGameRequest } from 'types';
+import type { GameStats, GameTrackerProviderProperties, GameStatsResponse, IncrementGameRequest } from 'types';
 import { GameTrackerContext } from './GameTrackerContext';
 
-export const GameTrackerProvider: React.FC<GameTrackerProviderProps> = ({ children }) => {
+function getToken() {
+  return localStorage.getItem('token');
+}
+
+export const GameTrackerProvider: React.FC<GameTrackerProviderProperties> = ({ children }) => {
   const [stats, setStats] = useState<GameStats>({
     dragdrop: 0,
     timed: 0,
     memory: 0,
   });
   const { user } = useAuth();
-
-  const getToken = () => {
-    return localStorage.getItem('token');
-  };
 
   const fetchStats = useCallback(async () => {
     const token = getToken();

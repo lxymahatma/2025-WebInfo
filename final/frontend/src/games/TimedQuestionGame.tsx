@@ -8,12 +8,12 @@ const { Title, Paragraph } = Typography;
 
 export const TimedQuestionGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
-  const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<Subject>();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [timeLeft, setTimeLeft] = useState<number>(15);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [selectedOption, setSelectedOption] = useState<number>();
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
   const [gameFinished, setGameFinished] = useState<boolean>(false);
@@ -40,15 +40,15 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   };
 
   useEffect(() => {
-    const handleAnswer = (index: number | null): void => {
-      if (index !== null && index === currentQuestion.correctAnswer) {
+    const handleAnswer = (index?: number): void => {
+      if (index !== undefined && index === currentQuestion.correctAnswer) {
         setScore(score + 1);
       }
       setTimeout(() => {
         if (currentQuestionIndex < questions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
           setTimeLeft(15);
-          setSelectedOption(null);
+          setSelectedOption(undefined);
           setIsAnswered(false);
         } else {
           setGameFinished(true);
@@ -63,7 +63,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
       return () => clearTimeout(timer);
     } else if (timeLeft === 0 && !isAnswered && selectedSubject && questions.length > 0) {
       setIsAnswered(true);
-      handleAnswer(null);
+      handleAnswer();
     }
   }, [
     timeLeft,
@@ -80,7 +80,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     setSelectedSubject(subject);
     setCurrentQuestionIndex(0);
     setTimeLeft(15);
-    setSelectedOption(null);
+    setSelectedOption(undefined);
     setIsAnswered(false);
     setScore(0);
     setGameFinished(false);
@@ -91,15 +91,15 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     if (!isAnswered) {
       setSelectedOption(index);
       setIsAnswered(true);
-      const handleAnswer = (answerIndex: number | null): void => {
-        if (answerIndex !== null && answerIndex === currentQuestion.correctAnswer) {
+      const handleAnswer = (answerIndex?: number): void => {
+        if (answerIndex !== undefined && answerIndex === currentQuestion.correctAnswer) {
           setScore(score + 1);
         }
         setTimeout(() => {
           if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
             setTimeLeft(15);
-            setSelectedOption(null);
+            setSelectedOption(undefined);
             setIsAnswered(false);
           } else {
             setGameFinished(true);
@@ -113,11 +113,11 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   };
 
   const resetGame = (): void => {
-    setSelectedSubject(null);
+    setSelectedSubject(undefined);
     setQuestions([]);
     setCurrentQuestionIndex(0);
     setTimeLeft(15);
-    setSelectedOption(null);
+    setSelectedOption(undefined);
     setIsAnswered(false);
     setScore(0);
     setGameFinished(false);
@@ -180,7 +180,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     let status: 'success' | 'info' | 'warning' | 'error' = 'success';
     const title = '🎉 Great Job!';
     const subTitle = `Your Score: ${score.toString()} out of ${questions.length.toString()} (${percent.toString()}%)`;
-    let extra = null;
+    let extra = undefined;
 
     if (score === questions.length) {
       status = 'success';

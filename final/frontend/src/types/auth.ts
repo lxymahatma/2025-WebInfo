@@ -1,7 +1,7 @@
 export interface AuthContextType {
-  user: string | null;
+  user: string | undefined;
   signin: (username: string) => void;
-  signout: () => void;
+  signout: () => Promise<void>;
 }
 
 export interface AuthProviderProperties {

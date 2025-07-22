@@ -20,10 +20,10 @@ export const NavBar = () => {
   const isHomePage = location.pathname === '/';
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (e.clientY <= 80) {
+    const handleMouseMove = (event: MouseEvent) => {
+      if (event.clientY <= 80) {
         setIsVisible(true);
-      } else if (e.clientY > 150) {
+      } else if (event.clientY > 150) {
         setIsVisible(false);
       }
     };
@@ -70,7 +70,7 @@ export const NavBar = () => {
           <span>
             Welcome, <strong>{user}</strong>!
           </span>
-          <Button type="primary" danger onClick={signout}>
+          <Button type="primary" danger onClick={() => void signout()}>
             Signout
           </Button>
         </div>

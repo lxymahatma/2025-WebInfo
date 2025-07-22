@@ -12,7 +12,7 @@ const { Title, Paragraph } = Typography;
 export const GameTrackerPage = (): React.JSX.Element => {
   const { stats, resetStats } = useGameTracker();
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
-  const [gameInfo, setGameInfo] = useState<GameInfoResponse | null>(null);
+  const [gameInfo, setGameInfo] = useState<GameInfoResponse>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -106,9 +106,17 @@ export const GameTrackerPage = (): React.JSX.Element => {
                   value={
                     totalGamesPlayed === 0
                       ? 'None yet'
-                      : Object.entries(stats).reduce((a, b) =>
-                          stats[a[0] as keyof typeof stats] > stats[b[0] as keyof typeof stats] ? a : b
-                        )[0]
+                      : (() => {
+                          let maxKey: keyof typeof stats = Object.keys(stats)[0] as keyof typeof stats;
+                          let maxValue = stats[maxKey];
+                          for (const key of Object.keys(stats) as (keyof typeof stats)[]) {
+                            if (stats[key] > maxValue) {
+                              maxKey = key;
+                              maxValue = stats[key];
+                            }
+                          }
+                          return maxKey;
+                        })()
                   }
                   className="text-xl text-green-500"
                 />

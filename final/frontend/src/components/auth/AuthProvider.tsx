@@ -1,15 +1,15 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { message } from 'antd';
 
-import type { AuthProviderProps } from 'types';
+import type { AuthProviderProperties } from 'types';
 import { AuthContext } from './AuthContext';
 
-export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<string | null>(null);
+function getToken() {
+  return localStorage.getItem('token');
+}
 
-  const getToken = () => {
-    return localStorage.getItem('token');
-  };
+export function AuthProvider({ children }: AuthProviderProperties) {
+  const [user, setUser] = useState<string>();
 
   useEffect(() => {
     const storeToken = getToken();
@@ -43,7 +43,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
     }
 
-    setUser(null);
+    setUser(undefined);
     localStorage.removeItem('token');
     localStorage.removeItem('username');
   }, []);
