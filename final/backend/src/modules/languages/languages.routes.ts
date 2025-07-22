@@ -1,6 +1,6 @@
-import { Router, Response } from "express";
+import { Router, type Response } from "express";
 import { verifyToken } from "shared/middleware";
-import {
+import type {
   AuthRequest,
   LanguageResponse,
   ErrorResponse,
@@ -34,7 +34,7 @@ router.put(
   "/",
   verifyToken,
   (req: AuthRequest, res: Response<{ message: string; language: string } | ErrorResponse>) => {
-    const { language }: UpdateLanguageRequest = req.body;
+    const { language }: UpdateLanguageRequest = req.body as UpdateLanguageRequest;
     const languageDB = readLanguagesDB();
     const userDb = readUsersDB();
 
@@ -43,7 +43,7 @@ router.put(
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (!languageDB.translations[language]) {
+    if (!(language in languageDB.translations)) {
       return res.status(400).json({ message: "Invalid language" });
     }
 

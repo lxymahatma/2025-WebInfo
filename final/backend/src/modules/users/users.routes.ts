@@ -1,7 +1,7 @@
-import { Router, Request, Response } from "express";
+import { Router, type Request, type Response } from "express";
 import { pick, merge } from "es-toolkit";
 import { verifyToken } from "shared/middleware";
-import {
+import type {
   AuthRequest,
   ProfileResponse,
   ErrorResponse,
@@ -32,7 +32,7 @@ router.put(
   "/profile",
   verifyToken,
   (
-    req: Request<{}, ProfileResponse | ErrorResponse, UpdateProfileRequestBody>,
+    req: Request<object, ProfileResponse | ErrorResponse, UpdateProfileRequestBody>,
     res: Response<ProfileResponse | ErrorResponse>
   ) => {
     const userDb = readUsersDB();

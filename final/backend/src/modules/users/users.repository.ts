@@ -1,11 +1,12 @@
 import fs from "fs";
-import { UserDB } from "./users.types";
+import type { UserDB } from "./users.types";
 
 export const readUsersDB = (): UserDB => {
   try {
     const data = fs.readFileSync("databases/users.json", "utf-8");
-    return JSON.parse(data);
+    return JSON.parse(data) as UserDB;
   } catch (error) {
+    console.error("Error reading users database:", error);
     return { users: [] };
   }
 };

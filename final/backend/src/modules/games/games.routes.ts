@@ -1,23 +1,24 @@
-import { Router, Request, Response } from "express";
-import { randomInt, shuffle, groupBy, sampleSize, uniq } from "es-toolkit";
+import { Router, type Request, type Response } from "express";
+import { shuffle, groupBy, sampleSize } from "es-toolkit";
 import { verifyToken } from "shared/middleware";
-import {
-  AuthRequest,
+import type { AuthRequest } from "modules/auth";
+import type {
   GameStatsResponse,
   ErrorResponse,
   UpdateGameStatsRequest,
+  DragDropPair,
 } from "./games.types";
 import { readGamesDB } from "./games.repository";
 import { readUsersDB, writeUsersDB } from "modules/users";
 
 const router = Router();
 
-router.get("/cards", (req: Request, res: Response) => {
+router.get("/cards", (_req: Request, res: Response) => {
   const db = readGamesDB();
   res.json(db.cards);
 });
 
-router.get("/memory/cards", (req: Request, res: Response) => {
+router.get("/memory/cards", (_req: Request, res: Response) => {
   const db = readGamesDB();
 
   if (db.memory.cards.length === 0) {
@@ -42,7 +43,7 @@ router.get("/dragdrop/pairs", (req: Request, res: Response) => {
   const count = itemsPerCategory[difficulty as keyof typeof itemsPerCategory];
 
   const groupedPairs = groupBy(db.dragdrop.pairs, (pair) => pair.match);
-  const selectedPairs: any[] = [];
+  const selectedPairs: DragDropPair[] = [];
 
   Object.values(groupedPairs).forEach((categoryPairs) => {
     const sampledPairs = sampleSize(categoryPairs, Math.min(count, categoryPairs.length));
@@ -83,15 +84,6 @@ router.get(
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (!user.gameStats) {
-      user.gameStats = {
-        dragdrop: 0,
-        timed: 0,
-        memory: 0,
-      };
-      writeUsersDB(userDb);
-    }
-
     res.json({ stats: user.gameStats });
   }
 );
@@ -99,30 +91,18 @@ router.get(
 router.post(
   "/stats/increment",
   verifyToken,
-  (
-    req: Request<{}, GameStatsResponse | ErrorResponse, UpdateGameStatsRequest>,
-    res: Response<GameStatsResponse | ErrorResponse>
-  ) => {
-    const { gameType } = req.body;
-    const authReq = req as AuthRequest;
+  (req: AuthRequest, res: Response<GameStatsResponse | ErrorResponse>) => {
+    const { gameType }: UpdateGameStatsRequest = req.body as unknown as UpdateGameStatsRequest;
 
-    if (!gameType || !["dragdrop", "timed", "memory"].includes(gameType)) {
+    if (!["dragdrop", "timed", "memory"].includes(gameType)) {
       return res.status(400).json({ message: "Invalid game type" });
     }
 
     const userDb = readUsersDB();
-    const user = userDb.users.find((u) => u.username === authReq.user?.username);
+    const user = userDb.users.find((u) => u.username === req.user?.username);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
-    }
-
-    if (!user.gameStats) {
-      user.gameStats = {
-        dragdrop: 0,
-        timed: 0,
-        memory: 0,
-      };
     }
 
     user.gameStats[gameType]++;

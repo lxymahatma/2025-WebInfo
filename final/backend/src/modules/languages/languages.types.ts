@@ -1,4 +1,4 @@
-import { Request } from "express";
+import type { Request } from "express";
 
 // Request interface
 export interface AuthRequest extends Request {
@@ -7,14 +7,9 @@ export interface AuthRequest extends Request {
   };
 }
 
-// Language data interfaces
-export interface Translation {
-  [key: string]: string;
-}
+export type Translation = Record<string, string>;
 
-export interface LanguageTranslations {
-  [language: string]: Translation;
-}
+export type LanguageTranslations = Record<string, Translation>;
 
 export interface LanguageDB {
   translations: LanguageTranslations;

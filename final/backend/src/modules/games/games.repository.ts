@@ -1,5 +1,5 @@
 import fs from "fs";
-import { GamesDB } from "./games.types";
+import type { GamesDB } from "./games.types";
 
 export const readGamesDB = (): GamesDB => {
   try {

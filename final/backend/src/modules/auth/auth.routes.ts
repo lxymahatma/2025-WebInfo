@@ -1,8 +1,8 @@
-import { Router, Request, Response } from "express";
+import { Router, type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 import { isString, trim } from "es-toolkit";
 import { verifyToken, SECRET } from "shared/middleware";
-import {
+import type {
   AuthRequest,
   AuthResponse,
   ErrorResponse,
@@ -17,7 +17,7 @@ const router = Router();
 router.post(
   "/signup",
   (
-    req: Request<{}, AuthResponse | ErrorResponse, SignupRequestBody>,
+    req: Request<object, AuthResponse | ErrorResponse, SignupRequestBody>,
     res: Response<AuthResponse | ErrorResponse>
   ) => {
     const { username, password } = req.body;
@@ -57,7 +57,7 @@ router.post(
 router.post(
   "/signin",
   (
-    req: Request<{}, AuthResponse | ErrorResponse, SigninRequestBody>,
+    req: Request<object, AuthResponse | ErrorResponse, SigninRequestBody>,
     res: Response<AuthResponse | ErrorResponse>
   ) => {
     const { username, password } = req.body;
@@ -73,7 +73,7 @@ router.post(
   }
 );
 
-router.post("/signout", verifyToken, (req: AuthRequest, res: Response<ErrorResponse>) => {
+router.post("/signout", verifyToken, (_req: AuthRequest, res: Response<ErrorResponse>) => {
   res.json({ message: "Successfully signed out" });
 });
 

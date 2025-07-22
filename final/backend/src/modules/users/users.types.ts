@@ -1,13 +1,11 @@
-import { Request } from "express";
+import type { Request } from "express";
 
-// Common request interface
 export interface AuthRequest extends Request {
   user?: {
     username: string;
   };
 }
 
-// User data interfaces
 export interface GameStats {
   dragdrop: number;
   timed: number;
@@ -25,7 +23,6 @@ export interface UserDB {
   users: User[];
 }
 
-// API request/response interfaces
 export interface ProfileResponse {
   user: {
     username: string;
