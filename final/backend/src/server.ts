@@ -3,8 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import http from "node:http";
 import { authRouter, usersRouter, gamesRouter, languagesRouter } from "modules";
-
-const PORT = 3001;
+import { SERVER_PORT } from "shared/config/constants";
 
 const app = express();
 const server = http.createServer(app);
@@ -17,6 +16,6 @@ app.use("/", usersRouter);
 app.use("/game", gamesRouter);
 app.use("/languages", languagesRouter);
 
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+server.listen(SERVER_PORT, () => {
+  console.log(`Server running at http://localhost:${SERVER_PORT}`);
 });
