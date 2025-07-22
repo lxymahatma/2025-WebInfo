@@ -2,13 +2,8 @@ import { Router, type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 import { isString, trim } from "es-toolkit";
 import { verifyToken, SECRET } from "shared/middleware";
-import type {
-  AuthRequest,
-  AuthResponse,
-  ErrorResponse,
-  SignupRequestBody,
-  SigninRequestBody,
-} from "./auth.types";
+import type { AuthRequest, ErrorResponse } from "shared/types";
+import type { AuthResponse, SignupRequestBody, SigninRequestBody } from "./auth.types";
 import type { User } from "modules/users";
 import { readUsersDB, writeUsersDB } from "modules/users";
 

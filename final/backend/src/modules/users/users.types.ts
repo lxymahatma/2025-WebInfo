@@ -1,11 +1,3 @@
-import type { Request } from "express";
-
-export interface AuthRequest extends Request {
-  user?: {
-    username: string;
-  };
-}
-
 export interface GameStats {
   dragdrop: number;
   timed: number;
@@ -41,8 +33,4 @@ export interface GameStatsResponse {
 
 export interface UpdateGameStatsRequest {
   gameType: "dragdrop" | "timed" | "memory";
-}
-
-export interface ErrorResponse {
-  message: string;
 }

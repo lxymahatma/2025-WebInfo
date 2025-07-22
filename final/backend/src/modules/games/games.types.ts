@@ -1,20 +1,9 @@
-// Request/Response interfaces
-export interface AuthRequest extends Request {
-  user?: {
-    username: string;
-  };
-}
-
 export interface GameStatsResponse {
   stats: {
     dragdrop: number;
     timed: number;
     memory: number;
   };
-}
-
-export interface ErrorResponse {
-  message: string;
 }
 
 export interface UpdateGameStatsRequest {

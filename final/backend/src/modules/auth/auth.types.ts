@@ -1,11 +1,3 @@
-import type { Request } from "express";
-
-export interface AuthRequest extends Request {
-  user?: {
-    username: string;
-  };
-}
-
 export interface SignupRequestBody {
   username: string;
   password: string;
@@ -19,8 +11,4 @@ export interface SigninRequestBody {
 export interface AuthResponse {
   token: string;
   username: string;
-}
-
-export interface ErrorResponse {
-  message: string;
 }

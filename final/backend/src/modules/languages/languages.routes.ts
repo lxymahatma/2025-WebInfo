@@ -1,11 +1,7 @@
 import { Router, type Response } from "express";
 import { verifyToken } from "shared/middleware";
-import type {
-  AuthRequest,
-  LanguageResponse,
-  ErrorResponse,
-  UpdateLanguageRequest,
-} from "./languages.types";
+import type { AuthRequest, ErrorResponse } from "shared/types";
+import type { LanguageResponse, UpdateLanguageRequest } from "./languages.types";
 import { readLanguagesDB } from "./languages.repository";
 import { readUsersDB, writeUsersDB } from "modules/users";
 

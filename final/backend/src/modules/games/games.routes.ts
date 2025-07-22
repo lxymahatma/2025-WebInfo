@@ -1,13 +1,8 @@
 import { Router, type Request, type Response } from "express";
 import { shuffle, groupBy, sampleSize } from "es-toolkit";
 import { verifyToken } from "shared/middleware";
-import type { AuthRequest } from "modules/auth";
-import type {
-  GameStatsResponse,
-  ErrorResponse,
-  UpdateGameStatsRequest,
-  DragDropPair,
-} from "./games.types";
+import type { AuthRequest, ErrorResponse } from "shared/types";
+import type { GameStatsResponse, UpdateGameStatsRequest, DragDropPair } from "./games.types";
 import { readGamesDB } from "./games.repository";
 import { readUsersDB, writeUsersDB } from "modules/users";
 
