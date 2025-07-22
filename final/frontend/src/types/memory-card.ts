@@ -4,7 +4,7 @@ export interface CardType {
   matched: boolean;
 }
 
-export interface CardProps {
+export interface CardProperties {
   card: CardType;
   flipped: boolean;
   handleChoice: (card: CardType) => void;

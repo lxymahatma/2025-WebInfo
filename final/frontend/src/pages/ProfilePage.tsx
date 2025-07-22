@@ -58,8 +58,8 @@ export const ProfilePage = (): React.JSX.Element => {
 
         if (!token) {
           console.error('No token found');
-          setProfile(prev => ({
-            ...prev,
+          setProfile(previous => ({
+            ...previous,
             name: 'No token',
             password: 'N/A',
           }));
@@ -75,24 +75,24 @@ export const ProfilePage = (): React.JSX.Element => {
 
         if (profileResponse.ok) {
           const profileData = (await profileResponse.json()) as ProfileResponse;
-          setProfile(prev => ({
-            ...prev,
+          setProfile(previous => ({
+            ...previous,
             name: profileData.user.username,
             password: profileData.user.password,
           }));
           setActualPassword(profileData.user.password);
         } else {
           console.error('Failed to fetch profile:', profileResponse.status);
-          setProfile(prev => ({
-            ...prev,
+          setProfile(previous => ({
+            ...previous,
             name: 'Fetch failed',
             password: 'N/A',
           }));
         }
       } catch (error) {
         console.error('Error loading user data:', error);
-        setProfile(prev => ({
-          ...prev,
+        setProfile(previous => ({
+          ...previous,
           name: 'Network error',
           password: 'N/A',
         }));
@@ -281,8 +281,8 @@ export const ProfilePage = (): React.JSX.Element => {
       if (response.ok) {
         const updatedData = (await response.json()) as ProfileResponse;
 
-        setProfile(prev => ({
-          ...prev,
+        setProfile(previous => ({
+          ...previous,
           name: updatedData.user.username,
           password: updatedData.user.password,
         }));
@@ -302,30 +302,30 @@ export const ProfilePage = (): React.JSX.Element => {
 
   // Handle profile picture change
   const handleProfilePictureChange = (newPictureUrl: string) => {
-    setProfile(prev => ({ ...prev, profilePicture: newPictureUrl }));
+    setProfile(previous => ({ ...previous, profilePicture: newPictureUrl }));
   };
 
   // Handle file upload
   const handleFileUpload = (file: File) => {
     const reader = new FileReader();
-    reader.onload = e => {
+    reader.addEventListener('load', e => {
       const result = e.target?.result;
       if (result && typeof result === 'string') {
         handleProfilePictureChange(result);
         message.success(t.profilePictureUploaded);
       }
-    };
+    });
     reader.readAsDataURL(file);
     return false; // Prevent default upload behavior
   };
 
   // Handle emoji equip/unequip
   const toggleEmoji = (emoji: string) => {
-    setProfile(prev => ({
-      ...prev,
-      equippedEmojis: prev.equippedEmojis.includes(emoji)
-        ? prev.equippedEmojis.filter(e => e !== emoji)
-        : [...prev.equippedEmojis, emoji],
+    setProfile(previous => ({
+      ...previous,
+      equippedEmojis: previous.equippedEmojis.includes(emoji)
+        ? previous.equippedEmojis.filter(e => e !== emoji)
+        : [...previous.equippedEmojis, emoji],
     }));
   };
 

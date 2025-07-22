@@ -18,11 +18,7 @@ async function fetchRandomCards(): Promise<string[]> {
     const response = await fetch('http://localhost:3001/game/memory/cards');
     const data = (await response.json()) as MemoryCardsResponse;
 
-    if (data.cards) {
-      return data.cards;
-    } else {
-      return ['Dog', 'Cat', 'Mouse', 'Hamster'];
-    }
+    return data.cards ? data.cards : ['Dog', 'Cat', 'Mouse', 'Hamster'];
   } catch (error) {
     console.error('Error fetching cards from backend:', error);
     return ['Dog', 'Cat', 'Mouse', 'Hamster'];
@@ -45,9 +41,9 @@ export const MemoryCardGame = (): React.JSX.Element => {
     try {
       const fetchedCardTypes = await fetchRandomCards();
 
-      const doubled = fetchedCardTypes.flatMap((type, idx) => [
-        { type, id: idx * 2, matched: false },
-        { type, id: idx * 2 + 1, matched: false },
+      const doubled = fetchedCardTypes.flatMap((type, index) => [
+        { type, id: index * 2, matched: false },
+        { type, id: index * 2 + 1, matched: false },
       ]);
       setCards(shuffleArray(doubled));
       setFirstChoice(null);
@@ -84,7 +80,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
     if (firstChoice && secondChoice) {
       setDisabled(true);
       if (firstChoice.type === secondChoice.type) {
-        setCards(prev => prev.map(c => (c.type === firstChoice.type ? { ...c, matched: true } : c)));
+        setCards(previous => previous.map(c => (c.type === firstChoice.type ? { ...c, matched: true } : c)));
         resetTurn();
       } else {
         setTimeout(resetTurn, 1000);

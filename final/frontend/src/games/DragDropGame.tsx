@@ -34,7 +34,7 @@ export const DragDropGame = (): React.JSX.Element => {
   const [solved, setSolved] = useState<Record<string, boolean>>({});
   const [gameCompleted, setGameCompleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const dragItemRef = useRef<string | null>(null);
+  const dragItemReference = useRef<string | null>(null);
 
   useEffect(() => {
     const loadPairs = async () => {
@@ -56,7 +56,7 @@ export const DragDropGame = (): React.JSX.Element => {
   }, [solved, currentPairs, gameCompleted, incrementGameCount]);
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string): void => {
-    dragItemRef.current = id;
+    dragItemReference.current = id;
     e.dataTransfer.effectAllowed = 'move';
   };
 
@@ -67,7 +67,7 @@ export const DragDropGame = (): React.JSX.Element => {
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, zoneLabel: string): void => {
     e.preventDefault();
-    const draggedId = dragItemRef.current;
+    const draggedId = dragItemReference.current;
     const draggedItem = currentPairs.find((p: GamePair) => p.id === draggedId);
 
     if (!draggedItem || !draggedId) return;
@@ -76,7 +76,7 @@ export const DragDropGame = (): React.JSX.Element => {
     const origBg = target.style.backgroundColor;
 
     if (draggedItem.match === zoneLabel) {
-      setSolved(prev => ({ ...prev, [draggedId]: true }));
+      setSolved(previous => ({ ...previous, [draggedId]: true }));
       // Green blink for correct drop
       target.style.backgroundColor = '#e0ffe0';
       setTimeout(() => {
@@ -89,7 +89,7 @@ export const DragDropGame = (): React.JSX.Element => {
         target.style.backgroundColor = origBg;
       }, 500);
     }
-    dragItemRef.current = null;
+    dragItemReference.current = null;
   };
 
   const restartGame = async (): Promise<void> => {
@@ -108,7 +108,7 @@ export const DragDropGame = (): React.JSX.Element => {
   };
 
   const allSolved = Object.keys(solved).length === currentPairs.length;
-  const zoneLabels = Array.from(new Set(currentPairs.map((p: GamePair) => p.match)));
+  const zoneLabels = [...new Set(currentPairs.map((p: GamePair) => p.match))];
 
   // Don't render anything until pairs are loaded
   if (loading || currentPairs.length === 0) {

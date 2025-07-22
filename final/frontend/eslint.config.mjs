@@ -25,6 +25,7 @@ export default tseslint.config([
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-confusing-void-expression': 'off',
+      'unicorn/filename-case': ['off', { case: 'kebabCase', ignore: ['*.tsx'] }],
     },
     languageOptions: {
       ecmaVersion: 2020,

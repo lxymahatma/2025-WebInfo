@@ -66,7 +66,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
                 Failed to Load Game Information
               </Title>
               <Paragraph>Please try refreshing the page or check your connection.</Paragraph>
-              <Button onClick={() => window.location.reload()}>Retry</Button>
+              <Button onClick={() => globalThis.location.reload()}>Retry</Button>
             </Space>
           </Card>
         </div>

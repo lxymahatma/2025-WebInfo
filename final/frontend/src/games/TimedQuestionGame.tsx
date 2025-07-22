@@ -40,8 +40,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   };
 
   useEffect(() => {
-    const handleAnswer = (idx: number | null): void => {
-      if (idx !== null && idx === currentQuestion.correctAnswer) {
+    const handleAnswer = (index: number | null): void => {
+      if (index !== null && index === currentQuestion.correctAnswer) {
         setScore(score + 1);
       }
       setTimeout(() => {
@@ -87,12 +87,12 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     await fetchQuestions(subject);
   };
 
-  const handleOptionClick = (idx: number): void => {
+  const handleOptionClick = (index: number): void => {
     if (!isAnswered) {
-      setSelectedOption(idx);
+      setSelectedOption(index);
       setIsAnswered(true);
-      const handleAnswer = (answerIdx: number | null): void => {
-        if (answerIdx !== null && answerIdx === currentQuestion.correctAnswer) {
+      const handleAnswer = (answerIndex: number | null): void => {
+        if (answerIndex !== null && answerIndex === currentQuestion.correctAnswer) {
           setScore(score + 1);
         }
         setTimeout(() => {
@@ -108,7 +108,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
           }
         }, 1200);
       };
-      handleAnswer(idx);
+      handleAnswer(index);
     }
   };
 
@@ -280,16 +280,16 @@ export const TimedQuestionGame = (): React.JSX.Element => {
               {currentQuestion.question}
             </Title>
             <Space direction="vertical" size="middle" className="w-full">
-              {currentQuestion.options.map((option: string, idx: number) => {
+              {currentQuestion.options.map((option: string, index: number) => {
                 let type: 'default' | 'primary' | 'dashed' | 'link' | 'text' = 'default';
                 let danger = false;
                 let buttonClass = 'font-medium text-lg';
 
-                if (selectedOption === idx) {
-                  type = idx === currentQuestion.correctAnswer ? 'primary' : 'default';
-                  danger = idx !== currentQuestion.correctAnswer;
-                  buttonClass += idx === currentQuestion.correctAnswer ? ' bg-green-50' : ' bg-red-50';
-                } else if (isAnswered && idx === currentQuestion.correctAnswer) {
+                if (selectedOption === index) {
+                  type = index === currentQuestion.correctAnswer ? 'primary' : 'default';
+                  danger = index !== currentQuestion.correctAnswer;
+                  buttonClass += index === currentQuestion.correctAnswer ? ' bg-green-50' : ' bg-red-50';
+                } else if (isAnswered && index === currentQuestion.correctAnswer) {
                   buttonClass += ' bg-green-50';
                 }
 
@@ -302,7 +302,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                     disabled={isAnswered}
                     size="large"
                     className={buttonClass}
-                    onClick={() => handleOptionClick(idx)}
+                    onClick={() => handleOptionClick(index)}
                   >
                     {option}
                   </Button>

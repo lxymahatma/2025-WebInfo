@@ -29,7 +29,7 @@ export interface IncrementGameRequest {
   gameType: keyof GameStats;
 }
 
-export interface GameTrackerProviderProps {
+export interface GameTrackerProviderProperties {
   children: ReactNode;
 }
 

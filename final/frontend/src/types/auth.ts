@@ -4,7 +4,7 @@ export interface AuthContextType {
   signout: () => void;
 }
 
-export interface AuthProviderProps {
+export interface AuthProviderProperties {
   children: React.ReactNode;
 }
 

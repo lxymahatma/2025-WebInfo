@@ -33,11 +33,7 @@ export const fetchMemoryCards = async (): Promise<string[]> => {
     const response = await fetch(`${API_BASE_URL}/game/memory/cards`);
     const data = (await response.json()) as MemoryCardsResponse;
 
-    if (data.cards) {
-      return data.cards;
-    } else {
-      return ['Dog', 'Cat', 'Mouse', 'Hamster'];
-    }
+    return data.cards ? data.cards : ['Dog', 'Cat', 'Mouse', 'Hamster'];
   } catch (error) {
     console.error('Error fetching cards from backend:', error);
     return ['Dog', 'Cat', 'Mouse', 'Hamster'];
