@@ -40,6 +40,15 @@ export interface GameDashboardResponse {
   userStats: GameStats;
 }
 
+// Game Statistics Response Types
+export interface GameStatsResponse {
+  stats: GameStats;
+}
+
+export interface UpdateGameStatsRequest {
+  gameType: "dragdrop" | "timed" | "memory";
+}
+
 // Drag & Drop Game Types
 export interface DragDropPair {
   id: string;

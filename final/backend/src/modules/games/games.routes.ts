@@ -1,13 +1,13 @@
 import { Router, type Request, type Response } from "express";
 import { shuffle, groupBy, sampleSize } from "es-toolkit";
 import { verifyToken } from "shared/middleware";
+import type { AuthRequest, ErrorResponse } from "shared/types";
 import type {
-  AuthRequest,
-  ErrorResponse,
+  DragDropPair,
+  GameDashboardResponse,
   GameStatsResponse,
   UpdateGameStatsRequest,
-} from "shared/types";
-import type { DragDropPair, GameDashboardResponse } from "./games.types";
+} from "./games.types";
 import { readGamesDB } from "./games.repository";
 import { readUsersDB, writeUsersDB } from "modules/users";
 
@@ -85,7 +85,6 @@ router.get("/timed/questions", (req: Request, res: Response) => {
     return res.status(404).json({ message: "No questions found for this subject" });
   }
 
-  // Use es-toolkit's shuffle for better randomization
   const shuffledQuestions = shuffle(subjectQuestions);
   res.json({ questions: shuffledQuestions });
 });

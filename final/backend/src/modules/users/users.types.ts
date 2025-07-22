@@ -1,14 +1,13 @@
 import type { GameStats } from "shared/types";
+export interface UserDB {
+  users: User[];
+}
 
 export interface User {
   username: string;
   password: string;
   gameStats: GameStats;
   language: string;
-}
-
-export interface UserDB {
-  users: User[];
 }
 
 export interface ProfileResponse {
