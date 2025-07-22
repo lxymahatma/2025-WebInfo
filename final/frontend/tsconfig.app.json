@@ -26,6 +26,14 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "baseUrl": "src",
+    "paths": {
+      "@eduplayground/shared": [
+        "../shared/src/index.ts"
+      ],
+      "@eduplayground/shared/*": [
+        "../shared/src/*"
+      ]
+    }
   },
   "include": [
     "src"

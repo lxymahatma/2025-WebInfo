@@ -1,4 +1,5 @@
 import type { Request } from "express";
+import type { GameStats } from "@eduplayground/shared";
 
 export interface AuthRequest extends Request {
   user?: {
@@ -6,12 +7,5 @@ export interface AuthRequest extends Request {
   };
 }
 
-export interface ErrorResponse {
-  message: string;
-}
-
-export interface GameStats {
-  dragdrop: number;
-  timed: number;
-  memory: number;
-}
+// Re-export shared types for backwards compatibility
+export type { GameStats, ErrorResponse, ApiResponse } from "@eduplayground/shared";
