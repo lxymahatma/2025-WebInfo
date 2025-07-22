@@ -43,7 +43,7 @@ export const ProfilePage = (): React.JSX.Element => {
     equippedEmojis: [] as string[],
   });
 
-  const [actualPassword, setActualPassword] = useState(''); // Store the actual password separately
+  const [actualPassword, setActualPassword] = useState('');
 
   const [editModal, setEditModal] = useState(false);
   const [editingProfile, setEditingProfile] = useState(profile);
