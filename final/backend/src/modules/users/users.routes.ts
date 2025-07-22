@@ -1,4 +1,5 @@
-import { Router, type Request, type Response } from "express";
+import { Router } from "express";
+import type { Request, Response } from "express";
 import { pick, merge } from "es-toolkit";
 import { verifyToken } from "shared/middleware";
 import type { AuthRequest, ErrorResponse } from "shared/types";
@@ -10,15 +11,14 @@ const router = Router();
 router.get(
   "/profile",
   verifyToken,
-  (req: AuthRequest, res: Response<ProfileResponse | ErrorResponse>) => {
-    const userDb = readUsersDB();
-
-    const user = userDb.users.find((u) => u.username === req.user?.username);
+  (request: AuthRequest, response: Response<ProfileResponse | ErrorResponse>): void => {
+    const userDatabase = readUsersDB();
+    const user = userDatabase.users.find((u) => u.username === request.user?.username);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      response.status(404).json({ message: "User not found" });
+      return;
     }
-
-    res.json({
+    response.json({
       user: pick(user, ["username", "password"]),
     });
   }
@@ -28,27 +28,24 @@ router.put(
   "/profile",
   verifyToken,
   (
-    req: Request<object, ProfileResponse | ErrorResponse, UpdateProfileRequestBody>,
-    res: Response<ProfileResponse | ErrorResponse>
-  ) => {
-    const userDb = readUsersDB();
-    const userIndex = userDb.users.findIndex(
-      (u) => u.username === (req as AuthRequest).user?.username
+    request: Request<object, ProfileResponse | ErrorResponse, UpdateProfileRequestBody>,
+    response: Response<ProfileResponse | ErrorResponse>
+  ): void => {
+    const userDatabase = readUsersDB();
+    const userIndex = userDatabase.users.findIndex(
+      (u) => u.username === (request as AuthRequest).user?.username
     );
-
     if (userIndex === -1) {
-      return res.status(404).json({ message: "User not found" });
+      response.status(404).json({ message: "User not found" });
+      return;
     }
-
-    const updates = { ...req.body };
-    userDb.users[userIndex] = merge(userDb.users[userIndex], updates);
-
-    writeUsersDB(userDb);
-
-    res.json({
-      user: pick(userDb.users[userIndex], ["username", "password"]),
+    const updates = { ...request.body };
+    userDatabase.users[userIndex] = merge(userDatabase.users[userIndex], updates);
+    writeUsersDB(userDatabase);
+    response.json({
+      user: pick(userDatabase.users[userIndex], ["username", "password"]),
     });
   }
 );
 
-export const usersRouter = router;
+export { router as usersRouter };

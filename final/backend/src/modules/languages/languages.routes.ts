@@ -10,16 +10,16 @@ const router = Router();
 router.get(
   "/",
   verifyToken,
-  (req: AuthRequest, res: Response<LanguageResponse | ErrorResponse>) => {
+  (request: AuthRequest, response: Response<LanguageResponse | ErrorResponse>) => {
     const languageDB = readLanguagesDB();
-    const userDb = readUsersDB();
+    const userDatabase = readUsersDB();
 
-    const user = userDb.users.find((u) => u.username === req.user?.username);
+    const user = userDatabase.users.find((u) => u.username === request.user?.username);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return response.status(404).json({ message: "User not found" });
     }
 
-    res.json({
+    response.json({
       translations: languageDB.translations,
       userLanguage: user.language,
     });
@@ -29,24 +29,27 @@ router.get(
 router.put(
   "/",
   verifyToken,
-  (req: AuthRequest, res: Response<{ message: string; language: string } | ErrorResponse>) => {
-    const { language }: UpdateLanguageRequest = req.body as UpdateLanguageRequest;
+  (
+    request: AuthRequest,
+    response: Response<{ message: string; language: string } | ErrorResponse>
+  ) => {
+    const { language }: UpdateLanguageRequest = request.body as UpdateLanguageRequest;
     const languageDB = readLanguagesDB();
-    const userDb = readUsersDB();
+    const userDatabase = readUsersDB();
 
-    const user = userDb.users.find((u) => u.username === req.user?.username);
+    const user = userDatabase.users.find((u) => u.username === request.user?.username);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return response.status(404).json({ message: "User not found" });
     }
 
     if (!(language in languageDB.translations)) {
-      return res.status(400).json({ message: "Invalid language" });
+      return response.status(400).json({ message: "Invalid language" });
     }
 
     user.language = language;
-    writeUsersDB(userDb);
+    writeUsersDB(userDatabase);
 
-    res.json({ message: "Language updated successfully", language });
+    response.json({ message: "Language updated successfully", language });
   }
 );
 

@@ -12,20 +12,20 @@ const router = Router();
 router.post(
   "/signup",
   (
-    req: Request<object, AuthResponse | ErrorResponse, SignupRequestBody>,
-    res: Response<AuthResponse | ErrorResponse>
+    request: Request<object, AuthResponse | ErrorResponse, SignupRequestBody>,
+    response: Response<AuthResponse | ErrorResponse>
   ) => {
-    const { username, password } = req.body;
+    const { username, password } = request.body;
 
     if (!isString(username) || !isString(password) || !trim(username) || !trim(password)) {
-      return res.status(400).json({ message: "Username and password are required" });
+      return response.status(400).json({ message: "Username and password are required" });
     }
 
-    const db = readUsersDB();
-    const existingUser = db.users.find((u) => u.username === username);
+    const database = readUsersDB();
+    const existingUser = database.users.find((u) => u.username === username);
 
     if (existingUser) {
-      return res.status(400).json({ message: "Username already exists" });
+      return response.status(400).json({ message: "Username already exists" });
     }
 
     const newUser: User = {
@@ -39,37 +39,37 @@ router.post(
       language: "Eng",
     };
 
-    db.users.push(newUser);
-    writeUsersDB(db);
+    database.users.push(newUser);
+    writeUsersDB(database);
 
     const token = jwt.sign({ username: newUser.username }, SECRET, {
       expiresIn: "1h",
     });
-    res.json({ token, username: newUser.username });
+    response.json({ token, username: newUser.username });
   }
 );
 
 router.post(
   "/signin",
   (
-    req: Request<object, AuthResponse | ErrorResponse, SigninRequestBody>,
-    res: Response<AuthResponse | ErrorResponse>
+    request: Request<object, AuthResponse | ErrorResponse, SigninRequestBody>,
+    response: Response<AuthResponse | ErrorResponse>
   ) => {
-    const { username, password } = req.body;
-    const db = readUsersDB();
-    const user = db.users.find((u) => u.username === username && u.password === password);
+    const { username, password } = request.body;
+    const database = readUsersDB();
+    const user = database.users.find((u) => u.username === username && u.password === password);
 
     if (user) {
       const token = jwt.sign({ username: user.username }, SECRET, { expiresIn: "1h" });
-      res.json({ token, username: user.username });
+      response.json({ token, username: user.username });
     } else {
-      res.status(401).json({ message: "Invalid credentials" });
+      response.status(401).json({ message: "Invalid credentials" });
     }
   }
 );
 
-router.post("/signout", verifyToken, (_req: AuthRequest, res: Response<ErrorResponse>) => {
-  res.json({ message: "Successfully signed out" });
+router.post("/signout", verifyToken, (_request: AuthRequest, response: Response<ErrorResponse>) => {
+  response.json({ message: "Successfully signed out" });
 });
 
 export const authRouter = router;

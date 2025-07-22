@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import react from 'eslint-plugin-react-x';
 import reactDom from 'eslint-plugin-react-dom';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import { globalIgnores } from 'eslint/config';
 
 export default tseslint.config([
@@ -15,6 +16,7 @@ export default tseslint.config([
       js.configs.recommended,
       tseslint.configs.strictTypeChecked,
       tseslint.configs.stylisticTypeChecked,
+      eslintPluginUnicorn.configs.recommended,
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
       react.configs.recommended,

@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import http from "http";
+import http from "node:http";
 import { authRouter, usersRouter, gamesRouter, languagesRouter } from "modules";
 
 const PORT = 3001;
