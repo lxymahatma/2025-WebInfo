@@ -24,15 +24,3 @@ export interface AuthResponse {
 export interface ErrorResponse {
   message: string;
 }
-
-export interface ProfileResponse {
-  user: {
-    username: string;
-    password: string;
-  };
-}
-
-export interface UpdateProfileRequestBody {
-  username?: string;
-  password?: string;
-}

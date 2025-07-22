@@ -1,16 +1,16 @@
 import { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { isString, trim } from "es-toolkit";
-import { verifyToken, SECRET } from "middleware";
+import { verifyToken, SECRET } from "shared/middleware";
 import {
   AuthRequest,
   AuthResponse,
   ErrorResponse,
   SignupRequestBody,
   SigninRequestBody,
-  User,
-} from "types";
-import { readUserDB, writeUserDB } from "utils";
+} from "./auth.types";
+import type { User } from "modules/users";
+import { readUsersDB, writeUsersDB } from "modules/users";
 
 const router = Router();
 
@@ -26,7 +26,7 @@ router.post(
       return res.status(400).json({ message: "Username and password are required" });
     }
 
-    const db = readUserDB();
+    const db = readUsersDB();
     const existingUser = db.users.find((u) => u.username === username);
 
     if (existingUser) {
@@ -45,7 +45,7 @@ router.post(
     };
 
     db.users.push(newUser);
-    writeUserDB(db);
+    writeUsersDB(db);
 
     const token = jwt.sign({ username: newUser.username }, SECRET, {
       expiresIn: "1h",
@@ -61,7 +61,7 @@ router.post(
     res: Response<AuthResponse | ErrorResponse>
   ) => {
     const { username, password } = req.body;
-    const db = readUserDB();
+    const db = readUsersDB();
     const user = db.users.find((u) => u.username === username && u.password === password);
 
     if (user) {

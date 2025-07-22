@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "tsx watch --clear-screen=false server.ts",
+    "dev": "tsx watch --clear-screen=false src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },

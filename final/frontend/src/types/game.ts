@@ -1,18 +1,18 @@
 import type { ReactNode } from 'react';
 
-export interface GameInfo {
+export interface GameCard {
   name: string;
   icon: string;
   description: string;
-  color: string;
-  tailwindColor: string;
+  backgroundColor: string;
+  textColor: string;
   path: string;
 }
 
 export interface GameInfoResponse {
-  dragdrop: GameInfo;
-  timed: GameInfo;
-  memory: GameInfo;
+  dragdrop: GameCard;
+  timed: GameCard;
+  memory: GameCard;
 }
 
 export interface GameStats {

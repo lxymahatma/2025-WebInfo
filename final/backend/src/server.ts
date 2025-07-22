@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import http from "http";
-import { authRouter, userRouter, gameRouter, languageRouter } from "routes";
+import { authRouter, usersRouter, gamesRouter, languagesRouter } from "modules";
 
 const PORT = 3001;
 
@@ -13,9 +13,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/", authRouter);
-app.use("/", userRouter);
-app.use("/game", gameRouter);
-app.use("/languages", languageRouter);
+app.use("/", usersRouter);
+app.use("/game", gamesRouter);
+app.use("/languages", languagesRouter);
 
 server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

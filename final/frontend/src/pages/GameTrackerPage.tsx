@@ -5,7 +5,7 @@ import { TrophyOutlined, ReloadOutlined, ExclamationCircleOutlined } from '@ant-
 
 import { useGameTracker } from 'components';
 import type { GameInfoResponse } from 'types';
-import { fetchGameInfo } from 'utils/api/gameStats';
+import { fetchGameCard } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -18,7 +18,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
   useEffect(() => {
     const loadGameInfo = async () => {
       setLoading(true);
-      const info = await fetchGameInfo();
+      const info = await fetchGameCard();
       setGameInfo(info);
       setLoading(false);
     };
@@ -158,7 +158,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
                       <Statistic
                         title="Times Played"
                         value={stats[gameKey as keyof typeof stats]}
-                        className={`w-full text-center font-bold ${info.tailwindColor}`}
+                        className={`w-full text-center font-bold ${info.textColor}`}
                       />
                     </div>
 

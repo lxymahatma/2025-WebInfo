@@ -1,14 +1,20 @@
 import { Router, Request, Response } from "express";
 import { randomInt, shuffle, groupBy, sampleSize, uniq } from "es-toolkit";
-import { readGamesDB, readUserDB, writeUserDB } from "utils";
-import { verifyToken } from "middleware";
-import { AuthRequest, GameStatsResponse, ErrorResponse, UpdateGameStatsRequest } from "types";
+import { verifyToken } from "shared/middleware";
+import {
+  AuthRequest,
+  GameStatsResponse,
+  ErrorResponse,
+  UpdateGameStatsRequest,
+} from "./games.types";
+import { readGamesDB } from "./games.repository";
+import { readUsersDB, writeUsersDB } from "modules/users";
 
 const router = Router();
 
-router.get("/info", (req: Request, res: Response) => {
+router.get("/cards", (req: Request, res: Response) => {
   const db = readGamesDB();
-  res.json(db.gameInfo);
+  res.json(db.cards);
 });
 
 router.get("/memory/cards", (req: Request, res: Response) => {
@@ -70,7 +76,7 @@ router.get(
   "/stats",
   verifyToken,
   (req: AuthRequest, res: Response<GameStatsResponse | ErrorResponse>) => {
-    const userDb = readUserDB();
+    const userDb = readUsersDB();
     const user = userDb.users.find((u) => u.username === req.user?.username);
 
     if (!user) {
@@ -83,7 +89,7 @@ router.get(
         timed: 0,
         memory: 0,
       };
-      writeUserDB(userDb);
+      writeUsersDB(userDb);
     }
 
     res.json({ stats: user.gameStats });
@@ -104,7 +110,7 @@ router.post(
       return res.status(400).json({ message: "Invalid game type" });
     }
 
-    const userDb = readUserDB();
+    const userDb = readUsersDB();
     const user = userDb.users.find((u) => u.username === authReq.user?.username);
 
     if (!user) {
@@ -121,7 +127,7 @@ router.post(
 
     user.gameStats[gameType]++;
 
-    writeUserDB(userDb);
+    writeUsersDB(userDb);
     res.json({ stats: user.gameStats });
   }
 );
@@ -130,7 +136,7 @@ router.post(
   "/stats/reset",
   verifyToken,
   (req: AuthRequest, res: Response<GameStatsResponse | ErrorResponse>) => {
-    const userDb = readUserDB();
+    const userDb = readUsersDB();
     const user = userDb.users.find((u) => u.username === req.user?.username);
 
     if (!user) {
@@ -143,9 +149,9 @@ router.post(
       memory: 0,
     };
 
-    writeUserDB(userDb);
+    writeUsersDB(userDb);
     res.json({ stats: user.gameStats });
   }
 );
 
-export const gameRouter = router;
+export const gamesRouter = router;

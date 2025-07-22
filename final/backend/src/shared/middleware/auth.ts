@@ -1,6 +1,11 @@
 import jwt from "jsonwebtoken";
 import { Response, NextFunction } from "express";
-import { AuthRequest } from "types";
+
+interface AuthRequest extends Request {
+  user?: {
+    username: string;
+  };
+}
 
 const SECRET = "mySecretKey";
 

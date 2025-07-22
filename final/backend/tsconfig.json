@@ -6,7 +6,7 @@
       "ES2020"
     ],
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -15,37 +15,21 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "types/*": [
-        "types/*"
+      "modules/*": [
+        "modules/*"
       ],
-      "types": [
-        "types"
+      "shared/*": [
+        "shared/*"
       ],
-      "routes/*": [
-        "routes/*"
-      ],
-      "routes": [
-        "routes"
-      ],
-      "utils/*": [
-        "utils/*"
-      ],
-      "utils": [
-        "utils"
-      ],
-      "middleware/*": [
-        "middleware/*"
-      ],
-      "middleware": [
-        "middleware"
+      "shared": [
+        "shared"
       ]
     }
   },
   "include": [
-    "*.ts",
-    "**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",

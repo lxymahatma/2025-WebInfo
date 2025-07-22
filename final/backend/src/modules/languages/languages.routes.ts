@@ -1,7 +1,13 @@
 import { Router, Response } from "express";
-import { verifyToken } from "middleware";
-import { AuthRequest, LanguageResponse, ErrorResponse, UpdateLanguageRequest } from "types";
-import { readLanguageDB, readUserDB, writeUserDB } from "utils";
+import { verifyToken } from "shared/middleware";
+import {
+  AuthRequest,
+  LanguageResponse,
+  ErrorResponse,
+  UpdateLanguageRequest,
+} from "./languages.types";
+import { readLanguagesDB } from "./languages.repository";
+import { readUsersDB, writeUsersDB } from "modules/users";
 
 const router = Router();
 
@@ -9,8 +15,8 @@ router.get(
   "/",
   verifyToken,
   (req: AuthRequest, res: Response<LanguageResponse | ErrorResponse>) => {
-    const languageDB = readLanguageDB();
-    const userDb = readUserDB();
+    const languageDB = readLanguagesDB();
+    const userDb = readUsersDB();
 
     const user = userDb.users.find((u) => u.username === req.user?.username);
     if (!user) {
@@ -29,8 +35,8 @@ router.put(
   verifyToken,
   (req: AuthRequest, res: Response<{ message: string; language: string } | ErrorResponse>) => {
     const { language }: UpdateLanguageRequest = req.body;
-    const languageDB = readLanguageDB();
-    const userDb = readUserDB();
+    const languageDB = readLanguagesDB();
+    const userDb = readUsersDB();
 
     const user = userDb.users.find((u) => u.username === req.user?.username);
     if (!user) {
@@ -42,10 +48,10 @@ router.put(
     }
 
     user.language = language;
-    writeUserDB(userDb);
+    writeUsersDB(userDb);
 
     res.json({ message: "Language updated successfully", language });
   }
 );
 
-export const languageRouter = router;
+export const languagesRouter = router;

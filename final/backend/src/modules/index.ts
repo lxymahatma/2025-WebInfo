@@ -1,4 +1,4 @@
-export * from "./auth";
-export * from "./user";
 export * from "./games";
+export * from "./users";
+export * from "./auth";
 export * from "./languages";
