@@ -55,24 +55,24 @@ export const DragDropGame = (): React.JSX.Element => {
     }
   }, [solved, currentPairs, gameCompleted, incrementGameCount]);
 
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: string): void => {
+  const handleDragStart = (event: React.DragEvent<HTMLDivElement>, id: string): void => {
     dragItemReference.current = id;
-    e.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.effectAllowed = 'move';
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>): void => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, zoneLabel: string): void => {
-    e.preventDefault();
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>, zoneLabel: string): void => {
+    event.preventDefault();
     const draggedId = dragItemReference.current;
     const draggedItem = currentPairs.find((p: GamePair) => p.id === draggedId);
 
     if (!draggedItem || !draggedId) return;
 
-    const target = e.currentTarget as HTMLElement;
+    const target = event.currentTarget as HTMLElement;
     const origBg = target.style.backgroundColor;
 
     if (draggedItem.match === zoneLabel) {
@@ -209,7 +209,7 @@ export const DragDropGame = (): React.JSX.Element => {
               <div
                 key={id}
                 draggable={!solved[id]}
-                onDragStart={e => handleDragStart(e, id)}
+                onDragStart={event => handleDragStart(event, id)}
                 className={`flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-2xl text-center font-semibold transition-all duration-300 md:h-20 md:w-25 ${
                   solved[id]
                     ? 'scale-95 cursor-default bg-gradient-to-br from-gray-400 to-gray-600 opacity-60 shadow-md'
@@ -229,7 +229,7 @@ export const DragDropGame = (): React.JSX.Element => {
           <div
             key={zoneLabel}
             onDragOver={handleDragOver}
-            onDrop={e => handleDrop(e, zoneLabel)}
+            onDrop={event => handleDrop(event, zoneLabel)}
             className="flex min-h-20 items-center justify-center rounded-2xl border-3 border-dashed border-cyan-600 bg-white text-xl font-semibold text-cyan-600 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-800 hover:bg-blue-50 hover:shadow-xl"
           >
             {zoneLabel}

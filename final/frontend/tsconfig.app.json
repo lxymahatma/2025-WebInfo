@@ -26,38 +26,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "baseUrl": "src",
-    "paths": {
-      "components/*": [
-        "components/*"
-      ],
-      "components": [
-        "components"
-      ],
-      "pages/*": [
-        "pages/*"
-      ],
-      "pages": [
-        "pages"
-      ],
-      "games/*": [
-        "games/*"
-      ],
-      "games": [
-        "games"
-      ],
-      "types/*": [
-        "types/*"
-      ],
-      "types": [
-        "types"
-      ],
-      "utils/api": [
-        "utils/api"
-      ],
-      "utils/api/*": [
-        "utils/api/*"
-      ]
-    }
   },
   "include": [
     "src"

@@ -308,8 +308,8 @@ export const ProfilePage = (): React.JSX.Element => {
   // Handle file upload
   const handleFileUpload = (file: File) => {
     const reader = new FileReader();
-    reader.addEventListener('load', e => {
-      const result = e.target?.result;
+    reader.addEventListener('load', event => {
+      const result = event.target?.result;
       if (result && typeof result === 'string') {
         handleProfilePictureChange(result);
         message.success(t.profilePictureUploaded);
@@ -324,7 +324,7 @@ export const ProfilePage = (): React.JSX.Element => {
     setProfile(previous => ({
       ...previous,
       equippedEmojis: previous.equippedEmojis.includes(emoji)
-        ? previous.equippedEmojis.filter(e => e !== emoji)
+        ? previous.equippedEmojis.filter(equippedEmoji => equippedEmoji !== emoji)
         : [...previous.equippedEmojis, emoji],
     }));
   };
@@ -492,11 +492,11 @@ export const ProfilePage = (): React.JSX.Element => {
                     <Input
                       placeholder={t.enterImageUrl}
                       className="mb-4"
-                      onPressEnter={e => {
-                        const url = (e.target as HTMLInputElement).value;
+                      onPressEnter={event => {
+                        const url = (event.target as HTMLInputElement).value;
                         if (url) {
                           handleProfilePictureChange(url);
-                          (e.target as HTMLInputElement).value = '';
+                          (event.target as HTMLInputElement).value = '';
                           message.success(t.profilePictureUpdated);
                         }
                       }}
@@ -551,12 +551,12 @@ export const ProfilePage = (): React.JSX.Element => {
           <Input
             addonBefore={t.name}
             value={editingProfile.name}
-            onChange={e => setEditingProfile(p => ({ ...p, name: e.target.value }))}
+            onChange={event => setEditingProfile(p => ({ ...p, name: event.target.value }))}
           />
           <Input.Password
             addonBefore={t.password}
             value={editingProfile.password}
-            onChange={e => setEditingProfile(p => ({ ...p, password: e.target.value }))}
+            onChange={event => setEditingProfile(p => ({ ...p, password: event.target.value }))}
             placeholder={t.enterNewPassword}
             iconRender={visible => (visible ? <EyeInvisibleOutlined /> : <EyeOutlined />)}
           />

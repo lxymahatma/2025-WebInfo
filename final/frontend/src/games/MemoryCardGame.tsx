@@ -177,14 +177,14 @@ export const MemoryCardGame = (): React.JSX.Element => {
   );
 };
 
-interface CardComponentProps {
+interface CardComponentProperties {
   card: CardType;
   flipped: boolean;
   handleChoice: (card: CardType) => void;
   disabled: boolean;
 }
 
-function Card({ card, flipped, handleChoice, disabled }: CardComponentProps) {
+function Card({ card, flipped, handleChoice, disabled }: CardComponentProperties) {
   function onClick() {
     if (!flipped && !disabled) handleChoice(card);
   }

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { useAuth } from 'components';
 import type { GameStats, GameTrackerProviderProperties, GameStatsResponse, IncrementGameRequest } from 'types';
-import { GameTrackerContext } from './GameTrackerContext';
+import { GameTrackerContext } from './game-tracker-context';
 
 function getToken() {
   return localStorage.getItem('token');

@@ -27,18 +27,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "baseUrl": "./src",
-    "paths": {
-      "modules/*": [
-        "modules/*"
-      ],
-      "shared/*": [
-        "shared/*"
-      ],
-      "shared": [
-        "shared"
-      ]
-    }
+    "baseUrl": "src",
   },
   "include": [
     "src"

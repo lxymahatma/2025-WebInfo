@@ -1,3 +1,3 @@
-export * from './GameTrackerContext';
+export * from './game-tracker-context';
 export * from './GameTrackerProvider';
-export * from './useGameTracker';
+export * from './use-game-tracker';

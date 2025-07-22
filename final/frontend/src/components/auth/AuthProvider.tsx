@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { message } from 'antd';
 
 import type { AuthProviderProperties } from 'types';
-import { AuthContext } from './AuthContext';
+import { AuthContext } from './auth-context';
 
 function getToken() {
   return localStorage.getItem('token');
