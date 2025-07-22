@@ -1,21 +1,13 @@
-// Game Card
-export interface GameCard {
-  name: string;
-  icon: string;
-  description: string;
-  backgroundColor: string;
-  textColor: string;
-  path: string;
-}
-
-export interface GameCardResponse {
-  dragdrop: GameCard;
-  timed: GameCard;
-  memory: GameCard;
-}
+import type { GameStats } from "shared/types";
 
 export interface GamesDB {
-  cards: GameCardResponse;
+  dashboard: {
+    cards: {
+      dragdrop: GameDashboardCard;
+      timed: GameDashboardCard;
+      memory: GameDashboardCard;
+    };
+  };
   dragdrop: {
     pairs: DragDropPair[];
   };
@@ -25,6 +17,27 @@ export interface GamesDB {
   timed: {
     questions: TimedQuizQuestion[];
   };
+}
+
+// Game Dashboard Types
+export interface GameDashboardCard {
+  name: string;
+  icon: string;
+  description: string;
+  backgroundColor: string;
+  textColor: string;
+  path: string;
+}
+
+export interface GameDashboardResponse {
+  dashboard: {
+    cards: {
+      dragdrop: GameDashboardCard;
+      timed: GameDashboardCard;
+      memory: GameDashboardCard;
+    };
+  };
+  userStats: GameStats;
 }
 
 // Drag & Drop Game Types

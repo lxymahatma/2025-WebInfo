@@ -59,7 +59,7 @@ export const fetchDragDropPairs = async (difficulty: string): Promise<GamePair[]
 
 export const fetchGameCard = async (): Promise<GameInfoResponse | null> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/game/cards`);
+    const response = await fetch(`${API_BASE_URL}/game/dashboard`);
 
     if (response.ok) {
       const data = (await response.json()) as GameInfoResponse;

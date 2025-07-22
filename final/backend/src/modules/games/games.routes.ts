@@ -7,16 +7,33 @@ import type {
   GameStatsResponse,
   UpdateGameStatsRequest,
 } from "shared/types";
-import type { DragDropPair } from "./games.types";
+import type { DragDropPair, GameDashboardResponse } from "./games.types";
 import { readGamesDB } from "./games.repository";
 import { readUsersDB, writeUsersDB } from "modules/users";
 
 const router = Router();
 
-router.get("/cards", (_req: Request, res: Response) => {
-  const db = readGamesDB();
-  res.json(db.cards);
-});
+router.get(
+  "/dashboard",
+  verifyToken,
+  (req: AuthRequest, res: Response<GameDashboardResponse | ErrorResponse>) => {
+    const gamesDb = readGamesDB();
+    const usersDb = readUsersDB();
+
+    const user = usersDb.users.find((u) => u.username === req.user?.username);
+
+    const userStats = user?.gameStats ?? {
+      dragdrop: 0,
+      timed: 0,
+      memory: 0,
+    };
+
+    res.json({
+      dashboard: gamesDb.dashboard,
+      userStats: userStats,
+    });
+  }
+);
 
 router.get("/memory/cards", (_req: Request, res: Response) => {
   const db = readGamesDB();
