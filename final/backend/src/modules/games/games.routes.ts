@@ -1,17 +1,20 @@
 import { Router, type Request, type Response } from "express";
 import { shuffle, groupBy, sampleSize } from "es-toolkit";
 import { verifyToken } from "shared/middleware";
-import type { AuthRequest, ErrorResponse } from "shared/types";
+import type { AuthRequest } from "shared/types";
+import type { ErrorResponse } from "@eduplayground/shared/error";
+import type { DragDropPair } from "./games.types";
 import type {
-  DragDropPair,
   GameDashboardResponse,
   GameStatsResponse,
   UpdateGameStatsRequest,
-} from "./games.types";
+} from "@eduplayground/shared/game";
 import { readGamesDB } from "./games.repository";
 import { readUsersDB, writeUsersDB } from "modules/users";
 
 const router = Router();
+
+type DebugType = GameDashboardResponse;
 
 router.get(
   "/dashboard",

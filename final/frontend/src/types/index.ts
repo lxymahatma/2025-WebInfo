@@ -4,3 +4,4 @@ export * from './game';
 export * from './memory-card';
 export * from './timed-question';
 export * from './translation';
+export * from '@eduplayground/shared';

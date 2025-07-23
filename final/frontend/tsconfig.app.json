@@ -28,7 +28,7 @@
     "baseUrl": "src",
     "paths": {
       "@eduplayground/shared": [
-        "../shared/src/index.ts"
+        "../shared/src/types/index.ts"
       ],
       "@eduplayground/shared/*": [
         "../shared/src/*"

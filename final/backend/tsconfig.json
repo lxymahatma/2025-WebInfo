@@ -4,12 +4,10 @@
     "lib": [
       "ES2022"
     ],
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "dist",
     "module": "ESNext",
     "skipLibCheck": true,
-    /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
@@ -29,11 +27,8 @@
     "sourceMap": true,
     "baseUrl": "src",
     "paths": {
-      "@eduplayground/shared": [
-        "../shared/src/index.ts"
-      ],
       "@eduplayground/shared/*": [
-        "../shared/src/*"
+        "../../shared/src/types/*"
       ]
     }
   },

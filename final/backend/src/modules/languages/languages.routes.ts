@@ -1,7 +1,8 @@
 import { Router, type Response } from "express";
 import { verifyToken } from "shared/middleware";
-import type { AuthRequest, ErrorResponse } from "shared/types";
-import type { LanguageResponse, UpdateLanguageRequest } from "./languages.types";
+import type { AuthRequest } from "shared/types";
+import type { LanguageResponse, UpdateLanguageRequest } from "@eduplayground/shared/language";
+import type { ErrorResponse } from "@eduplayground/shared/error";
 import { readLanguagesDB } from "./languages.repository";
 import { readUsersDB, writeUsersDB } from "modules/users";
 

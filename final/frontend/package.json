@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
-    "@eduplayground/shared": "file:../shared",
     "antd": "^5.26.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

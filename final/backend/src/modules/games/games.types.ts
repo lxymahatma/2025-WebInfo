@@ -1,4 +1,4 @@
-import type { GameStats } from "shared/types";
+import type { GameDashboardCard } from "@eduplayground/shared/game";
 
 export interface GamesDB {
   dashboard: {
@@ -17,36 +17,6 @@ export interface GamesDB {
   timed: {
     questions: TimedQuizQuestion[];
   };
-}
-
-// Game Dashboard Types
-export interface GameDashboardCard {
-  name: string;
-  icon: string;
-  description: string;
-  backgroundColor: string;
-  textColor: string;
-  path: string;
-}
-
-export interface GameDashboardResponse {
-  dashboard: {
-    cards: {
-      dragdrop: GameDashboardCard;
-      timed: GameDashboardCard;
-      memory: GameDashboardCard;
-    };
-  };
-  userStats: GameStats;
-}
-
-// Game Statistics Response Types
-export interface GameStatsResponse {
-  stats: GameStats;
-}
-
-export interface UpdateGameStatsRequest {
-  gameType: "dragdrop" | "timed" | "memory";
 }
 
 // Drag & Drop Game Types

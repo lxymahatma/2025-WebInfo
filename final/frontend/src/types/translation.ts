@@ -32,20 +32,4 @@ export interface Translations {
 }
 
 // API Response Types
-export interface User {
-  username: string;
-  password: string;
-}
-
-export interface ProfileResponse {
-  user: User;
-}
-
-export interface LanguageResponse {
-  translations: Translations;
-  userLanguage?: string;
-}
-
-export interface ErrorResponse {
-  message?: string;
-}
+export type { User, ProfileResponse, LanguageResponse, ErrorResponse } from '@eduplayground/shared';
