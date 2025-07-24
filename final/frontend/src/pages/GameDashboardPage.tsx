@@ -1,14 +1,14 @@
-import { ExclamationCircleOutlined,ReloadOutlined, TrophyOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Divider, Modal, Row, Space, Spin,Statistic, Typography } from 'antd';
+import { ExclamationCircleOutlined, ReloadOutlined, TrophyOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Divider, Modal, Row, Space, Spin, Statistic, Typography } from 'antd';
 import { useGameTracker } from 'components';
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { GameInfoResponse } from 'types';
 import { fetchDashboardCard } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
-export const GameTrackerPage = (): React.JSX.Element => {
+export const GameDashboardPage = (): React.JSX.Element => {
   const { stats, resetStats } = useGameTracker();
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
   const [gameInfo, setGameInfo] = useState<GameInfoResponse>();

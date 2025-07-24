@@ -30,6 +30,3 @@ export interface Translations {
   Eng: TranslationKeys;
   JP: TranslationKeys;
 }
-
-// API Response Types
-export type { ErrorResponse,LanguageResponse, ProfileResponse, User } from '@eduplayground/shared';

@@ -15,6 +15,25 @@ import type { AuthRequest } from "shared/types";
 const router = Router();
 
 router.post(
+  "/signin",
+  (
+    request: Request<object, AuthResponse | ErrorResponse, SigninRequestBody>,
+    response: Response<AuthResponse | ErrorResponse>
+  ) => {
+    const { username, password } = request.body;
+    const database = readUsersDB();
+    const user = database.users.find((u) => u.username === username && u.password === password);
+
+    if (user) {
+      const token = jwt.sign({ username: user.username }, SECRET, { expiresIn: "1h" });
+      response.json({ token, username: user.username });
+    } else {
+      response.status(401).json({ message: "Invalid credentials" });
+    }
+  }
+);
+
+router.post(
   "/signup",
   (
     request: Request<object, AuthResponse | ErrorResponse, SignupRequestBody>,
@@ -51,25 +70,6 @@ router.post(
       expiresIn: "1h",
     });
     response.json({ token, username: newUser.username });
-  }
-);
-
-router.post(
-  "/signin",
-  (
-    request: Request<object, AuthResponse | ErrorResponse, SigninRequestBody>,
-    response: Response<AuthResponse | ErrorResponse>
-  ) => {
-    const { username, password } = request.body;
-    const database = readUsersDB();
-    const user = database.users.find((u) => u.username === username && u.password === password);
-
-    if (user) {
-      const token = jwt.sign({ username: user.username }, SECRET, { expiresIn: "1h" });
-      response.json({ token, username: user.username });
-    } else {
-      response.status(401).json({ message: "Invalid credentials" });
-    }
   }
 );
 

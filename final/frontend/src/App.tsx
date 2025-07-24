@@ -1,6 +1,6 @@
-import { AuthProvider, GameTrackerProvider,NavBar, useAuth } from 'components';
+import { AuthProvider, GameTrackerProvider, NavBar, useAuth } from 'components';
 import { DragDropGame, MemoryCardGame, TimedQuestionGame } from 'games';
-import { GameTrackerPage, HomePage, ProfilePage, SignInPage, SignUpPage } from 'pages';
+import { GameDashboardPage, HomePage, ProfilePage, SignInPage, SignUpPage } from 'pages';
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 function AppContent() {
@@ -17,7 +17,7 @@ function AppContent() {
           <Route path="/signin" element={user ? <Navigate to="/" /> : <SignInPage />} />
           <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUpPage />} />
           <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/" />} />
-          <Route path="/tracker" element={user ? <GameTrackerPage /> : <Navigate to="/" />} />
+          <Route path="/tracker" element={user ? <GameDashboardPage /> : <Navigate to="/" />} />
           <Route path="/dragdrop" element={user ? <DragDropGame /> : <Navigate to="/" />} />
           <Route path="/memory" element={user ? <MemoryCardGame /> : <Navigate to="/" />} />
           <Route path="/timed" element={user ? <TimedQuestionGame /> : <Navigate to="/" />} />

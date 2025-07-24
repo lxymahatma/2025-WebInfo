@@ -1,6 +1,6 @@
 import { message } from 'antd';
-import { useCallback,useEffect, useMemo, useState } from 'react';
-import type { AuthProviderProperties } from 'types';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { AuthProviderProperties } from 'types/auth';
 
 import { AuthContext } from './auth-context';
 
