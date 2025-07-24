@@ -1,4 +1,5 @@
 import fs from "node:fs";
+
 import type { GamesDB } from "./games.types";
 
 export const readGamesDB = (): GamesDB => {

@@ -1,4 +1,5 @@
 import fs from "node:fs";
+
 import type { UserDB } from "./users.types";
 
 export const readUsersDB = (): UserDB => {

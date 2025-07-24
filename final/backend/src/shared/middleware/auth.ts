@@ -1,5 +1,6 @@
+import type { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
-import type { Response, NextFunction } from "express";
+
 import type { AuthRequest } from "../types";
 
 const SECRET = "mySecretKey";

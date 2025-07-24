@@ -1,16 +1,16 @@
-import { Router, type Request, type Response } from "express";
-import jwt from "jsonwebtoken";
-import { isString, trim } from "es-toolkit";
-import { verifyToken, SECRET } from "shared/middleware";
-import type { AuthRequest } from "shared/types";
-import type { ErrorResponse } from "@eduplayground/shared/error";
 import type {
   AuthResponse,
-  SignupRequestBody,
   SigninRequestBody,
+  SignupRequestBody,
 } from "@eduplayground/shared/auth";
+import type { ErrorResponse } from "@eduplayground/shared/error";
 import type { User } from "@eduplayground/shared/user";
+import { isString, trim } from "es-toolkit";
+import { type Request, type Response, Router } from "express";
+import jwt from "jsonwebtoken";
 import { readUsersDB, writeUsersDB } from "modules/users";
+import { SECRET, verifyToken } from "shared/middleware";
+import type { AuthRequest } from "shared/types";
 
 const router = Router();
 

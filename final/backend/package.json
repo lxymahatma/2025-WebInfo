@@ -17,18 +17,11 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.31.0",
     "@types/body-parser": "^1.19.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.0.13",
-    "eslint": "^9.31.0",
-    "eslint-plugin-unicorn": "^60.0.0",
-    "globals": "^16.3.0",
     "ts-node": "^10.9.2",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0"
+    "tsx": "^4.20.3"
   }
 }

@@ -1,7 +1,3 @@
-import { Router, type Request, type Response } from "express";
-import { shuffle, groupBy, sampleSize } from "es-toolkit";
-import { verifyToken } from "shared/middleware";
-import type { AuthRequest } from "shared/types";
 import type { ErrorResponse } from "@eduplayground/shared/error";
 import type {
   DragDropPair,
@@ -11,8 +7,13 @@ import type {
   MemoryCardsResponse,
   UpdateGameStatsRequest,
 } from "@eduplayground/shared/game";
-import { readGamesDB } from "./games.repository";
+import { groupBy, sampleSize, shuffle } from "es-toolkit";
+import { type Request, type Response, Router } from "express";
 import { readUsersDB, writeUsersDB } from "modules/users";
+import { verifyToken } from "shared/middleware";
+import type { AuthRequest } from "shared/types";
+
+import { readGamesDB } from "./games.repository";
 
 const router = Router();
 

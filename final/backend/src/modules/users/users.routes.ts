@@ -1,10 +1,11 @@
-import { Router } from "express";
-import type { Request, Response } from "express";
-import { merge } from "es-toolkit";
-import { verifyToken } from "shared/middleware";
-import type { AuthRequest } from "shared/types";
 import type { ErrorResponse } from "@eduplayground/shared/error";
 import type { ProfileResponse, UpdateProfileRequestBody } from "@eduplayground/shared/user";
+import { merge } from "es-toolkit";
+import type { Request, Response } from "express";
+import { Router } from "express";
+import { verifyToken } from "shared/middleware";
+import type { AuthRequest } from "shared/types";
+
 import { readUsersDB, writeUsersDB } from "./users.repository";
 
 const router = Router();

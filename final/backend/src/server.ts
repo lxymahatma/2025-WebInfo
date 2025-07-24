@@ -1,8 +1,9 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
 import http from "node:http";
-import { authRouter, usersRouter, gamesRouter, languagesRouter } from "modules";
+
+import bodyParser from "body-parser";
+import cors from "cors";
+import express from "express";
+import { authRouter, gamesRouter, languagesRouter, usersRouter } from "modules";
 import { SERVER_PORT } from "shared/config/constants";
 
 const app = express();

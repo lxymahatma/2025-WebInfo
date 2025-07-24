@@ -1,4 +1,5 @@
 import fs from "node:fs";
+
 import type { LanguageDB } from "./languages.types";
 
 export const readLanguagesDB = (): LanguageDB => {

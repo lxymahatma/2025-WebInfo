@@ -1,10 +1,11 @@
-import { Router, type Response } from "express";
+import type { ErrorResponse } from "@eduplayground/shared/error";
+import type { LanguageResponse, UpdateLanguageRequest } from "@eduplayground/shared/language";
+import { type Response, Router } from "express";
+import { readUsersDB, writeUsersDB } from "modules/users";
 import { verifyToken } from "shared/middleware";
 import type { AuthRequest } from "shared/types";
-import type { LanguageResponse, UpdateLanguageRequest } from "@eduplayground/shared/language";
-import type { ErrorResponse } from "@eduplayground/shared/error";
+
 import { readLanguagesDB } from "./languages.repository";
-import { readUsersDB, writeUsersDB } from "modules/users";
 
 const router = Router();
 

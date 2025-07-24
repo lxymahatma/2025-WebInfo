@@ -1,7 +1,7 @@
 import type {
-  MemoryCard,
-  GameDashboardCard,
   DragDropPair,
+  GameDashboardCard,
+  MemoryCard,
   TimedQuizQuestion,
 } from "@eduplayground/shared/game";
 
