@@ -1,5 +1,5 @@
-import type { ProfileResponse, LanguageResponse } from 'types';
 import { API_BASE_URL } from 'config/api';
+import type { LanguageResponse,ProfileResponse } from 'types';
 
 export const fetchUserProfile = async (token: string): Promise<ProfileResponse> => {
   const response = await fetch(`${API_BASE_URL}/profile`, {

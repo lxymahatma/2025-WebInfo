@@ -11,6 +11,3 @@ export interface CardProperties {
   disabled: boolean;
 }
 
-export interface MemoryCardsResponse {
-  cards?: string[];
-}

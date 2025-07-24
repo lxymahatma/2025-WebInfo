@@ -1,35 +1,33 @@
-import React, { useState, useEffect } from 'react';
 import {
-  Card,
-  Button,
-  Row,
-  Col,
+  BellOutlined,
+  DownOutlined,
+  EditOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  SettingOutlined,
+  UploadOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import {
   Avatar,
-  Typography,
+  Button,
+  Card,
+  Col,
   Divider,
-  Menu,
   Dropdown,
-  Modal,
   Input,
+  Menu,
+  message,
+  Modal,
+  Row,
   Select,
   Space,
+  Typography,
   Upload,
-  message,
 } from 'antd';
-
-import {
-  UserOutlined,
-  SettingOutlined,
-  BellOutlined,
-  EditOutlined,
-  DownOutlined,
-  UploadOutlined,
-  EyeOutlined,
-  EyeInvisibleOutlined,
-} from '@ant-design/icons';
-
 import { useAuth } from 'components';
-import type { Translations, TranslationKeys, ProfileResponse, LanguageResponse, ErrorResponse } from 'types';
+import React, { useEffect,useState } from 'react';
+import type { ErrorResponse,LanguageResponse, ProfileResponse, TranslationKeys, Translations } from 'types';
 
 const { Text } = Typography;
 

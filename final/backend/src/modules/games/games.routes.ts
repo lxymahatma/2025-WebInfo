@@ -3,18 +3,18 @@ import { shuffle, groupBy, sampleSize } from "es-toolkit";
 import { verifyToken } from "shared/middleware";
 import type { AuthRequest } from "shared/types";
 import type { ErrorResponse } from "@eduplayground/shared/error";
-import type { DragDropPair } from "./games.types";
 import type {
+  DragDropPair,
+  DragDropPairsResponse,
   GameDashboardResponse,
   GameStatsResponse,
+  MemoryCardsResponse,
   UpdateGameStatsRequest,
 } from "@eduplayground/shared/game";
 import { readGamesDB } from "./games.repository";
 import { readUsersDB, writeUsersDB } from "modules/users";
 
 const router = Router();
-
-type DebugType = GameDashboardResponse;
 
 router.get(
   "/dashboard",
@@ -38,41 +38,43 @@ router.get(
   }
 );
 
-router.get("/memory/cards", (_request: Request, response: Response) => {
-  const database = readGamesDB();
+router.get(
+  "/memory/cards",
+  (_request: Request, response: Response<MemoryCardsResponse | ErrorResponse>) => {
+    const database = readGamesDB();
 
-  if (database.memory.cards.length === 0) {
-    return response.json({ cards: ["Dog", "Cat", "Mouse", "Hamster"] });
+    const cards = sampleSize(database.memory.cards, 4).map((card) => card.type);
+
+    response.json({ cards });
   }
+);
 
-  const cards = sampleSize(database.memory.cards, 4).map((card) => card.type);
+router.get(
+  "/dragdrop/pairs",
+  (request: Request, response: Response<DragDropPairsResponse | ErrorResponse>) => {
+    const database = readGamesDB();
+    const difficulty = request.query.difficulty as string;
 
-  response.json({ cards });
-});
+    const itemsPerCategory = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
 
-router.get("/dragdrop/pairs", (request: Request, response: Response) => {
-  const database = readGamesDB();
-  const difficulty = request.query.difficulty as string;
+    const count = itemsPerCategory[difficulty as keyof typeof itemsPerCategory];
 
-  const itemsPerCategory = {
-    easy: 1,
-    medium: 2,
-    hard: 3,
-  };
+    const groupedPairs = groupBy(database.dragdrop.pairs, (pair) => pair.match);
+    const selectedPairs: DragDropPair[] = [];
 
-  const count = itemsPerCategory[difficulty as keyof typeof itemsPerCategory];
+    for (const categoryPairs of Object.values(groupedPairs)) {
+      const sampledPairs = sampleSize(categoryPairs, Math.min(count, categoryPairs.length));
+      selectedPairs.push(...sampledPairs);
+    }
 
-  const groupedPairs = groupBy(database.dragdrop.pairs, (pair) => pair.match);
-  const selectedPairs: DragDropPair[] = [];
-
-  for (const categoryPairs of Object.values(groupedPairs)) {
-    const sampledPairs = sampleSize(categoryPairs, Math.min(count, categoryPairs.length));
-    selectedPairs.push(...sampledPairs);
+    const finalPairs = shuffle(selectedPairs);
+    response.json(finalPairs);
   }
-
-  const finalPairs = shuffle(selectedPairs);
-  response.json(finalPairs);
-});
+);
 
 router.get("/timed/questions", (request: Request, response: Response) => {
   const database = readGamesDB();

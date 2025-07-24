@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Card, Space, Tag, Typography, Progress, Result } from 'antd';
-
+import { Button, Card, Progress, Result,Space, Tag, Typography } from 'antd';
 import { useGameTracker } from 'components';
+import React, { useEffect,useState } from 'react';
 import type { Question, Subject, TimedQuestionsResponse } from 'types';
 
 const { Title, Paragraph } = Typography;

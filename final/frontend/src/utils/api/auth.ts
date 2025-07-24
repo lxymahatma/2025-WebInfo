@@ -1,5 +1,5 @@
-import type { SignInResponse, SignUpResponse, ErrorResponse } from 'types';
 import { API_BASE_URL } from 'config/api';
+import type { ErrorResponse,SignInResponse, SignUpResponse } from 'types';
 
 export const signIn = async (values: { username: string; password: string }): Promise<SignInResponse> => {
   const response = await fetch(`${API_BASE_URL}/signin`, {

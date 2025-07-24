@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Typography, Spin } from 'antd';
-
+import { Button, Spin,Typography } from 'antd';
 import { useGameTracker } from 'components';
+import React, { useEffect,useState } from 'react';
 import type { CardType, MemoryCardsResponse } from 'types';
 
 const { Title, Paragraph } = Typography;

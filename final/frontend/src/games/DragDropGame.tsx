@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Button, Typography, Space, Spin } from 'antd';
-
+import { Button, Space, Spin,Typography } from 'antd';
 import { useGameTracker } from 'components';
+import React, { useEffect,useRef, useState } from 'react';
 import type { GamePair } from 'types';
 
 const { Title, Paragraph } = Typography;

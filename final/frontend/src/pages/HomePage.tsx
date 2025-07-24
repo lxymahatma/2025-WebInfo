@@ -1,8 +1,7 @@
+import { Button, Modal,Typography } from 'antd';
+import { useAuth } from 'components';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, Button, Modal } from 'antd';
-
-import { useAuth } from 'components';
 
 const { Title, Paragraph } = Typography;
 

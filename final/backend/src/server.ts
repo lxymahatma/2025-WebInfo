@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use("/", authRouter);
 app.use("/", usersRouter);
 app.use("/game", gamesRouter);
-app.use("/languages", languagesRouter);
+app.use("/language", languagesRouter);
 
 server.listen(SERVER_PORT, () => {
   console.log(`Server running at http://localhost:${SERVER_PORT}`);

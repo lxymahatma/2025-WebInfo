@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, Space, Typography, Button, Row, Col, Statistic, Divider, Modal, Spin } from 'antd';
-import { TrophyOutlined, ReloadOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-
+import { ExclamationCircleOutlined,ReloadOutlined, TrophyOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Divider, Modal, Row, Space, Spin,Statistic, Typography } from 'antd';
 import { useGameTracker } from 'components';
+import React, { useEffect,useState } from 'react';
+import { Link } from 'react-router-dom';
 import type { GameInfoResponse } from 'types';
-import { fetchGameCard } from 'utils/api/game';
+import { fetchDashboardCard } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -18,7 +17,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
   useEffect(() => {
     const loadGameInfo = async () => {
       setLoading(true);
-      const info = await fetchGameCard();
+      const info = await fetchDashboardCard();
       setGameInfo(info);
       setLoading(false);
     };
@@ -165,12 +164,12 @@ export const GameTrackerPage = (): React.JSX.Element => {
                     <div className="mx-auto flex w-4/5 flex-col items-center justify-center rounded-xl p-5">
                       <Statistic
                         title="Times Played"
-                        value={stats[gameKey as keyof typeof stats]}
+                        value={stats[gameKey]}
                         className={`w-full text-center font-bold ${info.textColor}`}
                       />
                     </div>
 
-                    {stats[gameKey as keyof typeof stats] > 0 && (
+                    {stats[gameKey] > 0 && (
                       <div className="mx-auto flex w-4/5 items-center justify-center rounded-lg border border-green-300 bg-green-50 p-3">
                         <Paragraph className="m-0 text-center font-medium text-green-600">
                           🎉 You've mastered this game!
@@ -178,7 +177,7 @@ export const GameTrackerPage = (): React.JSX.Element => {
                       </div>
                     )}
 
-                    {stats[gameKey as keyof typeof stats] === 0 && (
+                    {stats[gameKey] === 0 && (
                       <Link to={info.path} className="mx-auto w-4/5 no-underline">
                         <div className="flex w-[90%] cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
                           <Paragraph className="m-0 text-center font-medium text-orange-600">
