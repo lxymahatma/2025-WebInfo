@@ -44,7 +44,7 @@ router.get(
   (_request: Request, response: Response<MemoryCardsResponse | ErrorResponse>) => {
     const database = readGamesDB();
 
-    const cards = sampleSize(database.memory.cards, 4).map((card) => card.type);
+    const cards = sampleSize(database.memory.cards, 4);
 
     response.json({ cards });
   }
@@ -73,7 +73,7 @@ router.get(
     }
 
     const finalPairs = shuffle(selectedPairs);
-    response.json(finalPairs);
+    response.json({ pairs: finalPairs });
   }
 );
 
