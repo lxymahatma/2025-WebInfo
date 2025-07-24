@@ -70,7 +70,7 @@ export const NavBar = () => {
           <span>
             Welcome, <strong>{user}</strong>!
           </span>
-          <Button type="primary" danger onClick={() => void signout()}>
+          <Button type="primary" danger onClick={() => signout()}>
             Signout
           </Button>
         </div>

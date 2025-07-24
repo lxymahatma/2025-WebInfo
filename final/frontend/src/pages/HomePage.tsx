@@ -15,7 +15,7 @@ export const HomePage = (): React.JSX.Element => {
       okText: 'Yes, Logout',
       cancelText: 'Cancel',
       onOk: () => {
-        void signout();
+        signout();
       },
     });
   };

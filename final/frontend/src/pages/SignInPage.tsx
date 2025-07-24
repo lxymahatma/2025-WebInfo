@@ -1,5 +1,5 @@
-import { LockOutlined,UserOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, message,Typography } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Card, Form, Input, message, Typography } from 'antd';
 import { useAuth } from 'components';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -27,6 +27,7 @@ export const SignInPage = (): React.JSX.Element => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.username);
 
+      setLoading(false);
       message.success('Sign in success!');
 
       setTimeout(() => {

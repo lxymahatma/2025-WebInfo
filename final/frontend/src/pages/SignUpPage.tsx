@@ -1,9 +1,9 @@
-import { LockOutlined,UserOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, message,Typography } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Card, Form, Input, message, Typography } from 'antd';
 import { useAuth } from 'components';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import type { ErrorResponse,SignInResponse } from 'types';
+import { signUp } from 'utils/api/auth';
 
 const { Title, Text } = Typography;
 
@@ -28,30 +28,19 @@ export const SignUpPage = (): React.JSX.Element => {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
+      const data = await signUp({ username: values.username, password: values.password });
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.username);
 
-      if (response.ok) {
-        const data = (await response.json()) as SignInResponse;
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
+      setLoading(false);
+      message.success('Sign up success!');
 
-        message.success('Sign up success!');
-
-        setTimeout(() => {
-          signin(data.username);
-          void navigate('/');
-        }, 800);
-      } else {
-        const error = (await response.json()) as ErrorResponse;
-        message.error(error.message ?? 'Sign up failed');
-        setLoading(false);
-      }
-    } catch {
-      message.error('Network error. Please try again.');
+      setTimeout(() => {
+        signin(data.username);
+        void navigate('/');
+      }, 800);
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : 'Network error. Please try again.');
       setLoading(false);
     }
   };
