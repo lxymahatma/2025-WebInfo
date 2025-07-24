@@ -3,7 +3,7 @@ import { Button, Card, Form, Input, message, Typography } from 'antd';
 import { useAuth } from 'components';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signIn } from 'utils/api';
+import { signIn } from 'utils/api/auth';
 
 const { Title, Text } = Typography;
 

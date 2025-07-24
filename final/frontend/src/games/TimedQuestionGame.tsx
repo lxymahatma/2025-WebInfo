@@ -2,7 +2,7 @@ import type { Subject, TimedQuizQuestion, TimedQuizQuestionsResponse } from '@ed
 import { Button, Card, Progress, Result, Space, Tag, Typography } from 'antd';
 import { useGameTracker } from 'components';
 import React, { useEffect, useState } from 'react';
-import { fetchTimedQuizQuestions } from 'utils/api';
+import { fetchTimedQuizQuestions } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 

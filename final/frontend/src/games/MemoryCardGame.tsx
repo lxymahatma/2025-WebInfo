@@ -3,7 +3,7 @@ import { useGameTracker } from 'components';
 import { flatMap, shuffle } from 'es-toolkit';
 import React, { useEffect, useState } from 'react';
 import type { CardType } from 'types/game';
-import { fetchMemoryCards } from 'utils/api';
+import { fetchMemoryCards } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 

@@ -2,6 +2,7 @@ import type { DragDropPair } from '@eduplayground/shared/game';
 import { Button, Space, Spin, Typography } from 'antd';
 import { useGameTracker } from 'components';
 import React, { useEffect, useRef, useState } from 'react';
+import { fetchDragDropPairs } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -12,19 +13,6 @@ const DIFFICULTY_LEVELS = {
 } as const;
 
 type DifficultyLevel = keyof typeof DIFFICULTY_LEVELS;
-
-const fetchPairs = async (difficulty: DifficultyLevel): Promise<DragDropPair[]> => {
-  try {
-    const response = await fetch(`http://localhost:3001/game/dragdrop/pairs?difficulty=${difficulty}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch pairs');
-    }
-    return (await response.json()) as DragDropPair[];
-  } catch (error) {
-    console.error('Error fetching pairs:', error);
-    return [];
-  }
-};
 
 export const DragDropGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
@@ -38,8 +26,13 @@ export const DragDropGame = (): React.JSX.Element => {
   useEffect(() => {
     const loadPairs = async () => {
       setLoading(true);
-      const pairs = await fetchPairs(difficulty);
-      setCurrentPairs(pairs);
+      const data = await fetchDragDropPairs(difficulty);
+      if (!data) {
+        console.error('Failed to load pairs');
+        setLoading(false);
+        return;
+      }
+      setCurrentPairs(data.pairs);
       setLoading(false);
     };
     void loadPairs();
@@ -95,8 +88,13 @@ export const DragDropGame = (): React.JSX.Element => {
     setSolved({});
     setGameCompleted(false);
     setLoading(true);
-    const pairs = await fetchPairs(difficulty);
-    setCurrentPairs(pairs);
+    const data = await fetchDragDropPairs(difficulty);
+    if (!data) {
+      console.error('Failed to load pairs');
+      setLoading(false);
+      return;
+    }
+    setCurrentPairs(data.pairs);
     setLoading(false);
   };
 
