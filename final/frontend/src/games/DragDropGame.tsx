@@ -1,7 +1,7 @@
-import { Button, Space, Spin,Typography } from 'antd';
+import type { DragDropPair } from '@eduplayground/shared/game';
+import { Button, Space, Spin, Typography } from 'antd';
 import { useGameTracker } from 'components';
-import React, { useEffect,useRef, useState } from 'react';
-import type { GamePair } from 'types';
+import React, { useEffect, useRef, useState } from 'react';
 
 const { Title, Paragraph } = Typography;
 
@@ -13,13 +13,13 @@ const DIFFICULTY_LEVELS = {
 
 type DifficultyLevel = keyof typeof DIFFICULTY_LEVELS;
 
-const fetchPairs = async (difficulty: DifficultyLevel): Promise<GamePair[]> => {
+const fetchPairs = async (difficulty: DifficultyLevel): Promise<DragDropPair[]> => {
   try {
     const response = await fetch(`http://localhost:3001/game/dragdrop/pairs?difficulty=${difficulty}`);
     if (!response.ok) {
       throw new Error('Failed to fetch pairs');
     }
-    return (await response.json()) as GamePair[];
+    return (await response.json()) as DragDropPair[];
   } catch (error) {
     console.error('Error fetching pairs:', error);
     return [];
@@ -29,7 +29,7 @@ const fetchPairs = async (difficulty: DifficultyLevel): Promise<GamePair[]> => {
 export const DragDropGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('medium');
-  const [currentPairs, setCurrentPairs] = useState<GamePair[]>([]);
+  const [currentPairs, setCurrentPairs] = useState<DragDropPair[]>([]);
   const [solved, setSolved] = useState<Record<string, boolean>>({});
   const [gameCompleted, setGameCompleted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -67,7 +67,7 @@ export const DragDropGame = (): React.JSX.Element => {
   const handleDrop = (event: React.DragEvent<HTMLDivElement>, zoneLabel: string): void => {
     event.preventDefault();
     const draggedId = dragItemReference.current;
-    const draggedItem = currentPairs.find((p: GamePair) => p.id === draggedId);
+    const draggedItem = currentPairs.find((p: DragDropPair) => p.id === draggedId);
 
     if (!draggedItem || !draggedId) return;
 
@@ -107,7 +107,7 @@ export const DragDropGame = (): React.JSX.Element => {
   };
 
   const allSolved = Object.keys(solved).length === currentPairs.length;
-  const zoneLabels = [...new Set(currentPairs.map((p: GamePair) => p.match))];
+  const zoneLabels = [...new Set(currentPairs.map((p: DragDropPair) => p.match))];
 
   // Don't render anything until pairs are loaded
   if (loading || currentPairs.length === 0) {
@@ -198,7 +198,7 @@ export const DragDropGame = (): React.JSX.Element => {
       <div className="mx-auto mb-8 w-full max-w-4xl rounded-xl border-2 border-gray-200 bg-white p-5 text-center shadow-lg">
         <h3 className="mb-4 text-center text-xl font-semibold text-gray-700">Available Choices</h3>
         <div className="grid grid-cols-3 justify-items-center gap-4 md:grid-cols-6">
-          {currentPairs.map(({ id, label }: GamePair) => {
+          {currentPairs.map(({ id, label }: DragDropPair) => {
             // Split the label into emoji and text
             const parts = label.split(' ');
             const emoji = parts[0];

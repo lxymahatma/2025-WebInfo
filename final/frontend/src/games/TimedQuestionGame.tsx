@@ -1,14 +1,15 @@
-import { Button, Card, Progress, Result,Space, Tag, Typography } from 'antd';
+import type { Subject, TimedQuizQuestion, TimedQuizQuestionsResponse } from '@eduplayground/shared/game';
+import { Button, Card, Progress, Result, Space, Tag, Typography } from 'antd';
 import { useGameTracker } from 'components';
-import React, { useEffect,useState } from 'react';
-import type { Question, Subject, TimedQuestionsResponse } from 'types';
+import React, { useEffect, useState } from 'react';
+import { fetchTimedQuizQuestions } from 'utils/api';
 
 const { Title, Paragraph } = Typography;
 
 export const TimedQuestionGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
   const [selectedSubject, setSelectedSubject] = useState<Subject>();
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<TimedQuizQuestion[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [timeLeft, setTimeLeft] = useState<number>(15);
@@ -18,25 +19,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   const [gameFinished, setGameFinished] = useState<boolean>(false);
 
   const currentQuestion = questions[currentQuestionIndex];
-
-  const fetchQuestions = async (subject: Subject): Promise<void> => {
-    setLoading(true);
-    try {
-      const response = await fetch(`http://localhost:3001/game/timed/questions?subject=${subject}`);
-      if (response.ok) {
-        const data = (await response.json()) as TimedQuestionsResponse;
-        setQuestions(data.questions);
-      } else {
-        console.error('Failed to fetch questions');
-        setQuestions([]);
-      }
-    } catch (error) {
-      console.error('Error fetching questions:', error);
-      setQuestions([]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     const handleAnswer = (index?: number): void => {
@@ -83,7 +65,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     setIsAnswered(false);
     setScore(0);
     setGameFinished(false);
-    await fetchQuestions(subject);
+    await fetchTimedQuizQuestions(subject);
   };
 
   const handleOptionClick = (index: number): void => {

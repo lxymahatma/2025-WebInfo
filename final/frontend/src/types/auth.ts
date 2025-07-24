@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export interface AuthContextType {
   user: string | undefined;
   signin: (username: string) => void;
@@ -5,5 +7,5 @@ export interface AuthContextType {
 }
 
 export interface AuthProviderProperties {
-  children: React.ReactNode;
+  children: ReactNode;
 }

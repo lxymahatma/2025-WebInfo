@@ -1,28 +1,28 @@
 import { ExclamationCircleOutlined, ReloadOutlined, TrophyOutlined } from '@ant-design/icons';
+import type { GameDashboardResponse } from '@eduplayground/shared/game';
 import { Button, Card, Col, Divider, Modal, Row, Space, Spin, Statistic, Typography } from 'antd';
 import { useGameTracker } from 'components';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import type { GameInfoResponse } from 'types';
-import { fetchDashboardCard } from 'utils/api/game';
+import { fetchDashboard } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
 export const GameDashboardPage = (): React.JSX.Element => {
   const { stats, resetStats } = useGameTracker();
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
-  const [gameInfo, setGameInfo] = useState<GameInfoResponse>();
+  const [dashboard, setDashboard] = useState<GameDashboardResponse>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadGameInfo = async () => {
+    const loadGameDashboard = async () => {
       setLoading(true);
-      const info = await fetchDashboardCard();
-      setGameInfo(info);
+      const dashboard = await fetchDashboard();
+      setDashboard(dashboard);
       setLoading(false);
     };
 
-    void loadGameInfo();
+    void loadGameDashboard();
   }, []);
 
   const totalGamesPlayed = stats.dragdrop + stats.timed + stats.memory;
@@ -55,7 +55,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
     );
   }
 
-  if (!gameInfo) {
+  if (!dashboard) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
         <div className="mx-auto max-w-6xl">
@@ -145,52 +145,55 @@ export const GameDashboardPage = (): React.JSX.Element => {
         </Card>
 
         <Row gutter={[24, 24]}>
-          {(Object.entries(gameInfo) as [keyof GameInfoResponse, GameInfoResponse[keyof GameInfoResponse]][]).map(
-            ([gameKey, info]) => (
-              <Col xs={24} sm={12} lg={8} key={gameKey}>
-                <Card
-                  hoverable
-                  className="h-full rounded-2xl bg-white/95 p-6 backdrop-blur-md transition-all duration-300"
-                >
-                  <Space direction="vertical" size="middle" className="w-full text-center">
-                    <div>
-                      <div className="mb-3 text-6xl">{info.icon}</div>
-                      <Title level={3} className="m-0 text-gray-800">
-                        {info.name}
-                      </Title>
-                      <Paragraph className="mx-0 my-2 text-gray-600">{info.description}</Paragraph>
-                    </div>
+          {(
+            Object.entries(dashboard) as [
+              keyof GameDashboardResponse,
+              GameDashboardResponse[keyof GameDashboardResponse],
+            ][]
+          ).map(([gameKey, card]) => (
+            <Col xs={24} sm={12} lg={8} key={gameKey}>
+              <Card
+                hoverable
+                className="h-full rounded-2xl bg-white/95 p-6 backdrop-blur-md transition-all duration-300"
+              >
+                <Space direction="vertical" size="middle" className="w-full text-center">
+                  <div>
+                    <div className="mb-3 text-6xl">{card.icon}</div>
+                    <Title level={3} className="m-0 text-gray-800">
+                      {card.name}
+                    </Title>
+                    <Paragraph className="mx-0 my-2 text-gray-600">{card.description}</Paragraph>
+                  </div>
 
-                    <div className="mx-auto flex w-4/5 flex-col items-center justify-center rounded-xl p-5">
-                      <Statistic
-                        title="Times Played"
-                        value={stats[gameKey]}
-                        className={`w-full text-center font-bold ${info.textColor}`}
-                      />
-                    </div>
+                  <div className="mx-auto flex w-4/5 flex-col items-center justify-center rounded-xl p-5">
+                    <Statistic
+                      title="Times Played"
+                      value={stats[gameKey]}
+                      className={`w-full text-center font-bold ${card.textColor}`}
+                    />
+                  </div>
 
-                    {stats[gameKey] > 0 && (
-                      <div className="mx-auto flex w-4/5 items-center justify-center rounded-lg border border-green-300 bg-green-50 p-3">
-                        <Paragraph className="m-0 text-center font-medium text-green-600">
-                          🎉 You've mastered this game!
+                  {stats[gameKey] > 0 && (
+                    <div className="mx-auto flex w-4/5 items-center justify-center rounded-lg border border-green-300 bg-green-50 p-3">
+                      <Paragraph className="m-0 text-center font-medium text-green-600">
+                        🎉 You've mastered this game!
+                      </Paragraph>
+                    </div>
+                  )}
+
+                  {stats[gameKey] === 0 && (
+                    <Link to={card.path} className="mx-auto w-4/5 no-underline">
+                      <div className="flex w-[90%] cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
+                        <Paragraph className="m-0 text-center font-medium text-orange-600">
+                          🎮 Ready to try this game?
                         </Paragraph>
                       </div>
-                    )}
-
-                    {stats[gameKey] === 0 && (
-                      <Link to={info.path} className="mx-auto w-4/5 no-underline">
-                        <div className="flex w-[90%] cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
-                          <Paragraph className="m-0 text-center font-medium text-orange-600">
-                            🎮 Ready to try this game?
-                          </Paragraph>
-                        </div>
-                      </Link>
-                    )}
-                  </Space>
-                </Card>
-              </Col>
-            )
-          )}
+                    </Link>
+                  )}
+                </Space>
+              </Card>
+            </Col>
+          ))}
         </Row>
 
         {totalGamesPlayed === 0 && (

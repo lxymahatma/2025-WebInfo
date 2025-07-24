@@ -1,6 +1,7 @@
+import type { GameStats, GameStatsResponse, IncrementGameRequest } from '@eduplayground/shared/game';
 import { useAuth } from 'components';
-import React, { useCallback,useEffect, useMemo, useState } from 'react';
-import type { GameStats, GameStatsResponse, GameTrackerProviderProperties, IncrementGameRequest } from 'types';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import type { GameTrackerProviderProperties } from 'types/game';
 
 import { GameTrackerContext } from './game-tracker-context';
 

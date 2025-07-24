@@ -10,7 +10,7 @@ import type {
 } from '@eduplayground/shared/game';
 import { API_BASE_URL } from 'config/api';
 
-export const fetchTimedQuestions = async (subject: Subject): Promise<TimedQuizQuestionsResponse | undefined> => {
+export const fetchTimedQuizQuestions = async (subject: Subject): Promise<TimedQuizQuestionsResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/timed/questions?subject=${subject}`);
 
@@ -57,7 +57,7 @@ export const fetchDragDropPairs = async (difficulty: string): Promise<DragDropPa
   }
 };
 
-export const fetchDashboardCard = async (): Promise<GameDashboardResponse | undefined> => {
+export const fetchDashboard = async (): Promise<GameDashboardResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/dashboard`);
 

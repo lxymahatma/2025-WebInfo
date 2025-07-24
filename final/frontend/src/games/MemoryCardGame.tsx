@@ -1,28 +1,11 @@
-import { Button, Spin,Typography } from 'antd';
+import { Button, Spin, Typography } from 'antd';
 import { useGameTracker } from 'components';
-import React, { useEffect,useState } from 'react';
-import type { CardType, MemoryCardsResponse } from 'types';
+import { flatMap, shuffle } from 'es-toolkit';
+import React, { useEffect, useState } from 'react';
+import type { CardType } from 'types/game';
+import { fetchMemoryCards } from 'utils/api';
 
 const { Title, Paragraph } = Typography;
-
-function shuffleArray<T>(array: T[]): T[] {
-  return array
-    .map(value => ({ value, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value);
-}
-
-async function fetchRandomCards(): Promise<string[]> {
-  try {
-    const response = await fetch('http://localhost:3001/game/memory/cards');
-    const data = (await response.json()) as MemoryCardsResponse;
-
-    return data.cards ?? ['Dog', 'Cat', 'Mouse', 'Hamster'];
-  } catch (error) {
-    console.error('Error fetching cards from backend:', error);
-    return ['Dog', 'Cat', 'Mouse', 'Hamster'];
-  }
-}
 
 export const MemoryCardGame = (): React.JSX.Element => {
   const { incrementGameCount } = useGameTracker();
@@ -38,13 +21,17 @@ export const MemoryCardGame = (): React.JSX.Element => {
   const initializeGame = async () => {
     setLoading(true);
     try {
-      const fetchedCardTypes = await fetchRandomCards();
+      const data = await fetchMemoryCards();
+      if (!data) {
+        return;
+      }
 
-      const doubled = fetchedCardTypes.flatMap((type, index) => [
+      const doubled = data.cards.flatMap((type, index) => [
         { type, id: index * 2, matched: false },
         { type, id: index * 2 + 1, matched: false },
       ]);
-      setCards(shuffleArray(doubled));
+
+      setCards(shuffle(doubled));
       setFirstChoice(undefined);
       setSecondChoice(undefined);
       setDisabled(false);

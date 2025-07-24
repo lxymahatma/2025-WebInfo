@@ -8,6 +8,9 @@ import {
   UploadOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import type { ErrorResponse } from '@eduplayground/shared/error';
+import type { LanguageResponse } from '@eduplayground/shared/language';
+import type { ProfileResponse } from '@eduplayground/shared/user';
 import {
   Avatar,
   Button,
@@ -26,8 +29,8 @@ import {
   Upload,
 } from 'antd';
 import { useAuth } from 'components';
-import React, { useEffect,useState } from 'react';
-import type { ErrorResponse,LanguageResponse, ProfileResponse, TranslationKeys, Translations } from 'types';
+import React, { useEffect, useState } from 'react';
+import type { TranslationKeys, Translations } from 'types/language';
 
 const { Text } = Typography;
 

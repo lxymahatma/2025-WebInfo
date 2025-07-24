@@ -1,5 +1,5 @@
 import { use } from 'react';
-import type { GameTrackerContextType } from 'types';
+import type { GameTrackerContextType } from 'types/game';
 
 import { GameTrackerContext } from './game-tracker-context';
 
