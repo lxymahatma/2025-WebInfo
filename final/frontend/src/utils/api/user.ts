@@ -1,5 +1,6 @@
+import type { LanguageResponse } from '@eduplayground/shared/language';
+import type { ProfileResponse } from '@eduplayground/shared/user';
 import { API_BASE_URL } from 'config/api';
-import type { LanguageResponse,ProfileResponse } from 'types';
 
 export const fetchUserProfile = async (token: string): Promise<ProfileResponse> => {
   const response = await fetch(`${API_BASE_URL}/profile`, {
@@ -9,17 +10,14 @@ export const fetchUserProfile = async (token: string): Promise<ProfileResponse> 
     },
   });
 
-  if (response.ok) {
-    return (await response.json()) as ProfileResponse;
-  } else {
+  if (!response.ok) {
+    console.error('Failed to fetch user profile', response.statusText);
     throw new Error('Failed to fetch user profile');
   }
+  return (await response.json()) as ProfileResponse;
 };
 
-export const updateUserProfile = async (
-  token: string,
-  profile: { username: string; password: string }
-): Promise<void> => {
+export const updateUserInfo = async (token: string, profile: { username: string; password: string }): Promise<void> => {
   const response = await fetch(`${API_BASE_URL}/profile`, {
     method: 'PUT',
     headers: {
@@ -30,6 +28,7 @@ export const updateUserProfile = async (
   });
 
   if (!response.ok) {
+    console.error('Failed to update user profile', response.statusText);
     throw new Error('Failed to update user profile');
   }
 };
@@ -42,11 +41,11 @@ export const fetchUserLanguages = async (token: string): Promise<LanguageRespons
     },
   });
 
-  if (response.ok) {
-    return (await response.json()) as LanguageResponse;
-  } else {
+  if (!response.ok) {
+    console.error('Failed to load translations from backend', response.statusText);
     throw new Error('Failed to load translations from backend');
   }
+  return (await response.json()) as LanguageResponse;
 };
 
 export const updateUserLanguage = async (token: string, language: string): Promise<void> => {
@@ -60,6 +59,7 @@ export const updateUserLanguage = async (token: string, language: string): Promi
   });
 
   if (!response.ok) {
+    console.error('Failed to update language preference', response.statusText);
     throw new Error('Failed to update language preference');
   }
 };
