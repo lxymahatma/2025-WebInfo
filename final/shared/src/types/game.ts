@@ -41,7 +41,7 @@ export interface UpdateGameStatsRequest {
 export interface DragDropPair {
   id: string;
   label: string;
-  match: string;
+  category: string;
 }
 
 export interface DragDropPairsResponse {

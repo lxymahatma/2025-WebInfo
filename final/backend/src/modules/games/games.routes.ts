@@ -1,6 +1,5 @@
 import type { ErrorResponse } from "@eduplayground/shared/error";
 import type {
-  DragDropPair,
   DragDropPairsResponse,
   GameDashboardResponse,
   GameStatsResponse,
@@ -64,16 +63,14 @@ router.get(
 
     const count = itemsPerCategory[difficulty as keyof typeof itemsPerCategory];
 
-    const groupedPairs = groupBy(database.dragdrop.pairs, (pair) => pair.match);
-    const selectedPairs: DragDropPair[] = [];
+    const shuffledPairs = shuffle(database.dragdrop.pairs);
+    const groupedPairs = groupBy(shuffledPairs, (pair) => pair.category);
 
-    for (const categoryPairs of Object.values(groupedPairs)) {
-      const sampledPairs = sampleSize(categoryPairs, Math.min(count, categoryPairs.length));
-      selectedPairs.push(...sampledPairs);
-    }
+    const selectedPairs = Object.values(groupedPairs).flatMap((categoryPairs) =>
+      sampleSize(categoryPairs, Math.min(count, categoryPairs.length))
+    );
 
-    const finalPairs = shuffle(selectedPairs);
-    response.json({ pairs: finalPairs });
+    response.json({ pairs: shuffle(selectedPairs) });
   }
 );
 
@@ -114,7 +111,7 @@ router.post(
   "/stats/increment",
   verifyToken,
   (request: AuthRequest, response: Response<GameStatsResponse | ErrorResponse>) => {
-    const { gameType }: UpdateGameStatsRequest = request.body as unknown as UpdateGameStatsRequest;
+    const { gameType }: UpdateGameStatsRequest = request.body as UpdateGameStatsRequest;
 
     if (!["dragdrop", "timed", "memory"].includes(gameType)) {
       return response.status(400).json({ message: "Invalid game type" });

@@ -32,152 +32,152 @@
       {
         "id": "apple",
         "label": "🍎 Apple",
-        "match": "Fruit"
+        "category": "Fruit"
       },
       {
         "id": "banana",
         "label": "🍌 Banana",
-        "match": "Fruit"
+        "category": "Fruit"
       },
       {
         "id": "orange",
         "label": "🍊 Orange",
-        "match": "Fruit"
+        "category": "Fruit"
       },
       {
         "id": "grape",
         "label": "🍇 Grape",
-        "match": "Fruit"
+        "category": "Fruit"
       },
       {
         "id": "strawberry",
         "label": "🍓 Strawberry",
-        "match": "Fruit"
+        "category": "Fruit"
       },
       {
         "id": "dog",
         "label": "🐶 Dog",
-        "match": "Animal"
+        "category": "Animal"
       },
       {
         "id": "cat",
         "label": "🐱 Cat",
-        "match": "Animal"
+        "category": "Animal"
       },
       {
         "id": "elephant",
         "label": "🐘 Elephant",
-        "match": "Animal"
+        "category": "Animal"
       },
       {
         "id": "lion",
         "label": "🦁 Lion",
-        "match": "Animal"
+        "category": "Animal"
       },
       {
         "id": "rabbit",
         "label": "🐇 Rabbit",
-        "match": "Animal"
+        "category": "Animal"
       },
       {
         "id": "car",
         "label": "🚗 Car",
-        "match": "Vehicle"
+        "category": "Vehicle"
       },
       {
         "id": "bike",
         "label": "🚲 Bike",
-        "match": "Vehicle"
+        "category": "Vehicle"
       },
       {
         "id": "airplane",
         "label": "✈️ Airplane",
-        "match": "Vehicle"
+        "category": "Vehicle"
       },
       {
         "id": "train",
         "label": "🚂 Train",
-        "match": "Vehicle"
+        "category": "Vehicle"
       },
       {
         "id": "boat",
         "label": "🚤 Boat",
-        "match": "Vehicle"
+        "category": "Vehicle"
       },
       {
         "id": "rose",
         "label": "🌹 Rose",
-        "match": "Flower"
+        "category": "Flower"
       },
       {
         "id": "sunflower",
         "label": "🌻 Sunflower",
-        "match": "Flower"
+        "category": "Flower"
       },
       {
         "id": "tulip",
         "label": "🌷 Tulip",
-        "match": "Flower"
+        "category": "Flower"
       },
       {
         "id": "daisy",
         "label": "🌼 Daisy",
-        "match": "Flower"
+        "category": "Flower"
       },
       {
         "id": "cherry_blossom",
         "label": "🌸 Cherry Blossom",
-        "match": "Flower"
+        "category": "Flower"
       },
       {
         "id": "pizza",
         "label": "🍕 Pizza",
-        "match": "Food"
+        "category": "Food"
       },
       {
         "id": "burger",
         "label": "🍔 Burger",
-        "match": "Food"
+        "category": "Food"
       },
       {
         "id": "cake",
         "label": "🎂 Cake",
-        "match": "Food"
+        "category": "Food"
       },
       {
         "id": "ice_cream",
         "label": "🍦 Ice Cream",
-        "match": "Food"
+        "category": "Food"
       },
       {
         "id": "donut",
         "label": "🍩 Donut",
-        "match": "Food"
+        "category": "Food"
       },
       {
         "id": "soccer",
         "label": "⚽ Soccer Ball",
-        "match": "Sport"
+        "category": "Sport"
       },
       {
         "id": "basketball",
         "label": "🏀 Basketball",
-        "match": "Sport"
+        "category": "Sport"
       },
       {
         "id": "tennis",
         "label": "🎾 Tennis Ball",
-        "match": "Sport"
+        "category": "Sport"
       },
       {
         "id": "baseball",
         "label": "⚾ Baseball",
-        "match": "Sport"
+        "category": "Sport"
       },
       {
         "id": "football",
         "label": "🏈 Football",
-        "match": "Sport"
+        "category": "Sport"
       }
     ]
   },

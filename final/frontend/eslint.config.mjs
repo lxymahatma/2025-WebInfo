@@ -32,6 +32,7 @@ export default tseslint.config([
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-confusing-void-expression': 'off',
       '@typescript-eslint/restrict-template-expressions': 'off',
+      'unicorn/consistent-function-scoping': 'off',
       'unicorn/filename-case': ['error', { case: 'kebabCase', ignore: [/\.tsx$/] }],
       'unicorn/prevent-abbreviations': ['error', { ignore: ['vite-env\.d'] }],
       'simple-import-sort/imports': 'error',
