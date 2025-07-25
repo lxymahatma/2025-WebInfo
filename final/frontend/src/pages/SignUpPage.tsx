@@ -3,12 +3,12 @@ import { Button, Card, Form, Input, message, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signUp } from 'utils/api/auth';
+import { signUpRequest } from 'utils/api/auth';
 
 const { Title, Text } = Typography;
 
 export const SignUpPage = (): React.JSX.Element => {
-  const { signin } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -28,15 +28,13 @@ export const SignUpPage = (): React.JSX.Element => {
 
     setLoading(true);
     try {
-      const data = await signUp({ username: values.username, password: values.password });
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('username', data.username);
+      const response = await signUpRequest(values);
 
       setLoading(false);
       message.success('Sign up success!');
 
       setTimeout(() => {
-        signin(data.username);
+        signIn(response.username, response.token);
         void navigate('/');
       }, 800);
     } catch (error) {

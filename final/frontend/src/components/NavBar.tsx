@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { useAuth } from './auth';
@@ -15,7 +15,7 @@ const navItems = [
 
 export const NavBar = () => {
   const location = useLocation();
-  const { signout, user } = useAuth();
+  const { signOut, user } = useAuth();
   const [isVisible, setIsVisible] = useState(false);
   const isHomePage = location.pathname === '/';
 
@@ -70,7 +70,7 @@ export const NavBar = () => {
           <span>
             Welcome, <strong>{user}</strong>!
           </span>
-          <Button type="primary" danger onClick={() => signout()}>
+          <Button type="primary" danger onClick={() => signOut()}>
             Signout
           </Button>
         </div>

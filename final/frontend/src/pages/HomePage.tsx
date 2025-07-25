@@ -1,4 +1,4 @@
-import { Button, Modal,Typography } from 'antd';
+import { Button, Modal, Typography } from 'antd';
 import { useAuth } from 'components';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -6,16 +6,16 @@ import { Link } from 'react-router-dom';
 const { Title, Paragraph } = Typography;
 
 export const HomePage = (): React.JSX.Element => {
-  const { user, signout } = useAuth();
+  const { user, signOut } = useAuth();
 
-  const handleLogout = () => {
+  const handleSignOut = () => {
     Modal.confirm({
-      title: 'Confirm Logout',
-      content: 'Are you sure you want to logout?',
-      okText: 'Yes, Logout',
+      title: 'Confirm Sign Out',
+      content: 'Are you sure you want to sign out?',
+      okText: 'Yes, Sign Out',
       cancelText: 'Cancel',
       onOk: () => {
-        signout();
+        signOut();
       },
     });
   };
@@ -32,7 +32,7 @@ export const HomePage = (): React.JSX.Element => {
           <Button
             type="primary"
             danger
-            onClick={handleLogout}
+            onClick={handleSignOut}
             className="rounded-lg border-none bg-red-500/90 transition-all duration-300 hover:-translate-y-px hover:bg-red-500"
           >
             Logout

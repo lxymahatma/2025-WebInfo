@@ -10,7 +10,9 @@ import type {
 } from '@eduplayground/shared/game';
 import { API_BASE_URL } from 'config/api';
 
-export const fetchTimedQuizQuestions = async (subject: Subject): Promise<TimedQuizQuestionsResponse | undefined> => {
+export const fetchTimedQuizQuestionsRequest = async (
+  subject: Subject
+): Promise<TimedQuizQuestionsResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/timed/questions?subject=${subject}`);
 
@@ -26,7 +28,7 @@ export const fetchTimedQuizQuestions = async (subject: Subject): Promise<TimedQu
   }
 };
 
-export const fetchMemoryCards = async (): Promise<MemoryCardsResponse | undefined> => {
+export const fetchMemoryCardsRequest = async (): Promise<MemoryCardsResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/memory/cards`);
 
@@ -42,7 +44,7 @@ export const fetchMemoryCards = async (): Promise<MemoryCardsResponse | undefine
   }
 };
 
-export const fetchDragDropPairs = async (difficulty: string): Promise<DragDropPairsResponse | undefined> => {
+export const fetchDragDropPairsRequest = async (difficulty: string): Promise<DragDropPairsResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/dragdrop/pairs?difficulty=${difficulty}`);
 
@@ -58,7 +60,7 @@ export const fetchDragDropPairs = async (difficulty: string): Promise<DragDropPa
   }
 };
 
-export const fetchDashboard = async (token: string): Promise<GameDashboardResponse | undefined> => {
+export const fetchDashboardRequest = async (token: string): Promise<GameDashboardResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/dashboard`, {
       headers: {
@@ -79,7 +81,7 @@ export const fetchDashboard = async (token: string): Promise<GameDashboardRespon
   }
 };
 
-export const fetchGameStats = async (token: string): Promise<GameStatsResponse | undefined> => {
+export const fetchGameStatsRequest = async (token: string): Promise<GameStatsResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/stats`, {
       headers: {
@@ -99,7 +101,7 @@ export const fetchGameStats = async (token: string): Promise<GameStatsResponse |
   }
 };
 
-export const incrementGameCount = async (
+export const incrementGameCountRequest = async (
   token: string,
   gameType: keyof GameStats
 ): Promise<GameStatsResponse | undefined> => {
@@ -124,7 +126,7 @@ export const incrementGameCount = async (
   }
 };
 
-export const resetGameStats = async (token: string): Promise<GameStatsResponse | undefined> => {
+export const resetGameStatsRequest = async (token: string): Promise<GameStatsResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/stats/reset`, {
       method: 'POST',

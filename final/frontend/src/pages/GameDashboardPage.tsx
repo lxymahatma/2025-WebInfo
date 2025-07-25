@@ -4,7 +4,7 @@ import { Button, Card, Col, Divider, Modal, Row, Space, Spin, Statistic, Typogra
 import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchDashboard, resetGameStats } from 'utils/api/game';
+import { fetchDashboardRequest, resetGameStatsRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -23,7 +23,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
         console.error('No authentication token found');
         return;
       }
-      const data = await fetchDashboard(token);
+      const data = await fetchDashboardRequest(token);
       if (!data) {
         return;
       }
@@ -70,7 +70,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
     if (!token) {
       return;
     }
-    await resetGameStats(token);
+    await resetGameStatsRequest(token);
     setIsResetModalOpen(false);
   };
 

@@ -2,7 +2,7 @@ import type { Subject, TimedQuizQuestion, TimedQuizQuestionsResponse } from '@ed
 import { Button, Card, Progress, Result, Space, Tag, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';
-import { fetchTimedQuizQuestions, incrementGameCount } from 'utils/api/game';
+import { fetchTimedQuizQuestionsRequest, incrementGameCountRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -36,7 +36,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
           if (!token) {
             return;
           }
-          void incrementGameCount(token, 'timed');
+          void incrementGameCountRequest(token, 'timed');
         }
       }, 1200);
     };
@@ -56,7 +56,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     currentQuestion,
     currentQuestionIndex,
     score,
-    incrementGameCount,
+    incrementGameCountRequest,
   ]);
 
   const handleSubjectSelect = async (subject: Subject): Promise<void> => {
@@ -67,7 +67,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     setIsAnswered(false);
     setScore(0);
     setGameFinished(false);
-    await fetchTimedQuizQuestions(subject);
+    await fetchTimedQuizQuestionsRequest(subject);
   };
 
   const handleOptionClick = (index: number): void => {
@@ -89,7 +89,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
             if (!token) {
               return;
             }
-            void incrementGameCount(token, 'timed');
+            void incrementGameCountRequest(token, 'timed');
           }
         }, 1200);
       };

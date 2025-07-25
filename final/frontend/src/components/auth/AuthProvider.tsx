@@ -1,11 +1,16 @@
 import { message } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AuthProviderProperties } from 'types/auth';
+import { signOutRequest } from 'utils/api/auth';
 
 import { AuthContext } from './auth-context';
 
 function getToken() {
   return localStorage.getItem('token');
+}
+
+function getUsername() {
+  return localStorage.getItem('username');
 }
 
 export function AuthProvider({ children }: AuthProviderProperties) {
@@ -14,52 +19,43 @@ export function AuthProvider({ children }: AuthProviderProperties) {
 
   useEffect(() => {
     const storeToken = getToken();
-    const storedUsername = localStorage.getItem('username');
+    const storedUsername = getUsername();
     if (storeToken && storedUsername) {
       setUser(storedUsername);
       setToken(storeToken);
     }
   }, []);
 
-  const signin = useCallback((username: string) => {
+  const signIn = useCallback((username: string, token: string) => {
+    localStorage.setItem('username', username);
+    localStorage.setItem('token', token);
     setUser(username);
-    setToken(getToken()!);
+    setToken(token);
   }, []);
 
-  const signout = useCallback(async () => {
-    const token = getToken();
-    if (token) {
-      try {
-        const response = await fetch('http://localhost:3001/signout', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          message.success('Successfully signed out');
-        }
-      } catch (error) {
-        console.error('Sign out error:', error);
-      }
+  const signOut = useCallback(async () => {
+    if (!token) {
+      return;
     }
+
+    await signOutRequest(token);
 
     setUser(undefined);
     setToken('');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-  }, []);
+
+    message.success('Successfully signed out');
+  }, [token]);
 
   const value = useMemo(
     () => ({
       user,
       token,
-      signin,
-      signout,
+      signIn,
+      signOut,
     }),
-    [user, token, signin, signout]
+    [user, token, signIn, signOut]
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;

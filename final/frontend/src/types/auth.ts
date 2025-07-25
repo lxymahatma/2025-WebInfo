@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 export interface AuthContextType {
   user: string | undefined;
   token: string | undefined;
-  signin: (username: string) => void;
-  signout: () => void;
+  signIn: (username: string, token: string) => void;
+  signOut: () => void;
 }
 
 export interface AuthProviderProperties {

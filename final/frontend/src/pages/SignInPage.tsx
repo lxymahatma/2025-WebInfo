@@ -3,12 +3,12 @@ import { Button, Card, Form, Input, message, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signIn } from 'utils/api/auth';
+import { signInRequest } from 'utils/api/auth';
 
 const { Title, Text } = Typography;
 
 export const SignInPage = (): React.JSX.Element => {
-  const { signin } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -23,15 +23,13 @@ export const SignInPage = (): React.JSX.Element => {
 
     setLoading(true);
     try {
-      const data = await signIn(values);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('username', data.username);
+      const response = await signInRequest(values);
 
       setLoading(false);
       message.success('Sign in success!');
 
       setTimeout(() => {
-        signin(data.username);
+        signIn(response.username, response.token);
         void navigate('/');
       }, 800);
     } catch (error) {

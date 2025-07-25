@@ -3,7 +3,7 @@ import { useAuth } from 'components';
 import { shuffle } from 'es-toolkit';
 import React, { useEffect, useState } from 'react';
 import type { CardComponentProperties, CardType } from 'types/game';
-import { fetchMemoryCards, incrementGameCount } from 'utils/api/game';
+import { fetchMemoryCardsRequest, incrementGameCountRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -21,7 +21,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
   const initializeGame = async () => {
     setLoading(true);
     try {
-      const data = await fetchMemoryCards();
+      const data = await fetchMemoryCardsRequest();
       if (!data) {
         return;
       }
@@ -59,7 +59,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
           if (!token) {
             return;
           }
-          void incrementGameCount(token, 'memory');
+          void incrementGameCountRequest(token, 'memory');
         }
       }, 500);
     }

@@ -4,7 +4,7 @@ import { useAuth } from 'components/auth';
 import { shuffle } from 'es-toolkit';
 import type { DragEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { fetchDragDropPairs, incrementGameCount } from 'utils/api/game';
+import { fetchDragDropPairsRequest, incrementGameCountRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -28,7 +28,7 @@ export const DragDropGame = (): React.JSX.Element => {
 
   const loadPairs = async (level: DifficultyLevel) => {
     setLoading(true);
-    const data = await fetchDragDropPairs(level);
+    const data = await fetchDragDropPairsRequest(level);
     if (data) {
       setPairs(data.pairs);
       setCategories(shuffle([...new Set(data.pairs.map(p => p.category))]));
@@ -49,7 +49,7 @@ export const DragDropGame = (): React.JSX.Element => {
       if (!token) {
         return;
       }
-      void incrementGameCount(token, 'dragdrop');
+      void incrementGameCountRequest(token, 'dragdrop');
     }
   }, [token, solved, pairs, completed]);
 
