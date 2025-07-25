@@ -131,6 +131,7 @@ export const resetGameStatsRequest = async (token: string): Promise<Result<GameS
     if (!response.ok) {
       return err(`Failed to reset game stats: ${response.status}, ${response.statusText}`);
     }
+
     return ok((await response.json()) as GameStatsResponse);
   } catch (error) {
     return err(error instanceof Error ? error.message : 'Error resetting game stats');
