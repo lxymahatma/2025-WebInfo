@@ -48,16 +48,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
       setIsAnswered(true);
       handleAnswer();
     }
-  }, [
-    timeLeft,
-    isAnswered,
-    selectedSubject,
-    questions.length,
-    currentQuestion,
-    currentQuestionIndex,
-    score,
-    incrementGameCountRequest,
-  ]);
+  }, [token, timeLeft, isAnswered, selectedSubject, questions.length, currentQuestion, currentQuestionIndex, score]);
 
   const handleSubjectSelect = async (subject: Subject): Promise<void> => {
     setSelectedSubject(subject);

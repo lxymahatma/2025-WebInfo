@@ -38,7 +38,7 @@ export const SignUpPage = (): React.JSX.Element => {
       message.success('Sign up success!');
 
       setTimeout(() => {
-        signIn(result.value.username, result.value.token);
+        signIn(result.value);
         void navigate('/');
       }, 800);
     } finally {

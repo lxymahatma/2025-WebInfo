@@ -1,3 +1,4 @@
+import type { AuthResponse } from '@eduplayground/shared/auth';
 import { message } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AuthProviderProperties } from 'types/auth';
@@ -14,23 +15,23 @@ function getUsername() {
 }
 
 export function AuthProvider({ children }: AuthProviderProperties) {
-  const [user, setUser] = useState<string>();
+  const [userName, setUserName] = useState<string>();
   const [token, setToken] = useState<string>();
 
   useEffect(() => {
     const storeToken = getToken();
     const storedUsername = getUsername();
     if (storeToken && storedUsername) {
-      setUser(storedUsername);
+      setUserName(storedUsername);
       setToken(storeToken);
     }
   }, []);
 
-  const signIn = useCallback((username: string, token: string) => {
-    localStorage.setItem('username', username);
-    localStorage.setItem('token', token);
-    setUser(username);
-    setToken(token);
+  const signIn = useCallback((auth: AuthResponse) => {
+    localStorage.setItem('username', auth.username);
+    localStorage.setItem('token', auth.token);
+    setUserName(auth.username);
+    setToken(auth.token);
   }, []);
 
   const signOut = useCallback(async () => {
@@ -40,8 +41,8 @@ export function AuthProvider({ children }: AuthProviderProperties) {
 
     await signOutRequest(token);
 
-    setUser(undefined);
-    setToken('');
+    setUserName(undefined);
+    setToken(undefined);
     localStorage.removeItem('token');
     localStorage.removeItem('username');
 
@@ -50,12 +51,12 @@ export function AuthProvider({ children }: AuthProviderProperties) {
 
   const value = useMemo(
     () => ({
-      user,
+      user: userName,
       token,
       signIn,
       signOut,
     }),
-    [user, token, signIn, signOut]
+    [userName, token, signIn, signOut]
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;

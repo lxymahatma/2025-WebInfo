@@ -6,6 +6,7 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
+import tsParser from '@typescript-eslint/parser';
 import react from 'eslint-plugin-react-x';
 import reactDom from 'eslint-plugin-react-dom';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
@@ -46,7 +47,7 @@ export default tseslint.config([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
-      parser: '@typescript-eslint/parser',
+      parser: tsParser,
       parserOptions: {
         sourceType: 'module',
         ecmaVersion: 'latest',
