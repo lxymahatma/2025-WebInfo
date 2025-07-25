@@ -3,7 +3,7 @@ import { useAuth } from 'components';
 import { shuffle } from 'es-toolkit';
 import React, { useEffect, useState } from 'react';
 import type { CardComponentProperties, CardType } from 'types/game';
-import { fetchMemoryCardsRequest, incrementGameCountRequest } from 'utils/api/game';
+import { fetchMemoryCards, incrementGameCountRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -20,11 +20,11 @@ export const MemoryCardGame = (): React.JSX.Element => {
   const initializeGame = async () => {
     setLoading(true);
     try {
-      const result = await fetchMemoryCardsRequest();
+      const result = await fetchMemoryCards();
 
       if (result.isErr()) {
         console.error('Failed to fetch memory cards:', result.error);
-        message.error(result.error);
+        message.error('Failed to load cards. Please try again later.');
         return;
       }
 

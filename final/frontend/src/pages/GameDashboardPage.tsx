@@ -1,10 +1,10 @@
 import { ExclamationCircleOutlined, ReloadOutlined, TrophyOutlined } from '@ant-design/icons';
 import type { GameDashboardResponse, GameStats } from '@eduplayground/shared/game';
-import { Button, Card, Col, Divider, Modal, Row, Space, Spin, Statistic, Typography } from 'antd';
+import { Button, Card, Col, Divider, message, Modal, Row, Space, Spin, Statistic, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchDashboardRequest, resetGameStatsRequest } from 'utils/api/game';
+import { fetchDashboard, resetGameStatsRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -18,23 +18,23 @@ export const GameDashboardPage = (): React.JSX.Element => {
   useEffect(() => {
     const loadGameDashboard = async () => {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('No authentication token found');
-        return;
-      }
-      const data = await fetchDashboardRequest(token);
-      if (!data) {
+
+      const result = await fetchDashboard(token);
+
+      if (result.isErr()) {
+        console.error('Failed to load game dashboard:', result.error);
+        message.error('Failed to load game dashboard. Please try again later.');
+        setLoading(false);
         return;
       }
 
-      setDashboard(data);
-      setStats(data.userStats);
+      setDashboard(result.value);
+      setStats(result.value.userStats);
       setLoading(false);
     };
 
     void loadGameDashboard();
-  }, []);
+  }, [token]);
 
   if (!dashboard || !stats) {
     return (

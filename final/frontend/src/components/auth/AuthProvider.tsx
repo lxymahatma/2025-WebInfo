@@ -15,8 +15,8 @@ function getUsername() {
 }
 
 export function AuthProvider({ children }: AuthProviderProperties) {
-  const [userName, setUserName] = useState<string>();
-  const [token, setToken] = useState<string>();
+  const [userName, setUserName] = useState<string>('');
+  const [token, setToken] = useState<string>('');
 
   useEffect(() => {
     const storeToken = getToken();
@@ -41,8 +41,8 @@ export function AuthProvider({ children }: AuthProviderProperties) {
 
     await signOutRequest(token);
 
-    setUserName(undefined);
-    setToken(undefined);
+    setUserName('');
+    setToken('');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
 

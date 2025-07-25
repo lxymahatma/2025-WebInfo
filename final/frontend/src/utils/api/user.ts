@@ -22,7 +22,7 @@ export const fetchUserProfile = async (token: string): Promise<Result<ProfileRes
   }
 };
 
-export const updateUserInfo = async (
+export const updateUserInfoRequest = async (
   token: string,
   profile: { username: string; password: string }
 ): Promise<Result<void, string>> => {
@@ -66,7 +66,7 @@ export const fetchUserLanguages = async (token: string): Promise<Result<Language
   }
 };
 
-export const updateUserLanguage = async (token: string, language: string): Promise<Result<void, string>> => {
+export const updateUserLanguageRequest = async (token: string, language: string): Promise<Result<void, string>> => {
   try {
     const response = await fetch(`${API_BASE_URL}/languages`, {
       method: 'PUT',

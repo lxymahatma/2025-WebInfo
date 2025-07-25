@@ -11,7 +11,7 @@ import type {
 import { API_BASE_URL } from 'config/api';
 import { err, ok, type Result } from 'neverthrow';
 
-export const fetchTimedQuizQuestionsRequest = async (
+export const fetchTimedQuizQuestions = async (
   subject: Subject
 ): Promise<Result<TimedQuizQuestionsResponse, string>> => {
   try {
@@ -27,7 +27,7 @@ export const fetchTimedQuizQuestionsRequest = async (
   }
 };
 
-export const fetchMemoryCardsRequest = async (): Promise<Result<MemoryCardsResponse, string>> => {
+export const fetchMemoryCards = async (): Promise<Result<MemoryCardsResponse, string>> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/memory/cards`);
 
@@ -41,7 +41,7 @@ export const fetchMemoryCardsRequest = async (): Promise<Result<MemoryCardsRespo
   }
 };
 
-export const fetchDragDropPairsRequest = async (difficulty: string): Promise<Result<DragDropPairsResponse, string>> => {
+export const fetchDragDropPairs = async (difficulty: string): Promise<Result<DragDropPairsResponse, string>> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/dragdrop/pairs?difficulty=${difficulty}`);
 
@@ -55,7 +55,7 @@ export const fetchDragDropPairsRequest = async (difficulty: string): Promise<Res
   }
 };
 
-export const fetchDashboardRequest = async (token: string): Promise<Result<GameDashboardResponse, string>> => {
+export const fetchDashboard = async (token: string): Promise<Result<GameDashboardResponse, string>> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/dashboard`, {
       headers: {
@@ -75,7 +75,7 @@ export const fetchDashboardRequest = async (token: string): Promise<Result<GameD
   }
 };
 
-export const fetchGameStatsRequest = async (token: string): Promise<Result<GameStatsResponse, string>> => {
+export const fetchGameStats = async (token: string): Promise<Result<GameStatsResponse, string>> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/stats`, {
       headers: {

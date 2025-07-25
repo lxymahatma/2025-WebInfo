@@ -1,10 +1,10 @@
 import type { DragDropPair } from '@eduplayground/shared/game';
-import { Button, Space, Spin, Typography } from 'antd';
+import { Button, message, Space, Spin, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import { shuffle } from 'es-toolkit';
 import type { DragEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { fetchDragDropPairsRequest, incrementGameCountRequest } from 'utils/api/game';
+import { fetchDragDropPairs, incrementGameCountRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -28,13 +28,17 @@ export const DragDropGame = (): React.JSX.Element => {
 
   const loadPairs = async (level: DifficultyLevel) => {
     setLoading(true);
-    const data = await fetchDragDropPairsRequest(level);
-    if (data) {
-      setPairs(data.pairs);
-      setCategories(shuffle([...new Set(data.pairs.map(p => p.category))]));
-    } else {
-      console.error('Failed to load pairs');
+    const result = await fetchDragDropPairs(level);
+
+    if (result.isErr()) {
+      console.error('Failed to load pairs:', result.error);
+      message.error('Failed to load pairs. Please try again later.');
+      setLoading(false);
+      return;
     }
+
+    setPairs(result.value.pairs);
+    setCategories(shuffle([...new Set(result.value.pairs.map(p => p.category))]));
     setLoading(false);
   };
 

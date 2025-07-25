@@ -1,8 +1,8 @@
-import type { Subject, TimedQuizQuestion, TimedQuizQuestionsResponse } from '@eduplayground/shared/game';
-import { Button, Card, Progress, Result, Space, Tag, Typography } from 'antd';
+import type { Subject, TimedQuizQuestion } from '@eduplayground/shared/game';
+import { Button, Card, message, Progress, Result, Space, Tag, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';
-import { fetchTimedQuizQuestionsRequest, incrementGameCountRequest } from 'utils/api/game';
+import { fetchTimedQuizQuestions, incrementGameCountRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -58,7 +58,16 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     setIsAnswered(false);
     setScore(0);
     setGameFinished(false);
-    await fetchTimedQuizQuestionsRequest(subject);
+    const result = await fetchTimedQuizQuestions(subject);
+    if (result.isErr()) {
+      console.error('Failed to fetch timed questions:', result.error);
+      message.error('Failed to load questions. Please try again later.');
+      setLoading(false);
+      return;
+    }
+
+    setQuestions(result.value.questions);
+    setLoading(false);
   };
 
   const handleOptionClick = (index: number): void => {
