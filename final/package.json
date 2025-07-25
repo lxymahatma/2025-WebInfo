@@ -14,7 +14,9 @@
     "install:all": "npm install && concurrently \"cd shared && npm install\" \"cd backend && npm install\" \"cd frontend && npm install\"",
     "build:all": "npm run build:backend && npm run build:frontend",
     "build:backend": "cd backend && npm run build",
-    "build:frontend": "cd frontend && npm run build"
+    "build:frontend": "cd frontend && npm run build",
+    "lint:all": "concurrently \"cd shared && bunx eslint .\" \"cd backend && bunx eslint .\" \"cd frontend && bunx eslint .\"",
+    "fix:all": "concurrently \"cd shared && bunx eslint . --fix\" \"cd backend && bunx eslint . --fix\" \"cd frontend && bunx eslint . --fix\""
   },
   "dependencies": {
     "es-toolkit": "^1.39.8"
