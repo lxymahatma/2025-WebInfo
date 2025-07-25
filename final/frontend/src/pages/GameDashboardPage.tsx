@@ -2,7 +2,7 @@ import { ExclamationCircleOutlined, ReloadOutlined, TrophyOutlined } from '@ant-
 import type { GameDashboard, GameStats } from '@eduplayground/shared/game';
 import { Button, Card, Col, Divider, message, Modal, Row, Space, Spin, Statistic, Typography } from 'antd';
 import { useAuth } from 'components/auth';
-import { sum } from 'es-toolkit';
+import { maxBy, sum } from 'es-toolkit';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchGameOverview, resetGameStatsRequest } from 'utils/api/game';
@@ -126,7 +126,16 @@ export const GameDashboardPage = (): React.JSX.Element => {
               <Col xs={24} sm={12} md={6}>
                 <Statistic
                   title="Favorite Game"
-                  value={totalGamesPlayed === 0 ? 'None yet' : Math.max(stats.dragdrop, stats.timed, stats.memory)}
+                  value={
+                    totalGamesPlayed === 0
+                      ? 'None yet'
+                      : (() => {
+                          const maxEntry = maxBy(Object.entries(stats), ([, value]: [string, number]) => value);
+                          const maxKey = maxEntry?.[0] as keyof GameStats | undefined;
+
+                          return maxKey ? dashboard.cards[maxKey].name : 'Unknown';
+                        })()
+                  }
                   className="text-2xl font-bold text-green-600"
                 />
               </Col>
