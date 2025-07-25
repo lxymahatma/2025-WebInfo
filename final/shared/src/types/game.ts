@@ -8,14 +8,16 @@ export interface GameDashboardCard {
   textColor: string;
 }
 
-export interface GameDashboardResponse {
-  dashboard: {
-    cards: {
-      dragdrop: GameDashboardCard;
-      timed: GameDashboardCard;
-      memory: GameDashboardCard;
-    };
+export interface GameDashboard {
+  cards: {
+    dragdrop: GameDashboardCard;
+    timed: GameDashboardCard;
+    memory: GameDashboardCard;
   };
+}
+
+export interface GameOverviewResponse {
+  dashboard: GameDashboard;
   userStats: GameStats;
 }
 

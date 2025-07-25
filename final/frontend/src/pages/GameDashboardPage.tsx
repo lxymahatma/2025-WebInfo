@@ -1,25 +1,29 @@
 import { ExclamationCircleOutlined, ReloadOutlined, TrophyOutlined } from '@ant-design/icons';
-import type { GameDashboardResponse, GameStats } from '@eduplayground/shared/game';
+import type { GameDashboard, GameStats } from '@eduplayground/shared/game';
 import { Button, Card, Col, Divider, message, Modal, Row, Space, Spin, Statistic, Typography } from 'antd';
 import { useAuth } from 'components/auth';
+import { sum } from 'es-toolkit';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchDashboard, resetGameStatsRequest } from 'utils/api/game';
+import { fetchGameOverview, resetGameStatsRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
 export const GameDashboardPage = (): React.JSX.Element => {
   const { token } = useAuth();
+
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
-  const [dashboard, setDashboard] = useState<GameDashboardResponse>();
   const [loading, setLoading] = useState(true);
+
+  const [dashboard, setDashboard] = useState<GameDashboard>();
   const [stats, setStats] = useState<GameStats>();
+  const [totalGamesPlayed, setTotalGamesPlayed] = useState(0);
 
   useEffect(() => {
     const loadGameDashboard = async () => {
       setLoading(true);
 
-      const result = await fetchDashboard(token);
+      const result = await fetchGameOverview(token);
 
       if (result.isErr()) {
         console.error('Failed to load game dashboard:', result.error);
@@ -28,13 +32,29 @@ export const GameDashboardPage = (): React.JSX.Element => {
         return;
       }
 
-      setDashboard(result.value);
-      setStats(result.value.userStats);
+      const { dashboard, userStats } = result.value;
+      setDashboard(dashboard);
+      setStats(userStats);
+      setTotalGamesPlayed(sum(Object.values(userStats)));
       setLoading(false);
     };
 
     void loadGameDashboard();
   }, [token]);
+
+  const handleResetStats = () => {
+    setIsResetModalOpen(true);
+  };
+
+  const handleConfirmReset = async () => {
+    await resetGameStatsRequest(token);
+    setTotalGamesPlayed(0);
+    setIsResetModalOpen(false);
+  };
+
+  const handleCancelReset = () => {
+    setIsResetModalOpen(false);
+  };
 
   if (!dashboard || !stats) {
     return (
@@ -59,24 +79,6 @@ export const GameDashboardPage = (): React.JSX.Element => {
       </div>
     );
   }
-
-  const totalGamesPlayed = stats.dragdrop + stats.timed + stats.memory;
-
-  const handleResetStats = () => {
-    setIsResetModalOpen(true);
-  };
-
-  const handleConfirmReset = async () => {
-    if (!token) {
-      return;
-    }
-    await resetGameStatsRequest(token);
-    setIsResetModalOpen(false);
-  };
-
-  const handleCancelReset = () => {
-    setIsResetModalOpen(false);
-  };
 
   if (loading) {
     return (
@@ -154,6 +156,8 @@ export const GameDashboardPage = (): React.JSX.Element => {
 
         <Row gutter={[24, 24]} className="mb-6 mt-8">
           {Object.entries(dashboard.dashboard.cards).map(([gameKey, card]) => (
+        <Row gutter={[24, 24]}>
+          {Object.entries(dashboard.cards).map(([gameKey, card]) => (
             <Col xs={24} sm={12} lg={8} key={gameKey}>
               <Card
                 hoverable
@@ -176,12 +180,30 @@ export const GameDashboardPage = (): React.JSX.Element => {
                         value={dashboard.userStats[gameKey as keyof typeof dashboard.userStats]}
                         className={`text-center text-2xl font-bold ${card.textColor}`}
                       />
+                  <div className="mx-auto flex w-4/5 flex-col items-center justify-center rounded-xl p-5">
+                    <Statistic
+                      title="Times Played"
+                      value={stats[gameKey as keyof typeof stats]}
+                      className={`w-full text-center text-3xl font-bold ${card.textColor}`}
+                    />
+                  </div>
+
+                  {stats[gameKey as keyof typeof stats] > 0 && (
+                    <div className="mx-auto flex w-4/5 items-center justify-center rounded-lg border border-green-300 bg-green-50 p-3 shadow">
+                      <Paragraph className="m-0 text-center font-medium text-green-600">
+                        🎉 You've mastered this game!
+                      </Paragraph>
                     </div>
 
                     {dashboard.userStats[gameKey as keyof typeof dashboard.userStats] > 0 && (
                       <div className="w-full rounded-lg border border-green-300 bg-green-50 p-3 shadow-sm">
                         <Paragraph className="m-0 text-center font-medium text-green-600">
                           🎉 You've mastered this game!
+                  {stats[gameKey as keyof typeof stats] === 0 && (
+                    <Link to={`/${card.id}`} className="mx-auto w-4/5 no-underline">
+                      <div className="flex w-[90%] cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
+                        <Paragraph className="m-0 text-center font-medium text-orange-600">
+                          🎮 Ready to try this game?
                         </Paragraph>
                       </div>
                     )}
