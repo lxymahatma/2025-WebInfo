@@ -1,6 +1,6 @@
 import type {
   DragDropPairsResponse,
-  GameDashboardResponse,
+  GameOverviewResponse,
   GameStats,
   GameStatsResponse,
   IncrementGameRequest,
@@ -55,7 +55,7 @@ export const fetchDragDropPairs = async (difficulty: string): Promise<Result<Dra
   }
 };
 
-export const fetchDashboard = async (token: string): Promise<Result<GameDashboardResponse, string>> => {
+export const fetchGameOverview = async (token: string): Promise<Result<GameOverviewResponse, string>> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/dashboard`, {
       headers: {
@@ -68,7 +68,7 @@ export const fetchDashboard = async (token: string): Promise<Result<GameDashboar
       return err(`Failed to fetch dashboard: ${response.status}, ${response.statusText}`);
     }
 
-    return ok((await response.json()) as GameDashboardResponse);
+    return ok((await response.json()) as GameOverviewResponse);
   } catch (error) {
     console.error('Error fetching dashboard:', error);
     return err(error instanceof Error ? error.message : 'Error fetching dashboard');
