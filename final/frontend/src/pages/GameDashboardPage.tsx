@@ -17,8 +17,13 @@ export const GameDashboardPage = (): React.JSX.Element => {
   useEffect(() => {
     const loadGameDashboard = async () => {
       setLoading(true);
-      const dashboardData = await fetchDashboard();
-      setDashboard(dashboardData);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
+      const data = await fetchDashboard(token);
+      setDashboard(data);
       setLoading(false);
     };
 
@@ -44,10 +49,12 @@ export const GameDashboardPage = (): React.JSX.Element => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
         <div className="mx-auto max-w-6xl">
-          <Card className="mb-6 rounded-2xl bg-white/95 text-center backdrop-blur-md">
+          <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
             <Space direction="vertical" size="large" className="w-full">
               <Spin size="large" />
-              <Title level={3}>Loading Game Information...</Title>
+              <Title level={3} className="text-indigo-600">
+                Loading Game Information...
+              </Title>
             </Space>
           </Card>
         </div>
@@ -59,13 +66,19 @@ export const GameDashboardPage = (): React.JSX.Element => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
         <div className="mx-auto max-w-6xl">
-          <Card className="mb-6 rounded-2xl bg-white/95 text-center backdrop-blur-md">
+          <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
             <Space direction="vertical" size="large" className="w-full">
               <Title level={3} className="text-red-500">
                 Failed to Load Game Information
               </Title>
               <Paragraph>Please try refreshing the page or check your connection.</Paragraph>
-              <Button onClick={() => globalThis.location.reload()}>Retry</Button>
+              <Button
+                type="primary"
+                className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow"
+                onClick={() => globalThis.location.reload()}
+              >
+                Retry
+              </Button>
             </Space>
           </Card>
         </div>
@@ -76,11 +89,11 @@ export const GameDashboardPage = (): React.JSX.Element => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
       <div className="mx-auto max-w-6xl">
-        <Card className="mb-6 rounded-2xl bg-white/95 text-center backdrop-blur-md">
+        <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
           <Space direction="vertical" size="middle" className="w-full">
             <div>
-              <TrophyOutlined className="mb-4 text-5xl text-yellow-400" />
-              <Title level={1} className="m-0 text-gray-800">
+              <TrophyOutlined className="mb-4 text-5xl text-yellow-400 drop-shadow-lg" />
+              <Title level={1} className="m-0 text-gray-800 drop-shadow">
                 🎮 Game Tracker
               </Title>
               <Paragraph className="m-0 text-lg text-gray-600">
@@ -96,7 +109,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
                   title="Total Games Played"
                   value={totalGamesPlayed}
                   prefix="🎯"
-                  className="text-3xl font-bold text-blue-500"
+                  className="text-4xl font-extrabold text-blue-600"
                 />
               </Col>
               <Col xs={24} sm={12} md={6}>
@@ -117,7 +130,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
                           return maxKey;
                         })()
                   }
-                  className="text-xl text-green-500"
+                  className="text-2xl font-bold text-green-600"
                 />
               </Col>
               <Col xs={24} sm={12} md={6}>
@@ -125,7 +138,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
                   title="Games Available"
                   value={3}
                   prefix="🎮"
-                  className="text-3xl font-bold text-purple-600"
+                  className="text-4xl font-extrabold text-purple-700"
                 />
               </Col>
               <Col xs={24} sm={12} md={6}>
@@ -135,7 +148,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
                   icon={<ReloadOutlined />}
                   onClick={handleResetStats}
                   size="large"
-                  className="mt-2"
+                  className="mt-2 bg-gradient-to-r from-pink-500 to-indigo-600 text-white shadow-lg hover:from-pink-600 hover:to-indigo-700"
                 >
                   Reset Stats
                 </Button>
@@ -145,16 +158,11 @@ export const GameDashboardPage = (): React.JSX.Element => {
         </Card>
 
         <Row gutter={[24, 24]}>
-          {(
-            Object.entries(dashboard) as [
-              keyof GameDashboardResponse,
-              GameDashboardResponse[keyof GameDashboardResponse],
-            ][]
-          ).map(([gameKey, card]) => (
+          {Object.entries(dashboard.dashboard.cards).map(([gameKey, card]) => (
             <Col xs={24} sm={12} lg={8} key={gameKey}>
               <Card
                 hoverable
-                className="h-full rounded-2xl bg-white/95 p-6 backdrop-blur-md transition-all duration-300"
+                className="h-full rounded-2xl bg-white/95 p-6 shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
               >
                 <Space direction="vertical" size="middle" className="w-full text-center">
                   <div>
@@ -168,20 +176,20 @@ export const GameDashboardPage = (): React.JSX.Element => {
                   <div className="mx-auto flex w-4/5 flex-col items-center justify-center rounded-xl p-5">
                     <Statistic
                       title="Times Played"
-                      value={stats[gameKey]}
-                      className={`w-full text-center font-bold ${card.textColor}`}
+                      value={dashboard.userStats[gameKey as keyof typeof dashboard.userStats]}
+                      className={`w-full text-center text-3xl font-bold ${card.textColor}`}
                     />
                   </div>
 
-                  {stats[gameKey] > 0 && (
-                    <div className="mx-auto flex w-4/5 items-center justify-center rounded-lg border border-green-300 bg-green-50 p-3">
+                  {dashboard.userStats[gameKey as keyof typeof dashboard.userStats] > 0 && (
+                    <div className="mx-auto flex w-4/5 items-center justify-center rounded-lg border border-green-300 bg-green-50 p-3 shadow">
                       <Paragraph className="m-0 text-center font-medium text-green-600">
                         🎉 You've mastered this game!
                       </Paragraph>
                     </div>
                   )}
 
-                  {stats[gameKey] === 0 && (
+                  {dashboard.userStats[gameKey as keyof typeof dashboard.userStats] === 0 && (
                     <Link to={card.path} className="mx-auto w-4/5 no-underline">
                       <div className="flex w-[90%] cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
                         <Paragraph className="m-0 text-center font-medium text-orange-600">
@@ -197,11 +205,11 @@ export const GameDashboardPage = (): React.JSX.Element => {
         </Row>
 
         {totalGamesPlayed === 0 && (
-          <Card className="mt-6 rounded-2xl bg-white/95 text-center backdrop-blur-md">
+          <Card className="mt-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
             <Space direction="vertical" size="large" className="w-full">
               <div className="text-7xl">🎮</div>
               <div>
-                <Title level={3} className="text-blue-500">
+                <Title level={3} className="text-blue-500 drop-shadow">
                   Welcome to Game Tracker!
                 </Title>
                 <Paragraph className="text-gray-600">
@@ -214,11 +222,11 @@ export const GameDashboardPage = (): React.JSX.Element => {
         )}
 
         {totalGamesPlayed >= 10 && (
-          <Card className="mt-6 rounded-2xl bg-gradient-to-br from-yellow-200 via-yellow-400 to-blue-800 text-center text-white">
+          <Card className="mt-6 rounded-2xl bg-gradient-to-br from-yellow-200 via-yellow-400 to-blue-800 text-center text-white shadow-2xl">
             <Space direction="vertical" size="middle" className="w-full">
               <div className="text-6xl">🏆</div>
               <div>
-                <Title level={2} className="m-0 text-white">
+                <Title level={2} className="m-0 text-white drop-shadow">
                   Gaming Champion!
                 </Title>
                 <Paragraph className="m-0 text-lg text-white/90">

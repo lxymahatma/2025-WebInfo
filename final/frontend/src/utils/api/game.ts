@@ -15,8 +15,8 @@ export const fetchTimedQuizQuestions = async (subject: Subject): Promise<TimedQu
     const response = await fetch(`${API_BASE_URL}/game/timed/questions?subject=${subject}`);
 
     if (!response.ok) {
-      console.error('Failed to fetch timed questions');
-      throw new Error('Failed to fetch timed questions');
+      console.error('Failed to fetch timed questions', response.status, response.statusText);
+      return undefined;
     }
 
     return (await response.json()) as TimedQuizQuestionsResponse;
@@ -31,8 +31,8 @@ export const fetchMemoryCards = async (): Promise<MemoryCardsResponse | undefine
     const response = await fetch(`${API_BASE_URL}/game/memory/cards`);
 
     if (!response.ok) {
-      console.error('Failed to fetch memory cards');
-      throw new Error('Failed to fetch memory cards');
+      console.error('Failed to fetch memory cards', response.status, response.statusText);
+      return undefined;
     }
 
     return (await response.json()) as MemoryCardsResponse;
@@ -45,9 +45,10 @@ export const fetchMemoryCards = async (): Promise<MemoryCardsResponse | undefine
 export const fetchDragDropPairs = async (difficulty: string): Promise<DragDropPairsResponse | undefined> => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/dragdrop/pairs?difficulty=${difficulty}`);
+
     if (!response.ok) {
-      console.error('Failed to fetch drag & drop pairs');
-      throw new Error('Failed to fetch drag & drop pairs');
+      console.error('Failed to fetch drag & drop pairs', response.status, response.statusText);
+      return undefined;
     }
 
     return (await response.json()) as DragDropPairsResponse;
@@ -57,66 +58,89 @@ export const fetchDragDropPairs = async (difficulty: string): Promise<DragDropPa
   }
 };
 
-export const fetchDashboard = async (): Promise<GameDashboardResponse | undefined> => {
+export const fetchDashboard = async (token: string): Promise<GameDashboardResponse | undefined> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/game/dashboard`);
+    const response = await fetch(`${API_BASE_URL}/game/dashboard`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (!response.ok) {
-      console.error('Failed to fetch dashboard card');
-      throw new Error('Failed to fetch dashboard card');
+      console.error('Failed to fetch dashboard', response.status, response.statusText);
+      return undefined;
     }
 
     return (await response.json()) as GameDashboardResponse;
   } catch (error) {
-    console.error('Error fetching dashboard card:', error);
+    console.error('Error fetching dashboard:', error);
     return undefined;
   }
 };
 
-export const fetchGameStats = async (token: string): Promise<GameStatsResponse> => {
-  const response = await fetch(`${API_BASE_URL}/game/stats`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  });
+export const fetchGameStats = async (token: string): Promise<GameStatsResponse | undefined> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/game/stats`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-  if (!response.ok) {
-    console.error('Failed to fetch game stats');
-    throw new Error('Failed to fetch game stats');
+    if (!response.ok) {
+      console.error('Failed to fetch game stats', response.status, response.statusText);
+      return undefined;
+    }
+    return (await response.json()) as GameStatsResponse;
+  } catch (error) {
+    console.error('Error fetching game stats:', error);
+    return undefined;
   }
-  return (await response.json()) as GameStatsResponse;
 };
 
-export const incrementGameCount = async (token: string, gameType: keyof GameStats): Promise<GameStatsResponse> => {
-  const response = await fetch(`${API_BASE_URL}/game/stats/increment`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ gameType } as IncrementGameRequest),
-  });
+export const incrementGameCount = async (
+  token: string,
+  gameType: keyof GameStats
+): Promise<GameStatsResponse | undefined> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/game/stats/increment`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ gameType } as IncrementGameRequest),
+    });
 
-  if (!response.ok) {
-    console.error('Failed to increment game count');
-    throw new Error('Failed to increment game count');
+    if (!response.ok) {
+      console.error('Failed to increment game count', response.status, response.statusText);
+      return undefined;
+    }
+    return (await response.json()) as GameStatsResponse;
+  } catch (error) {
+    console.error('Error incrementing game count:', error);
+    return undefined;
   }
-  return (await response.json()) as GameStatsResponse;
 };
 
-export const resetGameStats = async (token: string): Promise<GameStatsResponse> => {
-  const response = await fetch(`${API_BASE_URL}/game/stats/reset`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  });
+export const resetGameStats = async (token: string): Promise<GameStatsResponse | undefined> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/game/stats/reset`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-  if (!response.ok) {
-    console.error('Failed to reset game stats');
-    throw new Error('Failed to reset game stats');
+    if (!response.ok) {
+      console.error('Failed to reset game stats', response.status, response.statusText);
+      return undefined;
+    }
+    return (await response.json()) as GameStatsResponse;
+  } catch (error) {
+    console.error('Error resetting game stats:', error);
+    return undefined;
   }
-  return (await response.json()) as GameStatsResponse;
 };
