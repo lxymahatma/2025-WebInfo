@@ -51,7 +51,7 @@ export function AuthProvider({ children }: AuthProviderProperties) {
 
   const value = useMemo(
     () => ({
-      user: userName,
+      userName,
       token,
       signIn,
       signOut,

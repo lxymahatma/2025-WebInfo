@@ -15,7 +15,7 @@ const navItems = [
 
 export const NavBar = () => {
   const location = useLocation();
-  const { signOut, user } = useAuth();
+  const { signOut, userName } = useAuth();
   const [isVisible, setIsVisible] = useState(false);
   const isHomePage = location.pathname === '/';
 
@@ -68,7 +68,7 @@ export const NavBar = () => {
         </div>
         <div className="flex items-center gap-4">
           <span>
-            Welcome, <strong>{user}</strong>!
+            Welcome, <strong>{userName}</strong>!
           </span>
           <Button type="primary" danger onClick={() => signOut()}>
             Signout

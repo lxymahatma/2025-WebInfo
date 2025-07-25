@@ -16,7 +16,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
   const [loading, setLoading] = useState(true);
 
   const [dashboard, setDashboard] = useState<GameDashboard>();
-  const [stats, setStats] = useState<GameStats>();
+  const [userStats, setUserStats] = useState<GameStats>();
   const [totalGamesPlayed, setTotalGamesPlayed] = useState(0);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
 
       const { dashboard, userStats } = result.value;
       setDashboard(dashboard);
-      setStats(userStats);
+      setUserStats(userStats);
       setTotalGamesPlayed(sum(Object.values(userStats)));
       setLoading(false);
     };
@@ -56,7 +56,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
     setIsResetModalOpen(false);
   };
 
-  if (!dashboard || !stats) {
+  if (!dashboard || !userStats) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
         <div className="mx-auto max-w-6xl">
@@ -130,7 +130,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
                     totalGamesPlayed === 0
                       ? 'None yet'
                       : (() => {
-                          const maxEntry = maxBy(Object.entries(stats), ([, value]: [string, number]) => value);
+                          const maxEntry = maxBy(Object.entries(userStats), ([, value]: [string, number]) => value);
                           const maxKey = maxEntry?.[0] as keyof GameStats | undefined;
 
                           return maxKey ? dashboard.cards[maxKey].name : 'Unknown';
@@ -182,12 +182,12 @@ export const GameDashboardPage = (): React.JSX.Element => {
                   <div className="mx-auto flex w-4/5 flex-col items-center justify-center rounded-xl p-5">
                     <Statistic
                       title="Times Played"
-                      value={stats[gameKey as keyof typeof stats]}
+                      value={userStats[gameKey as keyof typeof userStats]}
                       className={`w-full text-center text-3xl font-bold ${card.textColor}`}
                     />
                   </div>
 
-                  {stats[gameKey as keyof typeof stats] > 0 && (
+                  {userStats[gameKey as keyof typeof userStats] > 0 && (
                     <div className="mx-auto flex w-4/5 items-center justify-center rounded-lg border border-green-300 bg-green-50 p-3 shadow">
                       <Paragraph className="m-0 text-center font-medium text-green-600">
                         🎉 You've mastered this game!
@@ -195,7 +195,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
                     </div>
                   )}
 
-                  {stats[gameKey as keyof typeof stats] === 0 && (
+                  {userStats[gameKey as keyof typeof userStats] === 0 && (
                     <Link to={`/${card.id}`} className="mx-auto w-4/5 no-underline">
                       <div className="flex w-[90%] cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
                         <Paragraph className="m-0 text-center font-medium text-orange-600">

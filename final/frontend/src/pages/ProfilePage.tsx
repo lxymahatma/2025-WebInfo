@@ -35,7 +35,7 @@ import type { TranslationKeys, Translations } from 'types/language';
 const { Text } = Typography;
 
 export const ProfilePage = (): React.JSX.Element => {
-  const { user } = useAuth();
+  const { userName, token } = useAuth();
 
   const [profile, setProfile] = useState({
     name: 'Loading...',
@@ -55,18 +55,6 @@ export const ProfilePage = (): React.JSX.Element => {
   useEffect(() => {
     const loadUserData = async (): Promise<void> => {
       try {
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-          console.error('No token found');
-          setProfile(previous => ({
-            ...previous,
-            name: 'No token',
-            password: 'N/A',
-          }));
-          return;
-        }
-
         const profileResponse = await fetch('http://localhost:3001/profile', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -101,7 +89,7 @@ export const ProfilePage = (): React.JSX.Element => {
     };
 
     void loadUserData();
-  }, [user]);
+  }, [userName, token]);
 
   // For dropdown
   const [itemsModalVisible, setItemsModalVisible] = useState(false);

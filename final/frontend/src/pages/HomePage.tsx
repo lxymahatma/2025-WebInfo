@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const { Title, Paragraph } = Typography;
 
 export const HomePage = (): React.JSX.Element => {
-  const { user, signOut } = useAuth();
+  const { userName, signOut } = useAuth();
 
   const handleSignOut = () => {
     Modal.confirm({
@@ -22,11 +22,11 @@ export const HomePage = (): React.JSX.Element => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-600 to-cyan-800 font-sans">
-      {user && (
+      {userName && (
         <div className="flex items-center justify-between border-b border-white/20 bg-white/10 px-8 py-6 backdrop-blur-sm">
           <div>
             <span className="text-lg font-medium text-white">
-              Welcome back, <strong>{user}</strong>!
+              Welcome back, <strong>{userName}</strong>!
             </span>
           </div>
           <Button
@@ -51,7 +51,7 @@ export const HomePage = (): React.JSX.Element => {
           </Paragraph>
         </div>
 
-        {user ? (
+        {userName ? (
           <>
             <div className="mb-12">
               <Title level={2} className="!mb-8 !text-center !text-3xl !font-semibold !text-white drop-shadow-md">
