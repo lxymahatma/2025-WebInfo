@@ -131,6 +131,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 size="large"
                 loading={loading}
                 onClick={() => void handleSubjectSelect('math')}
+                className="!bg-cyan-600 hover:!bg-cyan-700 !border-cyan-600 hover:!border-cyan-700"
               >
                 🔢 Math
               </Button>
@@ -140,6 +141,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 size="large"
                 loading={loading}
                 onClick={() => void handleSubjectSelect('english')}
+                className="!bg-cyan-600 hover:!bg-cyan-700 !border-cyan-600 hover:!border-cyan-700"
               >
                 📚 English
               </Button>
@@ -149,6 +151,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 size="large"
                 loading={loading}
                 onClick={() => void handleSubjectSelect('knowledge')}
+                className="!bg-cyan-600 hover:!bg-cyan-700 !border-cyan-600 hover:!border-cyan-700"
               >
                 🌟 Fun Facts
               </Button>
@@ -192,7 +195,12 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 <Button type="default" size="large" onClick={resetGame}>
                   Choose New Subject
                 </Button>
-                <Button type="primary" size="large" onClick={() => void handleSubjectSelect(selectedSubject)}>
+                <Button 
+                  type="primary" 
+                  size="large" 
+                  onClick={() => void handleSubjectSelect(selectedSubject)}
+                  className="!bg-cyan-600 hover:!bg-cyan-700 !border-cyan-600 hover:!border-cyan-700"
+                >
                   Play Again
                 </Button>
               </Space>,
@@ -222,7 +230,11 @@ export const TimedQuestionGame = (): React.JSX.Element => {
         <div className="flex min-h-[80vh] items-center justify-center">
           <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
             <Title level={3}>No questions available</Title>
-            <Button type="primary" onClick={resetGame}>
+            <Button 
+              type="primary" 
+              onClick={resetGame}
+              className="!bg-cyan-600 hover:!bg-cyan-700 !border-cyan-600 hover:!border-cyan-700"
+            >
               Back to Subject Selection
             </Button>
           </Card>
@@ -254,7 +266,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
             <Progress
               percent={((currentQuestionIndex + 1) / questions.length) * 100}
               showInfo={false}
-              strokeColor="#0080a8"
+              strokeColor="#0891b2"
               trailColor="#e6f7ff"
               className="mb-1"
             />
@@ -269,11 +281,18 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 let type: 'default' | 'primary' | 'dashed' | 'link' | 'text' = 'default';
                 let danger = false;
                 let buttonClass = 'font-medium text-lg';
+                let customStyle = '';
 
                 if (selectedOption === index) {
-                  type = index === currentQuestion.correctAnswer ? 'primary' : 'default';
-                  danger = index !== currentQuestion.correctAnswer;
-                  buttonClass += index === currentQuestion.correctAnswer ? ' bg-green-50' : ' bg-red-50';
+                  if (index === currentQuestion.correctAnswer) {
+                    type = 'primary';
+                    customStyle = '!bg-cyan-600 hover:!bg-cyan-700 !border-cyan-600 hover:!border-cyan-700';
+                    buttonClass += ' bg-green-50';
+                  } else {
+                    type = 'default';
+                    danger = true;
+                    buttonClass += ' bg-red-50';
+                  }
                 } else if (isAnswered && index === currentQuestion.correctAnswer) {
                   buttonClass += ' bg-green-50';
                 }
@@ -286,7 +305,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                     danger={danger}
                     disabled={isAnswered}
                     size="large"
-                    className={buttonClass}
+                    className={`${buttonClass} ${customStyle}`}
                     onClick={() => handleOptionClick(index)}
                   >
                     {option}
