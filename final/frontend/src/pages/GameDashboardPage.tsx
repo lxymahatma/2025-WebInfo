@@ -1,18 +1,19 @@
 import { ExclamationCircleOutlined, ReloadOutlined, TrophyOutlined } from '@ant-design/icons';
-import type { GameDashboardResponse } from '@eduplayground/shared/game';
+import type { GameDashboardResponse, GameStats } from '@eduplayground/shared/game';
 import { Button, Card, Col, Divider, Modal, Row, Space, Spin, Statistic, Typography } from 'antd';
-import { useGameTracker } from 'components';
+import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchDashboard } from 'utils/api/game';
+import { fetchDashboard, resetGameStats } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
 export const GameDashboardPage = (): React.JSX.Element => {
-  const { stats, resetStats } = useGameTracker();
+  const { token } = useAuth();
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
   const [dashboard, setDashboard] = useState<GameDashboardResponse>();
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<GameStats>();
 
   useEffect(() => {
     const loadGameDashboard = async () => {
@@ -23,12 +24,41 @@ export const GameDashboardPage = (): React.JSX.Element => {
         return;
       }
       const data = await fetchDashboard(token);
+      if (!data) {
+        return;
+      }
+
       setDashboard(data);
+      setStats(data.userStats);
       setLoading(false);
     };
 
     void loadGameDashboard();
   }, []);
+
+  if (!dashboard || !stats) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
+        <div className="mx-auto max-w-6xl">
+          <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
+            <Space direction="vertical" size="large" className="w-full">
+              <Title level={3} className="text-red-500">
+                Failed to Load Game Information
+              </Title>
+              <Paragraph>Please try refreshing the page or check your connection.</Paragraph>
+              <Button
+                type="primary"
+                className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow"
+                onClick={() => globalThis.location.reload()}
+              >
+                Retry
+              </Button>
+            </Space>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   const totalGamesPlayed = stats.dragdrop + stats.timed + stats.memory;
 
@@ -36,8 +66,11 @@ export const GameDashboardPage = (): React.JSX.Element => {
     setIsResetModalOpen(true);
   };
 
-  const handleConfirmReset = () => {
-    void resetStats();
+  const handleConfirmReset = async () => {
+    if (!token) {
+      return;
+    }
+    await resetGameStats(token);
     setIsResetModalOpen(false);
   };
 
@@ -55,30 +88,6 @@ export const GameDashboardPage = (): React.JSX.Element => {
               <Title level={3} className="text-indigo-600">
                 Loading Game Information...
               </Title>
-            </Space>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  if (!dashboard) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
-        <div className="mx-auto max-w-6xl">
-          <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
-            <Space direction="vertical" size="large" className="w-full">
-              <Title level={3} className="text-red-500">
-                Failed to Load Game Information
-              </Title>
-              <Paragraph>Please try refreshing the page or check your connection.</Paragraph>
-              <Button
-                type="primary"
-                className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow"
-                onClick={() => globalThis.location.reload()}
-              >
-                Retry
-              </Button>
             </Space>
           </Card>
         </div>
@@ -115,21 +124,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
               <Col xs={24} sm={12} md={6}>
                 <Statistic
                   title="Favorite Game"
-                  value={
-                    totalGamesPlayed === 0
-                      ? 'None yet'
-                      : (() => {
-                          let maxKey: keyof typeof stats = Object.keys(stats)[0] as keyof typeof stats;
-                          let maxValue = stats[maxKey];
-                          for (const key of Object.keys(stats) as (keyof typeof stats)[]) {
-                            if (stats[key] > maxValue) {
-                              maxKey = key;
-                              maxValue = stats[key];
-                            }
-                          }
-                          return maxKey;
-                        })()
-                  }
+                  value={totalGamesPlayed === 0 ? 'None yet' : Math.max(stats.dragdrop, stats.timed, stats.memory)}
                   className="text-2xl font-bold text-green-600"
                 />
               </Col>
@@ -190,7 +185,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
                   )}
 
                   {dashboard.userStats[gameKey as keyof typeof dashboard.userStats] === 0 && (
-                    <Link to={card.path} className="mx-auto w-4/5 no-underline">
+                    <Link to={`/${card.id}`} className="mx-auto w-4/5 no-underline">
                       <div className="flex w-[90%] cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
                         <Paragraph className="m-0 text-center font-medium text-orange-600">
                           🎮 Ready to try this game?
@@ -246,7 +241,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
           </div>
         }
         open={isResetModalOpen}
-        onOk={handleConfirmReset}
+        onOk={() => void handleConfirmReset()}
         onCancel={handleCancelReset}
         okText="Yes, Reset"
         cancelText="Cancel"

@@ -1,14 +1,14 @@
 import { Button, Spin, Typography } from 'antd';
-import { useGameTracker } from 'components';
+import { useAuth } from 'components';
 import { shuffle } from 'es-toolkit';
 import React, { useEffect, useState } from 'react';
 import type { CardComponentProperties, CardType } from 'types/game';
-import { fetchMemoryCards } from 'utils/api/game';
+import { fetchMemoryCards, incrementGameCount } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
 export const MemoryCardGame = (): React.JSX.Element => {
-  const { incrementGameCount } = useGameTracker();
+  const { token } = useAuth();
   const [cards, setCards] = useState<CardType[]>([]);
   const [firstChoice, setFirstChoice] = useState<CardType | undefined>();
   const [secondChoice, setSecondChoice] = useState<CardType | undefined>();
@@ -56,11 +56,14 @@ export const MemoryCardGame = (): React.JSX.Element => {
         setGameWon(true);
         if (!gameCompleted) {
           setGameCompleted(true);
-          void incrementGameCount('memory');
+          if (!token) {
+            return;
+          }
+          void incrementGameCount(token, 'memory');
         }
       }, 500);
     }
-  }, [cards, gameCompleted, incrementGameCount]);
+  }, [token, cards, gameCompleted]);
 
   useEffect(() => {
     if (firstChoice && secondChoice) {

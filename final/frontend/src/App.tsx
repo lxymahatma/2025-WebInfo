@@ -1,4 +1,4 @@
-import { AuthProvider, GameTrackerProvider, NavBar, useAuth } from 'components';
+import { AuthProvider, NavBar, useAuth } from 'components';
 import { DragDropGame, MemoryCardGame, TimedQuestionGame } from 'games';
 import { GameDashboardPage, HomePage, ProfilePage, SignInPage, SignUpPage } from 'pages';
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from 'react-router-dom';
@@ -30,11 +30,9 @@ function AppContent() {
 export const App = () => {
   return (
     <AuthProvider>
-      <GameTrackerProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </GameTrackerProvider>
+      <Router>
+        <AppContent />
+      </Router>
     </AuthProvider>
   );
 };

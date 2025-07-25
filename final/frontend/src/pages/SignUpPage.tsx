@@ -1,6 +1,6 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input, message, Typography } from 'antd';
-import { useAuth } from 'components';
+import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signUp } from 'utils/api/auth';

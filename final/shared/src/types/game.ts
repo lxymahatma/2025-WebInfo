@@ -1,11 +1,11 @@
 // Game Dashboard Types
 export interface GameDashboardCard {
+  id: string;
   name: string;
   icon: string;
   description: string;
   backgroundColor: string;
   textColor: string;
-  path: string;
 }
 
 export interface GameDashboardResponse {

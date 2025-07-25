@@ -10,17 +10,20 @@ function getToken() {
 
 export function AuthProvider({ children }: AuthProviderProperties) {
   const [user, setUser] = useState<string>();
+  const [token, setToken] = useState<string>();
 
   useEffect(() => {
     const storeToken = getToken();
     const storedUsername = localStorage.getItem('username');
     if (storeToken && storedUsername) {
       setUser(storedUsername);
+      setToken(storeToken);
     }
   }, []);
 
   const signin = useCallback((username: string) => {
     setUser(username);
+    setToken(getToken()!);
   }, []);
 
   const signout = useCallback(async () => {
@@ -44,6 +47,7 @@ export function AuthProvider({ children }: AuthProviderProperties) {
     }
 
     setUser(undefined);
+    setToken('');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
   }, []);
@@ -51,10 +55,11 @@ export function AuthProvider({ children }: AuthProviderProperties) {
   const value = useMemo(
     () => ({
       user,
+      token,
       signin,
       signout,
     }),
-    [user, signin, signout]
+    [user, token, signin, signout]
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;

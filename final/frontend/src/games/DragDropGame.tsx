@@ -1,10 +1,10 @@
 import type { DragDropPair } from '@eduplayground/shared/game';
 import { Button, Space, Spin, Typography } from 'antd';
-import { useGameTracker } from 'components';
+import { useAuth } from 'components/auth';
 import { shuffle } from 'es-toolkit';
 import type { DragEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { fetchDragDropPairs } from 'utils/api/game';
+import { fetchDragDropPairs, incrementGameCount } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
@@ -17,7 +17,7 @@ const DIFFICULTY_LEVELS = {
 type DifficultyLevel = keyof typeof DIFFICULTY_LEVELS;
 
 export const DragDropGame = (): React.JSX.Element => {
-  const { incrementGameCount } = useGameTracker();
+  const { token } = useAuth();
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('medium');
   const [pairs, setPairs] = useState<DragDropPair[]>([]);
   const [solved, setSolved] = useState<Record<string, boolean>>({});
@@ -46,9 +46,12 @@ export const DragDropGame = (): React.JSX.Element => {
     const allSolved = Object.keys(solved).length === pairs.length && pairs.length > 0;
     if (allSolved && !completed) {
       setCompleted(true);
-      void incrementGameCount('dragdrop');
+      if (!token) {
+        return;
+      }
+      void incrementGameCount(token, 'dragdrop');
     }
-  }, [solved, pairs, completed, incrementGameCount]);
+  }, [token, solved, pairs, completed]);
 
   const onDragStart = (event: DragEvent<HTMLDivElement>, id: string) => {
     dragReference.current = id;

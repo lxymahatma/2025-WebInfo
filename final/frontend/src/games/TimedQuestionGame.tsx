@@ -1,13 +1,13 @@
 import type { Subject, TimedQuizQuestion, TimedQuizQuestionsResponse } from '@eduplayground/shared/game';
 import { Button, Card, Progress, Result, Space, Tag, Typography } from 'antd';
-import { useGameTracker } from 'components';
+import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';
-import { fetchTimedQuizQuestions } from 'utils/api/game';
+import { fetchTimedQuizQuestions, incrementGameCount } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
 
 export const TimedQuestionGame = (): React.JSX.Element => {
-  const { incrementGameCount } = useGameTracker();
+  const { token } = useAuth();
   const [selectedSubject, setSelectedSubject] = useState<Subject>();
   const [questions, setQuestions] = useState<TimedQuizQuestion[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,8 +33,10 @@ export const TimedQuestionGame = (): React.JSX.Element => {
           setIsAnswered(false);
         } else {
           setGameFinished(true);
-          // Increment game count when quiz is completed
-          void incrementGameCount('timed');
+          if (!token) {
+            return;
+          }
+          void incrementGameCount(token, 'timed');
         }
       }, 1200);
     };
@@ -84,8 +86,10 @@ export const TimedQuestionGame = (): React.JSX.Element => {
             setIsAnswered(false);
           } else {
             setGameFinished(true);
-            // Increment game count when quiz is completed
-            void incrementGameCount('timed');
+            if (!token) {
+              return;
+            }
+            void incrementGameCount(token, 'timed');
           }
         }, 1200);
       };
