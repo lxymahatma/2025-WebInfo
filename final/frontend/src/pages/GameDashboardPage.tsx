@@ -58,7 +58,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
 
   if (!dashboard || !stats) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
+      <div className="min-h-screen bg-cyan-600 p-6">
         <div className="mx-auto max-w-6xl">
           <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
             <Space direction="vertical" size="large" className="w-full">
@@ -82,7 +82,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
+      <div className="min-h-screen bg-cyan-600 p-6">
         <div className="mx-auto max-w-6xl">
           <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
             <Space direction="vertical" size="large" className="w-full">
@@ -98,7 +98,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
+    <div className="min-h-screen bg-cyan-600 p-6">
       <div className="mx-auto max-w-6xl">
         <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
           <Space direction="vertical" size="middle" className="w-full">
@@ -163,30 +163,35 @@ export const GameDashboardPage = (): React.JSX.Element => {
           </Space>
         </Card>
 
-        <Row gutter={[24, 24]}>
-          {Object.entries(dashboard.cards).map(([gameKey, card]) => (
-            <Col xs={24} sm={12} lg={8} key={gameKey}>
-              <Card
+        <div className="mt-12 mb-8">
+          <Row gutter={[32, 32]} className="justify-center">
+            {Object.entries(dashboard.cards).map(([gameKey, card]) => (
+              <Col xs={24} sm={12} lg={8} key={gameKey} className="mb-8">
+                <Card
                 hoverable
-                className="h-full rounded-2xl bg-white/95 p-6 shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                className="rounded-2xl bg-white/95 shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                style={{ height: '450px', display: 'flex', flexDirection: 'column' }}
+                styles={{ body: { padding: '24px', height: '100%', display: 'flex', flexDirection: 'column' } }}
               >
-                <Space direction="vertical" size="middle" className="w-full text-center">
-                  <div>
-                    <div className="mb-3 text-6xl">{card.icon}</div>
-                    <Title level={3} className="m-0 text-gray-800">
-                      {card.name}
-                    </Title>
-                    <Paragraph className="mx-0 my-2 text-gray-600">{card.description}</Paragraph>
-                  </div>
+                <div className="text-center mb-4">
+                  <div className="mb-3 text-6xl">{card.icon}</div>
+                  <Title level={3} className="m-0 text-gray-800">
+                    {card.name}
+                  </Title>
+                  <Paragraph className="mx-0 my-2 text-gray-600">{card.description}</Paragraph>
+                </div>
 
-                  <div className="mx-auto flex w-4/5 flex-col items-center justify-center rounded-xl p-5">
+                <div className="flex-1 flex items-center justify-center mb-4">
+                  <div className="text-center w-full">
                     <Statistic
                       title="Times Played"
                       value={stats[gameKey as keyof typeof stats]}
-                      className={`w-full text-center text-3xl font-bold ${card.textColor}`}
+                      className={`text-3xl font-bold ${card.textColor}`}
                     />
                   </div>
+                </div>
 
+                <div className="mt-auto">
                   {stats[gameKey as keyof typeof stats] > 0 && (
                     <div className="mx-auto flex w-4/5 items-center justify-center rounded-lg border border-green-300 bg-green-50 p-3 shadow">
                       <Paragraph className="m-0 text-center font-medium text-green-600">
@@ -196,19 +201,20 @@ export const GameDashboardPage = (): React.JSX.Element => {
                   )}
 
                   {stats[gameKey as keyof typeof stats] === 0 && (
-                    <Link to={`/${card.id}`} className="mx-auto w-4/5 no-underline">
-                      <div className="flex w-[90%] cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
+                    <Link to={`/${card.id}`} className="mx-auto block w-4/5 no-underline">
+                      <div className="flex w-full cursor-pointer items-center justify-center rounded-lg border border-orange-300 bg-orange-50 p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-orange-100 hover:shadow-lg">
                         <Paragraph className="m-0 text-center font-medium text-orange-600">
                           🎮 Ready to try this game?
                         </Paragraph>
                       </div>
                     </Link>
                   )}
-                </Space>
+                </div>
               </Card>
             </Col>
           ))}
         </Row>
+        </div>
 
         {totalGamesPlayed === 0 && (
           <Card className="mt-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">

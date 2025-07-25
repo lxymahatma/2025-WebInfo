@@ -345,11 +345,11 @@ export const ProfilePage = (): React.JSX.Element => {
   ];
 
   return (
-    <div className="min-h-screen bg-cyan-600 p-0">
-      <Row justify="center" align="middle" className="m-0 min-h-screen items-center justify-center p-0">
+    <div className="min-h-screen bg-cyan-600 p-0 pt-32 md:pt-40">
+      <Row justify="center" align="top" className="mx-auto max-w-7xl px-4 py-12 md:px-16" gutter={[24, 24]}>
         {/* Left Section */}
-        <Col xs={24} md={7} className="flex flex-col items-center">
-          <Card className="mb-6 w-96 rounded-2xl bg-white p-8 pb-3 shadow-lg">
+        <Col xs={24} md={7} className="flex flex-col items-center mb-8 md:mb-0">
+          <Card className="mb-6 w-full max-w-96 rounded-2xl bg-white p-6 md:p-8 pb-3 shadow-lg">
             <div className="mb-3 flex items-center gap-4">
               <Avatar size={56} src={profile.profilePicture} />
               <div>
@@ -419,7 +419,7 @@ export const ProfilePage = (): React.JSX.Element => {
 
         {/* Right Section */}
         <Col xs={24} md={10}>
-          <Card className="ml-7 max-w-2xl min-w-lg rounded-3xl bg-white p-10 pb-7 shadow-lg">
+          <Card className="max-w-2xl min-w-lg rounded-3xl bg-white p-6 md:p-10 pb-7 shadow-lg">
             {activeSection === 'profile' ? (
               // Profile Section
               <>
