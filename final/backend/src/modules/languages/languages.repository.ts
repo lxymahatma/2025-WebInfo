@@ -8,6 +8,6 @@ export const readLanguagesDB = (): LanguageDB => {
     return JSON.parse(data) as LanguageDB;
   } catch (error) {
     console.error("Error reading languages database:", error);
-    return { translations: {} };
+    throw new Error(`Failed to read languages database`, { cause: error });
   }
 };

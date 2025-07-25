@@ -8,10 +8,15 @@ export const readUsersDB = (): UserDB => {
     return JSON.parse(data) as UserDB;
   } catch (error) {
     console.error("Error reading users database:", error);
-    return { users: [] };
+    throw new Error(`Failed to read users database`, { cause: error });
   }
 };
 
 export const writeUsersDB = (database: UserDB): void => {
-  fs.writeFileSync("databases/users.json", JSON.stringify(database, undefined, 2));
+  try {
+    fs.writeFileSync("databases/users.json", JSON.stringify(database, undefined, 2));
+  } catch (error) {
+    console.error("Error writing users database:", error);
+    throw new Error(`Failed to write users database`, { cause: error });
+  }
 };
