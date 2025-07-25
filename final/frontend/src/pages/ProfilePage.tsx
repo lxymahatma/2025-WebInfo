@@ -9,7 +9,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import type { ErrorResponse } from '@eduplayground/shared/error';
-import type { LanguageResponse } from '@eduplayground/shared/language';
+import type { LanguageResponse, TranslationKeys, Translations } from '@eduplayground/shared/language';
 import type { ProfileResponse } from '@eduplayground/shared/user';
 import {
   Avatar,
@@ -30,7 +30,6 @@ import {
 } from 'antd';
 import { useAuth } from 'components';
 import React, { useEffect, useState } from 'react';
-import type { TranslationKeys, Translations } from 'types/language';
 
 const { Text } = Typography;
 
@@ -154,7 +153,6 @@ export const ProfilePage = (): React.JSX.Element => {
     },
   });
 
-  // Load language data from backend
   useEffect(() => {
     const loadLanguageData = async (): Promise<void> => {
       try {

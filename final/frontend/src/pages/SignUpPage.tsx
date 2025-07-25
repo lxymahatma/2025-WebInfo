@@ -14,7 +14,7 @@ export const SignUpPage = (): React.JSX.Element => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      void navigate('/', { replace: true });
+      void navigate('/home', { replace: true });
     }
   }, [navigate]);
 
@@ -40,7 +40,7 @@ export const SignUpPage = (): React.JSX.Element => {
 
       setTimeout(() => {
         signIn(result.value);
-        void navigate('/');
+        void navigate('/home');
       }, 800);
     } finally {
       setLoading(false);
@@ -53,7 +53,7 @@ export const SignUpPage = (): React.JSX.Element => {
         to="/"
         className="absolute top-8 left-8 text-base font-semibold text-white no-underline transition-opacity duration-300 hover:opacity-80 md:top-4 md:left-4 md:text-sm"
       >
-        ← Back to Home
+        ← Back to Welcome
       </Link>
       <div className="box-border flex h-full w-full items-center justify-center p-8">
         <Card className="relative z-10 w-[90%] max-w-md flex-shrink-0 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-sm md:p-8">

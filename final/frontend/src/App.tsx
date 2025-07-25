@@ -1,19 +1,20 @@
 import { AuthProvider, NavBar, useAuth } from 'components';
 import { DragDropGame, MemoryCardGame, TimedQuestionGame } from 'games';
-import { GameDashboardPage, HomePage, ProfilePage, SignInPage, SignUpPage } from 'pages';
+import { GameDashboardPage, HomePage, ProfilePage, SignInPage, SignUpPage, WelcomePage } from 'pages';
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 function AppContent() {
   const { userName } = useAuth();
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === '/home';
 
   return (
     <div className="App text-center font-sans">
       {userName && !isHomePage && <NavBar />}
       <main className="pt-0">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/home" element={userName ? <HomePage /> : <Navigate to="/" />} />
           <Route path="/signin" element={userName ? <Navigate to="/" /> : <SignInPage />} />
           <Route path="/signup" element={userName ? <Navigate to="/" /> : <SignUpPage />} />
           <Route path="/profile" element={userName ? <ProfilePage /> : <Navigate to="/" />} />

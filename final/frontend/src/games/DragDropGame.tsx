@@ -18,12 +18,15 @@ type DifficultyLevel = keyof typeof DIFFICULTY_LEVELS;
 
 export const DragDropGame = (): React.JSX.Element => {
   const { token } = useAuth();
+
+  const [loading, setLoading] = useState(false);
+  const [solved, setSolved] = useState<Record<string, boolean>>({});
+
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('medium');
   const [pairs, setPairs] = useState<DragDropPair[]>([]);
-  const [solved, setSolved] = useState<Record<string, boolean>>({});
-  const [completed, setCompleted] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
+  const [completed, setCompleted] = useState(false);
+
   const dragReference = useRef<string>('');
 
   const loadPairs = async (level: DifficultyLevel) => {
@@ -37,8 +40,9 @@ export const DragDropGame = (): React.JSX.Element => {
       return;
     }
 
-    setPairs(result.value.pairs);
-    setCategories(shuffle([...new Set(result.value.pairs.map(p => p.category))]));
+    const { pairs } = result.value;
+    setPairs(pairs);
+    setCategories(shuffle([...new Set(pairs.map(p => p.category))]));
     setLoading(false);
   };
 

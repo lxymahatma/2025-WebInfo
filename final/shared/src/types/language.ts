@@ -1,12 +1,41 @@
-export type Translation = Record<string, string>;
+export interface TranslationKeys {
+  myProfile: string;
+  settings: string;
+  items: string;
+  language: string;
+  loading: string;
+  name: string;
+  password: string;
+  profileSettings: string;
+  profilePicture: string;
+  changeProfilePicture: string;
+  uploadFromDevice: string;
+  enterImageUrl: string;
+  profilePictureUpdated: string;
+  chooseFromPresets: string;
+  backToProfile: string;
+  editProfile: string;
+  save: string;
+  cancel: string;
+  enterNewPassword: string;
+  itemsCollection: string;
+  close: string;
+  equippedItems: string;
+  noItemsEquipped: string;
+  availableItems: string;
+  profilePictureUploaded: string;
+}
 
-export type LanguageTranslations = Record<string, Translation>;
+export interface Translations {
+  Eng: TranslationKeys;
+  JP: TranslationKeys;
+}
 
 export interface LanguageResponse {
-  translations: LanguageTranslations;
-  userLanguage?: string;
+  translations: Translations;
+  userLanguage?: keyof Translations;
 }
 
 export interface UpdateLanguageRequest {
-  language: string;
+  language: keyof Translations;
 }
