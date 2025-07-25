@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import neverthrow from 'eslint-plugin-neverthrow';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -17,6 +18,7 @@ export default tseslint.config([
     plugins: {
       'simple-import-sort': simpleImportSort,
       import: importPlugin,
+      neverthrow: neverthrow,
     },
     extends: [
       js.configs.recommended,
@@ -44,6 +46,7 @@ export default tseslint.config([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      parser: '@typescript-eslint/parser',
       parserOptions: {
         sourceType: 'module',
         ecmaVersion: 'latest',

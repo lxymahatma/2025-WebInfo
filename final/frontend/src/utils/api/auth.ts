@@ -1,35 +1,48 @@
 import type { AuthResponse } from '@eduplayground/shared/auth';
 import type { ErrorResponse } from '@eduplayground/shared/error';
 import { API_BASE_URL } from 'config/api';
+import { err, ok, type Result } from 'neverthrow';
 
-export const signInRequest = async (values: { username: string; password: string }): Promise<AuthResponse> => {
-  const response = await fetch(`${API_BASE_URL}/signin`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(values),
-  });
+export const signInRequest = async (values: {
+  username: string;
+  password: string;
+}): Promise<Result<AuthResponse, string>> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/signin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
 
-  if (!response.ok) {
-    const error = (await response.json()) as ErrorResponse;
-    console.error('Sign in failed:', error.message);
-    throw new Error(error.message ?? 'Invalid credentials');
+    if (!response.ok) {
+      const error = (await response.json()) as ErrorResponse;
+      return err(error.message ?? 'Invalid credentials');
+    }
+    return ok((await response.json()) as AuthResponse);
+  } catch (error) {
+    return err(error instanceof Error ? error.message : 'Network error');
   }
-  return (await response.json()) as AuthResponse;
 };
 
-export const signUpRequest = async (values: { username: string; password: string }): Promise<AuthResponse> => {
-  const response = await fetch(`${API_BASE_URL}/signup`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(values),
-  });
+export const signUpRequest = async (values: {
+  username: string;
+  password: string;
+}): Promise<Result<AuthResponse, string>> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
 
-  if (!response.ok) {
-    const error = (await response.json()) as ErrorResponse;
-    console.error('Sign up failed:', error.message);
-    throw new Error(error.message ?? 'Sign up failed');
+    if (!response.ok) {
+      const error = (await response.json()) as ErrorResponse;
+      return err(error.message ?? 'Sign up failed');
+    }
+    return ok((await response.json()) as AuthResponse);
+  } catch (error) {
+    return err(error instanceof Error ? error.message : 'Network error');
   }
-  return (await response.json()) as AuthResponse;
 };
 
 export const signOutRequest = async (token: string): Promise<void> => {
@@ -42,7 +55,6 @@ export const signOutRequest = async (token: string): Promise<void> => {
   });
 
   if (!response.ok) {
-    console.error('Sign out failed:', response.statusText);
-    throw new Error('Sign out failed');
+    console.error('Sign out failed:', response.status, response.statusText);
   }
 };

@@ -23,17 +23,20 @@ export const SignInPage = (): React.JSX.Element => {
 
     setLoading(true);
     try {
-      const response = await signInRequest(values);
+      const result = await signInRequest(values);
 
-      setLoading(false);
+      if (result.isErr()) {
+        message.error(result.error);
+        return;
+      }
+
       message.success('Sign in success!');
 
       setTimeout(() => {
-        signIn(response.username, response.token);
+        signIn(result.value.username, result.value.token);
         void navigate('/');
       }, 800);
-    } catch (error) {
-      message.error(error instanceof Error ? error.message : 'Network error. Please try again.');
+    } finally {
       setLoading(false);
     }
   };
