@@ -184,28 +184,28 @@
   "memory": {
     "cards": [
       {
-        "type": "Dog"
+        "text": "Dog"
       },
       {
-        "type": "Cat"
+        "text": "Cat"
       },
       {
-        "type": "Mouse"
+        "text": "Mouse"
       },
       {
-        "type": "Hamster"
+        "text": "Hamster"
       },
       {
-        "type": "Rabbit"
+        "text": "Rabbit"
       },
       {
-        "type": "Fox"
+        "text": "Fox"
       },
       {
-        "type": "Bear"
+        "text": "Bear"
       },
       {
-        "type": "Panda"
+        "text": "Panda"
       }
     ]
   },

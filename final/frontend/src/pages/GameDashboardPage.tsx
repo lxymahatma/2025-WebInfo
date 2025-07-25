@@ -17,8 +17,8 @@ export const GameDashboardPage = (): React.JSX.Element => {
   useEffect(() => {
     const loadGameDashboard = async () => {
       setLoading(true);
-      const dashboard = await fetchDashboard();
-      setDashboard(dashboard);
+      const dashboardData = await fetchDashboard();
+      setDashboard(dashboardData);
       setLoading(false);
     };
 

@@ -50,7 +50,7 @@ export interface DragDropPairsResponse {
 
 // Memory Game Types
 export interface MemoryCard {
-  type: string;
+  text: string;
 }
 
 export interface MemoryCardsResponse {

@@ -1,8 +1,8 @@
 import { Button, Spin, Typography } from 'antd';
 import { useGameTracker } from 'components';
-import { flatMap, shuffle } from 'es-toolkit';
+import { shuffle } from 'es-toolkit';
 import React, { useEffect, useState } from 'react';
-import type { CardType } from 'types/game';
+import type { CardComponentProperties, CardType } from 'types/game';
 import { fetchMemoryCards } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
@@ -26,9 +26,9 @@ export const MemoryCardGame = (): React.JSX.Element => {
         return;
       }
 
-      const doubled = data.cards.flatMap((type, index) => [
-        { type, id: index * 2, matched: false },
-        { type, id: index * 2 + 1, matched: false },
+      const doubled = data.cards.flatMap((card, index) => [
+        { card, id: index * 2, matched: false },
+        { card, id: index * 2 + 1, matched: false },
       ]);
 
       setCards(shuffle(doubled));
@@ -65,8 +65,8 @@ export const MemoryCardGame = (): React.JSX.Element => {
   useEffect(() => {
     if (firstChoice && secondChoice) {
       setDisabled(true);
-      if (firstChoice.type === secondChoice.type) {
-        setCards(previous => previous.map(c => (c.type === firstChoice.type ? { ...c, matched: true } : c)));
+      if (firstChoice.card.text === secondChoice.card.text) {
+        setCards(previous => previous.map(c => (c.card.text === firstChoice.card.text ? { ...c, matched: true } : c)));
         resetTurn();
       } else {
         setTimeout(resetTurn, 1000);
@@ -163,13 +163,6 @@ export const MemoryCardGame = (): React.JSX.Element => {
   );
 };
 
-interface CardComponentProperties {
-  card: CardType;
-  flipped: boolean;
-  handleChoice: (card: CardType) => void;
-  disabled: boolean;
-}
-
 function Card({ card, flipped, handleChoice, disabled }: CardComponentProperties) {
   function onClick() {
     if (!flipped && !disabled) handleChoice(card);
@@ -204,7 +197,7 @@ function Card({ card, flipped, handleChoice, disabled }: CardComponentProperties
           className:
             'absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-800 font-semibold rounded-2xl shadow-lg shadow-black/15 [backface-visibility:hidden] [transform:rotateY(180deg)] transition-all duration-300 text-[1.4rem]',
         },
-        card.type
+        card.card.text
       )
     )
   );
