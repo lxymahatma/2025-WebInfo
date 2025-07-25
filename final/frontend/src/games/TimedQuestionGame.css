@@ -149,3 +149,22 @@
   border-color: #dc2626 !important;
   color: #fff !important;
 }
+.timed-question-container .ant-btn-primary {
+  background-color: #0080a8 !important;
+  border-color: #0080a8 !important;
+}
+
+.timed-question-container .ant-btn-primary:hover {
+  background-color: #006a91 !important;
+  border-color: #006a91 !important;
+}
+
+.timed-question-container .ant-btn-primary:focus {
+  background-color: #006a91 !important;
+  border-color: #006a91 !important;
+}
+
+.timed-question-container .ant-btn-primary:active {
+  background-color: #005f7a !important;
+  border-color: #005f7a !important;
+}

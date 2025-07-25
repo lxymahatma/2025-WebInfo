@@ -60,9 +60,10 @@
   align-items: center;
   display: flex;
   flex: 1;
-  gap: 0.5rem;
-  justify-content: space-evenly;
+  gap: 0.3rem;                /* slightly smaller gap for better fit */
+  justify-content: space-between; /* distribute buttons evenly */
   width: 100%;
+  flex-wrap: nowrap;          /* keep all buttons on one line */
 }
 
 .nav-link {
@@ -71,17 +72,21 @@
   border-radius: 8px;
   color: #0080a8;
   cursor: pointer;
-  display: inline-block;
-  flex: 1;
-  font-weight: bold;
-  max-width: 150px;
-  min-width: 100px;
-  outline: none;
-  padding: 0.8rem 0.8rem;
+  display: flex;              
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;            
+  width: calc(100% / 6);     
+  min-width: 0;             
+  padding: 0.6rem 0.8rem;
   text-align: center;
   text-decoration: none;
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;   
+  
+  font-size: clamp(0.7rem, 1.2vw, 0.95rem);
 }
 
 .nav-link:hover {
