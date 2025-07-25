@@ -1,4 +1,4 @@
-import { Button, Spin, Typography } from 'antd';
+import { Button, message, Spin, Typography } from 'antd';
 import { useAuth } from 'components';
 import { shuffle } from 'es-toolkit';
 import React, { useEffect, useState } from 'react';
@@ -17,16 +17,18 @@ export const MemoryCardGame = (): React.JSX.Element => {
   const [gameCompleted, setGameCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Initialize/reset game
   const initializeGame = async () => {
     setLoading(true);
     try {
-      const data = await fetchMemoryCardsRequest();
-      if (!data) {
+      const result = await fetchMemoryCardsRequest();
+
+      if (result.isErr()) {
+        console.error('Failed to fetch memory cards:', result.error);
+        message.error(result.error);
         return;
       }
 
-      const doubled = data.cards.flatMap((card, index) => [
+      const doubled = result.value.cards.flatMap((card, index) => [
         { card, id: index * 2, matched: false },
         { card, id: index * 2 + 1, matched: false },
       ]);

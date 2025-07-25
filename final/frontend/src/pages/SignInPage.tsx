@@ -26,6 +26,7 @@ export const SignInPage = (): React.JSX.Element => {
       const result = await signInRequest(values);
 
       if (result.isErr()) {
+        console.error('Sign in failed:', result.error);
         message.error(result.error);
         return;
       }

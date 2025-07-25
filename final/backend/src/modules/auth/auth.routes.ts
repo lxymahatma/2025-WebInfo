@@ -1,8 +1,4 @@
-import type {
-  AuthResponse,
-  SigninRequestBody,
-  SignupRequestBody,
-} from "@eduplayground/shared/auth";
+import type { AuthResponse } from "@eduplayground/shared/auth";
 import type { ErrorResponse } from "@eduplayground/shared/error";
 import type { User } from "@eduplayground/shared/user";
 import { isString, trim } from "es-toolkit";
@@ -11,6 +7,8 @@ import jwt from "jsonwebtoken";
 import { readUsersDB, writeUsersDB } from "modules/users";
 import { SECRET, verifyToken } from "shared/middleware";
 import type { AuthRequest } from "shared/types";
+
+import type { SigninRequestBody, SignupRequestBody } from "./auth.types";
 
 const router = Router();
 

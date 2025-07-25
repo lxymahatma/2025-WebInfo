@@ -31,6 +31,7 @@ export const SignUpPage = (): React.JSX.Element => {
       const result = await signUpRequest(values);
 
       if (result.isErr()) {
+        console.error('Sign up failed:', result.error);
         message.error(result.error);
         return;
       }
