@@ -123,10 +123,10 @@ export const TimedQuestionGame = (): React.JSX.Element => {
         >
           Timed Quiz Game
         </Title>
-        <div className="mb-4 text-2xl font-medium text-gray-600">Answer questions quickly before time runs out!</div>
+        <div className="mb-4 text-xl font-medium text-gray-600">Answer questions quickly before time runs out!</div>
         <div className="flex min-h-[40vh] items-center justify-center">
           <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
-            <div className="mb-4 text-xl">Choose your subject to start the quiz:</div>
+            <div className="mb-4 text-xl font-medium text-gray-600">Choose your subject to start the quiz:</div>
             <Space direction="vertical" size="large" className="w-full">
               <Button
                 type="primary"

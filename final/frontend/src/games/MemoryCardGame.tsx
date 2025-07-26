@@ -83,7 +83,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 pt-28 text-center">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
         <Spin size="large" />
         <Title
           level={1}
@@ -91,21 +91,21 @@ export const MemoryCardGame = (): React.JSX.Element => {
         >
           Loading...
         </Title>
-        <div className="mb-10 text-2xl font-medium text-gray-600">Getting your cards ready!</div>
+        <div className="mb-4 text-xl font-medium text-gray-600">Getting your cards ready!</div>
       </div>
     );
   }
 
   if (gameCompleted) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 pt-28 text-center">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
         <Title
           level={1}
           className={`animate-celebration-bounce mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm`}
         >
           Congratulations! 🎉
         </Title>
-        <div className="mb-10 text-2xl font-medium text-gray-600">You found all the matches!</div>
+        <div className="mb-4 text-xl font-medium text-gray-600">You found all the matches!</div>
         <Button
           type="primary"
           size="large"
@@ -119,14 +119,14 @@ export const MemoryCardGame = (): React.JSX.Element => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-300 p-8 pt-28 text-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
       <Title
         level={1}
         className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
       >
         Memory Card Game
       </Title>
-      <div className="mb-10 text-2xl font-medium text-gray-600">Flip & match the cards!</div>
+      <div className="mb-4 text-xl font-medium text-gray-600">Flip & match the cards!</div>
       <div className="mx-auto my-8 grid [grid-template-columns:repeat(4,120px)] justify-center gap-[1.2rem] [perspective:1000px]">
         {cards.map(card => (
           <MemoryCardView
