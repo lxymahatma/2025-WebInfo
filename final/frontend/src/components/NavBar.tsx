@@ -5,7 +5,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from './auth';
 
 const navItems = [
-  { key: '/', label: '🏠 Home' },
+  { key: '/home', label: '🏠 Home' },
   { key: '/dragdrop', label: '🎯 Drag & Drop' },
   { key: '/timed', label: '⏰ Timed Quiz' },
   { key: '/memory', label: '🧠 Memory' },
