@@ -106,7 +106,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 pt-28 text-center">
         <Spin size="large" />
         <Title
           level={1}
@@ -121,7 +121,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
 
   if (gameWon) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 pt-28 text-center">
         <Title
           level={1}
           className="animate-celebration-bounce mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
@@ -142,7 +142,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-300 p-8 pt-28 text-center">
       <Title
         level={1}
         className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
