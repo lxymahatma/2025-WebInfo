@@ -1,4 +1,4 @@
-import type { DragDropPair } from '@eduplayground/shared/game';
+import { DifficultyConfig, type DifficultyLevel, type DragDropPair } from '@eduplayground/shared/game';
 import { Button, message, Spin, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import { shuffle, uniq } from 'es-toolkit';
@@ -7,14 +7,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { fetchDragDropPairs, incrementGameCountRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
-
-const DIFFICULTY_LEVELS = {
-  easy: 'Easy',
-  medium: 'Medium',
-  hard: 'Hard',
-} as const;
-
-type DifficultyLevel = keyof typeof DIFFICULTY_LEVELS;
 
 export const DragDropGame = (): React.JSX.Element => {
   const { token } = useAuth();
@@ -52,7 +44,7 @@ export const DragDropGame = (): React.JSX.Element => {
 
   useEffect(() => {
     const isCompleted = Object.keys(solved).length === pairs.length && pairs.length > 0;
-    if (isCompleted && token) {
+    if (isCompleted) {
       void incrementGameCountRequest(token, 'dragdrop');
     }
   }, [token, solved, pairs]);
@@ -106,7 +98,7 @@ export const DragDropGame = (): React.JSX.Element => {
   const renderDifficultyButtons = () => (
     <div className="mb-6 flex items-center justify-center gap-3">
       <span className="mr-2 font-semibold text-gray-700">Difficulty: </span>
-      {Object.entries(DIFFICULTY_LEVELS).map(([key, label]) => (
+      {Object.entries(DifficultyConfig).map(([key, { label }]) => (
         <Button
           key={key}
           type={difficulty === key ? 'primary' : 'default'}
