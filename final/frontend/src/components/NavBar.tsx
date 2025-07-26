@@ -86,7 +86,12 @@ export const NavBar = () => {
           <span className="text-xs sm:hidden">
             <strong className="max-w-[60px] truncate">{userName}</strong>
           </span>
-          <Button type="primary" danger onClick={handleSignOut} size="small" className="text-xs sm:text-sm">
+          <Button
+            type="primary"
+            danger
+            onClick={handleSignOut}
+            className="px-3 py-1.5 text-sm sm:px-4 sm:py-2 sm:text-base"
+          >
             <span className="hidden sm:inline">Signout</span>
             <span className="sm:hidden">Out</span>
           </Button>
