@@ -8,13 +8,16 @@ const { Title, Paragraph } = Typography;
 
 export const TimedQuestionGame = (): React.JSX.Element => {
   const { token } = useAuth();
-  const [selectedSubject, setSelectedSubject] = useState<Subject>();
-  const [questions, setQuestions] = useState<TimedQuizQuestion[]>([]);
+
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [selectedSubject, setSelectedSubject] = useState<Subject>();
+
+  const [questions, setQuestions] = useState<TimedQuizQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [timeLeft, setTimeLeft] = useState<number>(15);
   const [selectedOption, setSelectedOption] = useState<number>();
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
+  const [timeLeft, setTimeLeft] = useState<number>(15);
   const [score, setScore] = useState<number>(0);
   const [gameFinished, setGameFinished] = useState<boolean>(false);
 
@@ -111,7 +114,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     knowledge: 'Fun Facts',
   };
 
-  // Subject selection screen
   if (!selectedSubject) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
@@ -166,7 +168,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   }
 
   if (gameFinished) {
-    // Show result using Ant Design's Result component
     const percent = Math.round((score / questions.length) * 100);
     let status: 'success' | 'info' | 'warning' | 'error' = 'success';
     const title = '🎉 Great Job!';
@@ -209,7 +210,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     );
   }
 
-  // Main quiz screen
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
@@ -247,7 +247,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     );
   }
 
-  // Main quiz screen
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
       <div className="flex min-h-[80vh] items-center justify-center">
