@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
@@ -14,10 +14,23 @@ const navItems = [
 ];
 
 export const NavBar = () => {
-  const location = useLocation();
   const { signOut, userName } = useAuth();
+  const location = useLocation();
   const [isVisible, setIsVisible] = useState(false);
-  const isHomePage = location.pathname === '/';
+
+  const isHomePage = location.pathname === '/home';
+
+  const handleSignOut = () => {
+    Modal.confirm({
+      title: 'Confirm Sign Out',
+      content: 'Are you sure you want to sign out?',
+      okText: 'Yes, Sign Out',
+      cancelText: 'Cancel',
+      onOk: () => {
+        signOut();
+      },
+    });
+  };
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -47,41 +60,33 @@ export const NavBar = () => {
       )}
 
       <nav
-        className={`fixed top-0 right-0 left-0 z-[1000] flex items-center justify-between bg-cyan-600 px-2 sm:px-4 lg:px-8 py-3 sm:py-4 lg:py-5 text-sm sm:text-base lg:text-lg font-semibold text-white shadow-sm transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 left-0 z-[1000] flex items-center justify-between bg-cyan-600 px-2 py-3 text-sm font-semibold text-white shadow-sm transition-transform duration-300 ease-in-out sm:px-4 sm:py-4 sm:text-base lg:px-8 lg:py-5 lg:text-lg ${
           isVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="grid grid-cols-6 gap-1 sm:gap-2 flex-1 mr-2 sm:mr-4">
+        <div className="mr-2 grid flex-1 grid-cols-6 gap-1 sm:mr-4 sm:gap-2">
           {navItems.map(item => (
             <NavLink
               key={item.key}
               to={item.key}
               className={({ isActive }) =>
-                `flex items-center justify-center overflow-hidden rounded-lg border-none bg-white px-1 sm:px-2 lg:px-4 py-2 sm:py-2.5 lg:py-3 text-center font-bold text-xs sm:text-sm lg:text-base whitespace-nowrap text-cyan-700 no-underline transition-colors duration-200 outline-none hover:bg-yellow-300 hover:text-cyan-700 focus:outline-none ${
+                `flex items-center justify-center overflow-hidden rounded-lg border-none bg-white px-1 py-2 text-center text-xs font-bold whitespace-nowrap text-cyan-700 no-underline transition-colors duration-200 outline-none hover:bg-yellow-300 hover:text-cyan-700 focus:outline-none sm:px-2 sm:py-2.5 sm:text-sm lg:px-4 lg:py-3 lg:text-base ${
                   isActive ? 'bg-yellow-300 text-cyan-700 shadow-lg shadow-yellow-200' : ''
                 }`
               }
             >
-              <span className="truncate w-full text-center">
-                {item.label}
-              </span>
+              <span className="w-full truncate text-center">{item.label}</span>
             </NavLink>
           ))}
         </div>
-        <div className="flex items-center gap-1 sm:gap-2 lg:gap-4 flex-shrink-0">
-          <span className="hidden sm:inline text-xs sm:text-sm lg:text-base">
-            Welcome, <strong className="truncate max-w-[80px] sm:max-w-none">{userName}</strong>!
+        <div className="flex flex-shrink-0 items-center gap-1 sm:gap-2 lg:gap-4">
+          <span className="hidden text-xs sm:inline sm:text-sm lg:text-base">
+            Welcome, <strong className="max-w-[80px] truncate sm:max-w-none">{userName}</strong>!
           </span>
-          <span className="sm:hidden text-xs">
-            <strong className="truncate max-w-[60px]">{userName}</strong>
+          <span className="text-xs sm:hidden">
+            <strong className="max-w-[60px] truncate">{userName}</strong>
           </span>
-          <Button 
-            type="primary" 
-            danger 
-            onClick={() => signOut()}
-            size="small"
-            className="text-xs sm:text-sm"
-          >
+          <Button type="primary" danger onClick={handleSignOut} size="small" className="text-xs sm:text-sm">
             <span className="hidden sm:inline">Signout</span>
             <span className="sm:hidden">Out</span>
           </Button>
