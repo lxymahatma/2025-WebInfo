@@ -16,6 +16,7 @@ const navItems = [
 export const NavBar = () => {
   const { signOut, userName } = useAuth();
   const location = useLocation();
+
   const [isVisible, setIsVisible] = useState(false);
 
   const isHomePage = location.pathname === '/home';
@@ -50,7 +51,6 @@ export const NavBar = () => {
 
   return (
     <>
-      {/* Show navigation hint on non-homepage when navbar is hidden */}
       {!isHomePage && !isVisible && (
         <div className="pointer-events-none fixed top-0 left-1/2 z-[999] -translate-x-1/2 transform">
           <div className="animate-pulse rounded-b-lg bg-cyan-600/90 px-4 py-2 text-sm font-medium text-white shadow-lg">

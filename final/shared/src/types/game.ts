@@ -67,7 +67,7 @@ export interface MemoryCardsResponse {
 export type Subject = "math" | "english" | "knowledge";
 
 export interface TimedQuizQuestion {
-  subject: string;
+  subject: Subject;
   question: string;
   options: string[];
   correctAnswer: number;
