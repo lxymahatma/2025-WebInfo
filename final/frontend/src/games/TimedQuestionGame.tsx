@@ -114,7 +114,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   // Subject selection screen
   if (!selectedSubject) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
         <Title
           level={1}
           className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
@@ -186,7 +186,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     }
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
         <div className="flex min-h-[80vh] items-center justify-center">
           <Result
             status={status}
@@ -212,7 +212,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   // Main quiz screen
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
         <div className="flex min-h-[80vh] items-center justify-center">
           <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
             <Title
@@ -229,7 +229,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
   if (questions.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
         <div className="flex min-h-[80vh] items-center justify-center">
           <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
             <Title
@@ -249,7 +249,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
   // Main quiz screen
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-20 text-center font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
       <div className="flex min-h-[80vh] items-center justify-center">
         <Card className="w-full max-w-lg rounded-2xl py-2 text-center" variant="outlined">
           <Space direction="vertical" className="w-full" size="large">
