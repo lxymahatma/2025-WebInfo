@@ -27,7 +27,10 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": "src",
     "paths": {
-      "@eduplayground/shared/*": [
+      "@eduplayground/shared/config": [
+        "../../shared/src/config"
+      ],
+      "@eduplayground/shared/types/*": [
         "../../shared/src/types/*"
       ]
     }

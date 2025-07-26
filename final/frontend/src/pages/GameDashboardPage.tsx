@@ -1,5 +1,5 @@
 import { ExclamationCircleOutlined, ReloadOutlined, TrophyOutlined } from '@ant-design/icons';
-import type { GameDashboard, GameStats } from '@eduplayground/shared/game';
+import type { GameDashboard, GameStats } from '@eduplayground/shared/types/game';
 import { Button, Card, Col, Divider, message, Modal, Row, Space, Spin, Statistic, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import { maxBy, sum } from 'es-toolkit';

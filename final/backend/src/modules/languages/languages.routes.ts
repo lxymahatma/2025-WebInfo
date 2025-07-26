@@ -1,5 +1,9 @@
-import type { ErrorResponse } from "@eduplayground/shared/error";
-import type { LanguageResponse, UpdateLanguageRequest } from "@eduplayground/shared/language";
+import type { ErrorResponse } from "@eduplayground/shared/types/error";
+import type {
+  LanguageResponse,
+  Translations,
+  UpdateLanguageRequest,
+} from "@eduplayground/shared/types/language";
 import { type Response, Router } from "express";
 import { readUsersDB, writeUsersDB } from "modules/users";
 import { verifyToken } from "shared/middleware";
@@ -23,7 +27,7 @@ router.get(
 
     response.json({
       translations: languageDB.translations,
-      userLanguage: user.language,
+      userLanguage: user.language as keyof Translations,
     });
   }
 );

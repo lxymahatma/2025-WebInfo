@@ -50,13 +50,9 @@ export interface DragDropPairsResponse {
   pairs: DragDropPair[];
 }
 
-export const DifficultyConfig = {
-  easy: { label: "Easy", count: 1 },
-  medium: { label: "Medium", count: 2 },
-  hard: { label: "Hard", count: 3 },
-};
+export const DragDropDifficultyKeys = ["easy", "medium", "hard"] as const;
 
-export type DifficultyLevel = keyof typeof DifficultyConfig;
+export type DragDropDifficultyLevel = (typeof DragDropDifficultyKeys)[number];
 
 // Memory Game Types
 export interface MemoryCard {

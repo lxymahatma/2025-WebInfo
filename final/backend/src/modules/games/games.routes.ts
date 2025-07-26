@@ -1,13 +1,13 @@
-import type { ErrorResponse } from "@eduplayground/shared/error";
-import {
-  DifficultyConfig,
-  type DifficultyLevel,
-  type DragDropPairsResponse,
-  type GameOverviewResponse,
-  type GameStatsResponse,
-  type MemoryCardsResponse,
-  type UpdateGameStatsRequest,
-} from "@eduplayground/shared/game";
+import { DragDropDifficultyConfig } from "@eduplayground/shared/config";
+import type { ErrorResponse } from "@eduplayground/shared/types/error";
+import type {
+  DragDropDifficultyLevel,
+  DragDropPairsResponse,
+  GameOverviewResponse,
+  GameStatsResponse,
+  MemoryCardsResponse,
+  UpdateGameStatsRequest,
+} from "@eduplayground/shared/types/game";
 import { groupBy, sampleSize, shuffle } from "es-toolkit";
 import { type Request, type Response, Router } from "express";
 import { readUsersDB, writeUsersDB } from "modules/users";
@@ -56,8 +56,8 @@ router.get(
   (request: Request, response: Response<DragDropPairsResponse | ErrorResponse>) => {
     const database = readGamesDB();
 
-    const difficulty = request.query.difficulty as DifficultyLevel;
-    const count = DifficultyConfig[difficulty].count;
+    const difficulty = request.query.difficulty as DragDropDifficultyLevel;
+    const count = DragDropDifficultyConfig[difficulty].count;
 
     const shuffledPairs = shuffle(database.dragdrop.pairs);
     const groupedPairs = groupBy(shuffledPairs, (pair) => pair.category);

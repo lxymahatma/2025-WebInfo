@@ -1,4 +1,4 @@
-import type { Subject, TimedQuizQuestion } from '@eduplayground/shared/game';
+import type { Subject, TimedQuizQuestion } from '@eduplayground/shared/types/game';
 import { Button, Card, message, Progress, Result, Space, Tag, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import React, { useEffect, useState } from 'react';

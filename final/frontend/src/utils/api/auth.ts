@@ -1,5 +1,5 @@
-import type { AuthResponse } from '@eduplayground/shared/auth';
-import type { ErrorResponse } from '@eduplayground/shared/error';
+import type { AuthResponse } from '@eduplayground/shared/types/auth';
+import type { ErrorResponse } from '@eduplayground/shared/types/error';
 import { API_BASE_URL } from 'config/api';
 import { err, ok, type Result } from 'neverthrow';
 

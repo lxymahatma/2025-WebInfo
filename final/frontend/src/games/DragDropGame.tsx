@@ -1,4 +1,5 @@
-import { DifficultyConfig, type DifficultyLevel, type DragDropPair } from '@eduplayground/shared/game';
+import { DragDropDifficultyConfig } from '@eduplayground/shared/config';
+import type { DragDropDifficultyLevel, DragDropPair } from '@eduplayground/shared/types/game';
 import { Button, message, Spin, Typography } from 'antd';
 import { useAuth } from 'components/auth';
 import { shuffle, uniq } from 'es-toolkit';
@@ -14,14 +15,14 @@ export const DragDropGame = (): React.JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [dropFeedback, setDropFeedback] = useState<Record<string, 'success' | 'error' | undefined>>({});
 
-  const [difficulty, setDifficulty] = useState<DifficultyLevel>('medium');
+  const [difficulty, setDifficulty] = useState<DragDropDifficultyLevel>('medium');
   const [pairs, setPairs] = useState<DragDropPair[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [solved, setSolved] = useState<Record<string, boolean>>({});
 
   const dragReference = useRef<string>('');
 
-  const loadPairs = async (level: DifficultyLevel) => {
+  const loadPairs = async (level: DragDropDifficultyLevel) => {
     setLoading(true);
     const result = await fetchDragDropPairs(level);
 
@@ -87,7 +88,7 @@ export const DragDropGame = (): React.JSX.Element => {
     void loadPairs(difficulty);
   };
 
-  const changeDifficulty = (level: DifficultyLevel) => {
+  const changeDifficulty = (level: DragDropDifficultyLevel) => {
     setDifficulty(level);
     setSolved({});
     setDropFeedback({});
@@ -98,11 +99,11 @@ export const DragDropGame = (): React.JSX.Element => {
   const renderDifficultyButtons = () => (
     <div className="mb-6 flex items-center justify-center gap-3">
       <span className="mr-2 font-semibold text-gray-700">Difficulty: </span>
-      {Object.entries(DifficultyConfig).map(([key, { label }]) => (
+      {Object.entries(DragDropDifficultyConfig).map(([key, { label }]) => (
         <Button
           key={key}
           type={difficulty === key ? 'primary' : 'default'}
-          onClick={() => changeDifficulty(key as DifficultyLevel)}
+          onClick={() => changeDifficulty(key as DragDropDifficultyLevel)}
           className={`rounded-lg border-2 px-3 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-px hover:border-cyan-600 ${
             difficulty === key
               ? '-translate-y-px border-cyan-600 bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-lg shadow-cyan-600/30'

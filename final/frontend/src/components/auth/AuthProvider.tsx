@@ -1,4 +1,4 @@
-import type { AuthResponse } from '@eduplayground/shared/auth';
+import type { AuthResponse } from '@eduplayground/shared/types/auth';
 import { message } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AuthProviderProperties } from 'types/auth';

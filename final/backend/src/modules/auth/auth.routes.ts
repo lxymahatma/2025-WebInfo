@@ -1,6 +1,6 @@
-import type { AuthResponse } from "@eduplayground/shared/auth";
-import type { ErrorResponse } from "@eduplayground/shared/error";
-import type { User } from "@eduplayground/shared/user";
+import type { AuthResponse } from "@eduplayground/shared/types/auth";
+import type { ErrorResponse } from "@eduplayground/shared/types/error";
+import type { User } from "@eduplayground/shared/types/user";
 import { isString, trim } from "es-toolkit";
 import { type Request, type Response, Router } from "express";
 import jwt from "jsonwebtoken";

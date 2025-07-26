@@ -1,5 +1,5 @@
-import type { ErrorResponse } from "@eduplayground/shared/error";
-import type { ProfileResponse, UpdateProfileRequestBody } from "@eduplayground/shared/user";
+import type { ErrorResponse } from "@eduplayground/shared/types/error";
+import type { ProfileResponse, UpdateProfileRequestBody } from "@eduplayground/shared/types/user";
 import { merge } from "es-toolkit";
 import type { Request, Response } from "express";
 import { Router } from "express";

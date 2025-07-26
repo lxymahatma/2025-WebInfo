@@ -1,4 +1,4 @@
-import type { MemoryCard } from '@eduplayground/shared/game';
+import type { MemoryCard } from '@eduplayground/shared/types/game';
 
 // Memory Card Game
 export interface CardType {

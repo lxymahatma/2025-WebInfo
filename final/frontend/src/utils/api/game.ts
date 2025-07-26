@@ -7,7 +7,7 @@ import type {
   MemoryCardsResponse,
   Subject,
   TimedQuizQuestionsResponse,
-} from '@eduplayground/shared/game';
+} from '@eduplayground/shared/types/game';
 import { API_BASE_URL } from 'config/api';
 import { err, ok, type Result } from 'neverthrow';
 

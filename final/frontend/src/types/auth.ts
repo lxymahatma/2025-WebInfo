@@ -1,4 +1,4 @@
-import type { AuthResponse } from '@eduplayground/shared/auth';
+import type { AuthResponse } from '@eduplayground/shared/types/auth';
 import type { ReactNode } from 'react';
 
 export interface AuthContextType {

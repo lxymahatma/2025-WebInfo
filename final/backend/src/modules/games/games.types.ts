@@ -3,7 +3,7 @@ import type {
   GameDashboardCard,
   MemoryCard,
   TimedQuizQuestion,
-} from "@eduplayground/shared/game";
+} from "@eduplayground/shared/types/game";
 
 export interface GamesDB {
   dashboard: {

@@ -1,5 +1,5 @@
-import type { LanguageResponse } from '@eduplayground/shared/language';
-import type { ProfileResponse } from '@eduplayground/shared/user';
+import type { LanguageResponse } from '@eduplayground/shared/types/language';
+import type { ProfileResponse } from '@eduplayground/shared/types/user';
 import { API_BASE_URL } from 'config/api';
 import { err, ok, type Result } from 'neverthrow';
 

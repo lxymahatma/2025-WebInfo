@@ -33,7 +33,7 @@ export interface Translations {
 
 export interface LanguageResponse {
   translations: Translations;
-  userLanguage?: keyof Translations;
+  userLanguage: keyof Translations;
 }
 
 export interface UpdateLanguageRequest {

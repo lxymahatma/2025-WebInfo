@@ -8,9 +8,9 @@ import {
   UploadOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import type { ErrorResponse } from '@eduplayground/shared/error';
-import type { LanguageResponse, TranslationKeys, Translations } from '@eduplayground/shared/language';
-import type { ProfileResponse } from '@eduplayground/shared/user';
+import type { ErrorResponse } from '@eduplayground/shared/types/error';
+import type { LanguageResponse, TranslationKeys, Translations } from '@eduplayground/shared/types/language';
+import type { ProfileResponse } from '@eduplayground/shared/types/user';
 import {
   Avatar,
   Button,
@@ -169,7 +169,7 @@ export const ProfilePage = (): React.JSX.Element => {
         if (response.ok) {
           const data = (await response.json()) as LanguageResponse;
           setTranslations(data.translations);
-          setLang(data.userLanguage ?? 'Eng');
+          setLang(data.userLanguage);
         } else {
           console.error('Failed to load translations from backend');
         }
