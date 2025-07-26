@@ -37,8 +37,6 @@ export const MemoryCardGame = (): React.JSX.Element => {
       setFirstChoice(undefined);
       setSecondChoice(undefined);
       setGameCompleted(false);
-    } catch (error) {
-      console.error('Error initializing game:', error);
     } finally {
       setLoading(false);
     }
