@@ -154,8 +154,8 @@ export const DragDropGame = (): React.JSX.Element => {
   return (
     <div className="flex min-h-screen w-full flex-col items-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-20 md:p-8">
       <Title
-        level={2}
-        className="bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl"
+        level={1}
+        className="bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
       >
         Drag & Drop Match Game
       </Title>
