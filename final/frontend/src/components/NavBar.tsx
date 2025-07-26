@@ -47,31 +47,43 @@ export const NavBar = () => {
       )}
 
       <nav
-        className={`fixed top-0 right-0 left-0 z-[1000] flex items-center justify-between bg-cyan-600 px-8 py-5 text-lg font-semibold text-white shadow-sm transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 left-0 z-[1000] flex items-center justify-between bg-cyan-600 px-2 sm:px-4 lg:px-8 py-3 sm:py-4 lg:py-5 text-sm sm:text-base lg:text-lg font-semibold text-white shadow-sm transition-transform duration-300 ease-in-out ${
           isVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="flex w-full flex-1 items-center justify-evenly gap-2">
+        <div className="grid grid-cols-6 gap-1 sm:gap-2 flex-1 mr-2 sm:mr-4">
           {navItems.map(item => (
             <NavLink
               key={item.key}
               to={item.key}
               className={({ isActive }) =>
-                `flex max-w-[180px] min-w-[140px] flex-1 items-center justify-center overflow-hidden rounded-lg border-none bg-white px-4 py-3 text-center font-bold whitespace-nowrap text-cyan-700 no-underline transition-colors duration-200 outline-none hover:bg-yellow-300 hover:text-cyan-700 focus:outline-none ${
+                `flex items-center justify-center overflow-hidden rounded-lg border-none bg-white px-1 sm:px-2 lg:px-4 py-2 sm:py-2.5 lg:py-3 text-center font-bold text-xs sm:text-sm lg:text-base whitespace-nowrap text-cyan-700 no-underline transition-colors duration-200 outline-none hover:bg-yellow-300 hover:text-cyan-700 focus:outline-none ${
                   isActive ? 'bg-yellow-300 text-cyan-700 shadow-lg shadow-yellow-200' : ''
                 }`
               }
             >
-              {item.label}
+              <span className="truncate w-full text-center">
+                {item.label}
+              </span>
             </NavLink>
           ))}
         </div>
-        <div className="flex items-center gap-4">
-          <span>
-            Welcome, <strong>{userName}</strong>!
+        <div className="flex items-center gap-1 sm:gap-2 lg:gap-4 flex-shrink-0">
+          <span className="hidden sm:inline text-xs sm:text-sm lg:text-base">
+            Welcome, <strong className="truncate max-w-[80px] sm:max-w-none">{userName}</strong>!
           </span>
-          <Button type="primary" danger onClick={() => signOut()}>
-            Signout
+          <span className="sm:hidden text-xs">
+            <strong className="truncate max-w-[60px]">{userName}</strong>
+          </span>
+          <Button 
+            type="primary" 
+            danger 
+            onClick={() => signOut()}
+            size="small"
+            className="text-xs sm:text-sm"
+          >
+            <span className="hidden sm:inline">Signout</span>
+            <span className="sm:hidden">Out</span>
           </Button>
         </div>
       </nav>
