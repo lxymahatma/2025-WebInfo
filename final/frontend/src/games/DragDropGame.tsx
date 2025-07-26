@@ -24,19 +24,22 @@ export const DragDropGame = (): React.JSX.Element => {
 
   const loadPairs = async (level: DragDropDifficultyLevel) => {
     setLoading(true);
-    const result = await fetchDragDropPairs(level);
 
-    if (result.isErr()) {
-      console.error('Failed to load pairs:', result.error);
-      message.error('Failed to load pairs. Please try again later.');
+    try {
+      const result = await fetchDragDropPairs(level);
+
+      if (result.isErr()) {
+        console.error('Failed to load pairs:', result.error);
+        message.error('Failed to load pairs. Please try again later.');
+        return;
+      }
+
+      const { pairs } = result.value;
+      setPairs(pairs);
+      setCategories(shuffle(uniq(pairs.map(p => p.category))));
+    } finally {
       setLoading(false);
-      return;
     }
-
-    const { pairs } = result.value;
-    setPairs(pairs);
-    setCategories(shuffle(uniq(pairs.map(p => p.category))));
-    setLoading(false);
   };
 
   useEffect(() => {
