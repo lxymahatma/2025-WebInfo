@@ -115,12 +115,18 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   if (!selectedSubject) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
-        <div className="flex min-h-[80vh] items-center justify-center">
+        <Title
+          level={1}
+          className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+        >
+          Timed Quiz Game
+        </Title>
+        <Paragraph className="mb-6 text-lg font-medium text-gray-600">
+          Answer questions quickly before time runs out!
+        </Paragraph>
+        <div className="flex min-h-[60vh] items-center justify-center">
           <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
-            <Title level={2} className="mb-2">
-              🎯 Quiz Time!
-            </Title>
-            <Paragraph className="mb-6 text-lg">Choose your subject to start the quiz:</Paragraph>
+            <Paragraph className="mb-6 text-base">Choose your subject to start the quiz:</Paragraph>
             <Space direction="vertical" size="large" className="w-full">
               <Button
                 type="primary"
@@ -128,6 +134,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 size="large"
                 loading={loading}
                 onClick={() => void handleSubjectSelect('math')}
+                className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
               >
                 🔢 Math
               </Button>
@@ -137,6 +144,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 size="large"
                 loading={loading}
                 onClick={() => void handleSubjectSelect('english')}
+                className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
               >
                 📚 English
               </Button>
@@ -146,6 +154,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 size="large"
                 loading={loading}
                 onClick={() => void handleSubjectSelect('knowledge')}
+                className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
               >
                 🌟 Fun Facts
               </Button>
@@ -206,7 +215,12 @@ export const TimedQuestionGame = (): React.JSX.Element => {
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
         <div className="flex min-h-[80vh] items-center justify-center">
           <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
-            <Title level={3}>Loading questions...</Title>
+            <Title
+              level={3}
+              className="bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text font-extrabold text-transparent"
+            >
+              Loading questions...
+            </Title>
           </Card>
         </div>
       </div>
@@ -218,7 +232,12 @@ export const TimedQuestionGame = (): React.JSX.Element => {
       <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center font-sans">
         <div className="flex min-h-[80vh] items-center justify-center">
           <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
-            <Title level={3}>No questions available</Title>
+            <Title
+              level={3}
+              className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text font-extrabold text-transparent"
+            >
+              No questions available
+            </Title>
             <Button type="primary" onClick={resetGame}>
               Back to Subject Selection
             </Button>
