@@ -87,18 +87,14 @@ export const MemoryCardGame = (): React.JSX.Element => {
     }
   }, [firstChoice, secondChoice]);
 
-  const centerContainerClass =
-    'flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center';
-  const titleClass =
-    'mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm';
-  const buttonClass =
-    'mt-6 cursor-pointer rounded-xl border-none bg-gradient-to-r from-cyan-600 to-cyan-800 px-[30px] py-3 text-[1.1rem] font-semibold text-white shadow-lg shadow-cyan-600/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-600/60';
-
   if (loading) {
     return (
-      <div className={centerContainerClass}>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center">
         <Spin size="large" />
-        <Title level={1} className={titleClass}>
+        <Title
+          level={1}
+          className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+        >
           Loading...
         </Title>
         <Paragraph className="mb-10 text-xl font-medium text-gray-600">Getting your cards ready!</Paragraph>
@@ -108,12 +104,20 @@ export const MemoryCardGame = (): React.JSX.Element => {
 
   if (gameCompleted) {
     return (
-      <div className={centerContainerClass}>
-        <Title level={1} className={`animate-celebration-bounce ${titleClass}`}>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center">
+        <Title
+          level={1}
+          className={`animate-celebration-bounce mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm`}
+        >
           Congratulations! 🎉
         </Title>
         <Paragraph className="mb-10 text-xl font-medium text-gray-600">You found all the matches!</Paragraph>
-        <Button type="primary" size="large" onClick={() => void initializeGame()} className={buttonClass}>
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => void initializeGame()}
+          className="mt-6 cursor-pointer rounded-xl border-none bg-gradient-to-r from-cyan-600 to-cyan-800 px-[30px] py-3 text-[1.1rem] font-semibold text-white shadow-lg shadow-cyan-600/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-600/60"
+        >
           Start New Game
         </Button>
       </div>
@@ -122,7 +126,10 @@ export const MemoryCardGame = (): React.JSX.Element => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-300 p-8 text-center">
-      <Title level={1} className={titleClass}>
+      <Title
+        level={1}
+        className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+      >
         Memory Card Game
       </Title>
       <Paragraph className="mb-10 text-xl font-medium text-gray-600">Flip & match the cards!</Paragraph>
