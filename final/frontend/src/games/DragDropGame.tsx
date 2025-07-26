@@ -1,7 +1,7 @@
 import type { DragDropPair } from '@eduplayground/shared/game';
-import { Button, message, Space, Spin, Typography } from 'antd';
+import { Button, message, Spin, Typography } from 'antd';
 import { useAuth } from 'components/auth';
-import { shuffle } from 'es-toolkit';
+import { shuffle, uniq } from 'es-toolkit';
 import type { DragEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchDragDropPairs, incrementGameCountRequest } from 'utils/api/game';
@@ -20,12 +20,12 @@ export const DragDropGame = (): React.JSX.Element => {
   const { token } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [solved, setSolved] = useState<Record<string, boolean>>({});
+  const [dropFeedback, setDropFeedback] = useState<Record<string, 'success' | 'error' | undefined>>({});
 
   const [difficulty, setDifficulty] = useState<DifficultyLevel>('medium');
   const [pairs, setPairs] = useState<DragDropPair[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
-  const [completed, setCompleted] = useState(false);
+  const [solved, setSolved] = useState<Record<string, boolean>>({});
 
   const dragReference = useRef<string>('');
 
@@ -42,7 +42,7 @@ export const DragDropGame = (): React.JSX.Element => {
 
     const { pairs } = result.value;
     setPairs(pairs);
-    setCategories(shuffle([...new Set(pairs.map(p => p.category))]));
+    setCategories(shuffle(uniq(pairs.map(p => p.category))));
     setLoading(false);
   };
 
@@ -51,15 +51,11 @@ export const DragDropGame = (): React.JSX.Element => {
   }, [difficulty]);
 
   useEffect(() => {
-    const allSolved = Object.keys(solved).length === pairs.length && pairs.length > 0;
-    if (allSolved && !completed) {
-      setCompleted(true);
-      if (!token) {
-        return;
-      }
+    const isCompleted = Object.keys(solved).length === pairs.length && pairs.length > 0;
+    if (isCompleted && token) {
       void incrementGameCountRequest(token, 'dragdrop');
     }
-  }, [token, solved, pairs, completed]);
+  }, [token, solved, pairs]);
 
   const onDragStart = (event: DragEvent<HTMLDivElement>, id: string) => {
     dragReference.current = id;
@@ -77,56 +73,57 @@ export const DragDropGame = (): React.JSX.Element => {
     const item = pairs.find(p => p.id === id);
     if (!item) return;
 
-    const target = event.currentTarget as HTMLElement;
-    const originalColor = target.style.backgroundColor;
+    const isCorrect = item.category === category;
+    const feedbackType = isCorrect ? 'success' : 'error';
 
-    target.style.backgroundColor = item.category === category ? '#e0ffe0' : '#ffe0e0';
-    if (item.category === category) setSolved(previous => ({ ...previous, [id]: true }));
+    setDropFeedback(previous => ({ ...previous, [category]: feedbackType }));
+
+    if (isCorrect) {
+      setSolved(previous => ({ ...previous, [id]: true }));
+    }
 
     setTimeout(() => {
-      target.style.backgroundColor = originalColor;
+      setDropFeedback(previous => ({ ...previous, [category]: undefined }));
     }, 500);
 
     dragReference.current = '';
   };
 
-  const restart = () => {
+  const resetGame = () => {
     setSolved({});
-    setCompleted(false);
+    setDropFeedback({});
     void loadPairs(difficulty);
   };
 
   const changeDifficulty = (level: DifficultyLevel) => {
     setDifficulty(level);
     setSolved({});
-    setCompleted(false);
+    setDropFeedback({});
   };
 
-  const isSolvedAll = Object.keys(solved).length === pairs.length;
+  const isGameCompleted = Object.keys(solved).length === pairs.length && pairs.length > 0;
 
   const renderDifficultyButtons = () => (
     <div className="mb-6 flex items-center justify-center gap-3">
       <span className="mr-2 font-semibold text-gray-700">Difficulty: </span>
-      <Space>
-        {Object.entries(DIFFICULTY_LEVELS).map(([key, label]) => (
-          <Button
-            key={key}
-            type={difficulty === key ? 'primary' : 'default'}
-            onClick={() => changeDifficulty(key as DifficultyLevel)}
-            className={`rounded-lg border-2 px-3 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-px hover:border-cyan-600 ${
-              difficulty === key
-                ? '-translate-y-px border-cyan-600 bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-lg shadow-cyan-600/30'
-                : 'border-gray-300 bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700'
-            }`}
-          >
-            {label}
-          </Button>
-        ))}
-      </Space>
+      {Object.entries(DIFFICULTY_LEVELS).map(([key, label]) => (
+        <Button
+          key={key}
+          type={difficulty === key ? 'primary' : 'default'}
+          onClick={() => changeDifficulty(key as DifficultyLevel)}
+          className={`rounded-lg border-2 px-3 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-px hover:border-cyan-600 ${
+            difficulty === key
+              ? '-translate-y-px border-cyan-600 bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-lg shadow-cyan-600/30'
+              : 'border-gray-300 bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700'
+          }`}
+        >
+          {label}
+        </Button>
+      ))}
     </div>
   );
 
-  if (loading || pairs.length === 0) {
+  if (loading) {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center">
         <Spin size="large" />
@@ -135,7 +132,7 @@ export const DragDropGame = (): React.JSX.Element => {
     );
   }
 
-  if (isSolvedAll) {
+  if (isGameCompleted) {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 text-center">
         <Title
@@ -149,7 +146,7 @@ export const DragDropGame = (): React.JSX.Element => {
         <Button
           type="primary"
           size="large"
-          onClick={restart}
+          onClick={resetGame}
           className="rounded-lg bg-gradient-to-r from-green-500 to-green-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
         >
           Start New Game
@@ -177,13 +174,15 @@ export const DragDropGame = (): React.JSX.Element => {
         <div className="grid grid-cols-3 justify-items-center gap-4 md:grid-cols-6">
           {pairs.map(({ id, label }) => {
             const [emoji, ...textParts] = label.split(' ');
+            const isSolved = solved[id];
+
             return (
               <div
                 key={id}
-                draggable={!solved[id]}
+                draggable={!isSolved}
                 onDragStart={event => onDragStart(event, id)}
                 className={`flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-2xl text-center font-semibold transition-all duration-300 md:w-25 ${
-                  solved[id]
+                  isSolved
                     ? 'scale-95 cursor-default bg-gradient-to-br from-gray-400 to-gray-600 opacity-60 shadow-md'
                     : 'cursor-grab bg-gradient-to-br from-cyan-600 to-cyan-800 text-white shadow-lg shadow-cyan-600/30 hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl active:scale-95 active:cursor-grabbing'
                 }`}
@@ -197,16 +196,27 @@ export const DragDropGame = (): React.JSX.Element => {
       </div>
 
       <div className="grid w-full max-w-md grid-cols-1 gap-5 md:grid-cols-2">
-        {categories.map(category => (
-          <div
-            key={category}
-            onDragOver={onDragOver}
-            onDrop={event => onDrop(event, category)}
-            className="flex min-h-20 items-center justify-center rounded-2xl border-3 border-dashed border-cyan-600 bg-white text-xl font-semibold text-cyan-600 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-800 hover:bg-blue-50 hover:shadow-xl"
-          >
-            {category}
-          </div>
-        ))}
+        {categories.map(category => {
+          const feedback = dropFeedback[category];
+          const feedbackClasses = {
+            success: 'bg-green-100 border-green-500',
+            error: 'bg-red-100 border-red-500',
+            undefined: 'bg-white border-cyan-600',
+          };
+
+          return (
+            <div
+              key={category}
+              onDragOver={onDragOver}
+              onDrop={event => onDrop(event, category)}
+              className={`flex min-h-20 items-center justify-center rounded-2xl border-3 border-dashed text-xl font-semibold text-cyan-600 shadow-lg transition-all duration-300 ${
+                feedback ? feedbackClasses[feedback] : feedbackClasses.undefined
+              } ${feedback ? '' : 'hover:-translate-y-0.5 hover:border-cyan-800 hover:bg-blue-50 hover:shadow-xl'}`}
+            >
+              {category}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

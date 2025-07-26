@@ -17,6 +17,7 @@ function getUsername() {
 export function AuthProvider({ children }: AuthProviderProperties) {
   const [userName, setUserName] = useState<string>('');
   const [token, setToken] = useState<string>('');
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const storeToken = getToken();
@@ -25,6 +26,7 @@ export function AuthProvider({ children }: AuthProviderProperties) {
       setUserName(storedUsername);
       setToken(storeToken);
     }
+    setIsReady(true);
   }, []);
 
   const signIn = useCallback((auth: AuthResponse) => {
@@ -58,6 +60,8 @@ export function AuthProvider({ children }: AuthProviderProperties) {
     }),
     [userName, token, signIn, signOut]
   );
+
+  if (!isReady) return;
 
   return <AuthContext value={value}>{children}</AuthContext>;
 }

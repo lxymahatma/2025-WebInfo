@@ -58,9 +58,6 @@ export const MemoryCardGame = (): React.JSX.Element => {
         setGameWon(true);
         if (!gameCompleted) {
           setGameCompleted(true);
-          if (!token) {
-            return;
-          }
           void incrementGameCountRequest(token, 'memory');
         }
       }, 500);

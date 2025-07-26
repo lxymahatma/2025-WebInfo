@@ -33,9 +33,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
           setIsAnswered(false);
         } else {
           setGameFinished(true);
-          if (!token) {
-            return;
-          }
           void incrementGameCountRequest(token, 'timed');
         }
       }, 1200);
