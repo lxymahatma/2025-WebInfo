@@ -7,7 +7,7 @@ import type { DragEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchDragDropPairs, incrementGameCountRequest } from 'utils/api/game';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 export const DragDropGame = (): React.JSX.Element => {
   const { token } = useAuth();
@@ -121,23 +121,23 @@ export const DragDropGame = (): React.JSX.Element => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center md:pt-28">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans md:pt-28">
         <Spin size="large" />
-        <Paragraph>Loading...</Paragraph>
+        <div className="text-xl font-medium text-gray-600">Loading...</div>
       </div>
     );
   }
 
   if (isGameCompleted) {
     return (
-      <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center md:pt-28">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans md:pt-28">
         <Title
-          level={2}
-          className="bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl"
+          level={1}
+          className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
         >
           Congratulations! 🎉
         </Title>
-        <Paragraph className="text-lg font-medium text-gray-600">You matched all the items correctly!</Paragraph>
+        <div className="mb-4 text-xl font-medium text-gray-600">You matched all the items correctly!</div>
         {renderDifficultyButtons()}
         <Button
           type="primary"
@@ -152,16 +152,14 @@ export const DragDropGame = (): React.JSX.Element => {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 md:p-8 md:pt-28">
+    <div className="flex min-h-screen w-full flex-col items-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 font-sans md:pt-28">
       <Title
         level={1}
-        className="bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text px-4 py-2 text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+        className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
       >
         Drag & Drop Match Game
       </Title>
-      <Paragraph className="text-lg font-medium text-gray-600">
-        Drag each emoji token into the correct category.
-      </Paragraph>
+      <div className="mb-4 text-xl font-medium text-gray-600">Drag each emoji token into the correct category.</div>
 
       {renderDifficultyButtons()}
 
