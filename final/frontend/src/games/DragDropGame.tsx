@@ -7,7 +7,7 @@ import type { DragEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchDragDropPairs, incrementGameCountRequest } from 'utils/api/game';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 export const DragDropGame = (): React.JSX.Element => {
   const { token } = useAuth();
@@ -123,7 +123,7 @@ export const DragDropGame = (): React.JSX.Element => {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center md:pt-28">
         <Spin size="large" />
-        <Paragraph>Loading...</Paragraph>
+        <div className="text-lg">Loading...</div>
       </div>
     );
   }
@@ -137,7 +137,7 @@ export const DragDropGame = (): React.JSX.Element => {
         >
           Congratulations! 🎉
         </Title>
-        <Paragraph className="text-lg font-medium text-gray-600">You matched all the items correctly!</Paragraph>
+        <div className="text-xl font-medium text-gray-600">You matched all the items correctly!</div>
         {renderDifficultyButtons()}
         <Button
           type="primary"
@@ -159,9 +159,7 @@ export const DragDropGame = (): React.JSX.Element => {
       >
         Drag & Drop Match Game
       </Title>
-      <Paragraph className="text-lg font-medium text-gray-600">
-        Drag each emoji token into the correct category.
-      </Paragraph>
+      <div className="text-2xl font-medium text-gray-600">Drag each emoji token into the correct category.</div>
 
       {renderDifficultyButtons()}
 

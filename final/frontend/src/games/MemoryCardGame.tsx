@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import type { CardType } from 'types/game';
 import { fetchMemoryCards, incrementGameCountRequest } from 'utils/api/game';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 export const MemoryCardGame = (): React.JSX.Element => {
   const { token } = useAuth();
@@ -91,7 +91,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
         >
           Loading...
         </Title>
-        <Paragraph className="mb-10 text-xl font-medium text-gray-600">Getting your cards ready!</Paragraph>
+        <div className="mb-10 text-2xl font-medium text-gray-600">Getting your cards ready!</div>
       </div>
     );
   }
@@ -105,7 +105,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
         >
           Congratulations! 🎉
         </Title>
-        <Paragraph className="mb-10 text-xl font-medium text-gray-600">You found all the matches!</Paragraph>
+        <div className="mb-10 text-2xl font-medium text-gray-600">You found all the matches!</div>
         <Button
           type="primary"
           size="large"
@@ -126,7 +126,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
       >
         Memory Card Game
       </Title>
-      <Paragraph className="mb-10 text-xl font-medium text-gray-600">Flip & match the cards!</Paragraph>
+      <div className="mb-10 text-2xl font-medium text-gray-600">Flip & match the cards!</div>
       <div className="mx-auto my-8 grid [grid-template-columns:repeat(4,120px)] justify-center gap-[1.2rem] [perspective:1000px]">
         {cards.map(card => (
           <MemoryCardView
