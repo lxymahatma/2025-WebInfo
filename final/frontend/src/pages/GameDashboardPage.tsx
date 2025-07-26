@@ -58,7 +58,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
 
   if (!dashboard || !userStats) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
+      <div className="min-h-screen bg-cyan-600 p-6">
         <div className="mx-auto max-w-6xl">
           <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
             <Space direction="vertical" size="large" className="w-full">
@@ -82,7 +82,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
+      <div className="min-h-screen bg-cyan-600 p-6">
         <div className="mx-auto max-w-6xl">
           <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
             <Space direction="vertical" size="large" className="w-full">
@@ -98,7 +98,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 p-6">
+    <div className="min-h-screen bg-cyan-600 p-6">
       <div className="mx-auto max-w-6xl">
         <Card className="mb-6 rounded-2xl bg-white/95 text-center shadow-2xl backdrop-blur-md">
           <Space direction="vertical" size="middle" className="w-full">
@@ -163,9 +163,9 @@ export const GameDashboardPage = (): React.JSX.Element => {
           </Space>
         </Card>
 
-        <Row gutter={[24, 24]}>
+        <Row gutter={[32, 32]} className="mt-6">
           {Object.entries(dashboard.cards).map(([gameKey, card]) => (
-            <Col xs={24} sm={12} lg={8} key={gameKey}>
+            <Col xs={24} sm={12} lg={8} key={gameKey} className="mb-4">
               <Card
                 hoverable
                 className="h-full rounded-2xl bg-white/95 p-6 shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
