@@ -8,5 +8,4 @@ export interface CardProperties {
   card: CardType;
   flipped: boolean;
   handleChoice: (card: CardType) => void;
-  disabled: boolean;
 }

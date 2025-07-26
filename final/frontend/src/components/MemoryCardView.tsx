@@ -1,8 +1,8 @@
 import type { CardProperties } from 'types/game';
 
-export const MemoryCardView = ({ card, flipped, handleChoice, disabled }: CardProperties) => {
+export const MemoryCardView = ({ card, flipped, handleChoice }: CardProperties) => {
   const onClick = () => {
-    if (!flipped && !disabled) handleChoice(card);
+    if (!flipped) handleChoice(card);
   };
 
   const innerTransform = flipped ? '[transform:rotateY(180deg)]' : '';
