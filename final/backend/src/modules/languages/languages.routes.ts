@@ -1,7 +1,7 @@
 import type { ErrorResponse } from "@eduplayground/shared/types/error";
 import type {
+  LanguageKey,
   LanguageResponse,
-  Translations,
   UpdateLanguageRequest,
 } from "@eduplayground/shared/types/language";
 import { type Response, Router } from "express";
@@ -26,8 +26,8 @@ router.get(
     }
 
     response.json({
-      translations: languageDB.translations,
-      userLanguage: user.language as keyof Translations,
+      translation: languageDB.translations[user.language as LanguageKey],
+      userLanguage: user.language as LanguageKey,
     });
   }
 );

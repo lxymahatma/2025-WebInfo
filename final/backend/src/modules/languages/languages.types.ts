@@ -1,5 +1,8 @@
-import type { Translations } from "@eduplayground/shared/types/language";
+import type { TranslationKeys } from "@eduplayground/shared/types/language";
 
 export interface LanguageDB {
-  translations: Translations;
+  translations: {
+    en: TranslationKeys;
+    jp: TranslationKeys;
+  };
 }

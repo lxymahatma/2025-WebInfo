@@ -26,16 +26,15 @@ export interface TranslationKeys {
   profilePictureUploaded: string;
 }
 
-export interface Translations {
-  Eng: TranslationKeys;
-  JP: TranslationKeys;
-}
-
 export interface LanguageResponse {
-  translations: Translations;
-  userLanguage: keyof Translations;
+  translation: TranslationKeys;
+  userLanguage: LanguageKey;
 }
 
 export interface UpdateLanguageRequest {
-  language: keyof Translations;
+  language: LanguageKey;
 }
+
+export const LANGUAGE_KEYS = ["en", "jp"] as const;
+
+export type LanguageKey = (typeof LANGUAGE_KEYS)[number];

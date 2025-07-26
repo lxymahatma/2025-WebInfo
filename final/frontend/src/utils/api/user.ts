@@ -46,9 +46,9 @@ export const updateUserInfoRequest = async (
   }
 };
 
-export const fetchUserLanguages = async (token: string): Promise<Result<LanguageResponse, string>> => {
+export const fetchUserLanguage = async (token: string): Promise<Result<LanguageResponse, string>> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/languages`, {
+    const response = await fetch(`${API_BASE_URL}/language`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export const fetchUserLanguages = async (token: string): Promise<Result<Language
 
 export const updateUserLanguageRequest = async (token: string, language: string): Promise<Result<void, string>> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/languages`, {
+    const response = await fetch(`${API_BASE_URL}/language`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,

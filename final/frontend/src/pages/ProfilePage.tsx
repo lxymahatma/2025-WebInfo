@@ -9,7 +9,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import type { ErrorResponse } from '@eduplayground/shared/types/error';
-import type { LanguageResponse, TranslationKeys, Translations } from '@eduplayground/shared/types/language';
+import type { LanguageKey, TranslationKeys } from '@eduplayground/shared/types/language';
 import type { ProfileResponse } from '@eduplayground/shared/types/user';
 import {
   Avatar,
@@ -30,6 +30,7 @@ import {
 } from 'antd';
 import { useAuth } from 'components';
 import React, { useEffect, useState } from 'react';
+import { fetchUserLanguage, fetchUserProfile, updateUserLanguageRequest } from 'utils/api/user';
 
 const { Text } = Typography;
 
@@ -43,171 +44,74 @@ export const ProfilePage = (): React.JSX.Element => {
     equippedEmojis: [] as string[],
   });
 
-  const [actualPassword, setActualPassword] = useState('');
-
   const [editModal, setEditModal] = useState(false);
   const [editingProfile, setEditingProfile] = useState(profile);
-  const [activeSection, setActiveSection] = useState('profile'); // Track which section is active
-  const [showPassword, setShowPassword] = useState(false); // Track password visibility
+  const [activeSection, setActiveSection] = useState('profile');
+  const [showPassword, setShowPassword] = useState(false);
+  const [itemsModalVisible, setItemsModalVisible] = useState(false);
+  const [actualPassword, setActualPassword] = useState('');
+  const [lang, setLang] = useState<LanguageKey>('en');
 
-  // Load user data from backend
   useEffect(() => {
-    const loadUserData = async (): Promise<void> => {
-      try {
-        const profileResponse = await fetch('http://localhost:3001/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+    const loadUserData = async () => {
+      const result = await fetchUserProfile(token);
 
-        if (profileResponse.ok) {
-          const profileData = (await profileResponse.json()) as ProfileResponse;
-          setProfile(previous => ({
-            ...previous,
-            name: profileData.user.username,
-            password: profileData.user.password,
-          }));
-          setActualPassword(profileData.user.password);
-        } else {
-          console.error('Failed to fetch profile:', profileResponse.status);
-          setProfile(previous => ({
-            ...previous,
-            name: 'Fetch failed',
-            password: 'N/A',
-          }));
-        }
-      } catch (error) {
-        console.error('Error loading user data:', error);
+      if (result.isErr()) {
+        console.error('Failed to load user profile:', result.error);
+        message.error('Error loading profile data');
         setProfile(previous => ({
           ...previous,
-          name: 'Network error',
+          name: 'Error loading profile',
           password: 'N/A',
         }));
+        return;
       }
+
+      const { user } = result.value;
+      setProfile(previous => ({
+        ...previous,
+        name: user.username,
+        password: user.password,
+      }));
     };
 
     void loadUserData();
   }, [userName, token]);
 
-  // For dropdown
-  const [itemsModalVisible, setItemsModalVisible] = useState(false);
-
-  // For settings
-  const [lang, setLang] = useState('Eng');
-
-  const [translations, setTranslations] = useState<Translations>({
-    Eng: {
-      myProfile: 'My Profile',
-      settings: 'Settings',
-      items: 'Items',
-      language: 'Language',
-      loading: 'Loading...',
-      name: 'Name',
-      password: 'Password',
-      profileSettings: 'Profile Settings',
-      profilePicture: 'Profile Picture',
-      changeProfilePicture: 'Change your profile picture',
-      uploadFromDevice: 'Upload from device',
-      enterImageUrl: 'Enter image URL',
-      profilePictureUpdated: 'Profile picture updated!',
-      chooseFromPresets: 'Choose from presets:',
-      backToProfile: 'Back to Profile',
-      editProfile: 'Edit Profile',
-      save: 'Save',
-      cancel: 'Cancel',
-      enterNewPassword: 'Enter new password',
-      itemsCollection: 'Items Collection',
-      close: 'Close',
-      equippedItems: 'Equipped items',
-      noItemsEquipped: 'No items equipped',
-      availableItems: 'Available Items',
-      profilePictureUploaded: 'Profile picture uploaded!',
-    },
-    JP: {
-      myProfile: 'マイプロフィール',
-      settings: '設定',
-      items: 'アイテム',
-      language: '言語',
-      loading: '読み込み中...',
-      name: '名前',
-      password: 'パスワード',
-      profileSettings: 'プロフィール設定',
-      profilePicture: 'プロフィール画像',
-      changeProfilePicture: 'プロフィール画像を変更',
-      uploadFromDevice: 'デバイスからアップロード',
-      enterImageUrl: '画像URLを入力',
-      profilePictureUpdated: 'プロフィール画像が更新されました！',
-      chooseFromPresets: 'プリセットから選択：',
-      backToProfile: 'プロフィールに戻る',
-      editProfile: 'プロフィールを編集',
-      save: '保存',
-      cancel: 'キャンセル',
-      enterNewPassword: '新しいパスワードを入力',
-      itemsCollection: 'アイテムコレクション',
-      close: '閉じる',
-      equippedItems: '装備中のアイテム',
-      noItemsEquipped: 'アイテムが装備されていません',
-      availableItems: '利用可能なアイテム',
-      profilePictureUploaded: 'プロフィール画像がアップロードされました！',
-    },
-  });
+  const [translation, setTranslation] = useState<TranslationKeys>();
 
   useEffect(() => {
-    const loadLanguageData = async (): Promise<void> => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) return;
+    const loadLanguageData = async () => {
+      const result = await fetchUserLanguage(token);
 
-        const response = await fetch('http://localhost:3001/languages', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          const data = (await response.json()) as LanguageResponse;
-          setTranslations(data.translations);
-          setLang(data.userLanguage);
-        } else {
-          console.error('Failed to load translations from backend');
-        }
-      } catch (error) {
-        console.error('Error loading language data:', error);
+      if (result.isErr()) {
+        console.error('Failed to load user language:', result.error);
+        message.error('Error loading language data');
+        return;
       }
+
+      setTranslation(result.value.translation);
+      setLang(result.value.userLanguage);
     };
-
     void loadLanguageData();
-  }, []);
+  }, [token]);
 
-  // Update language setting on backend
-  const updateLanguage = async (newLang: string): Promise<void> => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
+  const updateLanguage = async (newLang: LanguageKey) => {
+    const result = await updateUserLanguageRequest(token, newLang);
 
-      const response = await fetch('http://localhost:3001/languages', {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ language: newLang }),
-      });
-
-      if (response.ok) {
-        setLang(newLang);
-      }
-    } catch (error) {
-      console.error('Error updating language:', error);
+    if (result.isErr()) {
+      console.error('Failed to update language:', result.error);
+      message.error('Error updating language');
+      return;
     }
+
+    setLang(newLang);
   };
 
-  const t = translations[lang as keyof typeof translations];
+  const t: TranslationKeys | undefined = translation;
 
   const getText = (key: keyof TranslationKeys): string => {
-    return t[key];
+    return t?.[key] ?? String(key);
   };
 
   // Available emojis for items
@@ -299,7 +203,7 @@ export const ProfilePage = (): React.JSX.Element => {
       const result = event.target?.result;
       if (result && typeof result === 'string') {
         handleProfilePictureChange(result);
-        message.success(t.profilePictureUploaded);
+        message.success(getText('profilePictureUploaded'));
       }
     });
     reader.readAsDataURL(file);
@@ -393,8 +297,8 @@ export const ProfilePage = (): React.JSX.Element => {
                     className="w-20"
                     onChange={v => void updateLanguage(v)}
                     options={[
-                      { value: 'Eng', label: 'English' },
-                      { value: 'JP', label: '日本語' },
+                      { value: 'en', label: 'English' },
+                      { value: 'jp', label: '日本語' },
                     ]}
                   />
                 </Space>
@@ -428,12 +332,12 @@ export const ProfilePage = (): React.JSX.Element => {
                 <Divider className="my-2 border-gray-200" />
                 <div className="mb-6 text-base">
                   <div className="mb-4 flex justify-between">
-                    <span className="font-medium text-cyan-700">{t.name}</span>
+                    <span className="font-medium text-cyan-700">{getText('name')}</span>
                     <span className="font-medium text-black">{profile.name}</span>
                   </div>
 
                   <div className="mb-4 flex justify-between">
-                    <span className="font-medium text-cyan-700">{t.password}</span>
+                    <span className="font-medium text-cyan-700">{getText('password')}</span>
                     <span className="flex items-center gap-2 font-medium text-black">
                       {showPassword ? actualPassword || profile.password : '•'.repeat(8)}
                       <Button
@@ -453,7 +357,7 @@ export const ProfilePage = (): React.JSX.Element => {
                 <div className="mb-6 flex items-center">
                   <SettingOutlined className="mr-3 text-2xl text-black" />
                   <Text strong className="text-xl text-black">
-                    {t.profileSettings}
+                    {getText('profileSettings')}
                   </Text>
                 </div>
                 <Divider className="my-2 border-gray-200" />
@@ -463,32 +367,32 @@ export const ProfilePage = (): React.JSX.Element => {
                     <Avatar size={120} src={profile.profilePicture} />
                   </div>
                   <Text strong className="mb-2 block text-lg text-black">
-                    {t.profilePicture}
+                    {getText('profilePicture')}
                   </Text>
-                  <Text className="mb-6 block text-gray-500">{t.changeProfilePicture}</Text>
+                  <Text className="mb-6 block text-gray-500">{getText('changeProfilePicture')}</Text>
 
                   <Space direction="vertical" className="w-full">
                     <Upload accept="image/*" beforeUpload={handleFileUpload} showUploadList={false} className="w-full">
                       <Button icon={<UploadOutlined />} className="mb-4 h-10 w-full rounded-lg">
-                        {t.uploadFromDevice}
+                        {getText('uploadFromDevice')}
                       </Button>
                     </Upload>
 
                     <Divider className="my-4">OR</Divider>
 
                     <Input
-                      placeholder={t.enterImageUrl}
+                      placeholder={getText('enterImageUrl')}
                       className="mb-4"
                       onPressEnter={event => {
                         const url = (event.target as HTMLInputElement).value;
                         if (url) {
                           handleProfilePictureChange(url);
                           (event.target as HTMLInputElement).value = '';
-                          message.success(t.profilePictureUpdated);
+                          message.success(getText('profilePictureUpdated'));
                         }
                       }}
                     />
-                    <Text className="text-sm text-gray-500">{t.chooseFromPresets}</Text>
+                    <Text className="text-sm text-gray-500">{getText('chooseFromPresets')}</Text>
                     <div className="mt-4 flex flex-wrap justify-center gap-3">
                       {[
                         'https://randomuser.me/api/portraits/men/32.jpg',
@@ -517,7 +421,7 @@ export const ProfilePage = (): React.JSX.Element => {
                   className="h-9 w-36 rounded-lg text-base font-semibold"
                   onClick={() => setActiveSection('profile')}
                 >
-                  {t.backToProfile}
+                  {getText('backToProfile')}
                 </Button>
               </>
             )}
@@ -527,24 +431,24 @@ export const ProfilePage = (): React.JSX.Element => {
 
       {/* Modal for editing profile */}
       <Modal
-        title={t.editProfile}
+        title={getText('editProfile')}
         open={editModal}
         onOk={() => void handleSave()}
         onCancel={() => setEditModal(false)}
-        okText={t.save}
-        cancelText={t.cancel}
+        okText={getText('save')}
+        cancelText={getText('cancel')}
       >
         <Space direction="vertical" className="w-full">
           <Input
-            addonBefore={t.name}
+            addonBefore={getText('name')}
             value={editingProfile.name}
             onChange={event => setEditingProfile(p => ({ ...p, name: event.target.value }))}
           />
           <Input.Password
-            addonBefore={t.password}
+            addonBefore={getText('password')}
             value={editingProfile.password}
             onChange={event => setEditingProfile(p => ({ ...p, password: event.target.value }))}
-            placeholder={t.enterNewPassword}
+            placeholder={getText('enterNewPassword')}
             iconRender={visible => (visible ? <EyeInvisibleOutlined /> : <EyeOutlined />)}
           />
         </Space>
@@ -552,19 +456,19 @@ export const ProfilePage = (): React.JSX.Element => {
 
       {/* Items Modal */}
       <Modal
-        title={t.itemsCollection}
+        title={getText('itemsCollection')}
         open={itemsModalVisible}
         onCancel={() => setItemsModalVisible(false)}
         footer={[
           <Button key="close" onClick={() => setItemsModalVisible(false)}>
-            {t.close}
+            {getText('close')}
           </Button>,
         ]}
         width={600}
       >
         <div className="mb-4">
           <Text strong className="text-black">
-            {t.equippedItems} ({profile.equippedEmojis.length}):{' '}
+            {getText('equippedItems')} ({profile.equippedEmojis.length}):{' '}
           </Text>
           {profile.equippedEmojis.length > 0 ? (
             <div className="mt-2">
@@ -575,7 +479,7 @@ export const ProfilePage = (): React.JSX.Element => {
               ))}
             </div>
           ) : (
-            <Text className="text-gray-500">{t.noItemsEquipped}</Text>
+            <Text className="text-gray-500">{getText('noItemsEquipped')}</Text>
           )}
         </div>
 
@@ -583,7 +487,7 @@ export const ProfilePage = (): React.JSX.Element => {
 
         <div>
           <Text strong className="mb-4 block text-black">
-            {t.availableItems}
+            {getText('availableItems')}
           </Text>
           <div className="grid max-h-80 grid-cols-8 gap-3 overflow-y-auto">
             {availableEmojis.map(emoji => (
