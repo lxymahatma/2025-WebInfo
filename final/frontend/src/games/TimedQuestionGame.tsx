@@ -103,48 +103,50 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
   if (!selectedSubject) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
         <Title
           level={1}
           className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
         >
           Timed Quiz Game
         </Title>
-        <div className="mb-4 text-xl font-medium text-gray-600">Answer questions quickly before time runs out!</div>
-        <div className="flex min-h-[40vh] items-center justify-center">
-          <Card className="w-full max-w-md rounded-2xl text-center" variant="outlined">
-            <div className="mb-4 text-xl font-medium text-gray-600">Choose your subject to start the quiz:</div>
-            <Space direction="vertical" size="large" className="w-full">
-              <Button
-                type="primary"
-                block
-                size="large"
-                loading={loading}
-                onClick={() => void handleSubjectSelect('math')}
-                className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
-              >
-                🔢 Math
-              </Button>
-              <Button
-                type="primary"
-                block
-                size="large"
-                loading={loading}
-                onClick={() => void handleSubjectSelect('english')}
-                className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
-              >
-                📚 English
-              </Button>
-              <Button
-                type="primary"
-                block
-                size="large"
-                loading={loading}
-                onClick={() => void handleSubjectSelect('knowledge')}
-                className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
-              >
-                🌟 Fun Facts
-              </Button>
+        <div className="mb-8 text-xl font-medium text-gray-600">Answer questions quickly before time runs out!</div>
+        <div className="flex justify-center">
+          <Card className="w-full max-w-lg rounded-2xl py-2 text-center" variant="outlined">
+            <Space direction="vertical" className="w-full" size="large">
+              <div className="mb-2 text-xl font-medium text-gray-600">Choose your subject to start the quiz:</div>
+              <Space direction="vertical" size="middle" className="w-full">
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  loading={loading}
+                  onClick={() => void handleSubjectSelect('math')}
+                  className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
+                >
+                  🔢 Math
+                </Button>
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  loading={loading}
+                  onClick={() => void handleSubjectSelect('english')}
+                  className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
+                >
+                  📚 English
+                </Button>
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  loading={loading}
+                  onClick={() => void handleSubjectSelect('knowledge')}
+                  className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
+                >
+                  🌟 Fun Facts
+                </Button>
+              </Space>
             </Space>
           </Card>
         </div>
@@ -154,7 +156,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
         <Spin size="large" />
         <Title
           level={1}
@@ -171,7 +173,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     const percent = Math.round((score / questions.length) * 100);
 
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
         <Title
           level={1}
           className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
@@ -212,7 +214,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
   if (questions.length === 0) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
         <Title
           level={1}
           className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
@@ -239,8 +241,8 @@ export const TimedQuestionGame = (): React.JSX.Element => {
       >
         Timed Quiz Game
       </Title>
-      <div className="mb-4 text-xl font-medium text-gray-600">Answer questions quickly before time runs out!</div>
-      <div className="flex min-h-[80vh] items-center justify-center">
+      <div className="mb-8 text-xl font-medium text-gray-600">Answer questions quickly before time runs out!</div>
+      <div className="flex justify-center">
         <Card className="w-full max-w-lg rounded-2xl py-2 text-center" variant="outlined">
           <Space direction="vertical" className="w-full" size="large">
             <div className="mb-2 flex items-center justify-between">
