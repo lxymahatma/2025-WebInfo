@@ -53,8 +53,6 @@ export const ProfilePage = (): React.JSX.Element => {
   };
 
   const loadLanguageData = async () => {
-    if (!token) return;
-
     const result = await fetchUserLanguage(token);
 
     if (result.isErr()) {
@@ -78,6 +76,7 @@ export const ProfilePage = (): React.JSX.Element => {
     };
 
     void initializeData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateLanguage = async (newLang: LanguageKey) => {
@@ -123,12 +122,10 @@ export const ProfilePage = (): React.JSX.Element => {
     message.success('Profile updated successfully!');
   };
 
-  // Handle profile picture change
   const handleProfilePictureChange = (newPictureUrl: string) => {
     setProfile(previous => ({ ...previous, profilePicture: newPictureUrl }));
   };
 
-  // Handle file upload
   const handleFileUpload = (file: File) => {
     const reader = new FileReader();
     reader.addEventListener('load', event => {
@@ -139,10 +136,9 @@ export const ProfilePage = (): React.JSX.Element => {
       }
     });
     reader.readAsDataURL(file);
-    return false; // Prevent default upload behavior
+    return false;
   };
 
-  // Handle emoji equip/unequip
   const toggleEmoji = (emoji: string) => {
     setProfile(previous => ({
       ...previous,
@@ -152,7 +148,6 @@ export const ProfilePage = (): React.JSX.Element => {
     }));
   };
 
-  // Items dropdown menu
   const itemsMenuItems = [
     {
       label: `${String(profile.equippedEmojis.length)} ${getText('equippedItems').toLowerCase()}`,
@@ -240,8 +235,8 @@ export const ProfilePage = (): React.JSX.Element => {
                     className="w-20"
                     onChange={newLang => void updateLanguage(newLang)}
                     options={[
-                      { value: 'en', label: 'English' },
-                      { value: 'jp', label: '日本語' },
+                      { value: 'en_US', label: 'English' },
+                      { value: 'ja_JP', label: '日本語' },
                     ]}
                   />
                 </Space>

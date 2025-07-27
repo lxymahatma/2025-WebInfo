@@ -35,6 +35,6 @@ export interface UpdateLanguageRequest {
   language: LanguageKey;
 }
 
-export const LANGUAGE_KEYS = ["en", "jp"] as const;
+export const LANGUAGE_KEYS = ["en_US", "ja_JP"] as const;
 
 export type LanguageKey = (typeof LANGUAGE_KEYS)[number];
