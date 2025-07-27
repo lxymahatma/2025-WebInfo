@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin123",
+      "gameStats": {
+        "dragdrop": 0,
+        "timed": 0,
+        "memory": 0
+      },
+      "language": "en_US"
+    },
+    {
+      "username": "test",
+      "password": "test123",
+      "gameStats": {
+        "dragdrop": 2,
+        "timed": 5,
+        "memory": 3
+      },
+      "language": "ja_JP"
+    }
+  ]
+}

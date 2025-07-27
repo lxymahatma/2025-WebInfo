@@ -1,3 +1,3 @@
-export { DragDropGame } from './DragDropGame';
-export { MemoryCardGame } from './MemoryCardGame';
-export { TimedQuestionGame } from './TimedQuestionGame';
+export * from './DragDropGame';
+export * from './MemoryCardGame';
+export * from './TimedQuestionGame';

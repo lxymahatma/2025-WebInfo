@@ -1,0 +1,381 @@
+{
+  "dashboard": {
+    "cards": {
+      "dragdrop": {
+        "id": "dragdrop",
+        "name": "Drag & Drop",
+        "icon": "🎯",
+        "description": "Match items to their correct categories",
+        "backgroundColor": "bg-blue-500",
+        "textColor": "text-blue-500"
+      },
+      "timed": {
+        "id": "timed",
+        "name": "Timed Quiz",
+        "icon": "⏰",
+        "description": "Answer questions before time runs out",
+        "backgroundColor": "bg-green-500",
+        "textColor": "text-green-500"
+      },
+      "memory": {
+        "id": "memory",
+        "name": "Memory Cards",
+        "icon": "🧠",
+        "description": "Match pairs of cards by memory",
+        "backgroundColor": "bg-purple-500",
+        "textColor": "text-purple-500"
+      }
+    }
+  },
+  "dragdrop": {
+    "pairs": [
+      {
+        "id": "apple",
+        "label": "🍎 Apple",
+        "category": "Fruit"
+      },
+      {
+        "id": "banana",
+        "label": "🍌 Banana",
+        "category": "Fruit"
+      },
+      {
+        "id": "orange",
+        "label": "🍊 Orange",
+        "category": "Fruit"
+      },
+      {
+        "id": "grape",
+        "label": "🍇 Grape",
+        "category": "Fruit"
+      },
+      {
+        "id": "strawberry",
+        "label": "🍓 Strawberry",
+        "category": "Fruit"
+      },
+      {
+        "id": "dog",
+        "label": "🐶 Dog",
+        "category": "Animal"
+      },
+      {
+        "id": "cat",
+        "label": "🐱 Cat",
+        "category": "Animal"
+      },
+      {
+        "id": "elephant",
+        "label": "🐘 Elephant",
+        "category": "Animal"
+      },
+      {
+        "id": "lion",
+        "label": "🦁 Lion",
+        "category": "Animal"
+      },
+      {
+        "id": "rabbit",
+        "label": "🐇 Rabbit",
+        "category": "Animal"
+      },
+      {
+        "id": "car",
+        "label": "🚗 Car",
+        "category": "Vehicle"
+      },
+      {
+        "id": "bike",
+        "label": "🚲 Bike",
+        "category": "Vehicle"
+      },
+      {
+        "id": "airplane",
+        "label": "✈️ Airplane",
+        "category": "Vehicle"
+      },
+      {
+        "id": "train",
+        "label": "🚂 Train",
+        "category": "Vehicle"
+      },
+      {
+        "id": "boat",
+        "label": "🚤 Boat",
+        "category": "Vehicle"
+      },
+      {
+        "id": "rose",
+        "label": "🌹 Rose",
+        "category": "Flower"
+      },
+      {
+        "id": "sunflower",
+        "label": "🌻 Sunflower",
+        "category": "Flower"
+      },
+      {
+        "id": "tulip",
+        "label": "🌷 Tulip",
+        "category": "Flower"
+      },
+      {
+        "id": "daisy",
+        "label": "🌼 Daisy",
+        "category": "Flower"
+      },
+      {
+        "id": "cherry_blossom",
+        "label": "🌸 Cherry Blossom",
+        "category": "Flower"
+      },
+      {
+        "id": "pizza",
+        "label": "🍕 Pizza",
+        "category": "Food"
+      },
+      {
+        "id": "burger",
+        "label": "🍔 Burger",
+        "category": "Food"
+      },
+      {
+        "id": "cake",
+        "label": "🎂 Cake",
+        "category": "Food"
+      },
+      {
+        "id": "ice_cream",
+        "label": "🍦 Ice Cream",
+        "category": "Food"
+      },
+      {
+        "id": "donut",
+        "label": "🍩 Donut",
+        "category": "Food"
+      },
+      {
+        "id": "soccer",
+        "label": "⚽ Soccer Ball",
+        "category": "Sport"
+      },
+      {
+        "id": "basketball",
+        "label": "🏀 Basketball",
+        "category": "Sport"
+      },
+      {
+        "id": "tennis",
+        "label": "🎾 Tennis Ball",
+        "category": "Sport"
+      },
+      {
+        "id": "baseball",
+        "label": "⚾ Baseball",
+        "category": "Sport"
+      },
+      {
+        "id": "football",
+        "label": "🏈 Football",
+        "category": "Sport"
+      }
+    ]
+  },
+  "memory": {
+    "cards": [
+      {
+        "text": "Dog"
+      },
+      {
+        "text": "Cat"
+      },
+      {
+        "text": "Mouse"
+      },
+      {
+        "text": "Hamster"
+      },
+      {
+        "text": "Rabbit"
+      },
+      {
+        "text": "Fox"
+      },
+      {
+        "text": "Bear"
+      },
+      {
+        "text": "Panda"
+      }
+    ]
+  },
+  "timed": {
+    "questions": [
+      {
+        "subject": "math",
+        "question": "What is 2 + 3?",
+        "options": [
+          "4",
+          "5",
+          "6",
+          "7"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "math",
+        "question": "What is 10 - 4?",
+        "options": [
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "math",
+        "question": "How many sides does a triangle have?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "math",
+        "question": "What is 3 × 2?",
+        "options": [
+          "4",
+          "5",
+          "6",
+          "7"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "subject": "math",
+        "question": "What comes after the number 9?",
+        "options": [
+          "8",
+          "10",
+          "11",
+          "12"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "english",
+        "question": "Which letter comes after 'B'?",
+        "options": [
+          "A",
+          "C",
+          "D",
+          "E"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "english",
+        "question": "What sound does a cat make?",
+        "options": [
+          "Woof",
+          "Meow",
+          "Moo",
+          "Oink"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "english",
+        "question": "How many letters are in the word 'CAT'?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "english",
+        "question": "Which word rhymes with 'hat'?",
+        "options": [
+          "dog",
+          "cat",
+          "sun",
+          "tree"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "english",
+        "question": "What is the first letter of the alphabet?",
+        "options": [
+          "B",
+          "A",
+          "C",
+          "D"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "knowledge",
+        "question": "What color do you get when you mix red and yellow?",
+        "options": [
+          "Purple",
+          "Orange",
+          "Green",
+          "Blue"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "knowledge",
+        "question": "How many legs does a dog have?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "subject": "knowledge",
+        "question": "What do bees make?",
+        "options": [
+          "Milk",
+          "Honey",
+          "Cheese",
+          "Bread"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "knowledge",
+        "question": "Which season comes after winter?",
+        "options": [
+          "Summer",
+          "Spring",
+          "Fall",
+          "Winter"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "subject": "knowledge",
+        "question": "What do we use to brush our teeth?",
+        "options": [
+          "Fork",
+          "Toothbrush",
+          "Spoon",
+          "Comb"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

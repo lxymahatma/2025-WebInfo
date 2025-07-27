@@ -1,175 +1,152 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Card, Space, Tag, Typography, Progress, Result } from 'antd';
-
-import { useGameTracker } from 'pages';
-import { Question } from 'types';
-
-import './TimedQuestionGame.css';
+import { SubjectNames } from '@eduplayground/shared/config';
+import type { Subject, TimedQuizQuestion } from '@eduplayground/shared/types/game';
+import { Button, Card, message, Progress, Space, Spin, Tag, Typography } from 'antd';
+import { useAuth } from 'components/auth';
+import React, { useCallback, useEffect, useState } from 'react';
+import { fetchTimedQuizQuestions, incrementGameCountRequest } from 'utils/api/game';
 
 const { Title, Paragraph } = Typography;
-type Subject = 'math' | 'english' | 'knowledge';
 
 export const TimedQuestionGame = (): React.JSX.Element => {
-  const { incrementGameCount } = useGameTracker();
-  const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [timeLeft, setTimeLeft] = useState<number>(15);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [isAnswered, setIsAnswered] = useState<boolean>(false);
-  const [score, setScore] = useState<number>(0);
-  const [gameFinished, setGameFinished] = useState<boolean>(false);
+  const { token } = useAuth();
+
+  const [loading, setLoading] = useState(false);
+
+  const [selectedSubject, setSelectedSubject] = useState<Subject>();
+  const [questions, setQuestions] = useState<TimedQuizQuestion[]>([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState<number>();
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(15);
+  const [score, setScore] = useState(0);
+  const [gameCompleted, setGameCompleted] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
 
-  const fetchQuestions = async (subject: Subject): Promise<void> => {
+  const loadQuestions = async (subject: Subject) => {
     setLoading(true);
+
     try {
-      const response = await fetch(`http://localhost:3001/timed/questions?subject=${subject}`);
-      if (response.ok) {
-        const data = await response.json();
-        setQuestions(data.questions);
-      } else {
-        console.error('Failed to fetch questions');
-        setQuestions([]);
+      const result = await fetchTimedQuizQuestions(subject);
+
+      if (result.isErr()) {
+        console.error('Failed to fetch timed questions:', result.error);
+        message.error('Failed to load questions. Please try again later.');
+        return;
       }
-    } catch (error) {
-      console.error('Error fetching questions:', error);
-      setQuestions([]);
+
+      setQuestions(result.value.questions);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    const handleAnswer = (idx: number | null): void => {
-      if (idx !== null && idx === currentQuestion.correctAnswer) {
-        setScore(score + 1);
+  const handleAnswer = useCallback(
+    (index?: number) => {
+      if (index !== undefined && index === currentQuestion.correctAnswer) {
+        setScore(previousScore => previousScore + 1);
       }
       setTimeout(() => {
         if (currentQuestionIndex < questions.length - 1) {
-          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setCurrentQuestionIndex(previousIndex => previousIndex + 1);
           setTimeLeft(15);
-          setSelectedOption(null);
+          setSelectedOption(undefined);
           setIsAnswered(false);
         } else {
-          setGameFinished(true);
-          // Increment game count when quiz is completed
-          incrementGameCount('timed');
+          setGameCompleted(true);
+          void incrementGameCountRequest(token, 'timed');
         }
       }, 1200);
-    };
+    },
+    [currentQuestion, currentQuestionIndex, questions.length, token]
+  );
 
+  const resetGame = () => {
+    setSelectedSubject(undefined);
+    setQuestions([]);
+    setCurrentQuestionIndex(0);
+    setTimeLeft(15);
+    setSelectedOption(undefined);
+    setIsAnswered(false);
+    setScore(0);
+    setGameCompleted(false);
+  };
+
+  const handleSubjectSelect = async (subject: Subject) => {
+    setSelectedSubject(subject);
+    setCurrentQuestionIndex(0);
+    setTimeLeft(15);
+    setSelectedOption(undefined);
+    setIsAnswered(false);
+    setScore(0);
+    setGameCompleted(false);
+    await loadQuestions(subject);
+  };
+
+  const handleOptionClick = (index: number) => {
+    if (!isAnswered) {
+      setSelectedOption(index);
+      setIsAnswered(true);
+      handleAnswer(index);
+    }
+  };
+
+  useEffect(() => {
     if (timeLeft > 0 && !isAnswered && selectedSubject && questions.length > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
     } else if (timeLeft === 0 && !isAnswered && selectedSubject && questions.length > 0) {
       setIsAnswered(true);
-      handleAnswer(null);
+      handleAnswer();
     }
-  }, [
-    timeLeft,
-    isAnswered,
-    selectedSubject,
-    questions.length,
-    currentQuestion,
-    currentQuestionIndex,
-    score,
-    incrementGameCount,
-  ]);
+  }, [timeLeft, isAnswered, selectedSubject, questions.length, currentQuestion, handleAnswer]);
 
-  const handleSubjectSelect = async (subject: Subject): Promise<void> => {
-    setSelectedSubject(subject);
-    setCurrentQuestionIndex(0);
-    setTimeLeft(15);
-    setSelectedOption(null);
-    setIsAnswered(false);
-    setScore(0);
-    setGameFinished(false);
-    await fetchQuestions(subject);
-  };
-
-  const handleOptionClick = (idx: number): void => {
-    if (!isAnswered) {
-      setSelectedOption(idx);
-      setIsAnswered(true);
-      const handleAnswer = (answerIdx: number | null): void => {
-        if (answerIdx !== null && answerIdx === currentQuestion.correctAnswer) {
-          setScore(score + 1);
-        }
-        setTimeout(() => {
-          if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setTimeLeft(15);
-            setSelectedOption(null);
-            setIsAnswered(false);
-          } else {
-            setGameFinished(true);
-            // Increment game count when quiz is completed
-            incrementGameCount('timed');
-          }
-        }, 1200);
-      };
-      handleAnswer(idx);
-    }
-  };
-
-  const resetGame = (): void => {
-    setSelectedSubject(null);
-    setQuestions([]);
-    setCurrentQuestionIndex(0);
-    setTimeLeft(15);
-    setSelectedOption(null);
-    setIsAnswered(false);
-    setScore(0);
-    setGameFinished(false);
-  };
-
-  const subjectNames = {
-    math: 'Math',
-    english: 'English',
-    knowledge: 'Fun Facts',
-  };
-
-  // Subject selection screen
   if (!selectedSubject) {
     return (
-      <div className="timed-question-container">
-        <div className="timed-question-centered-wrapper">
-          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
-            <Title level={2} style={{ marginBottom: 8 }}>
-              🎯 Quiz Time!
-            </Title>
-            <Paragraph style={{ fontSize: 18, marginBottom: 24 }}>Choose your subject to start the quiz:</Paragraph>
-            <Space direction="vertical" size="large" style={{ width: '100%' }}>
-              <Button
-                type="primary"
-                block
-                size="large"
-                loading={loading && selectedSubject === 'math'}
-                onClick={() => handleSubjectSelect('math')}
-              >
-                🔢 Math
-              </Button>
-              <Button
-                type="primary"
-                block
-                size="large"
-                loading={loading && selectedSubject === 'english'}
-                onClick={() => handleSubjectSelect('english')}
-              >
-                📚 English
-              </Button>
-              <Button
-                type="primary"
-                block
-                size="large"
-                loading={loading && selectedSubject === 'knowledge'}
-                onClick={() => handleSubjectSelect('knowledge')}
-              >
-                🌟 Fun Facts
-              </Button>
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
+        <Title
+          level={1}
+          className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+        >
+          Timed Quiz Game
+        </Title>
+        <div className="mb-8 text-xl font-medium text-gray-600">Answer questions quickly before time runs out!</div>
+        <div className="flex justify-center">
+          <Card className="w-full max-w-lg rounded-2xl py-2 text-center" variant="outlined">
+            <Space direction="vertical" className="w-full" size="large">
+              <div className="mb-2 text-xl font-medium text-gray-600">Choose your subject to start the quiz:</div>
+              <Space direction="vertical" size="middle" className="w-full">
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  loading={loading}
+                  onClick={() => void handleSubjectSelect('math')}
+                  className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
+                >
+                  🔢 Math
+                </Button>
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  loading={loading}
+                  onClick={() => void handleSubjectSelect('english')}
+                  className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
+                >
+                  📚 English
+                </Button>
+                <Button
+                  type="primary"
+                  block
+                  size="large"
+                  loading={loading}
+                  onClick={() => void handleSubjectSelect('knowledge')}
+                  className="!border-none !bg-gradient-to-r !from-cyan-600 !to-cyan-800 !shadow-lg !transition-all !duration-300 hover:!from-cyan-700 hover:!to-cyan-900 hover:!shadow-xl"
+                >
+                  🌟 Fun Facts
+                </Button>
+              </Space>
             </Space>
           </Card>
         </div>
@@ -177,142 +154,153 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     );
   }
 
-  if (gameFinished) {
-    // Show result using Ant Design's Result component
-    const percent = Math.round((score / questions.length) * 100);
-    let status = 'success';
-    let title = '🎉 Great Job!';
-    let subTitle = `Your Score: ${score} out of ${questions.length} (${percent}%)`;
-    let extra = null;
-
-    if (score === questions.length) {
-      status = 'success';
-      extra = <Paragraph>🌟 Perfect Score! Amazing! 🌟</Paragraph>;
-    } else if (score >= questions.length * 0.8) {
-      extra = <Paragraph>🎊 Excellent work! 🎊</Paragraph>;
-    } else if (score >= questions.length * 0.6) {
-      extra = <Paragraph>👍 Good job! 👍</Paragraph>;
-    } else {
-      status = 'info';
-      extra = <Paragraph>💪 Keep practicing! 💪</Paragraph>;
-    }
-
-    return (
-      <div className="timed-question-container">
-        <div className="timed-question-centered-wrapper">
-          <Result
-            status={status as any}
-            title={title}
-            subTitle={subTitle}
-            extra={[
-              extra,
-              <Space key="buttons" style={{ marginTop: 16 }}>
-                <Button type="default" size="large" onClick={resetGame}>
-                  Choose New Subject
-                </Button>
-                <Button type="primary" size="large" onClick={() => handleSubjectSelect(selectedSubject)}>
-                  Play Again
-                </Button>
-              </Space>,
-            ]}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  // Main quiz screen
   if (loading) {
     return (
-      <div className="timed-question-container">
-        <div className="timed-question-centered-wrapper">
-          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
-            <Title level={3}>Loading questions...</Title>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  if (questions.length === 0 && selectedSubject) {
-    return (
-      <div className="timed-question-container">
-        <div className="timed-question-centered-wrapper">
-          <Card style={{ maxWidth: 400, width: '100%', textAlign: 'center', borderRadius: 16 }} bordered>
-            <Title level={3}>No questions available</Title>
-            <Button type="primary" onClick={resetGame}>
-              Back to Subject Selection
-            </Button>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  // Main quiz screen
-  return (
-    <div className="timed-question-container">
-      <div className="timed-question-centered-wrapper">
-        <Card
-          style={{
-            maxWidth: 480,
-            width: '100%',
-            borderRadius: 16,
-            textAlign: 'center',
-            padding: '8px 0',
-          }}
-          bordered
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
+        <Spin size="large" />
+        <Title
+          level={1}
+          className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
         >
-          <Space direction="vertical" style={{ width: '100%' }} size="large">
-            <div className="timed-question-header-with-back">
-              <Button type="text" onClick={resetGame} className="timed-question-back-button">
+          Loading...
+        </Title>
+        <div className="mb-4 text-xl font-medium text-gray-600">Getting your questions ready!</div>
+      </div>
+    );
+  }
+
+  if (gameCompleted) {
+    const percent = Math.round((score / questions.length) * 100);
+
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
+        <Title
+          level={1}
+          className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+        >
+          Congratulations! 🎉
+        </Title>
+        <div className="mb-4 text-xl font-medium text-gray-600">
+          Your Score: {score} out of {questions.length} ({percent}%)
+        </div>
+        {score === questions.length && (
+          <Paragraph className="mb-4 text-lg font-medium text-green-600">🌟 Perfect Score! Amazing! 🌟</Paragraph>
+        )}
+        {score >= questions.length * 0.8 && score < questions.length && (
+          <Paragraph className="mb-4 text-lg font-medium text-blue-600">🎊 Excellent work! 🎊</Paragraph>
+        )}
+        {score >= questions.length * 0.6 && score < questions.length * 0.8 && (
+          <Paragraph className="mb-4 text-lg font-medium text-purple-600">👍 Good job! 👍</Paragraph>
+        )}
+        {score < questions.length * 0.6 && (
+          <Paragraph className="mb-4 text-lg font-medium text-gray-600">💪 Keep practicing! 💪</Paragraph>
+        )}
+        <Space className="mt-6">
+          <Button type="default" size="large" onClick={resetGame}>
+            Choose New Subject
+          </Button>
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => void handleSubjectSelect(selectedSubject)}
+            className="cursor-pointer rounded-xl border-none bg-gradient-to-r from-cyan-600 to-cyan-800 px-[30px] py-3 text-[1.1rem] font-semibold text-white shadow-lg shadow-cyan-600/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-600/60"
+          >
+            Play Again
+          </Button>
+        </Space>
+      </div>
+    );
+  }
+
+  if (questions.length === 0) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
+        <Title
+          level={1}
+          className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+        >
+          No questions available
+        </Title>
+        <Button
+          type="primary"
+          size="large"
+          onClick={resetGame}
+          className="mt-6 cursor-pointer rounded-xl border-none bg-gradient-to-r from-cyan-600 to-cyan-800 px-[30px] py-3 text-[1.1rem] font-semibold text-white shadow-lg shadow-cyan-600/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-600/60"
+        >
+          Back to Subject Selection
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
+      <Title
+        level={1}
+        className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
+      >
+        Timed Quiz Game
+      </Title>
+      <div className="mb-8 text-xl font-medium text-gray-600">Answer questions quickly before time runs out!</div>
+      <div className="flex justify-center">
+        <Card className="w-full max-w-lg rounded-2xl py-2 text-center" variant="outlined">
+          <Space direction="vertical" className="w-full" size="large">
+            <div className="mb-2 flex items-center justify-between">
+              <Button type="text" onClick={resetGame} className="px-2 py-1 text-sm">
                 ← Back
               </Button>
-              <div className="timed-question-tag-container">
-                <Tag color="geekblue" style={{ fontSize: 16, padding: '6px 16px' }}>
-                  {subjectNames[selectedSubject]}
+              <div className="flex items-center gap-2">
+                <Tag color="geekblue" className="px-4 py-1.5 text-base">
+                  {SubjectNames[selectedSubject]}
                 </Tag>
-                <Tag color="gold" style={{ fontSize: 16 }}>
+                <Tag color="gold" className="text-base">
                   ⏰ {timeLeft}s
                 </Tag>
               </div>
-              <div className="timed-question-header-spacer"></div>
+              <div className="w-12"></div>
             </div>
             <Progress
               percent={((currentQuestionIndex + 1) / questions.length) * 100}
               showInfo={false}
               strokeColor="#0080a8"
               trailColor="#e6f7ff"
-              style={{ marginBottom: 4 }}
+              className="mb-1"
             />
-            <Paragraph strong style={{ fontSize: 17, marginBottom: 0 }}>
+            <Paragraph strong className="mb-0 text-lg">
               Question {currentQuestionIndex + 1} of {questions.length} | Score: {score}
             </Paragraph>
-            <Title level={4} style={{ marginBottom: 0 }}>
+            <Title level={4} className="mb-0">
               {currentQuestion.question}
             </Title>
-            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-              {currentQuestion.options.map((option: string, idx: number) => {
-                let type: 'default' | 'primary' | 'dashed' | 'link' | 'text' = 'default';
+            <Space direction="vertical" size="middle" className="w-full">
+              {currentQuestion.options.map((option: string, index: number) => {
+                const type: 'default' | 'primary' | 'dashed' | 'link' | 'text' = 'default';
                 let danger = false;
-                let style: React.CSSProperties = { fontWeight: 500, fontSize: 18 };
-                if (selectedOption === idx) {
-                  type = idx === currentQuestion.correctAnswer ? 'primary' : 'default';
-                  danger = idx !== currentQuestion.correctAnswer;
-                  style = { ...style, background: idx === currentQuestion.correctAnswer ? '#e8ffe6' : '#fff1f0' };
-                } else if (isAnswered && idx === currentQuestion.correctAnswer) {
-                  style = { ...style, background: '#e8ffe6' };
+                let buttonClass = 'font-medium text-lg';
+
+                const isCorrectAnswer = index === currentQuestion.correctAnswer;
+                const isSelectedOption = selectedOption === index;
+                const shouldShowAsCorrect = (isSelectedOption && isCorrectAnswer) || (isAnswered && isCorrectAnswer);
+                const shouldShowAsIncorrect = isSelectedOption && !isCorrectAnswer;
+
+                if (shouldShowAsCorrect) {
+                  buttonClass +=
+                    ' !bg-green-100 !border-green-500 !text-green-800 hover:!bg-green-100 hover:!border-green-500';
+                } else if (shouldShowAsIncorrect) {
+                  buttonClass += ' !bg-red-100 !border-red-500 !text-red-800 hover:!bg-red-100 hover:!border-red-500';
+                  danger = true;
                 }
+
                 return (
                   <Button
-                    key={idx}
+                    key={`${currentQuestionIndex.toString()}-${option}`}
                     block
                     type={type}
                     danger={danger}
                     disabled={isAnswered}
                     size="large"
-                    style={style}
-                    onClick={() => handleOptionClick(idx)}
+                    className={buttonClass}
+                    onClick={() => handleOptionClick(index)}
                   >
                     {option}
                   </Button>

@@ -1,0 +1,68 @@
+import type { AuthResponse } from '@eduplayground/shared/types/auth';
+import type { ErrorResponse } from '@eduplayground/shared/types/error';
+import { API_BASE_URL } from 'config/api';
+import { err, ok, type Result } from 'neverthrow';
+
+export const signInRequest = async (values: {
+  username: string;
+  password: string;
+}): Promise<Result<AuthResponse, string>> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/signin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
+
+    if (!response.ok) {
+      const error = (await response.json()) as ErrorResponse;
+      return err(error.message ?? 'Invalid credentials');
+    }
+
+    return ok((await response.json()) as AuthResponse);
+  } catch (error) {
+    return err(error instanceof Error ? error.message : 'Network error');
+  }
+};
+
+export const signUpRequest = async (values: {
+  username: string;
+  password: string;
+}): Promise<Result<AuthResponse, string>> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
+
+    if (!response.ok) {
+      const error = (await response.json()) as ErrorResponse;
+      return err(error.message ?? 'Sign up failed');
+    }
+
+    return ok((await response.json()) as AuthResponse);
+  } catch (error) {
+    return err(error instanceof Error ? error.message : 'Network error');
+  }
+};
+
+export const signOutRequest = async (token: string): Promise<Result<void, string>> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/signout`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      return err(`Sign out failed: ${response.status}, ${response.statusText}`);
+    }
+
+    return ok();
+  } catch (error) {
+    return err(error instanceof Error ? error.message : 'Network error');
+  }
+};

@@ -1,341 +1,199 @@
-import React, { useState, useEffect } from 'react';
 import {
-  Card,
-  Button,
-  Row,
-  Col,
-  Avatar,
-  Typography,
-  Divider,
-  Menu,
-  Dropdown,
-  Modal,
-  Input,
-  Select,
-  Space,
-  Upload,
-  message,
-} from 'antd';
-
-import {
-  UserOutlined,
-  SettingOutlined,
   BellOutlined,
-  EditOutlined,
   DownOutlined,
-  UploadOutlined,
-  EyeOutlined,
+  EditOutlined,
   EyeInvisibleOutlined,
+  EyeOutlined,
+  SettingOutlined,
+  UploadOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
-
-import './ProfilePage.css';
+import type { LanguageKey, TranslationKeys } from '@eduplayground/shared/types/language';
+import { Avatar, Button, Divider, Dropdown, Input, Menu, message, Modal, Select, Space, Typography } from 'antd';
 import { useAuth } from 'components';
+import { availableEmojis } from 'config/emoji';
+import React, { useEffect, useState } from 'react';
+import { fetchUserLanguage, fetchUserProfile, updateUserInfoRequest, updateUserLanguageRequest } from 'utils/api/user';
 
 const { Text } = Typography;
 
 export const ProfilePage = (): React.JSX.Element => {
-  const { user } = useAuth();
+  const { token } = useAuth();
 
+  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState({
-    name: 'Loading...',
+    name: '',
     password: '',
     profilePicture: 'https://randomuser.me/api/portraits/men/32.jpg',
     equippedEmojis: [] as string[],
   });
-
-  const [actualPassword, setActualPassword] = useState(''); // Store the actual password separately
-
   const [editModal, setEditModal] = useState(false);
   const [editingProfile, setEditingProfile] = useState(profile);
-  const [activeSection, setActiveSection] = useState('profile'); // Track which section is active
-  const [showPassword, setShowPassword] = useState(false); // Track password visibility
-
-  // Load user data from backend
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-          console.error('No token found');
-          setProfile(prev => ({
-            ...prev,
-            name: 'No token',
-            password: 'N/A',
-          }));
-          return;
-        }
-
-        const profileResponse = await fetch('http://localhost:3001/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (profileResponse.ok) {
-          const profileData = await profileResponse.json();
-          if (profileData.user) {
-            setProfile(prev => ({
-              ...prev,
-              name: profileData.user.username,
-              password: profileData.user.password,
-            }));
-            setActualPassword(profileData.user.password);
-          } else {
-            console.error('No user data in response');
-            setProfile(prev => ({
-              ...prev,
-              name: 'Error',
-              password: 'N/A',
-            }));
-          }
-        } else {
-          console.error('Failed to fetch profile:', profileResponse.status);
-          setProfile(prev => ({
-            ...prev,
-            name: 'Fetch failed',
-            password: 'N/A',
-          }));
-        }
-      } catch (error) {
-        console.error('Error loading user data:', error);
-        setProfile(prev => ({
-          ...prev,
-          name: 'Network error',
-          password: 'N/A',
-        }));
-      }
-    };
-
-    loadUserData();
-  }, [user]);
-
-  // For dropdown
+  const [activeSection, setActiveSection] = useState('profile');
+  const [showPassword, setShowPassword] = useState(false);
   const [itemsModalVisible, setItemsModalVisible] = useState(false);
+  const [translation, setTranslation] = useState<TranslationKeys>();
+  const [lang, setLang] = useState<LanguageKey>('en_US');
 
-  // For settings
-  const [lang, setLang] = useState('Eng');
-  const [translations, setTranslations] = useState<any>({
-    Eng: {
-      myProfile: 'My Profile',
-      settings: 'Settings',
-      items: 'Items',
-      language: 'Language',
-      loading: 'Loading...',
-    },
-    JP: {
-      myProfile: 'マイプロフィール',
-      settings: '設定',
-      items: 'アイテム',
-      language: '言語',
-      loading: '読み込み中...',
-    },
-  });
+  const loadUserData = async () => {
+    const result = await fetchUserProfile(token);
 
-  // Load language data from backend
+    if (result.isErr()) {
+      console.error('Failed to load user profile:', result.error);
+      message.error('Failed to load profile data. Please try again later.');
+      return;
+    }
+
+    const { user } = result.value;
+    setProfile(previous => ({
+      ...previous,
+      name: user.username,
+      password: user.password,
+    }));
+  };
+
+  const loadLanguageData = async () => {
+    const result = await fetchUserLanguage(token);
+
+    if (result.isErr()) {
+      console.error('Failed to load user language:', result.error);
+      message.error('Failed to load language data. Please try again later.');
+      return;
+    }
+
+    setTranslation(result.value.translation);
+    setLang(result.value.userLanguage);
+  };
+
   useEffect(() => {
-    const loadLanguageData = async () => {
+    const initializeData = async () => {
+      setLoading(true);
       try {
-        const token = localStorage.getItem('token');
-        if (!token) return;
-
-        const response = await fetch('http://localhost:3001/languages', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setTranslations(data.translations);
-          setLang(data.userLanguage || 'Eng');
-        } else {
-          console.error('Failed to load translations from backend');
-        }
-      } catch (error) {
-        console.error('Error loading language data:', error);
+        await Promise.all([loadUserData(), loadLanguageData()]);
+      } finally {
+        setLoading(false);
       }
     };
 
-    loadLanguageData();
+    void initializeData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update language setting on backend
-  const updateLanguage = async (newLang: string) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
+  const updateLanguage = async (newLang: LanguageKey) => {
+    const result = await updateUserLanguageRequest(token, newLang);
 
-      const response = await fetch('http://localhost:3001/languages', {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ language: newLang }),
-      });
-
-      if (response.ok) {
-        setLang(newLang);
-      }
-    } catch (error) {
-      console.error('Error updating language:', error);
+    if (result.isErr()) {
+      console.error('Failed to update language:', result.error);
+      message.error('Failed to update language. Please try again later.');
+      return;
     }
+
+    setLang(newLang);
+    await loadLanguageData();
   };
 
-  const t = translations[lang as keyof typeof translations] || {};
-
-  const getText = (key: string, fallback?: string) => {
-    return t[key] || fallback || key;
+  const getText = (key: keyof TranslationKeys): string => {
+    return translation?.[key] ?? String(key);
   };
 
-  // Available emojis for items
-  const availableEmojis = [
-    '👑',
-    '🎩',
-    '🎓',
-    '🕶️',
-    '👓',
-    '🎭',
-    '💎',
-    '⭐',
-    '🔥',
-    '⚡',
-    '💫',
-    '✨',
-    '🏆',
-    '🥇',
-    '🏅',
-    '🎖️',
-    '👨‍💻',
-    '🎮',
-    '🦄',
-    '🐲',
-    '🔮',
-    '🗡️',
-    '🛡️',
-    '🎯',
-  ];
-
-  // Handle modal open
   const openEdit = () => {
     setEditingProfile({ ...profile });
     setEditModal(true);
   };
 
-  const handleSave = async () => {
-    try {
-      const token = localStorage.getItem('token');
+  const handleSave = async (): Promise<void> => {
+    const result = await updateUserInfoRequest(token, {
+      username: editingProfile.name,
+      password: editingProfile.password,
+    });
 
-      if (!token) {
-        message.error('No authentication token found');
-        return;
-      }
-
-      const response = await fetch('http://localhost:3001/profile', {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: editingProfile.name,
-          password: editingProfile.password,
-        }),
-      });
-
-      if (response.ok) {
-        const updatedData = await response.json();
-
-        setProfile(prev => ({
-          ...prev,
-          name: updatedData.user.username,
-          password: updatedData.user.password,
-        }));
-        setActualPassword(updatedData.user.password);
-
-        setEditModal(false);
-        message.success('Profile updated successfully!');
-      } else {
-        const errorData = await response.json();
-        message.error(`Failed to update profile: ${errorData.message || 'Unknown error'}`);
-      }
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      message.error('Network error occurred while updating profile');
+    if (result.isErr()) {
+      console.error('Failed to update profile:', result.error);
+      message.error('Failed to update profile. Please try again later.');
+      return;
     }
+
+    setProfile(previous => ({
+      ...previous,
+      name: editingProfile.name,
+      password: editingProfile.password,
+    }));
+
+    setEditModal(false);
+    message.success('Profile updated successfully!');
   };
 
-  // Handle profile picture change
   const handleProfilePictureChange = (newPictureUrl: string) => {
-    setProfile(prev => ({ ...prev, profilePicture: newPictureUrl }));
+    setProfile(previous => ({ ...previous, profilePicture: newPictureUrl }));
   };
 
-  // Handle file upload
   const handleFileUpload = (file: File) => {
     const reader = new FileReader();
-    reader.onload = e => {
-      const result = e.target?.result;
+    reader.addEventListener('load', event => {
+      const result = event.target?.result;
       if (result && typeof result === 'string') {
         handleProfilePictureChange(result);
-        message.success(t.profilePictureUploaded);
+        message.success(getText('profilePictureUploaded'));
       }
-    };
+    });
     reader.readAsDataURL(file);
-    return false; // Prevent default upload behavior
+    return false;
   };
 
-  // Handle emoji equip/unequip
   const toggleEmoji = (emoji: string) => {
-    setProfile(prev => ({
-      ...prev,
-      equippedEmojis: prev.equippedEmojis.includes(emoji)
-        ? prev.equippedEmojis.filter(e => e !== emoji)
-        : [...prev.equippedEmojis, emoji],
+    setProfile(previous => ({
+      ...previous,
+      equippedEmojis: previous.equippedEmojis.includes(emoji)
+        ? previous.equippedEmojis.filter(equippedEmoji => equippedEmoji !== emoji)
+        : [...previous.equippedEmojis, emoji],
     }));
   };
 
-  // Items dropdown menu (just to show equipped count)
-  const itemsMenu = (
-    <Menu
-      items={[
-        {
-          label: `${profile.equippedEmojis.length} ${getText('equippedItems', 'equipped items').toLowerCase()}`,
-          key: 'count',
-          disabled: true,
-        },
-        {
-          label: getText('items', 'Items'),
-          key: 'open',
-          onClick: () => setItemsModalVisible(true),
-        },
-      ]}
-    />
-  );
+  const itemsMenuItems = [
+    {
+      label: `${String(profile.equippedEmojis.length)} ${getText('equippedItems').toLowerCase()}`,
+      key: 'count',
+      disabled: true,
+    },
+    {
+      label: getText('items'),
+      key: 'open',
+      onClick: () => setItemsModalVisible(true),
+    },
+  ];
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-cyan-600 p-8 pt-28 text-center font-sans">
+        <div className="mb-4 h-16 w-16 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
+        <Typography.Title level={1} className="mb-4 text-[2.5rem] font-extrabold text-white drop-shadow-sm">
+          Loading...
+        </Typography.Title>
+        <div className="mb-4 text-xl font-medium text-white">Getting your profile ready!</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="profile-page">
-      <Row justify="center" align="middle" className="profile-main-row">
-        {/* Left Section */}
-        <Col xs={24} md={7} className="profile-left-col">
-          <Card className="profile-left-card" bodyStyle={{ padding: 32, paddingBottom: 12 }}>
-            <div className="profile-avatar-section">
+    <div className="flex min-h-screen items-center justify-center bg-cyan-600 p-4">
+      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-4 lg:flex-row lg:items-center">
+        {/* Left Section - Navigation */}
+        <div className="flex flex-col items-center justify-center">
+          <div className="mb-6 w-full min-w-[400px] rounded-2xl bg-white p-8 pb-3 shadow-lg">
+            <div className="mb-3 flex items-center gap-4">
               <Avatar size={56} src={profile.profilePicture} />
               <div>
-                <Text strong className="profile-username">
-                  {profile.name}
+                <Text strong className="text-lg text-black">
+                  {profile.name || 'Loading...'}
                 </Text>
               </div>
             </div>
-            <Divider className="profile-divider" />
+            <Divider className="my-2 border-gray-200" />
             <Menu
               mode="vertical"
-              className="profile-menu"
+              className="border-none bg-transparent"
               selectedKeys={[activeSection]}
               onClick={({ key }) => {
-                // Only change section for profile and settings, not items
                 if (key === 'profile' || key === 'settings') {
                   setActiveSection(key);
                 }
@@ -343,90 +201,91 @@ export const ProfilePage = (): React.JSX.Element => {
             >
               <Menu.Item
                 key="profile"
-                icon={<UserOutlined className="profile-menu-icon" />}
-                className="profile-menu-item"
+                icon={<UserOutlined className="text-black" />}
+                className="pl-0 text-base text-black"
               >
-                {getText('myProfile', 'My Profile')}
+                {getText('myProfile')}
               </Menu.Item>
               <Menu.Item
                 key="settings"
-                icon={<SettingOutlined className="profile-menu-icon" />}
-                className="profile-menu-item"
+                icon={<SettingOutlined className="text-black" />}
+                className="pl-0 text-base text-black"
               >
-                {getText('settings', 'Settings')}
+                {getText('settings')}
               </Menu.Item>
               <Menu.Item
                 key="items"
-                icon={<BellOutlined className="profile-menu-icon" />}
-                className="profile-menu-item"
+                icon={<BellOutlined className="text-black" />}
+                className="pl-0 text-base text-black"
               >
                 <Space>
-                  {getText('items', 'Items')}
-                  <Dropdown overlay={itemsMenu} trigger={['click']}>
-                    <Button size="small" type="link" className="profile-items-dropdown-button">
-                      {profile.equippedEmojis.length} <DownOutlined className="profile-items-dropdown-icon" />
+                  {getText('items')}
+                  <Dropdown menu={{ items: itemsMenuItems }} trigger={['click']}>
+                    <Button size="small" type="link" className="h-5 p-0 font-semibold text-black">
+                      {profile.equippedEmojis.length} <DownOutlined className="text-xs" />
                     </Button>
                   </Dropdown>
                 </Space>
               </Menu.Item>
-              <Menu.Item key="language" className="profile-menu-item">
+              <Menu.Item key="language" className="pl-0 text-base text-black">
                 <Space>
-                  {getText('language', 'Language')}
+                  {getText('language')}
                   <Select
                     size="small"
                     value={lang}
-                    className="profile-settings-select"
-                    onChange={v => updateLanguage(v)}
+                    className="w-28"
+                    onChange={newLang => void updateLanguage(newLang)}
                     options={[
-                      { value: 'Eng', label: 'English' },
-                      { value: 'JP', label: '日本語' },
+                      { value: 'en_US', label: 'English' },
+                      { value: 'ja_JP', label: '日本語' },
+                      { value: 'zh_CN', label: '中文' },
                     ]}
                   />
                 </Space>
               </Menu.Item>
             </Menu>
-          </Card>
-        </Col>
+          </div>
+        </div>
 
-        {/* Right Section */}
-        <Col xs={24} md={10}>
-          <Card className="profile-right-card" bodyStyle={{ padding: 40, paddingBottom: 28 }}>
+        {/* Right Section - Content */}
+        <div className="flex items-center justify-center">
+          <div className="w-full min-w-[500px] rounded-3xl bg-white p-10 pb-8 shadow-lg">
             {activeSection === 'profile' ? (
               // Profile Section
               <>
-                <div className="profile-header-section">
+                <div className="mb-4 flex items-center">
                   <Avatar size={64} src={profile.profilePicture} />
-                  <div className="profile-header-info">
-                    <div className="profile-header-name-row">
-                      <Text strong className="profile-header-name">
+                  <div className="ml-4 flex-1">
+                    <div className="flex items-center gap-2">
+                      <Text strong className="text-xl text-black">
                         {profile.name}
                       </Text>
-                      {profile.equippedEmojis.map((emoji, index) => (
-                        <span key={index} className="profile-emoji">
+                      {profile.equippedEmojis.map(emoji => (
+                        <span key={`header-emoji-${emoji}`} className="text-xl">
                           {emoji}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <Button type="text" icon={<EditOutlined />} onClick={openEdit} className="profile-edit-button" />
+                  <Button type="text" icon={<EditOutlined />} onClick={openEdit} className="ml-auto" />
                 </div>
-                <Divider className="profile-divider" />
-                <div className="profile-info-section">
-                  <div className="profile-info-row">
-                    <span className="profile-info-label">{t.name}</span>
-                    <span className="profile-info-value">{profile.name}</span>
+                <Divider className="my-2 border-gray-200" />
+                <div className="mb-6 text-base">
+                  <div className="mb-4 flex justify-between">
+                    <span className="font-medium text-cyan-700">{getText('name')}</span>
+                    <span className="font-medium text-black">{profile.name}</span>
                   </div>
 
-                  <div className="profile-info-row">
-                    <span className="profile-info-label">{t.password}</span>
-                    <span className="profile-info-value profile-password-display">
-                      {showPassword ? actualPassword || profile.password : '•'.repeat(8)}
+                  <div className="mb-4 flex justify-between">
+                    <span className="font-medium text-cyan-700">{getText('password')}</span>
+                    <span className="flex items-center gap-2 font-medium text-black">
+                      {showPassword ? profile.password : '•'.repeat(8)}
                       <Button
                         type="text"
                         size="small"
                         icon={showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
                         onClick={() => setShowPassword(!showPassword)}
-                        className="profile-password-toggle-button"
+                        className="min-w-0 px-1"
                       />
                     </span>
                   </div>
@@ -435,51 +294,59 @@ export const ProfilePage = (): React.JSX.Element => {
             ) : (
               // Settings Section - Profile Picture
               <>
-                <div className="profile-settings-section-header">
-                  <SettingOutlined className="profile-settings-icon" />
-                  <Text strong className="profile-settings-section-title">
-                    {t.profileSettings}
+                <div className="mb-6 flex items-center">
+                  <SettingOutlined className="mr-3 text-2xl text-black" />
+                  <Text strong className="text-xl text-black">
+                    {getText('profileSettings')}
                   </Text>
                 </div>
-                <Divider className="profile-divider" />
+                <Divider className="my-2 border-gray-200" />
 
-                <div className="profile-picture-section">
-                  <div className="profile-picture-avatar-container">
+                <div className="mb-8 text-center">
+                  <div className="mb-6">
                     <Avatar size={120} src={profile.profilePicture} />
                   </div>
-                  <Text strong className="profile-picture-title">
-                    {t.profilePicture}
+                  <Text strong className="mb-2 block text-lg text-black">
+                    {getText('profilePicture')}
                   </Text>
-                  <Text className="profile-picture-subtitle">{t.changeProfilePicture}</Text>
+                  <Text className="mb-6 block text-gray-500">{getText('changeProfilePicture')}</Text>
 
-                  <Space direction="vertical" className="profile-upload-space">
-                    <Upload
-                      accept="image/*"
-                      beforeUpload={handleFileUpload}
-                      showUploadList={false}
-                      className="profile-upload-space"
+                  <Space direction="vertical" className="w-full">
+                    <Button
+                      icon={<UploadOutlined />}
+                      className="mb-4 h-10 w-full rounded-lg"
+                      onClick={() => {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.addEventListener('change', event => {
+                          const file = (event.target as HTMLInputElement).files?.[0];
+                          if (file) {
+                            handleFileUpload(file);
+                          }
+                        });
+                        input.click();
+                      }}
                     >
-                      <Button icon={<UploadOutlined />} className="profile-upload-button">
-                        {t.uploadFromDevice}
-                      </Button>
-                    </Upload>
+                      {getText('uploadFromDevice')}
+                    </Button>
 
-                    <Divider style={{ margin: '16px 0' }}>OR</Divider>
+                    <Divider className="my-4">OR</Divider>
 
                     <Input
-                      placeholder={t.enterImageUrl}
-                      className="profile-url-input"
-                      onPressEnter={e => {
-                        const url = (e.target as HTMLInputElement).value;
+                      placeholder={getText('enterImageUrl')}
+                      className="mb-4"
+                      onPressEnter={event => {
+                        const url = (event.target as HTMLInputElement).value;
                         if (url) {
                           handleProfilePictureChange(url);
-                          (e.target as HTMLInputElement).value = '';
-                          message.success(t.profilePictureUpdated);
+                          (event.target as HTMLInputElement).value = '';
+                          message.success(getText('profilePictureUpdated'));
                         }
                       }}
                     />
-                    <Text className="profile-preset-text">{t.chooseFromPresets}</Text>
-                    <div className="profile-preset-avatars">
+                    <Text className="text-sm text-gray-500">{getText('chooseFromPresets')}</Text>
+                    <div className="mt-4 flex flex-wrap justify-center gap-3">
                       {[
                         'https://randomuser.me/api/portraits/men/32.jpg',
                         'https://randomuser.me/api/portraits/women/44.jpg',
@@ -487,50 +354,48 @@ export const ProfilePage = (): React.JSX.Element => {
                         'https://randomuser.me/api/portraits/women/68.jpg',
                         'https://randomuser.me/api/portraits/men/54.jpg',
                         'https://randomuser.me/api/portraits/women/19.jpg',
-                      ].map((url, index) => (
-                        <Avatar
-                          key={index}
-                          size={48}
-                          src={url}
-                          className={`profile-preset-avatar ${
-                            profile.profilePicture === url ? 'profile-preset-avatar-selected' : 'profile-preset-avatar'
-                          }`}
-                          onClick={() => handleProfilePictureChange(url)}
-                        />
+                      ].map(url => (
+                        <button
+                          key={url}
+                          type="button"
+                          onClick={() => {
+                            handleProfilePictureChange(url);
+                            message.success(getText('profilePictureUpdated'));
+                          }}
+                          className="h-16 w-16 cursor-pointer overflow-hidden rounded-full border-2 border-gray-300 transition-all duration-200 hover:border-cyan-600 hover:shadow-lg"
+                        >
+                          <img src={url} alt="Profile preset" className="h-full w-full object-cover" />
+                        </button>
                       ))}
                     </div>
                   </Space>
                 </div>
-
-                <Button type="primary" className="profile-back-button" onClick={() => setActiveSection('profile')}>
-                  {t.backToProfile}
-                </Button>
               </>
             )}
-          </Card>
-        </Col>
-      </Row>
+          </div>
+        </div>
+      </div>
 
       {/* Modal for editing profile */}
       <Modal
-        title={t.editProfile}
+        title={getText('editProfile')}
         open={editModal}
-        onOk={handleSave}
+        onOk={() => void handleSave()}
         onCancel={() => setEditModal(false)}
-        okText={t.save}
-        cancelText={t.cancel}
+        okText={getText('save')}
+        cancelText={getText('cancel')}
       >
-        <Space direction="vertical" style={{ width: '100%' }}>
+        <Space direction="vertical" className="w-full">
           <Input
-            addonBefore={t.name}
+            addonBefore={getText('name')}
             value={editingProfile.name}
-            onChange={e => setEditingProfile(p => ({ ...p, name: e.target.value }))}
+            onChange={event => setEditingProfile(p => ({ ...p, name: event.target.value }))}
           />
           <Input.Password
-            addonBefore={t.password}
+            addonBefore={getText('password')}
             value={editingProfile.password}
-            onChange={e => setEditingProfile(p => ({ ...p, password: e.target.value }))}
-            placeholder={t.enterNewPassword}
+            onChange={event => setEditingProfile(p => ({ ...p, password: event.target.value }))}
+            placeholder={getText('enterNewPassword')}
             iconRender={visible => (visible ? <EyeInvisibleOutlined /> : <EyeOutlined />)}
           />
         </Space>
@@ -538,45 +403,47 @@ export const ProfilePage = (): React.JSX.Element => {
 
       {/* Items Modal */}
       <Modal
-        title={t.itemsCollection}
+        title={getText('itemsCollection')}
         open={itemsModalVisible}
         onCancel={() => setItemsModalVisible(false)}
         footer={[
           <Button key="close" onClick={() => setItemsModalVisible(false)}>
-            {t.close}
+            {getText('close')}
           </Button>,
         ]}
         width={600}
       >
-        <div className="profile-modal-equipped-section">
-          <Text strong className="profile-equipped-items-text">
-            {t.equippedItems} ({profile.equippedEmojis.length}):{' '}
+        <div className="mb-4">
+          <Text strong className="text-black">
+            {getText('equippedItems')} ({profile.equippedEmojis.length}):{' '}
           </Text>
           {profile.equippedEmojis.length > 0 ? (
-            <div className="profile-modal-equipped-emojis">
-              {profile.equippedEmojis.map((emoji, index) => (
-                <span key={index} className="profile-modal-equipped-emoji">
+            <div className="mt-2">
+              {profile.equippedEmojis.map(emoji => (
+                <span key={`modal-equipped-${emoji}`} className="mr-2 text-2xl">
                   {emoji}
                 </span>
               ))}
             </div>
           ) : (
-            <Text className="profile-no-items-text">{t.noItemsEquipped}</Text>
+            <Text className="text-gray-500">{getText('noItemsEquipped')}</Text>
           )}
         </div>
 
-        <Divider className="profile-divider" />
+        <Divider className="my-2 border-gray-200" />
 
         <div>
-          <Text strong className="profile-available-items-text">
-            {t.availableItems}
+          <Text strong className="mb-4 block text-black">
+            {getText('availableItems')}
           </Text>
-          <div className="profile-emoji-grid">
-            {availableEmojis.map((emoji, index) => (
+          <div className="grid max-h-80 grid-cols-8 gap-3 overflow-y-auto">
+            {availableEmojis.map(emoji => (
               <div
-                key={index}
-                className={`profile-emoji-item ${
-                  profile.equippedEmojis.includes(emoji) ? 'profile-emoji-item-equipped' : 'profile-emoji-item'
+                key={`available-${emoji}`}
+                className={`flex h-15 w-15 cursor-pointer items-center justify-center rounded-lg text-3xl transition-all duration-300 select-none ${
+                  profile.equippedEmojis.includes(emoji)
+                    ? 'border-3 border-blue-500 bg-blue-100'
+                    : 'border-2 border-gray-200 bg-white hover:bg-gray-100'
                 }`}
                 onClick={() => toggleEmoji(emoji)}
               >

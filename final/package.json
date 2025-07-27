@@ -1,0 +1,36 @@
+{
+  "name": "eduplayground-app",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently -n \"API,WEB\" -c \"blue,green\" \"bun run dev:backend\" \"bun run dev:frontend\"",
+    "dev:backend": "cd backend && bun run dev",
+    "dev:frontend": "cd frontend && bun run dev",
+    "build:all": "bun run build:backend && bun run build:frontend",
+    "build:backend": "cd backend && bun run build",
+    "build:frontend": "cd frontend && bun run build",
+    "lint": "concurrently \"cd shared && bunx eslint .\" \"cd backend && bunx eslint .\" \"cd frontend && bunx eslint .\"",
+    "fix": "concurrently \"cd shared && bunx eslint . --fix\" \"cd backend && bunx eslint . --fix\" \"cd frontend && bunx eslint . --fix\"",
+    "upgrade": "concurrently \"cd shared && bunx ncu -u\" \"cd backend && bunx ncu -u\" \"cd frontend && bunx ncu -u\" && bun install"
+  },
+  "dependencies": {
+    "es-toolkit": "^1.39.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@types/node": "^24.1.0",
+    "concurrently": "^9.2.0",
+    "eslint": "^9.31.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unicorn": "^60.0.0",
+    "globals": "^16.3.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0"
+  }
+}

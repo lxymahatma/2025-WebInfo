@@ -1,54 +1,41 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
+    "target": "ES2022",
     "lib": [
-      "ES2020"
+      "ES2022"
     ],
-    "outDir": "./dist",
-    "rootDir": "./",
-    "strict": true,
-    "esModuleInterop": true,
+    "outDir": "dist",
+    "module": "ESNext",
     "skipLibCheck": true,
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
     "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "types/*": [
-        "types/*"
+      "@eduplayground/shared/config": [
+        "../../shared/src/config"
       ],
-      "types": [
-        "types"
-      ],
-      "routes/*": [
-        "routes/*"
-      ],
-      "routes": [
-        "routes"
-      ],
-      "utils/*": [
-        "utils/*"
-      ],
-      "utils": [
-        "utils"
-      ],
-      "middleware/*": [
-        "middleware/*"
-      ],
-      "middleware": [
-        "middleware"
+      "@eduplayground/shared/types/*": [
+        "../../shared/src/types/*"
       ]
     }
   },
   "include": [
-    "*.ts",
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
+    "src"
+  ]
 }

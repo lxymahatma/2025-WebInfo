@@ -1,41 +1,39 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-
-import { AuthProvider, useAuth, NavBar } from 'components';
+import { AuthProvider, NavBar, useAuth } from 'components';
 import { DragDropGame, MemoryCardGame, TimedQuestionGame } from 'games';
-import { HomePage, GameTrackerPage, ProfilePage, SignInPage, SignUpPage, GameTrackerProvider } from 'pages';
-
-import './App.css';
+import { GameDashboardPage, HomePage, ProfilePage, SignInPage, SignUpPage, WelcomePage } from 'pages';
+import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 function AppContent() {
-  const { user } = useAuth();
+  const { userName } = useAuth();
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === '/home';
 
   return (
-    <>
-      {user && !isHomePage && <NavBar />}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signin" element={user ? <Navigate to="/" /> : <SignInPage />} />
-        <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUpPage />} />
-        <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/" />} />
-        <Route path="/tracker" element={user ? <GameTrackerPage /> : <Navigate to="/" />} />
-        <Route path="/dragdrop" element={user ? <DragDropGame /> : <Navigate to="/" />} />
-        <Route path="/memory" element={user ? <MemoryCardGame /> : <Navigate to="/" />} />
-        <Route path="/timed" element={user ? <TimedQuestionGame /> : <Navigate to="/" />} />
-      </Routes>
-    </>
+    <div className="App text-center font-sans">
+      {userName && !isHomePage && <NavBar />}
+      <main className="pt-0">
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/home" element={userName ? <HomePage /> : <Navigate to="/" />} />
+          <Route path="/signin" element={userName ? <Navigate to="/home" /> : <SignInPage />} />
+          <Route path="/signup" element={userName ? <Navigate to="/home" /> : <SignUpPage />} />
+          <Route path="/profile" element={userName ? <ProfilePage /> : <Navigate to="/" />} />
+          <Route path="/dashboard" element={userName ? <GameDashboardPage /> : <Navigate to="/" />} />
+          <Route path="/dragdrop" element={userName ? <DragDropGame /> : <Navigate to="/" />} />
+          <Route path="/memory" element={userName ? <MemoryCardGame /> : <Navigate to="/" />} />
+          <Route path="/timed" element={userName ? <TimedQuestionGame /> : <Navigate to="/" />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 
 export const App = () => {
   return (
     <AuthProvider>
-      <GameTrackerProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </GameTrackerProvider>
+      <Router>
+        <AppContent />
+      </Router>
     </AuthProvider>
   );
 };

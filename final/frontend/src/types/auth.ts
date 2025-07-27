@@ -1,9 +1,13 @@
+import type { AuthResponse } from '@eduplayground/shared/types/auth';
+import type { ReactNode } from 'react';
+
 export interface AuthContextType {
-  user: string | null;
-  signin: (username: string) => void;
-  signout: () => void;
+  userName: string;
+  token: string;
+  signIn: (auth: AuthResponse) => void;
+  signOut: () => void;
 }
 
-export interface AuthProviderProps {
-  children: React.ReactNode;
+export interface AuthProviderProperties {
+  children: ReactNode;
 }

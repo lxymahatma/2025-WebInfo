@@ -1,0 +1,9 @@
+{
+  "name": "@eduplayground/shared",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Shared TypeScript types for EduPlayground frontend and backend",
+  "scripts": {
+    "lint": "eslint ."
+  }
+}

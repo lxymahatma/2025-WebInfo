@@ -1,6 +1,6 @@
-export { HomePage } from './HomePage';
-export { GameTrackerPage } from './GameTrackerPage';
-export { ProfilePage } from './ProfilePage';
-export { SignInPage } from './SignInPage';
-export { SignUpPage } from './SignUpPage';
-export { GameTrackerProvider, useGameTracker } from './GameTrackerContext';
+export * from './GameDashboardPage';
+export * from './HomePage';
+export * from './ProfilePage';
+export * from './SignInPage';
+export * from './SignUpPage';
+export * from './WelcomePage';
