@@ -64,7 +64,9 @@ export interface MemoryCardsResponse {
 }
 
 // Timed Quiz Types
-export type Subject = "math" | "english" | "knowledge";
+export const SUBJECT_KEYS = ["math", "english", "knowledge"] as const;
+
+export type Subject = (typeof SUBJECT_KEYS)[number];
 
 export interface TimedQuizQuestion {
   subject: Subject;

@@ -1,3 +1,4 @@
+import { SubjectNames } from '@eduplayground/shared/config';
 import type { Subject, TimedQuizQuestion } from '@eduplayground/shared/types/game';
 import { Button, Card, message, Progress, Space, Spin, Tag, Typography } from 'antd';
 import { useAuth } from 'components/auth';
@@ -99,12 +100,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
       handleAnswer();
     }
   }, [timeLeft, isAnswered, selectedSubject, questions.length, currentQuestion, handleAnswer]);
-
-  const subjectNames = {
-    math: 'Math',
-    english: 'English',
-    knowledge: 'Fun Facts',
-  } as const;
 
   if (!selectedSubject) {
     return (
@@ -254,7 +249,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
               </Button>
               <div className="flex items-center gap-2">
                 <Tag color="geekblue" className="px-4 py-1.5 text-base">
-                  {subjectNames[selectedSubject as keyof typeof subjectNames]}
+                  {SubjectNames[selectedSubject]}
                 </Tag>
                 <Tag color="gold" className="text-base">
                   ⏰ {timeLeft}s
