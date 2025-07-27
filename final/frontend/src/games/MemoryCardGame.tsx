@@ -15,8 +15,8 @@ export const MemoryCardGame = (): React.JSX.Element => {
   const [cards, setCards] = useState<CardType[]>([]);
   const [firstChoice, setFirstChoice] = useState<CardType>();
   const [secondChoice, setSecondChoice] = useState<CardType>();
-  const [gameCompleted, setGameCompleted] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(false);
 
   const initializeGame = async () => {
     setLoading(true);

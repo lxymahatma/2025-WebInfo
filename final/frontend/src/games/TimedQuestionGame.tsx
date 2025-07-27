@@ -18,7 +18,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15);
   const [score, setScore] = useState(0);
-  const [gameFinished, setGameFinished] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -52,7 +52,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
           setSelectedOption(undefined);
           setIsAnswered(false);
         } else {
-          setGameFinished(true);
+          setGameCompleted(true);
           void incrementGameCountRequest(token, 'timed');
         }
       }, 1200);
@@ -68,7 +68,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     setSelectedOption(undefined);
     setIsAnswered(false);
     setScore(0);
-    setGameFinished(false);
+    setGameCompleted(false);
   };
 
   const handleSubjectSelect = async (subject: Subject) => {
@@ -78,7 +78,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     setSelectedOption(undefined);
     setIsAnswered(false);
     setScore(0);
-    setGameFinished(false);
+    setGameCompleted(false);
     await loadQuestions(subject);
   };
 
@@ -172,7 +172,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     );
   }
 
-  if (gameFinished) {
+  if (gameCompleted) {
     const percent = Math.round((score / questions.length) * 100);
 
     return (
