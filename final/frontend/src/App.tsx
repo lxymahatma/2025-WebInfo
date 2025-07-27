@@ -18,7 +18,7 @@ function AppContent() {
           <Route path="/signin" element={userName ? <Navigate to="/home" /> : <SignInPage />} />
           <Route path="/signup" element={userName ? <Navigate to="/home" /> : <SignUpPage />} />
           <Route path="/profile" element={userName ? <ProfilePage /> : <Navigate to="/" />} />
-          <Route path="/tracker" element={userName ? <GameDashboardPage /> : <Navigate to="/" />} />
+          <Route path="/dashboard" element={userName ? <GameDashboardPage /> : <Navigate to="/" />} />
           <Route path="/dragdrop" element={userName ? <DragDropGame /> : <Navigate to="/" />} />
           <Route path="/memory" element={userName ? <MemoryCardGame /> : <Navigate to="/" />} />
           <Route path="/timed" element={userName ? <TimedQuestionGame /> : <Navigate to="/" />} />

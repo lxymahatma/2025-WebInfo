@@ -105,7 +105,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
             <div>
               <TrophyOutlined className="mb-4 text-5xl text-yellow-400 drop-shadow-lg" />
               <Title level={1} className="m-0 text-gray-800 drop-shadow">
-                🎮 Game Tracker
+                🎮 Game Dashboard
               </Title>
               <Paragraph className="m-0 text-lg text-gray-600">
                 Track your gaming progress and see how many times you've played each game!
@@ -216,7 +216,7 @@ export const GameDashboardPage = (): React.JSX.Element => {
               <div className="text-7xl">🎮</div>
               <div>
                 <Title level={3} className="text-blue-500 drop-shadow">
-                  Welcome to Game Tracker!
+                  Welcome to Game Dashboard!
                 </Title>
                 <Paragraph className="text-gray-600">
                   Start playing any of the available games to see your progress here. Each completed game will be

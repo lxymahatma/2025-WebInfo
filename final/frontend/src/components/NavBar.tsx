@@ -9,7 +9,7 @@ const navItems = [
   { key: '/dragdrop', label: '🎯 Drag & Drop' },
   { key: '/timed', label: '⏰ Timed Quiz' },
   { key: '/memory', label: '🧠 Memory' },
-  { key: '/tracker', label: '🎮 Tracker' },
+  { key: '/dashboard', label: '🎮 Dashboard' },
   { key: '/profile', label: '👤 Profile' },
 ];
 

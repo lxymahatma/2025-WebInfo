@@ -95,12 +95,12 @@ export const HomePage = (): React.JSX.Element => {
             </Link>
 
             <Link
-              to="/tracker"
+              to="/dashboard"
               className="flex flex-col items-center rounded-2xl border-2 border-transparent bg-white/95 p-8 text-center no-underline transition-all duration-300 hover:-translate-y-2 hover:border-white/30 hover:shadow-2xl"
             >
               <div className="mb-4 text-5xl">🎮</div>
               <div>
-                <h3 className="mb-2 text-xl font-bold text-slate-800">Game Tracker</h3>
+                <h3 className="mb-2 text-xl font-bold text-slate-800">Game Dashboard</h3>
                 <p className="m-0 text-base leading-relaxed text-gray-600">
                   View your game statistics and track your progress
                 </p>
