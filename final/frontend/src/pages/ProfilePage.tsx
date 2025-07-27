@@ -33,7 +33,7 @@ export const ProfilePage = (): React.JSX.Element => {
   const [showPassword, setShowPassword] = useState(false);
   const [itemsModalVisible, setItemsModalVisible] = useState(false);
   const [translation, setTranslation] = useState<TranslationKeys>();
-  const [lang, setLang] = useState<LanguageKey>('en');
+  const [lang, setLang] = useState<LanguageKey>('en_US');
 
   const loadUserData = async () => {
     const result = await fetchUserProfile(token);
@@ -89,6 +89,7 @@ export const ProfilePage = (): React.JSX.Element => {
     }
 
     setLang(newLang);
+    await loadLanguageData();
   };
 
   const getText = (key: keyof TranslationKeys): string => {
@@ -232,11 +233,12 @@ export const ProfilePage = (): React.JSX.Element => {
                   <Select
                     size="small"
                     value={lang}
-                    className="w-20"
+                    className="w-28"
                     onChange={newLang => void updateLanguage(newLang)}
                     options={[
                       { value: 'en_US', label: 'English' },
                       { value: 'ja_JP', label: '日本語' },
+                      { value: 'zh_CN', label: '中文' },
                     ]}
                   />
                 </Space>

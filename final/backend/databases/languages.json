@@ -51,6 +51,32 @@
       "close": "閉じる",
       "profilePictureUpdated": "プロフィール画像が更新されました！",
       "profilePictureUploaded": "プロフィール画像のアップロードが完了しました！"
+    },
+    "zh_CN": {
+      "myProfile": "我的资料",
+      "settings": "设置",
+      "items": "物品",
+      "language": "语言",
+      "profileSettings": "资料设置",
+      "profilePicture": "头像",
+      "changeProfilePicture": "更换头像",
+      "uploadFromDevice": "从设备上传图片",
+      "enterImageUrl": "输入图片链接",
+      "chooseFromPresets": "或从预设选项中选择：",
+      "backToProfile": "返回资料页",
+      "name": "用户名",
+      "password": "密码",
+      "enterNewPassword": "输入新密码",
+      "editProfile": "编辑资料",
+      "save": "保存",
+      "cancel": "取消",
+      "itemsCollection": "物品收藏",
+      "equippedItems": "已装备物品",
+      "noItemsEquipped": "未装备物品",
+      "availableItems": "可用物品：",
+      "close": "关闭",
+      "profilePictureUpdated": "头像已更新！",
+      "profilePictureUploaded": "头像上传成功！"
     }
   }
 }
