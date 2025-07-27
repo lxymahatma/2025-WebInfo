@@ -280,7 +280,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 const type: 'default' | 'primary' | 'dashed' | 'link' | 'text' = 'default';
                 let danger = false;
                 let buttonClass = 'font-medium text-lg';
-                let buttonStyle: React.CSSProperties | undefined;
 
                 const isCorrectAnswer = index === currentQuestion.correctAnswer;
                 const isSelectedOption = selectedOption === index;
@@ -289,11 +288,9 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
                 if (shouldShowAsCorrect) {
                   buttonClass +=
-                    ' !bg-green-200 !border-green-500 !text-green-900 hover:!bg-green-200 hover:!border-green-500';
-                  buttonStyle = { backgroundColor: '#bbf7d0', borderColor: '#10b981', color: '#064e3b' };
+                    ' !bg-green-100 !border-green-500 !text-green-800 hover:!bg-green-100 hover:!border-green-500';
                 } else if (shouldShowAsIncorrect) {
-                  buttonClass += ' !bg-red-200 !border-red-500 !text-red-900 hover:!bg-red-200 hover:!border-red-500';
-                  buttonStyle = { backgroundColor: '#fecaca', borderColor: '#ef4444', color: '#7f1d1d' };
+                  buttonClass += ' !bg-red-100 !border-red-500 !text-red-800 hover:!bg-red-100 hover:!border-red-500';
                   danger = true;
                 }
 
@@ -306,7 +303,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                     disabled={isAnswered}
                     size="large"
                     className={buttonClass}
-                    style={buttonStyle}
                     onClick={() => handleOptionClick(index)}
                   >
                     {option}
