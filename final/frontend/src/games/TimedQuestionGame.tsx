@@ -40,22 +40,25 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     }
   };
 
-  const handleAnswer = useCallback((index?: number) => {
-    if (index !== undefined && currentQuestion && index === currentQuestion.correctAnswer) {
-      setScore(previousScore => previousScore + 1);
-    }
-    setTimeout(() => {
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex(previousIndex => previousIndex + 1);
-        setTimeLeft(15);
-        setSelectedOption(undefined);
-        setIsAnswered(false);
-      } else {
-        setGameFinished(true);
-        void incrementGameCountRequest(token, 'timed');
+  const handleAnswer = useCallback(
+    (index?: number) => {
+      if (index !== undefined && index === currentQuestion.correctAnswer) {
+        setScore(previousScore => previousScore + 1);
       }
-    }, 1200);
-  }, [currentQuestion, currentQuestionIndex, questions.length, token]);
+      setTimeout(() => {
+        if (currentQuestionIndex < questions.length - 1) {
+          setCurrentQuestionIndex(previousIndex => previousIndex + 1);
+          setTimeLeft(15);
+          setSelectedOption(undefined);
+          setIsAnswered(false);
+        } else {
+          setGameFinished(true);
+          void incrementGameCountRequest(token, 'timed');
+        }
+      }, 1200);
+    },
+    [currentQuestion, currentQuestionIndex, questions.length, token]
+  );
 
   const resetGame = () => {
     setSelectedSubject(undefined);
@@ -80,7 +83,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   };
 
   const handleOptionClick = (index: number) => {
-    if (!isAnswered && currentQuestion) {
+    if (!isAnswered) {
       setSelectedOption(index);
       setIsAnswered(true);
       handleAnswer(index);
@@ -88,10 +91,10 @@ export const TimedQuestionGame = (): React.JSX.Element => {
   };
 
   useEffect(() => {
-    if (timeLeft > 0 && !isAnswered && selectedSubject && questions.length > 0 && currentQuestion) {
+    if (timeLeft > 0 && !isAnswered && selectedSubject && questions.length > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
-    } else if (timeLeft === 0 && !isAnswered && selectedSubject && questions.length > 0 && currentQuestion) {
+    } else if (timeLeft === 0 && !isAnswered && selectedSubject && questions.length > 0) {
       setIsAnswered(true);
       handleAnswer();
     }
@@ -171,7 +174,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
 
   if (gameFinished) {
     const percent = Math.round((score / questions.length) * 100);
-    
+
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
         <Title
@@ -202,7 +205,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
           <Button
             type="primary"
             size="large"
-            onClick={() => selectedSubject ? void handleSubjectSelect(selectedSubject) : undefined}
+            onClick={() => void handleSubjectSelect(selectedSubject)}
             className="cursor-pointer rounded-xl border-none bg-gradient-to-r from-cyan-600 to-cyan-800 px-[30px] py-3 text-[1.1rem] font-semibold text-white shadow-lg shadow-cyan-600/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-600/60"
           >
             Play Again
@@ -233,20 +236,6 @@ export const TimedQuestionGame = (): React.JSX.Element => {
     );
   }
 
-  if (!currentQuestion) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-300 p-8 pt-28 text-center font-sans">
-        <Spin size="large" />
-        <Title
-          level={1}
-          className="mb-4 bg-gradient-to-r from-cyan-600 to-cyan-800 bg-clip-text text-[2.5rem] font-extrabold text-transparent drop-shadow-sm"
-        >
-          Loading...
-        </Title>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 p-4 pt-28 text-center font-sans">
       <Title
@@ -265,7 +254,7 @@ export const TimedQuestionGame = (): React.JSX.Element => {
               </Button>
               <div className="flex items-center gap-2">
                 <Tag color="geekblue" className="px-4 py-1.5 text-base">
-                  {selectedSubject ? subjectNames[selectedSubject as keyof typeof subjectNames] : ''}
+                  {subjectNames[selectedSubject as keyof typeof subjectNames]}
                 </Tag>
                 <Tag color="gold" className="text-base">
                   ⏰ {timeLeft}s
@@ -299,11 +288,10 @@ export const TimedQuestionGame = (): React.JSX.Element => {
                 const shouldShowAsIncorrect = isSelectedOption && !isCorrectAnswer;
 
                 if (shouldShowAsCorrect) {
-                  // Correct answer - bright green
-                  buttonClass += ' !bg-green-200 !border-green-500 !text-green-900 hover:!bg-green-200 hover:!border-green-500';
+                  buttonClass +=
+                    ' !bg-green-200 !border-green-500 !text-green-900 hover:!bg-green-200 hover:!border-green-500';
                   buttonStyle = { backgroundColor: '#bbf7d0', borderColor: '#10b981', color: '#064e3b' };
                 } else if (shouldShowAsIncorrect) {
-                  // Wrong answer - bright red
                   buttonClass += ' !bg-red-200 !border-red-500 !text-red-900 hover:!bg-red-200 hover:!border-red-500';
                   buttonStyle = { backgroundColor: '#fecaca', borderColor: '#ef4444', color: '#7f1d1d' };
                   danger = true;
