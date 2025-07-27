@@ -16,6 +16,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
   const [firstChoice, setFirstChoice] = useState<CardType>();
   const [secondChoice, setSecondChoice] = useState<CardType>();
   const [gameCompleted, setGameCompleted] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const initializeGame = async () => {
     setLoading(true);
@@ -37,6 +38,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
       setFirstChoice(undefined);
       setSecondChoice(undefined);
       setGameCompleted(false);
+      setDisabled(false);
     } finally {
       setLoading(false);
     }
@@ -48,7 +50,7 @@ export const MemoryCardGame = (): React.JSX.Element => {
   };
 
   const handleChoice = (card: CardType) => {
-    if (gameCompleted || card === firstChoice) return;
+    if (gameCompleted || card === firstChoice || disabled) return;
 
     if (firstChoice) {
       setSecondChoice(card);
@@ -72,11 +74,17 @@ export const MemoryCardGame = (): React.JSX.Element => {
 
   useEffect(() => {
     if (firstChoice && secondChoice) {
+      setDisabled(true);
+
       if (firstChoice.text === secondChoice.text) {
         setCards(previous => previous.map(c => (c.text === firstChoice.text ? { ...c, matched: true } : c)));
         resetTurn();
+        setDisabled(false);
       } else {
-        setTimeout(resetTurn, 1000);
+        setTimeout(() => {
+          resetTurn();
+          setDisabled(false);
+        }, 1000);
       }
     }
   }, [firstChoice, secondChoice]);
