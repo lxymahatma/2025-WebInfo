@@ -8,111 +8,92 @@ import {
   UploadOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import type { ErrorResponse } from '@eduplayground/shared/types/error';
 import type { LanguageKey, TranslationKeys } from '@eduplayground/shared/types/language';
-import type { ProfileResponse } from '@eduplayground/shared/types/user';
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  Divider,
-  Dropdown,
-  Input,
-  Menu,
-  message,
-  Modal,
-  Row,
-  Select,
-  Space,
-  Typography,
-  Upload,
-} from 'antd';
+import { Avatar, Button, Divider, Dropdown, Input, Menu, message, Modal, Select, Space, Typography } from 'antd';
 import { useAuth } from 'components';
 import { availableEmojis } from 'config/emoji';
 import React, { useEffect, useState } from 'react';
-import { fetchUserLanguage, fetchUserProfile, updateUserLanguageRequest } from 'utils/api/user';
+import { fetchUserLanguage, fetchUserProfile, updateUserInfoRequest, updateUserLanguageRequest } from 'utils/api/user';
 
 const { Text } = Typography;
 
 export const ProfilePage = (): React.JSX.Element => {
-  const { userName, token } = useAuth();
+  const { token } = useAuth();
 
+  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState({
-    name: 'Loading...',
+    name: '',
     password: '',
     profilePicture: 'https://randomuser.me/api/portraits/men/32.jpg',
     equippedEmojis: [] as string[],
   });
-
   const [editModal, setEditModal] = useState(false);
   const [editingProfile, setEditingProfile] = useState(profile);
   const [activeSection, setActiveSection] = useState('profile');
   const [showPassword, setShowPassword] = useState(false);
   const [itemsModalVisible, setItemsModalVisible] = useState(false);
-  const [actualPassword, setActualPassword] = useState('');
+  const [translation, setTranslation] = useState<TranslationKeys>();
   const [lang, setLang] = useState<LanguageKey>('en');
 
+  const loadUserData = async () => {
+    const result = await fetchUserProfile(token);
+
+    if (result.isErr()) {
+      console.error('Failed to load user profile:', result.error);
+      message.error('Failed to load profile data. Please try again later.');
+      return;
+    }
+
+    const { user } = result.value;
+    setProfile(previous => ({
+      ...previous,
+      name: user.username,
+      password: user.password,
+    }));
+  };
+
+  const loadLanguageData = async () => {
+    if (!token) return;
+
+    const result = await fetchUserLanguage(token);
+
+    if (result.isErr()) {
+      console.error('Failed to load user language:', result.error);
+      message.error('Failed to load language data. Please try again later.');
+      return;
+    }
+
+    setTranslation(result.value.translation);
+    setLang(result.value.userLanguage);
+  };
+
   useEffect(() => {
-    const loadUserData = async () => {
-      const result = await fetchUserProfile(token);
-
-      if (result.isErr()) {
-        console.error('Failed to load user profile:', result.error);
-        message.error('Error loading profile data');
-        setProfile(previous => ({
-          ...previous,
-          name: 'Error loading profile',
-          password: 'N/A',
-        }));
-        return;
+    const initializeData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([loadUserData(), loadLanguageData()]);
+      } finally {
+        setLoading(false);
       }
-
-      const { user } = result.value;
-      setProfile(previous => ({
-        ...previous,
-        name: user.username,
-        password: user.password,
-      }));
     };
 
-    void loadUserData();
-  }, [userName, token]);
-
-  const [translation, setTranslation] = useState<TranslationKeys>();
-
-  useEffect(() => {
-    const loadLanguageData = async () => {
-      const result = await fetchUserLanguage(token);
-
-      if (result.isErr()) {
-        console.error('Failed to load user language:', result.error);
-        message.error('Error loading language data');
-        return;
-      }
-
-      setTranslation(result.value.translation);
-      setLang(result.value.userLanguage);
-    };
-    void loadLanguageData();
-  }, [token]);
+    void initializeData();
+  }, []);
 
   const updateLanguage = async (newLang: LanguageKey) => {
     const result = await updateUserLanguageRequest(token, newLang);
 
     if (result.isErr()) {
       console.error('Failed to update language:', result.error);
-      message.error('Error updating language');
+      message.error('Failed to update language. Please try again later.');
       return;
     }
 
     setLang(newLang);
   };
 
-  const t: TranslationKeys | undefined = translation;
-
   const getText = (key: keyof TranslationKeys): string => {
-    return t?.[key] ?? String(key);
+    return translation?.[key] ?? String(key);
   };
 
   const openEdit = () => {
@@ -121,46 +102,25 @@ export const ProfilePage = (): React.JSX.Element => {
   };
 
   const handleSave = async (): Promise<void> => {
-    try {
-      const token = localStorage.getItem('token');
+    const result = await updateUserInfoRequest(token, {
+      username: editingProfile.name,
+      password: editingProfile.password,
+    });
 
-      if (!token) {
-        message.error('No authentication token found');
-        return;
-      }
-
-      const response = await fetch('http://localhost:3001/profile', {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: editingProfile.name,
-          password: editingProfile.password,
-        }),
-      });
-
-      if (response.ok) {
-        const updatedData = (await response.json()) as ProfileResponse;
-
-        setProfile(previous => ({
-          ...previous,
-          name: updatedData.user.username,
-          password: updatedData.user.password,
-        }));
-        setActualPassword(updatedData.user.password);
-
-        setEditModal(false);
-        message.success('Profile updated successfully!');
-      } else {
-        const errorData = (await response.json()) as ErrorResponse;
-        message.error(`Failed to update profile: ${errorData.message ?? 'Unknown error'}`);
-      }
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      message.error('Network error occurred while updating profile');
+    if (result.isErr()) {
+      console.error('Failed to update profile:', result.error);
+      message.error('Failed to update profile. Please try again later.');
+      return;
     }
+
+    setProfile(previous => ({
+      ...previous,
+      name: editingProfile.name,
+      password: editingProfile.password,
+    }));
+
+    setEditModal(false);
+    message.success('Profile updated successfully!');
   };
 
   // Handle profile picture change
@@ -192,7 +152,7 @@ export const ProfilePage = (): React.JSX.Element => {
     }));
   };
 
-  // Items dropdown menu (just to show equipped count)
+  // Items dropdown menu
   const itemsMenuItems = [
     {
       label: `${String(profile.equippedEmojis.length)} ${getText('equippedItems').toLowerCase()}`,
@@ -206,17 +166,29 @@ export const ProfilePage = (): React.JSX.Element => {
     },
   ];
 
+  if (loading) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-cyan-600 p-8 pt-28 text-center font-sans">
+        <div className="mb-4 h-16 w-16 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
+        <Typography.Title level={1} className="mb-4 text-[2.5rem] font-extrabold text-white drop-shadow-sm">
+          Loading...
+        </Typography.Title>
+        <div className="mb-4 text-xl font-medium text-white">Getting your profile ready!</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-cyan-600 p-4">
-      <Row justify="center" align="middle" className="min-h-screen" gutter={[32, 16]}>
-        {/* Left Section */}
-        <Col xs={24} md={8} className="flex flex-col items-center">
-          <Card className="mb-6 w-96 rounded-2xl bg-white p-8 pb-3 shadow-lg">
+    <div className="flex min-h-screen items-center justify-center bg-cyan-600 p-4">
+      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-4 lg:flex-row lg:items-center">
+        {/* Left Section - Navigation */}
+        <div className="flex flex-col items-center justify-center">
+          <div className="mb-6 w-full min-w-[400px] rounded-2xl bg-white p-8 pb-3 shadow-lg">
             <div className="mb-3 flex items-center gap-4">
               <Avatar size={56} src={profile.profilePicture} />
               <div>
                 <Text strong className="text-lg text-black">
-                  {profile.name}
+                  {profile.name || 'Loading...'}
                 </Text>
               </div>
             </div>
@@ -226,7 +198,6 @@ export const ProfilePage = (): React.JSX.Element => {
               className="border-none bg-transparent"
               selectedKeys={[activeSection]}
               onClick={({ key }) => {
-                // Only change section for profile and settings, not items
                 if (key === 'profile' || key === 'settings') {
                   setActiveSection(key);
                 }
@@ -267,7 +238,7 @@ export const ProfilePage = (): React.JSX.Element => {
                     size="small"
                     value={lang}
                     className="w-20"
-                    onChange={v => void updateLanguage(v)}
+                    onChange={newLang => void updateLanguage(newLang)}
                     options={[
                       { value: 'en', label: 'English' },
                       { value: 'jp', label: '日本語' },
@@ -276,12 +247,12 @@ export const ProfilePage = (): React.JSX.Element => {
                 </Space>
               </Menu.Item>
             </Menu>
-          </Card>
-        </Col>
+          </div>
+        </div>
 
-        {/* Right Section */}
-        <Col xs={24} md={10}>
-          <Card className="w-full max-w-xl rounded-3xl bg-white p-8 pb-6 shadow-lg">
+        {/* Right Section - Content */}
+        <div className="flex items-center justify-center">
+          <div className="w-full min-w-[500px] rounded-3xl bg-white p-10 pb-8 shadow-lg">
             {activeSection === 'profile' ? (
               // Profile Section
               <>
@@ -311,7 +282,7 @@ export const ProfilePage = (): React.JSX.Element => {
                   <div className="mb-4 flex justify-between">
                     <span className="font-medium text-cyan-700">{getText('password')}</span>
                     <span className="flex items-center gap-2 font-medium text-black">
-                      {showPassword ? actualPassword || profile.password : '•'.repeat(8)}
+                      {showPassword ? profile.password : '•'.repeat(8)}
                       <Button
                         type="text"
                         size="small"
@@ -344,11 +315,24 @@ export const ProfilePage = (): React.JSX.Element => {
                   <Text className="mb-6 block text-gray-500">{getText('changeProfilePicture')}</Text>
 
                   <Space direction="vertical" className="w-full">
-                    <Upload accept="image/*" beforeUpload={handleFileUpload} showUploadList={false} className="w-full">
-                      <Button icon={<UploadOutlined />} className="mb-4 h-10 w-full rounded-lg">
-                        {getText('uploadFromDevice')}
-                      </Button>
-                    </Upload>
+                    <Button
+                      icon={<UploadOutlined />}
+                      className="mb-4 h-10 w-full rounded-lg"
+                      onClick={() => {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.addEventListener('change', event => {
+                          const file = (event.target as HTMLInputElement).files?.[0];
+                          if (file) {
+                            handleFileUpload(file);
+                          }
+                        });
+                        input.click();
+                      }}
+                    >
+                      {getText('uploadFromDevice')}
+                    </Button>
 
                     <Divider className="my-4">OR</Divider>
 
@@ -374,32 +358,26 @@ export const ProfilePage = (): React.JSX.Element => {
                         'https://randomuser.me/api/portraits/men/54.jpg',
                         'https://randomuser.me/api/portraits/women/19.jpg',
                       ].map(url => (
-                        <Avatar
+                        <button
                           key={url}
-                          size={48}
-                          src={url}
-                          className={`cursor-pointer transition-all duration-300 ${
-                            profile.profilePicture === url ? 'border-3 border-blue-500' : 'border-2 border-gray-200'
-                          }`}
-                          onClick={() => handleProfilePictureChange(url)}
-                        />
+                          type="button"
+                          onClick={() => {
+                            handleProfilePictureChange(url);
+                            message.success(getText('profilePictureUpdated'));
+                          }}
+                          className="h-16 w-16 cursor-pointer overflow-hidden rounded-full border-2 border-gray-300 transition-all duration-200 hover:border-cyan-600 hover:shadow-lg"
+                        >
+                          <img src={url} alt="Profile preset" className="h-full w-full object-cover" />
+                        </button>
                       ))}
                     </div>
                   </Space>
                 </div>
-
-                <Button
-                  type="primary"
-                  className="h-9 w-36 rounded-lg text-base font-semibold"
-                  onClick={() => setActiveSection('profile')}
-                >
-                  {getText('backToProfile')}
-                </Button>
               </>
             )}
-          </Card>
-        </Col>
-      </Row>
+          </div>
+        </div>
+      </div>
 
       {/* Modal for editing profile */}
       <Modal
