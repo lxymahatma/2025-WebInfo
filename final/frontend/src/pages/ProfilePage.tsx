@@ -29,6 +29,7 @@ import {
   Upload,
 } from 'antd';
 import { useAuth } from 'components';
+import { availableEmojis } from 'config/emoji';
 import React, { useEffect, useState } from 'react';
 import { fetchUserLanguage, fetchUserProfile, updateUserLanguageRequest } from 'utils/api/user';
 
@@ -114,35 +115,6 @@ export const ProfilePage = (): React.JSX.Element => {
     return t?.[key] ?? String(key);
   };
 
-  // Available emojis for items
-  const availableEmojis = [
-    '👑',
-    '🎩',
-    '🎓',
-    '🕶️',
-    '👓',
-    '🎭',
-    '💎',
-    '⭐',
-    '🔥',
-    '⚡',
-    '💫',
-    '✨',
-    '🏆',
-    '🥇',
-    '🏅',
-    '🎖️',
-    '👨‍💻',
-    '🎮',
-    '🦄',
-    '🐲',
-    '🔮',
-    '🗡️',
-    '🛡️',
-    '🎯',
-  ];
-
-  // Handle modal open
   const openEdit = () => {
     setEditingProfile({ ...profile });
     setEditModal(true);
